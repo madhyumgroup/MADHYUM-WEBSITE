@@ -296,7 +296,7 @@ button {
             rgba(7,18,32,.42),
             rgba(7,18,32,.66)
         ),
-        url("images/madhyam-space.jpg")
+        url("images/madhyam-space.jpg.png")
         center/cover no-repeat;
 
     animation: heroScale 12s ease-out forwards;
@@ -2147,7 +2147,7 @@ button {
             rgba(8,20,34,.78),
             rgba(8,20,34,.82)
         ),
-        url("images/madhyam-space.jpg")
+        url("images/madhyam-space.jpg.png")
         center/cover no-repeat;
 }
 
