@@ -145,226 +145,232 @@
        SAME ROOT FOLDER as index.html.
   ========================================== -->
 
-  <section
-    class="hero"
-    id="hero"
+<!-- =========================================
+     MADHYUM LAYERED HERO
+========================================= -->
+
+<section
+  class="layered-hero"
+  id="hero"
+  aria-label="MADHYUM business network"
+>
+
+  <!-- FIXED BACKGROUND -->
+
+  <div
+    class="layered-hero-background"
+    aria-hidden="true"
+  ></div>
+
+
+  <!-- =====================================
+       BRANDING
+       
+       IMPORTANT:
+       This text is separate from the image,
+       so it can be changed later.
+  ====================================== -->
+
+  <div class="layered-branding">
+
+    <div class="layered-brand-name">
+      MADHYUM
+    </div>
+
+    <div class="layered-brand-tagline">
+      Ek Bharosemand Zariya
+    </div>
+
+    <h1>
+      Your Dreams
+      <span>R Network.</span>
+    </h1>
+
+  </div>
+
+
+  <!-- =====================================
+       FIVE MOVING BUSINESS ELEMENTS
+  ====================================== -->
+
+  <div
+    class="layered-orbit"
+    id="layeredOrbit"
   >
 
+
+    <!-- REAL ESTATE -->
+
+    <a
+      class="layered-wing"
+      href="real-estate.html"
+      data-wing="0"
+      aria-label="Real Estate"
+    >
+
+      <div class="layered-wing-visual">
+
+        <img
+          src="real-estate.png"
+          alt="Real Estate"
+        >
+
+      </div>
+
+      <div class="layered-wing-title">
+        REAL ESTATE
+      </div>
+
+    </a>
+
+
+    <!-- TRAVEL -->
+
+    <a
+      class="layered-wing"
+      href="travel.html"
+      data-wing="1"
+      aria-label="Travel"
+    >
+
+      <div class="layered-wing-visual">
+
+        <img
+          src="travel.png"
+          alt="Travel"
+        >
+
+      </div>
+
+      <div class="layered-wing-title">
+        TRAVEL
+      </div>
+
+    </a>
+
+
+    <!-- EDUCATION -->
+
+    <a
+      class="layered-wing"
+      href="education.html"
+      data-wing="2"
+      aria-label="Education and Admissions"
+    >
+
+      <div class="layered-wing-visual">
+
+        <img
+          src="education.png"
+          alt="Education and Admissions"
+        >
+
+      </div>
+
+      <div class="layered-wing-title">
+        EDUCATION &amp; ADMISSIONS
+      </div>
+
+    </a>
+
+
+    <!-- CONSULTANCY -->
+
+    <a
+      class="layered-wing"
+      href="consultancy.html"
+      data-wing="3"
+      aria-label="Consultancy and Business Services"
+    >
+
+      <div class="layered-wing-visual">
+
+        <img
+          src="consultancy.png"
+          alt="Consultancy and Business Services"
+        >
+
+      </div>
+
+      <div class="layered-wing-title">
+        CONSULTANCY &amp; BUSINESS SERVICES
+      </div>
+
+    </a>
+
+
+    <!-- EVENTS -->
+
+    <a
+      class="layered-wing"
+      href="events.html"
+      data-wing="4"
+      aria-label="Events and Weddings"
+    >
+
+      <div class="layered-wing-visual">
+
+        <img
+          src="events.png"
+          alt="Events and Weddings"
+        >
+
+      </div>
+
+      <div class="layered-wing-title">
+        EVENTS &amp; WEDDINGS
+      </div>
+
+    </a>
+
+  </div>
+
+
+  <!-- =====================================
+       CONTROLS
+  ====================================== -->
+
+  <div
+    class="layered-controls"
+    aria-label="Business navigation"
+  >
+
+    <button
+      id="layeredPrev"
+      class="layered-control"
+      type="button"
+      aria-label="Previous business"
+    >
+      ←
+    </button>
+
+
     <div
-      class="hero-background"
-      aria-hidden="true"
+      id="layeredDots"
+      class="layered-dots"
     ></div>
 
 
-    <!--
-      The business carousel sits above
-      the hero artwork.
-    -->
+    <button
+      id="layeredNext"
+      class="layered-control"
+      type="button"
+      aria-label="Next business"
+    >
+      →
+    </button>
 
-    <div class="business-orbit">
-
-      <div
-        class="orbit-track"
-        id="orbitTrack"
-      >
-
-        <!-- REAL ESTATE -->
-
-        <a
-          href="real-estate.html"
-          class="orbit-card"
-          data-index="0"
-        >
-
-          <img
-            src="real-estate-hero.jpg"
-            alt="Real Estate"
-          >
-
-          <div class="orbit-card-content">
-
-            <span class="orbit-number">
-              01
-            </span>
-
-            <h2>
-              Real Estate
-            </h2>
-
-            <span class="orbit-action">
-              Explore →
-            </span>
-
-          </div>
-
-        </a>
+  </div>
 
 
-        <!-- TRAVEL -->
+  <!-- Small scroll hint -->
 
-        <a
-          href="travel.html"
-          class="orbit-card"
-          data-index="1"
-        >
+  <div class="layered-scroll">
+    SCROLL TO EXPLORE
+    <span>↓</span>
+  </div>
 
-          <img
-            src="travel-hero.jpg"
-            alt="Travel"
-          >
-
-          <div class="orbit-card-content">
-
-            <span class="orbit-number">
-              02
-            </span>
-
-            <h2>
-              Travel
-            </h2>
-
-            <span class="orbit-action">
-              Explore →
-            </span>
-
-          </div>
-
-        </a>
-
-
-        <!-- EDUCATION -->
-
-        <a
-          href="education.html"
-          class="orbit-card"
-          data-index="2"
-        >
-
-          <img
-            src="education-hero.jpg"
-            alt="Education & Admissions"
-          >
-
-          <div class="orbit-card-content">
-
-            <span class="orbit-number">
-              03
-            </span>
-
-            <h2>
-              Education
-              <span>&amp; Admissions</span>
-            </h2>
-
-            <span class="orbit-action">
-              Explore →
-            </span>
-
-          </div>
-
-        </a>
-
-
-        <!-- CONSULTANCY -->
-
-        <a
-          href="consultancy.html"
-          class="orbit-card"
-          data-index="3"
-        >
-
-          <img
-            src="consultancy-hero.jpg"
-            alt="Consultancy & Business Services"
-          >
-
-          <div class="orbit-card-content">
-
-            <span class="orbit-number">
-              04
-            </span>
-
-            <h2>
-              Consultancy
-              <span>&amp; Business</span>
-            </h2>
-
-            <span class="orbit-action">
-              Explore →
-            </span>
-
-          </div>
-
-        </a>
-
-
-        <!-- EVENTS -->
-
-        <a
-          href="events.html"
-          class="orbit-card"
-          data-index="4"
-        >
-
-          <img
-            src="events-hero.jpg"
-            alt="Events & Weddings"
-          >
-
-          <div class="orbit-card-content">
-
-            <span class="orbit-number">
-              05
-            </span>
-
-            <h2>
-              Events
-              <span>&amp; Weddings</span>
-            </h2>
-
-            <span class="orbit-action">
-              Explore →
-            </span>
-
-          </div>
-
-        </a>
-
-      </div>
-
-
-      <!-- CAROUSEL CONTROLS -->
-
-      <div class="orbit-controls">
-
-        <button
-          id="orbitPrev"
-          class="orbit-control"
-          type="button"
-          aria-label="Previous"
-        >
-          ←
-        </button>
-
-        <div
-          id="orbitProgress"
-          class="orbit-progress"
-        ></div>
-
-        <button
-          id="orbitNext"
-          class="orbit-control"
-          type="button"
-          aria-label="Next"
-        >
-          →
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
+</section>
 
 
   <!-- =========================================
