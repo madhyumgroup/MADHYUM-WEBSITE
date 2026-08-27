@@ -1,1 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>MADHYAM GROUP | Your Requirement, Our Network</title>
+
+  <meta name="description" content="MADHYAM GROUP is a membership-led multi-service network connecting customers with trusted service providers across Real Estate, Travel, Admission, Consultancy & Business Services, and Events & Weddings.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f8f9fb;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* NAVBAR */
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid #e8e8e8;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-inner {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #111827;
+    }
+
+    .logo span {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 3px;
+      font-weight: 500;
+      color: #777;
+      margin-top: -4px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .nav-links a:hover {
+      color: #b8860b;
+    }
+
+    .nav-button {
+      background: #172033;
+      color: white !important;
+      padding: 11px 19px;
+      border-radius: 6px;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(184,134,11,0.15), transparent 30%),
+        linear-gradient(135deg, #ffffff, #f2f4f7);
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #b8860b;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -4px;
+      margin-bottom: 24px;
+      color: #111827;
+    }
+
+    .hero h1 span {
+      color: #b8860b;
+    }
+
+    .hero-subtitle {
+      font-size: 23px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #283348;
+    }
+
+    .hero-text {
+      max-width: 680px;
+      font-size: 17px;
+      color: #667085;
+      margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border-radius: 7px;
+      font-weight: 700;
+      display: inline-block;
+      transition: 0.25s;
+    }
+
+    .btn-primary {
+      background: #172033;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #27334a;
+    }
+
+    .btn-secondary {
+      border: 1px solid #cfd4dc;
+      background: white;
+    }
+
+    .btn-secondary:hover {
+      border-color: #b8860b;
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-heading {
+      max-width: 750px;
+      margin-bottom: 45px;
+    }
+
+    .section-heading .eyebrow {
+      margin-bottom: 10px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.05;
+      margin-bottom: 15px;
+      letter-spacing: -1.5px;
+    }
+
+    .section-heading p {
+      color: #667085;
+      font-size: 17px;
+    }
+
+    /* WINGS */
+
+    .wings {
+      background: white;
+    }
+
+    .wing-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+
+    .wing-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 28px 22px;
+      background: #fff;
+      transition: 0.3s;
+      min-height: 245px;
+    }
+
+    .wing-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+      border-color: #d8bd75;
+    }
+
+    .wing-number {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #b8860b;
+      margin-bottom: 18px;
+    }
+
+    .wing-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .wing-card p {
+      font-size: 14px;
+      color: #667085;
+    }
+
+    /* ECOSYSTEM */
+
+    .ecosystem {
+      background: #172033;
+      color: white;
+    }
+
+    .ecosystem .section-heading p {
+      color: #b9c0cd;
+    }
+
+    .ecosystem-box {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .eco-card {
+      border: 1px solid #364052;
+      border-radius: 12px;
+      padding: 30px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .eco-card h3 {
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .eco-card p {
+      color: #b9c0cd;
+      font-size: 15px;
+    }
+
+    /* MEMBERSHIP */
+
+    .membership {
+      background: #f8f9fb;
+    }
+
+    .membership-box {
+      background: white;
+      border-radius: 18px;
+      padding: 55px;
+      border: 1px solid #e5e7eb;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .membership-box h2 {
+      font-size: 43px;
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+
+    .membership-box p {
+      color: #667085;
+      margin-bottom: 22px;
+    }
+
+    .benefits {
+      display: grid;
+      gap: 12px;
+    }
+
+    .benefit {
+      padding: 13px 15px;
+      background: #f7f7f7;
+      border-radius: 7px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* INQUIRY */
+
+    .inquiry {
+      background: white;
+    }
+
+    .inquiry-box {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .inquiry-info h2 {
+      font-size: 45px;
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+
+    .inquiry-info p {
+      color: #667085;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #d9dde5;
+      border-radius: 7px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #b8860b;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    /* CONTACT */
+
+    .contact {
+      background: #f8f9fb;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .contact-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .contact-card h3 {
+      margin-bottom: 8px;
+    }
+
+    .contact-card p {
+      color: #667085;
+      font-size: 14px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #111827;
+      color: white;
+      padding: 45px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      max-width: 420px;
+    }
+
+    .footer-brand h2 {
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand p {
+      color: #aeb6c4;
+      font-size: 14px;
+    }
+
+    .copyright {
+      color: #8e97a6;
+      font-size: 13px;
+      align-self: end;
+    }
+
+    /* WHATSAPP */
+
+    .whatsapp {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 2000;
+      background: #1f2937;
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 950px) {
+      .wing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .ecosystem-box {
+        grid-template-columns: 1fr;
+      }
+
+      .membership-box,
+      .inquiry-box {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        min-height: 580px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      section {
+        padding: 65px 0;
+      }
+
+      .wing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .membership-box {
+        padding: 30px;
+      }
+
+      .membership-box h2,
+      .inquiry-info h2 {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+
+  <nav>
+    <div class="container nav-inner">
+
+      <a href="#home" class="logo">
+        MADHYAM
+        <span>GROUP</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#wings">Our Wings</a>
+        <a href="#ecosystem">How It Works</a>
+        <a href="#membership">Membership</a>
+        <a href="#inquiry">Inquiry</a>
+        <a href="#contact">Contact</a>
+        <a href="#membership" class="nav-button">Join Madhyam</a>
+      </div>
+
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+
+  <header class="hero" id="home">
+
+    <div class="container">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">MADHYAM GROUP</div>
+
+        <h1>
+          Your Requirement,
+          <span>Our Network.</span>
+        </h1>
+
+        <div class="hero-subtitle">
+          One platform. Multiple possibilities.
+        </div>
+
+        <p class="hero-text">
+          MADHYAM GROUP connects customers with a growing network of
+          businesses, professionals and service providers across multiple
+          sectors — helping turn every requirement into an opportunity.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#inquiry" class="btn btn-primary">
+            Tell Us Your Requirement
+          </a>
+
+          <a href="#wings" class="btn btn-secondary">
+            Explore Madhyam
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- OUR WINGS -->
+
+  <section class="wings" id="wings">
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <div class="eyebrow">OUR NETWORK</div>
+
+        <h2>
+          Five wings.<br>
+          One Madhyam ecosystem.
+        </h2>
+
+        <p>
+          Whatever the requirement, Madhyam connects you with the
+          relevant network and service solution.
+        </p>
+
+      </div>
+
+
+      <div class="wing-grid">
+
+        <div class="wing-card">
+          <div class="wing-number">01</div>
+          <h3>Real Estate</h3>
+          <p>
+            Property buying, selling, renting and related property
+            solutions through our network.
+          </p>
+        </div>
+
+        <div class="wing-card">
+          <div class="wing-number">02</div>
+          <h3>Travel</h3>
+          <p>
+            Domestic and international travel, stays, experiences
+            and travel-related solutions.
+          </p>
+        </div>
+
+        <div class="wing-card">
+          <div class="wing-number">03</div>
+          <h3>Admission</h3>
+          <p>
+            Education, admissions, counselling and opportunities
+            through our education network.
+          </p>
+        </div>
+
+        <div class="wing-card">
+          <div class="wing-number">04</div>
+          <h3>Consultancy & Business Services</h3>
+          <p>
+            Business setup, professional services, digital solutions
+            and business support.
+          </p>
+        </div>
+
+        <div class="wing-card">
+          <div class="wing-number">05</div>
+          <h3>Events & Weddings</h3>
+          <p>
+            Weddings, celebrations, events and the complete network
+            of vendors and service providers.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ECOSYSTEM -->
+
+  <section class="ecosystem" id="ecosystem">
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <div class="eyebrow">THE MADHYAM MODEL</div>
+
+        <h2>
+          One requirement.<br>
+          Multiple possibilities.
+        </h2>
+
+        <p>
+          Madhyam brings customers, members, businesses and service
+          providers together through one connected network.
+        </p>
+
+      </div>
+
+
+      <div class="ecosystem-box">
+
+        <div class="eco-card">
+          <h3>Members & Customers</h3>
+          <p>
+            Share your requirement with Madhyam and discover relevant
+            services, opportunities and member benefits.
+          </p>
+        </div>
+
+        <div class="eco-card">
+          <h3>MADHYAM NETWORK</h3>
+          <p>
+            A growing network of businesses, professionals and service
+            providers connected to customer requirements.
+          </p>
+        </div>
+
+        <div class="eco-card">
+          <h3>MADHYAM SALES NETWORK</h3>
+          <p>
+            Business consultants and agents who help connect requirements
+            with the right solutions.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MEMBERSHIP -->
+
+  <section class="membership" id="membership">
+
+    <div class="container">
+
+      <div class="membership-box">
+
+        <div>
+
+          <div class="eyebrow">MADHYAM MEMBERSHIP</div>
+
+          <h2>
+            Become a part of the network.
+          </h2>
+
+          <p>
+            MADHYAM Membership is your entry point into our ecosystem.
+            Get access to member benefits, partner offers and a connected
+            service network.
+          </p>
+
+          <a href="#inquiry" class="btn btn-primary">
+            Join / Enquire
+          </a>
+
+        </div>
+
+
+        <div class="benefits">
+
+          <div class="benefit">
+            ✓ Member identification & verification
+          </div>
+
+          <div class="benefit">
+            ✓ Access to partner benefits & offers
+          </div>
+
+          <div class="benefit">
+            ✓ One point for multiple requirements
+          </div>
+
+          <div class="benefit">
+            ✓ Connected service network
+          </div>
+
+          <div class="benefit">
+            ✓ Exclusive member opportunities
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- INQUIRY -->
+
+  <section class="inquiry" id="inquiry">
+
+    <div class="container">
+
+      <div class="inquiry-box">
+
+        <div class="inquiry-info">
+
+          <div class="eyebrow">TELL US WHAT YOU NEED</div>
+
+          <h2>
+            Your requirement starts here.
+          </h2>
+
+          <p>
+            Tell Madhyam what you are looking for. Our network will help
+            identify the relevant service or opportunity.
+          </p>
+
+        </div>
+
+
+        <form onsubmit="submitInquiry(event)">
+
+          <input
+            type="text"
+            placeholder="Your Name"
+            required
+          >
+
+          <input
+            type="tel"
+            placeholder="Mobile Number"
+            required
+          >
+
+          <select required>
+
+            <option value="">
+              Select Requirement
+            </option>
+
+            <option>Real Estate</option>
+            <option>Travel</option>
+            <option>Admission</option>
+            <option>Consultancy & Business Services</option>
+            <option>Events & Weddings</option>
+            <option>Membership</option>
+            <option>Other</option>
+
+          </select>
+
+          <textarea
+            placeholder="Tell us briefly about your requirement..."
+            required
+          ></textarea>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="border: none; cursor: pointer;"
+          >
+            Submit Requirement
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CONTACT -->
+
+  <section class="contact" id="contact">
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <div class="eyebrow">CONTACT MADHYAM</div>
+
+        <h2>
+          Let's connect.
+        </h2>
+
+        <p>
+          Have a requirement, partnership opportunity or business enquiry?
+          Get in touch with Madhyam.
+        </p>
+
+      </div>
+
+
+      <div class="contact-grid">
+
+        <div class="contact-card">
+          <h3>Call / WhatsApp</h3>
+          <p>
+            Add your official Madhyam phone number here.
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Email</h3>
+          <p>
+            Add your official Madhyam email address here.
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Location</h3>
+          <p>
+            Bhopal, Madhya Pradesh, India
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container footer-inner">
+
+      <div class="footer-brand">
+
+        <h2>MADHYAM GROUP</h2>
+
+        <p>
+          Your Requirement, Our Network.
+          Connecting customers, members, businesses and service providers
+          through one growing ecosystem.
+        </p>
+
+      </div>
+
+      <div class="copyright">
+        © 2026 MADHYAM GROUP. All Rights Reserved.
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- WHATSAPP -->
+
+  <a
+    class="whatsapp"
+    href="https://wa.me/91XXXXXXXXXX"
+    target="_blank"
+    aria-label="WhatsApp"
+  >
+    W
+  </a>
+
+
+  <!-- SIMPLE FORM MESSAGE -->
+
+  <script>
+
+    function submitInquiry(event) {
+
+      event.preventDefault();
+
+      alert(
+        "Thank you! Your requirement has been received. MADHYAM GROUP will connect with you shortly."
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
