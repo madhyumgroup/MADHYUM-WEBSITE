@@ -1,27 +1,31 @@
 /* =========================================================
-   MADHYUM WEBSITE
-   Main JavaScript
+   MADHYUM WEBSITE — MAIN JAVASCRIPT
 ========================================================= */
 
 
 /* =========================================================
-   HEADER SCROLL EFFECT
+   HEADER
 ========================================================= */
 
 const header =
   document.querySelector(".site-header");
 
 
-window.addEventListener("scroll", () => {
+window.addEventListener(
+  "scroll",
+  () => {
 
-  if (!header) return;
+    if (!header) {
+      return;
+    }
 
-  header.classList.toggle(
-    "scrolled",
-    window.scrollY > 30
-  );
+    header.classList.toggle(
+      "scrolled",
+      window.scrollY > 30
+    );
 
-});
+  }
+);
 
 
 /* =========================================================
@@ -32,17 +36,21 @@ const revealObserver =
   new IntersectionObserver(
     (entries) => {
 
-      entries.forEach((entry) => {
+      entries.forEach(
+        (entry) => {
 
-        if (entry.isIntersecting) {
+          if (
+            entry.isIntersecting
+          ) {
 
-          entry.target.classList.add(
-            "visible"
-          );
+            entry.target.classList.add(
+              "visible"
+            );
+
+          }
 
         }
-
-      });
+      );
 
     },
     {
@@ -53,11 +61,15 @@ const revealObserver =
 
 document
   .querySelectorAll(".reveal")
-  .forEach((element) => {
+  .forEach(
+    (element) => {
 
-    revealObserver.observe(element);
+      revealObserver.observe(
+        element
+      );
 
-  });
+    }
+  );
 
 
 /* =========================================================
@@ -65,10 +77,16 @@ document
 ========================================================= */
 
 const mobileMenu =
-  document.querySelector(".mobile-menu");
+  document.querySelector(
+    ".mobile-menu"
+  );
+
 
 const menuButton =
-  document.querySelector(".menu-btn");
+  document.querySelector(
+    ".menu-btn"
+  );
+
 
 const mobileCloseButtons =
   document.querySelectorAll(
@@ -80,7 +98,9 @@ menuButton?.addEventListener(
   "click",
   () => {
 
-    mobileMenu?.classList.add("open");
+    mobileMenu?.classList.add(
+      "open"
+    );
 
   }
 );
@@ -105,49 +125,67 @@ mobileCloseButtons.forEach(
 
 
 /* =========================================================
-   SMOOTH INTERNAL SCROLL
+   SMOOTH SCROLL
 ========================================================= */
 
 document
-  .querySelectorAll("[data-scroll]")
-  .forEach((link) => {
+  .querySelectorAll(
+    "[data-scroll]"
+  )
+  .forEach(
+    (link) => {
 
-    link.addEventListener(
-      "click",
-      (event) => {
+      link.addEventListener(
+        "click",
+        (event) => {
 
-        const target =
-          link.getAttribute("href");
+          const target =
+            link.getAttribute(
+              "href"
+            );
 
-        if (
-          !target ||
-          !target.startsWith("#")
-        ) {
-          return;
+
+          if (
+            !target ||
+            !target.startsWith("#")
+          ) {
+
+            return;
+
+          }
+
+
+          const element =
+            document.querySelector(
+              target
+            );
+
+
+          if (!element) {
+
+            return;
+
+          }
+
+
+          event.preventDefault();
+
+
+          element.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+          });
+
+
+          mobileMenu?.classList.remove(
+            "open"
+          );
+
         }
+      );
 
-        const element =
-          document.querySelector(target);
-
-        if (!element) {
-          return;
-        }
-
-        event.preventDefault();
-
-        element.scrollIntoView({
-          behavior:"smooth",
-          block:"start"
-        });
-
-        mobileMenu?.classList.remove(
-          "open"
-        );
-
-      }
-    );
-
-  });
+    }
+  );
 
 
 /* =========================================================
@@ -155,22 +193,28 @@ document
 ========================================================= */
 
 const drawer =
-  document.querySelector(".drawer");
+  document.querySelector(
+    ".drawer"
+  );
+
 
 const searchButtons =
   document.querySelectorAll(
     "[data-search]"
   );
 
+
 const closeSearchButtons =
   document.querySelectorAll(
     "[data-close-search]"
   );
 
+
 const searchInput =
   document.querySelector(
     "#searchInput"
   );
+
 
 const searchResults =
   document.querySelector(
@@ -189,16 +233,21 @@ searchButtons.forEach(
           "open"
         );
 
+
         drawer?.setAttribute(
           "aria-hidden",
           "false"
         );
 
-        setTimeout(() => {
 
-          searchInput?.focus();
+        setTimeout(
+          () => {
 
-        },100);
+            searchInput?.focus();
+
+          },
+          100
+        );
 
       }
     );
@@ -218,6 +267,7 @@ closeSearchButtons.forEach(
           "open"
         );
 
+
         drawer?.setAttribute(
           "aria-hidden",
           "true"
@@ -229,8 +279,6 @@ closeSearchButtons.forEach(
   }
 );
 
-
-/* Close drawer when clicking background */
 
 drawer?.addEventListener(
   "click",
@@ -342,13 +390,14 @@ function renderSearch(
     return;
   }
 
+
   const term =
     query
       .trim()
       .toLowerCase();
 
 
-  if (!term) {
+  if (!term){
 
     searchResults.innerHTML = `
 
@@ -377,20 +426,24 @@ function renderSearch(
       (item) => {
 
         return (
+
           item[0]
             .toLowerCase()
             .includes(term)
+
           ||
+
           item[1]
             .toLowerCase()
             .includes(term)
+
         );
 
       }
     );
 
 
-  if (!matches.length) {
+  if (!matches.length){
 
     searchResults.innerHTML = `
 
@@ -416,24 +469,28 @@ function renderSearch(
   searchResults.innerHTML =
     matches
       .map(
-        (item) => `
+        (item) => {
 
-          <a
-            class="result"
-            href="${item[2]}"
-          >
+          return `
 
-            <strong>
-              ${item[0]}
-            </strong>
+            <a
+              class="result"
+              href="${item[2]}"
+            >
 
-            <small>
-              → ${item[1]}
-            </small>
+              <strong>
+                ${item[0]}
+              </strong>
 
-          </a>
+              <small>
+                → ${item[1]}
+              </small>
 
-        `
+            </a>
+
+          `;
+
+        }
       )
       .join("");
 
@@ -456,72 +513,61 @@ renderSearch();
 
 
 /* =========================================================
-   3D BUSINESS CAROUSEL
+   FINAL LAYERED HERO CAROUSEL
 ========================================================= */
 
-const orbitTrack =
-  document.querySelector(
-    "#orbitTrack"
+const layeredOrbit =
+  document.getElementById(
+    "layeredOrbit"
   );
 
-const orbitCards =
+
+const layeredWings =
   Array.from(
     document.querySelectorAll(
-      ".orbit-card"
+      ".layered-wing"
     )
   );
 
-const orbitPrev =
-  document.querySelector(
-    "#orbitPrev"
+
+const layeredPrev =
+  document.getElementById(
+    "layeredPrev"
   );
 
-const orbitNext =
-  document.querySelector(
-    "#orbitNext"
+
+const layeredNext =
+  document.getElementById(
+    "layeredNext"
   );
 
-const orbitProgress =
-  document.querySelector(
-    "#orbitProgress"
+
+const layeredDots =
+  document.getElementById(
+    "layeredDots"
   );
 
 
 /*
-  Five business cards.
-
-  72 degrees =
-  360 / 5
-
-  This creates a perfect
-  circular 3D arrangement.
+  Five business wings.
 */
 
-const CARD_COUNT =
-  orbitCards.length;
-
-const ANGLE_STEP =
-  CARD_COUNT > 0
-    ? 360 / CARD_COUNT
-    : 72;
+const WING_COUNT =
+  layeredWings.length;
 
 
-/*
-  The selected / front card.
-*/
-
-let activeIndex = 0;
+let activeWing = 0;
 
 
 /*
   Automatic rotation timer.
 */
 
-let autoTimer = null;
+let rotationTimer = null;
 
 
 /*
-  User interaction states.
+  Interaction states.
 */
 
 let isHovering = false;
@@ -529,41 +575,51 @@ let isHovering = false;
 let isTouching = false;
 
 
+/*
+  Touch tracking.
+*/
+
+let touchStartX = 0;
+
+
 /* =========================================================
-   BUILD PROGRESS DOTS
+   CREATE DOTS
 ========================================================= */
 
-function buildProgress(){
+function createLayeredDots(){
 
-  if (!orbitProgress) {
+  if (
+    !layeredDots ||
+    !WING_COUNT
+  ){
+
     return;
+
   }
 
 
-  orbitProgress.innerHTML = "";
+  layeredDots.innerHTML = "";
 
 
-  orbitCards.forEach(
-    (_, index) => {
+  layeredWings.forEach(
+    (wing, index) => {
 
       const dot =
         document.createElement(
           "button"
         );
 
+
       dot.type = "button";
 
       dot.className =
-        "orbit-dot";
+        "layered-dot";
 
 
       dot.setAttribute(
         "aria-label",
-        `Show ${
-          orbitCards[index]
-            .textContent
-            .replace(/\s+/g," ")
-            .trim()
+        `Select business ${
+          index + 1
         }`
       );
 
@@ -572,15 +628,15 @@ function buildProgress(){
         "click",
         () => {
 
-          goTo(index);
+          setWing(index);
 
-          restartAutoRotation();
+          restartRotation();
 
         }
       );
 
 
-      orbitProgress.appendChild(
+      layeredDots.appendChild(
         dot
       );
 
@@ -591,94 +647,92 @@ function buildProgress(){
 
 
 /* =========================================================
-   UPDATE DOTS / CARD STATE
+   APPLY POSITION CLASSES
 ========================================================= */
 
-function updateState(){
+function updateWingPositions(){
 
-  const dots =
-    orbitProgress
-      ? orbitProgress.querySelectorAll(
-          ".orbit-dot"
-        )
-      : [];
+  layeredWings.forEach(
+    (wing, index) => {
+
+      /*
+        Remove all old states.
+      */
+
+      wing.classList.remove(
+        "is-active",
+        "position-left",
+        "position-right",
+        "position-far-left",
+        "position-far-right"
+      );
 
 
-  orbitCards.forEach(
-    (card, index) => {
+      /*
+        Relative position.
+
+        0 = active
+        1 = right
+        2 = far-right
+        3 = far-left
+        4 = left
+      */
 
       const relative =
         (
           index -
-          activeIndex +
-          CARD_COUNT
+          activeWing +
+          WING_COUNT
         ) %
-        CARD_COUNT;
+        WING_COUNT;
 
 
-      /*
-        Front card.
-      */
-
-      if (relative === 0) {
-
-        card.style.opacity = "1";
-
-        card.style.filter =
-          "brightness(1)";
-
-        card.style.zIndex =
-          "10";
-
-        card.classList.add(
-          "active"
-        );
-
-      }
-
-
-      /*
-        Side cards.
-      */
-
-      else if (
-        relative === 1 ||
-        relative === CARD_COUNT - 1
+      if (
+        relative === 0
       ){
 
-        card.style.opacity =
-          ".88";
-
-        card.style.filter =
-          "brightness(.84)";
-
-        card.style.zIndex =
-          "6";
-
-        card.classList.remove(
-          "active"
+        wing.classList.add(
+          "is-active"
         );
 
       }
 
+      else if (
+        relative === 1
+      ){
 
-      /*
-        Rear cards.
-      */
+        wing.classList.add(
+          "position-right"
+        );
 
-      else {
+      }
 
-        card.style.opacity =
-          ".42";
+      else if (
+        relative === 2
+      ){
 
-        card.style.filter =
-          "brightness(.55)";
+        wing.classList.add(
+          "position-far-right"
+        );
 
-        card.style.zIndex =
-          "1";
+      }
 
-        card.classList.remove(
-          "active"
+      else if (
+        relative === 3
+      ){
+
+        wing.classList.add(
+          "position-far-left"
+        );
+
+      }
+
+      else if (
+        relative === 4
+      ){
+
+        wing.classList.add(
+          "position-left"
         );
 
       }
@@ -687,12 +741,24 @@ function updateState(){
   );
 
 
+  /*
+    Update dots.
+  */
+
+  const dots =
+    layeredDots
+      ? layeredDots.querySelectorAll(
+          ".layered-dot"
+        )
+      : [];
+
+
   dots.forEach(
     (dot, index) => {
 
       dot.classList.toggle(
         "active",
-        index === activeIndex
+        index === activeWing
       );
 
     }
@@ -702,35 +768,29 @@ function updateState(){
 
 
 /* =========================================================
-   ROTATE CAROUSEL
+   SET ACTIVE WING
 ========================================================= */
 
-function goTo(index){
+function setWing(
+  index
+){
 
-  if (!orbitTrack) {
+  if (!WING_COUNT){
+
     return;
+
   }
 
 
-  activeIndex =
+  activeWing =
     (
-      index + CARD_COUNT
+      index +
+      WING_COUNT
     ) %
-    CARD_COUNT;
+    WING_COUNT;
 
 
-  const rotation =
-    -(
-      activeIndex *
-      ANGLE_STEP
-    );
-
-
-  orbitTrack.style.transform =
-    `rotateY(${rotation}deg)`;
-
-
-  updateState();
+  updateWingPositions();
 
 }
 
@@ -739,10 +799,10 @@ function goTo(index){
    NEXT
 ========================================================= */
 
-function next(){
+function nextWing(){
 
-  goTo(
-    activeIndex + 1
+  setWing(
+    activeWing + 1
   );
 
 }
@@ -752,10 +812,10 @@ function next(){
    PREVIOUS
 ========================================================= */
 
-function previous(){
+function previousWing(){
 
-  goTo(
-    activeIndex - 1
+  setWing(
+    activeWing - 1
   );
 
 }
@@ -765,64 +825,58 @@ function previous(){
    BUTTONS
 ========================================================= */
 
-orbitNext?.addEventListener(
+layeredNext?.addEventListener(
   "click",
   () => {
 
-    next();
+    nextWing();
 
-    restartAutoRotation();
+    restartRotation();
 
   }
 );
 
 
-orbitPrev?.addEventListener(
+layeredPrev?.addEventListener(
   "click",
   () => {
 
-    previous();
+    previousWing();
 
-    restartAutoRotation();
+    restartRotation();
 
   }
 );
 
 
 /* =========================================================
-   CARD CLICK
+   CLICK BEHAVIOUR
 ========================================================= */
 
 /*
-  IMPORTANT:
+  If user clicks a side wing:
+    first bring it to centre.
 
-  If a side/rear card is clicked:
-    1. It first rotates to the front.
-    2. It does NOT immediately navigate.
-
-  Once it is in front:
-    clicking it opens its page.
-
-  This gives the user control over
-  the rotating carousel.
+  If user clicks the active wing:
+    its href opens normally.
 */
 
-orbitCards.forEach(
-  (card, index) => {
+layeredWings.forEach(
+  (wing, index) => {
 
-    card.addEventListener(
+    wing.addEventListener(
       "click",
       (event) => {
 
         if (
-          activeIndex !== index
+          index !== activeWing
         ){
 
           event.preventDefault();
 
-          goTo(index);
+          setWing(index);
 
-          restartAutoRotation();
+          restartRotation();
 
         }
 
@@ -831,28 +885,28 @@ orbitCards.forEach(
 
 
     /*
-      Desktop hover pauses rotation.
+      Desktop hover pauses animation.
     */
 
-    card.addEventListener(
+    wing.addEventListener(
       "mouseenter",
       () => {
 
         isHovering = true;
 
-        stopAutoRotation();
+        stopRotation();
 
       }
     );
 
 
-    card.addEventListener(
+    wing.addEventListener(
       "mouseleave",
       () => {
 
         isHovering = false;
 
-        startAutoRotation();
+        startRotation();
 
       }
     );
@@ -865,12 +919,12 @@ orbitCards.forEach(
    AUTO ROTATION
 ========================================================= */
 
-function startAutoRotation(){
+function startRotation(){
 
-  stopAutoRotation();
+  stopRotation();
 
 
-  autoTimer =
+  rotationTimer =
     setInterval(
       () => {
 
@@ -879,58 +933,56 @@ function startAutoRotation(){
           !isTouching
         ){
 
-          next();
+          nextWing();
 
         }
 
       },
-      5000
+      4500
     );
 
 }
 
 
-function stopAutoRotation(){
+function stopRotation(){
 
-  if (autoTimer){
+  if (
+    rotationTimer
+  ){
 
     clearInterval(
-      autoTimer
+      rotationTimer
     );
 
-    autoTimer = null;
+    rotationTimer = null;
 
   }
 
 }
 
 
-function restartAutoRotation(){
+function restartRotation(){
 
-  stopAutoRotation();
+  stopRotation();
+
 
   setTimeout(
     () => {
 
-      startAutoRotation();
+      startRotation();
 
     },
-    800
+    700
   );
 
 }
 
 
 /* =========================================================
-   TOUCH / SWIPE
+   TOUCH SWIPE
 ========================================================= */
 
-let touchStartX = 0;
-
-let touchEndX = 0;
-
-
-orbitTrack?.addEventListener(
+layeredOrbit?.addEventListener(
   "touchstart",
   (event) => {
 
@@ -940,7 +992,7 @@ orbitTrack?.addEventListener(
 
     isTouching = true;
 
-    stopAutoRotation();
+    stopRotation();
 
   },
   {
@@ -949,11 +1001,11 @@ orbitTrack?.addEventListener(
 );
 
 
-orbitTrack?.addEventListener(
+layeredOrbit?.addEventListener(
   "touchend",
   (event) => {
 
-    touchEndX =
+    const touchEndX =
       event.changedTouches[0]
         .screenX;
 
@@ -967,13 +1019,16 @@ orbitTrack?.addEventListener(
       Math.abs(distance) > 45
     ){
 
-      if (distance < 0){
+      if (
+        distance < 0
+      ){
 
-        next();
+        nextWing();
 
-      } else {
+      }
+      else{
 
-        previous();
+        previousWing();
 
       }
 
@@ -982,7 +1037,7 @@ orbitTrack?.addEventListener(
 
     isTouching = false;
 
-    restartAutoRotation();
+    restartRotation();
 
   },
   {
@@ -992,17 +1047,12 @@ orbitTrack?.addEventListener(
 
 
 /* =========================================================
-   KEYBOARD CONTROL
+   KEYBOARD
 ========================================================= */
 
 document.addEventListener(
   "keydown",
   (event) => {
-
-    /*
-      Don't hijack typing into
-      search/input fields.
-    */
 
     const tag =
       document.activeElement?.tagName;
@@ -1023,9 +1073,9 @@ document.addEventListener(
       event.key === "ArrowRight"
     ){
 
-      next();
+      nextWing();
 
-      restartAutoRotation();
+      restartRotation();
 
     }
 
@@ -1034,9 +1084,9 @@ document.addEventListener(
       event.key === "ArrowLeft"
     ){
 
-      previous();
+      previousWing();
 
-      restartAutoRotation();
+      restartRotation();
 
     }
 
@@ -1045,34 +1095,18 @@ document.addEventListener(
 
 
 /* =========================================================
-   INITIALISE CAROUSEL
+   INITIALISE LAYERED HERO
 ========================================================= */
 
 if (
-  orbitTrack &&
-  CARD_COUNT > 0
+  layeredOrbit &&
+  WING_COUNT === 5
 ){
 
-  /*
-    Put cards around the circle.
-  */
+  createLayeredDots();
 
-  orbitCards.forEach(
-    (card, index) => {
+  setWing(0);
 
-      card.style.setProperty(
-        "--orbit-angle",
-        index * ANGLE_STEP
-      );
-
-    }
-  );
-
-
-  buildProgress();
-
-  goTo(0);
-
-  startAutoRotation();
+  startRotation();
 
 }
