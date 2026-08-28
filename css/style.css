@@ -25,14 +25,19 @@
 
   --white:#f8f8f6;
 
-  --line:rgba(255,255,255,.12);
+  --serif:
+    'Playfair Display',
+    Georgia,
+    serif;
 
-  --serif:'Playfair Display', Georgia, serif;
-
-  --sans:'DM Sans', Arial, sans-serif;
+  --sans:
+    'DM Sans',
+    Arial,
+    sans-serif;
 
   --shadow:
-    0 30px 80px rgba(0,0,0,.25);
+    0 30px 80px
+    rgba(0,0,0,.25);
 
 }
 
@@ -45,38 +50,64 @@
   box-sizing:border-box;
 }
 
+
 html{
   scroll-behavior:smooth;
 }
 
+
 body{
+
   margin:0;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--sans);
+
+  background:
+    var(--paper);
+
+  color:
+    var(--ink);
+
+  font-family:
+    var(--sans);
+
   line-height:1.6;
+
 }
+
 
 body,
 button,
 input,
 select,
 textarea{
-  font-family:var(--sans);
+
+  font-family:
+    var(--sans);
+
 }
+
 
 a{
+
   color:inherit;
+
   text-decoration:none;
+
 }
+
 
 img{
+
   display:block;
+
   max-width:100%;
+
 }
 
+
 button{
+
   font:inherit;
+
 }
 
 
@@ -85,8 +116,13 @@ button{
 ========================================================= */
 
 .container{
-  width:min(1200px,92vw);
-  margin:0 auto;
+
+  width:
+    min(1200px,92vw);
+
+  margin:
+    0 auto;
+
 }
 
 
@@ -106,16 +142,27 @@ button{
 
 }
 
+
 .eyebrow.light{
+
   color:#b8c2ca;
+
 }
+
 
 .serif{
-  font-family:var(--serif);
+
+  font-family:
+    var(--serif);
+
 }
 
+
 .muted{
-  color:var(--muted);
+
+  color:
+    var(--muted);
+
 }
 
 
@@ -223,7 +270,8 @@ button{
 
   height:1px;
 
-  background:var(--gold);
+  background:
+    var(--gold);
 
   transition:
     right .25s ease;
@@ -232,7 +280,9 @@ button{
 
 
 .navlinks a:hover::after{
+
   right:0;
+
 }
 
 
@@ -268,8 +318,6 @@ button{
   color:#fff;
 
   cursor:pointer;
-
-  transition:.25s ease;
 
 }
 
@@ -371,7 +419,8 @@ button{
     1px solid
     rgba(255,255,255,.1);
 
-  font-family:var(--serif);
+  font-family:
+    var(--serif);
 
   font-size:2rem;
 
@@ -408,12 +457,16 @@ button{
 
 
 /* =========================================================
-   HERO
+   FINAL LAYERED HERO
 ========================================================= */
 
-.hero{
+.layered-hero{
 
   position:relative;
+
+  width:100%;
+
+  min-height:100vh;
 
   min-height:100svh;
 
@@ -428,38 +481,38 @@ button{
 }
 
 
-/*
-  IMPORTANT:
-  Main hero artwork is deliberately loaded
-  as a background through index.html.
-*/
+/* =========================================================
+   FIXED BACKGROUND
+========================================================= */
 
-.hero-background{
+.layered-hero-background{
 
   position:absolute;
 
   inset:0;
 
-  z-index:-5;
+  z-index:-10;
 
   background-image:
-    url('../hero-madhyum.jpg');
+    url("../hero-background.png");
 
-  background-repeat:no-repeat;
+  background-repeat:
+    no-repeat;
 
-  background-position:center center;
+  background-position:
+    center center;
 
-  background-size:cover;
+  background-size:
+    cover;
 
 }
 
 
-/*
-  Very light overlay.
-  We do NOT cover the artwork.
-*/
+/* =========================================================
+   SUBTLE HERO OVERLAY
+========================================================= */
 
-.hero::after{
+.layered-hero::after{
 
   content:"";
 
@@ -467,41 +520,130 @@ button{
 
   inset:0;
 
-  z-index:-4;
+  z-index:-9;
 
   pointer-events:none;
 
   background:
     linear-gradient(
       90deg,
-      rgba(3,9,15,.08),
-      rgba(3,9,15,.02) 50%,
-      rgba(3,9,15,.12)
+      rgba(3,9,15,.08) 0%,
+      rgba(3,9,15,.01) 52%,
+      rgba(3,9,15,.10) 100%
     );
 
 }
 
 
 /* =========================================================
-   3D BUSINESS ORBIT
+   HERO BRANDING
 ========================================================= */
 
-.business-orbit{
+.layered-branding{
 
   position:absolute;
 
-  left:50%;
+  left:5.5vw;
 
-  top:66%;
-
-  width:min(900px,72vw);
-
-  height:min(560px,57vh);
+  top:50%;
 
   transform:
-    translate(-7%,-50%);
+    translateY(-50%);
 
-  perspective:1800px;
+  width:
+    min(380px,30vw);
+
+  z-index:30;
+
+  pointer-events:none;
+
+}
+
+
+.layered-brand-name{
+
+  font-size:.82rem;
+
+  font-weight:700;
+
+  letter-spacing:.28em;
+
+  color:#fff;
+
+  margin-bottom:8px;
+
+}
+
+
+.layered-brand-tagline{
+
+  margin-bottom:18px;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-style:italic;
+
+  font-size:1rem;
+
+  color:#efd8a6;
+
+}
+
+
+.layered-branding h1{
+
+  margin:0;
+
+  font-size:
+    clamp(2.8rem,4.8vw,5.6rem);
+
+  line-height:.94;
+
+  font-weight:600;
+
+  letter-spacing:-.03em;
+
+}
+
+
+.layered-branding h1 span{
+
+  display:block;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-style:italic;
+
+  color:#efd8a6;
+
+}
+
+
+/* =========================================================
+   LAYERED ORBIT
+========================================================= */
+
+.layered-orbit{
+
+  position:absolute;
+
+  left:60%;
+
+  top:58%;
+
+  width:
+    min(760px,65vw);
+
+  height:500px;
+
+  transform:
+    translate(-50%,-50%);
 
   z-index:20;
 
@@ -510,29 +652,21 @@ button{
 }
 
 
-.orbit-track{
-
-  position:absolute;
-
-  inset:0;
-
-  transform-style:
-    preserve-3d;
-
-  transition:
-    transform .95s
-    cubic-bezier(.22,.61,.36,1);
-
-}
-
-
 /* =========================================================
-   ORBIT CARDS
+   BUSINESS WING
 ========================================================= */
 
-.orbit-card{
+.layered-wing{
 
-  --orbit-angle:0;
+  --x:0px;
+
+  --y:0px;
+
+  --scale:1;
+
+  --opacity:1;
+
+  --depth:10;
 
   position:absolute;
 
@@ -540,182 +674,270 @@ button{
 
   top:50%;
 
-  width:275px;
+  width:260px;
 
-  height:355px;
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  text-align:center;
 
   transform:
 
     translate(-50%,-50%)
 
-    rotateY(
-      calc(
-        var(--orbit-angle) * 1deg
-      )
+    translate3d(
+      var(--x),
+      var(--y),
+      0
     )
 
-    translateZ(315px);
+    scale(
+      var(--scale)
+    );
 
-  transform-style:preserve-3d;
+  opacity:
+    var(--opacity);
 
-  overflow:hidden;
-
-  border-radius:26px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.16);
-
-  background:#101820;
-
-  box-shadow:
-    0 30px 70px
-    rgba(0,0,0,.5);
-
-  cursor:pointer;
+  z-index:
+    var(--depth);
 
   pointer-events:auto;
 
-  backface-visibility:hidden;
+  cursor:pointer;
+
+  color:#fff;
+
+  text-decoration:none;
 
   transition:
 
-    transform .95s
+    transform
+    1s
     cubic-bezier(.22,.61,.36,1),
 
-    opacity .6s ease,
+    opacity
+    .75s ease,
 
-    filter .6s ease,
+    filter
+    .75s ease;
 
-    border-color .3s ease;
-
-}
-
-
-.orbit-card:hover{
-
-  border-color:
-    rgba(201,161,91,.8);
-
-}
-
-
-.orbit-card img{
-
-  width:100%;
-
-  height:100%;
-
-  object-fit:cover;
-
-  transition:
-    transform .8s ease;
-
-}
-
-
-.orbit-card:hover img{
-
-  transform:scale(1.04);
-
-}
-
-
-.orbit-card::after{
-
-  content:"";
-
-  position:absolute;
-
-  inset:0;
-
-  z-index:1;
-
-  background:
-
-    linear-gradient(
-      180deg,
-      rgba(3,7,12,.03) 10%,
-      rgba(3,7,12,.12) 35%,
-      rgba(3,7,12,.9) 100%
-    );
-
-  pointer-events:none;
+  will-change:
+    transform,
+    opacity;
 
 }
 
 
 /* =========================================================
-   CARD CONTENT
+   VISUAL AREA
 ========================================================= */
 
-.orbit-card-content{
+.layered-wing-visual{
 
-  position:absolute;
+  width:100%;
 
-  left:22px;
+  height:250px;
 
-  right:22px;
+  display:flex;
 
-  bottom:21px;
+  align-items:flex-end;
 
-  z-index:3;
-
-}
-
-
-.orbit-number{
-
-  display:block;
-
-  margin-bottom:7px;
-
-  font-size:.68rem;
-
-  letter-spacing:.18em;
-
-  color:#dfc27f;
+  justify-content:center;
 
 }
 
 
-.orbit-card h2{
+.layered-wing-visual img{
 
-  margin:0;
+  width:auto;
 
-  color:#fff;
+  height:auto;
 
-  font-size:1.5rem;
+  max-width:100%;
 
-  line-height:1.03;
+  max-height:250px;
+
+  object-fit:contain;
+
+  background:transparent;
+
+  filter:
+    drop-shadow(
+      0 24px 30px
+      rgba(0,0,0,.38)
+    );
+
+  transition:
+
+    transform .45s ease,
+
+    filter .45s ease;
+
+}
+
+
+/* =========================================================
+   HOVER VISUAL
+========================================================= */
+
+.layered-wing:hover
+.layered-wing-visual img{
+
+  transform:
+    translateY(-6px)
+    scale(1.025);
+
+  filter:
+    drop-shadow(
+      0 30px 38px
+      rgba(0,0,0,.48)
+    );
+
+}
+
+
+/* =========================================================
+   LIVE TITLE
+========================================================= */
+
+.layered-wing-title{
+
+  margin-top:9px;
+
+  padding:
+    7px 13px;
+
+  max-width:100%;
+
+  text-align:center;
+
+  font-size:.76rem;
 
   font-weight:600;
 
-}
+  letter-spacing:.13em;
 
+  line-height:1.3;
 
-.orbit-card h2 span{
+  text-transform:uppercase;
 
-  display:block;
+  color:#fff;
 
-}
-
-
-.orbit-action{
-
-  display:inline-block;
-
-  margin-top:10px;
-
-  padding-bottom:4px;
+  text-shadow:
+    0 2px 10px
+    rgba(0,0,0,.6);
 
   border-bottom:
     1px solid
-    rgba(238,217,173,.5);
+    rgba(239,216,166,.45);
 
-  color:#eed9ad;
+}
 
-  font-size:.78rem;
+
+/* =========================================================
+   ACTIVE
+========================================================= */
+
+.layered-wing.is-active{
+
+  --scale:1.08;
+
+  --opacity:1;
+
+  --depth:20;
+
+}
+
+
+.layered-wing.is-active
+.layered-wing-title{
+
+  color:#f0d9a7;
+
+  border-bottom-color:
+    rgba(240,217,167,.95);
+
+}
+
+
+.layered-wing.is-active
+.layered-wing-visual img{
+
+  transform:
+    translateY(-7px);
+
+  filter:
+    drop-shadow(
+      0 30px 42px
+      rgba(0,0,0,.52)
+    );
+
+}
+
+
+/* =========================================================
+   SIDE POSITIONS
+========================================================= */
+
+.layered-wing.position-left{
+
+  --x:-225px;
+
+  --y:24px;
+
+  --scale:.80;
+
+  --opacity:.88;
+
+  --depth:8;
+
+}
+
+
+.layered-wing.position-right{
+
+  --x:225px;
+
+  --y:24px;
+
+  --scale:.80;
+
+  --opacity:.88;
+
+  --depth:8;
+
+}
+
+
+.layered-wing.position-far-left{
+
+  --x:-415px;
+
+  --y:60px;
+
+  --scale:.58;
+
+  --opacity:.48;
+
+  --depth:3;
+
+}
+
+
+.layered-wing.position-far-right{
+
+  --x:415px;
+
+  --y:60px;
+
+  --scale:.58;
+
+  --opacity:.48;
+
+  --depth:3;
 
 }
 
@@ -724,33 +946,29 @@ button{
    CONTROLS
 ========================================================= */
 
-.orbit-controls{
+.layered-controls{
 
   position:absolute;
 
-  left:50%;
+  left:60%;
 
-  bottom:-10px;
+  bottom:31px;
 
   transform:
     translateX(-50%);
 
-  z-index:30;
+  z-index:40;
 
   display:flex;
 
   align-items:center;
 
-  justify-content:center;
-
-  gap:15px;
-
-  pointer-events:auto;
+  gap:13px;
 
 }
 
 
-.orbit-control{
+.layered-control{
 
   width:42px;
 
@@ -764,10 +982,10 @@ button{
 
   border:
     1px solid
-    rgba(255,255,255,.3);
+    rgba(255,255,255,.30);
 
   background:
-    rgba(5,14,22,.44);
+    rgba(4,12,20,.35);
 
   backdrop-filter:
     blur(10px);
@@ -781,28 +999,35 @@ button{
 }
 
 
-.orbit-control:hover{
+.layered-control:hover{
 
   border-color:
     var(--gold);
 
+  background:
+    rgba(201,161,91,.10);
+
 }
 
 
-.orbit-progress{
+/* =========================================================
+   DOTS
+========================================================= */
+
+.layered-dots{
 
   display:flex;
 
   align-items:center;
 
-  gap:7px;
+  gap:6px;
 
 }
 
 
-.orbit-dot{
+.layered-dot{
 
-  width:24px;
+  width:20px;
 
   height:3px;
 
@@ -818,15 +1043,17 @@ button{
   cursor:pointer;
 
   transition:
+
     width .35s ease,
+
     background .35s ease;
 
 }
 
 
-.orbit-dot.active{
+.layered-dot.active{
 
-  width:48px;
+  width:42px;
 
   background:
     var(--gold);
@@ -835,7 +1062,46 @@ button{
 
 
 /* =========================================================
-   MAIN SECTIONS
+   SCROLL
+========================================================= */
+
+.layered-scroll{
+
+  position:absolute;
+
+  left:5.5vw;
+
+  bottom:30px;
+
+  z-index:30;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  color:
+    rgba(255,255,255,.65);
+
+  font-size:.66rem;
+
+  letter-spacing:.16em;
+
+}
+
+
+.layered-scroll span{
+
+  color:#e4c77e;
+
+  font-size:1rem;
+
+}
+
+
+/* =========================================================
+   GENERAL SECTIONS
 ========================================================= */
 
 .section{
@@ -943,7 +1209,7 @@ button{
 
 
 /* =========================================================
-   LINK
+   LINKS
 ========================================================= */
 
 .smalllink{
@@ -975,7 +1241,7 @@ button{
 
 
 /* =========================================================
-   BUTTON
+   BUTTONS
 ========================================================= */
 
 .btn{
@@ -1017,11 +1283,14 @@ button{
 
 .btn.primary{
 
-  background:#f0e8da;
+  background:
+    #f0e8da;
 
-  color:#0a0d12;
+  color:
+    #0a0d12;
 
-  border-color:#f0e8da;
+  border-color:
+    #f0e8da;
 
 }
 
@@ -1060,7 +1329,8 @@ button{
 
   isolation:isolate;
 
-  box-shadow:var(--shadow);
+  box-shadow:
+    var(--shadow);
 
 }
 
@@ -1104,7 +1374,8 @@ button{
 
 .business-card:hover img{
 
-  transform:scale(1.04);
+  transform:
+    scale(1.04);
 
 }
 
@@ -1435,9 +1706,9 @@ button{
 
   gap:20px;
 
-  margin-top:34px;
-
   padding-top:34px;
+
+  margin-top:34px;
 
   border-top:
     1px solid
@@ -1451,7 +1722,7 @@ button{
 
 
 /* =========================================================
-   SEARCH DRAWER
+   SEARCH
 ========================================================= */
 
 .drawer{
@@ -1517,7 +1788,8 @@ button{
   margin:
     60px 0 10px;
 
-  font-family:var(--serif);
+  font-family:
+    var(--serif);
 
   font-size:3rem;
 
@@ -1614,7 +1886,7 @@ button{
 
 
 /* =========================================================
-   FORMS
+   FORM
 ========================================================= */
 
 .form-wrap{
@@ -1751,38 +2023,65 @@ textarea{
 
 
 /* =========================================================
-   RESPONSIVE — TABLET
+   TABLET
 ========================================================= */
 
 @media(max-width:1100px){
 
-  .business-orbit{
+  .layered-branding{
 
-    width:700px;
-
-    transform:
-      translate(-18%,-50%);
+    width:330px;
 
   }
 
 
-  .orbit-card{
+  .layered-orbit{
 
-    width:250px;
+    left:62%;
 
-    height:325px;
+    width:650px;
 
-    transform:
+  }
 
-      translate(-50%,-50%)
 
-      rotateY(
-        calc(
-          var(--orbit-angle) * 1deg
-        )
-      )
+  .layered-wing{
 
-      translateZ(280px);
+    width:225px;
+
+  }
+
+
+  .layered-wing.position-left{
+
+    --x:-195px;
+
+  }
+
+
+  .layered-wing.position-right{
+
+    --x:195px;
+
+  }
+
+
+  .layered-wing.position-far-left{
+
+    --x:-355px;
+
+  }
+
+
+  .layered-wing.position-far-right{
+
+    --x:355px;
+
+  }
+
+
+  .layered-controls{
+
+    left:62%;
 
   }
 
@@ -1790,7 +2089,7 @@ textarea{
 
 
 /* =========================================================
-   RESPONSIVE — 960
+   960
 ========================================================= */
 
 @media(max-width:960px){
@@ -1813,7 +2112,6 @@ textarea{
 
 
   .intro-grid,
-  .split,
   .brief,
   .section-head{
 
@@ -1842,7 +2140,6 @@ textarea{
 
 
   .category-grid,
-  .cards-grid,
   .footer-grid{
 
     grid-template-columns:
@@ -1859,14 +2156,33 @@ textarea{
   }
 
 
-  /*
-    Keep the hero artwork visible
-    while moving the carousel lower.
-  */
+  .layered-branding{
 
-  .business-orbit{
+    left:50%;
 
-    top:68%;
+    top:14%;
+
+    transform:
+      translateX(-50%);
+
+    width:88%;
+
+    text-align:center;
+
+  }
+
+
+  .layered-branding h1{
+
+    font-size:
+      clamp(2.6rem,8vw,4.3rem);
+
+  }
+
+
+  .layered-orbit{
+
+    top:67%;
 
     left:50%;
 
@@ -1880,23 +2196,16 @@ textarea{
   }
 
 
-  .orbit-card{
+  .layered-controls{
 
-    width:225px;
+    left:50%;
 
-    height:295px;
+  }
 
-    transform:
 
-      translate(-50%,-50%)
+  .layered-scroll{
 
-      rotateY(
-        calc(
-          var(--orbit-angle) * 1deg
-        )
-      )
-
-      translateZ(245px);
+    display:none;
 
   }
 
@@ -1904,7 +2213,7 @@ textarea{
 
 
 /* =========================================================
-   RESPONSIVE — MOBILE
+   MOBILE
 ========================================================= */
 
 @media(max-width:620px){
@@ -1933,7 +2242,6 @@ textarea{
 
 
   .category-grid,
-  .cards-grid,
   .footer-grid,
   .flow{
 
@@ -1942,97 +2250,143 @@ textarea{
   }
 
 
-  .hero{
+  .layered-hero{
 
     min-height:100svh;
 
   }
 
 
-  .hero-background{
+  .layered-branding{
 
-    background-position:
-      center center;
+    top:9%;
 
-    background-size:cover;
+    width:90%;
 
   }
 
 
-  .business-orbit{
+  .layered-brand-name{
 
-    top:69%;
+    font-size:.70rem;
+
+  }
+
+
+  .layered-brand-tagline{
+
+    font-size:.86rem;
+
+  }
+
+
+  .layered-branding h1{
+
+    font-size:
+      clamp(2.25rem,11vw,3.6rem);
+
+  }
+
+
+  .layered-orbit{
+
+    top:68%;
 
     left:50%;
 
-    width:350px;
+    width:345px;
 
-    height:330px;
-
-    transform:
-      translate(-50%,-50%);
+    height:300px;
 
   }
 
 
-  .orbit-card{
+  .layered-wing{
 
-    width:185px;
-
-    height:250px;
-
-    border-radius:20px;
-
-    transform:
-
-      translate(-50%,-50%)
-
-      rotateY(
-        calc(
-          var(--orbit-angle) * 1deg
-        )
-      )
-
-      translateZ(185px);
+    width:170px;
 
   }
 
 
-  .orbit-card-content{
+  .layered-wing-visual{
 
-    left:17px;
+    height:175px;
 
-    right:17px;
+  }
+
+
+  .layered-wing-visual img{
+
+    max-height:175px;
+
+  }
+
+
+  .layered-wing-title{
+
+    max-width:165px;
+
+    white-space:normal;
+
+    font-size:.62rem;
+
+    letter-spacing:.08em;
+
+  }
+
+
+  .layered-wing.position-left{
+
+    --x:-95px;
+
+    --y:20px;
+
+    --scale:.58;
+
+  }
+
+
+  .layered-wing.position-right{
+
+    --x:95px;
+
+    --y:20px;
+
+    --scale:.58;
+
+  }
+
+
+  .layered-wing.position-far-left{
+
+    --x:-165px;
+
+    --y:34px;
+
+    --scale:.40;
+
+  }
+
+
+  .layered-wing.position-far-right{
+
+    --x:165px;
+
+    --y:34px;
+
+    --scale:.40;
+
+  }
+
+
+  .layered-controls{
 
     bottom:17px;
 
   }
 
 
-  .orbit-card h2{
-
-    font-size:1.12rem;
-
-  }
-
-
-  .orbit-action{
-
-    font-size:.7rem;
-
-  }
-
-
-  .orbit-controls{
-
-    bottom:-10px;
-
-    gap:9px;
-
-  }
-
-
-  .orbit-control{
+  .layered-control{
 
     width:37px;
 
@@ -2041,14 +2395,14 @@ textarea{
   }
 
 
-  .orbit-dot{
+  .layered-dot{
 
     width:17px;
 
   }
 
 
-  .orbit-dot.active{
+  .layered-dot.active{
 
     width:33px;
 
@@ -2083,988 +2437,6 @@ textarea{
   .mobile-menu a{
 
     font-size:1.8rem;
-
-  }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media(prefers-reduced-motion:reduce){
-
-  *,
-  *::before,
-  *::after{
-
-    scroll-behavior:auto !important;
-
-    animation:none !important;
-
-    transition:none !important;
-
-  }
-
-}
-
-/* =========================================================
-   MADHYUM FINAL LAYERED HERO
-========================================================= */
-
-
-/* =========================================================
-   MAIN HERO
-========================================================= */
-
-.layered-hero{
-
-  position:relative;
-
-  width:100%;
-
-  min-height:100vh;
-  min-height:100svh;
-
-  overflow:hidden;
-
-  background:#07121d;
-
-  color:#fff;
-
-  isolation:isolate;
-
-}
-
-
-/* =========================================================
-   FIXED BACKGROUND
-========================================================= */
-
-.layered-hero-background{
-
-  position:absolute;
-
-  inset:0;
-
-  z-index:-10;
-
-  background-image:
-    url("../hero-background.png");
-
-  background-position:center center;
-
-  background-repeat:no-repeat;
-
-  background-size:cover;
-
-}
-
-
-/*
-  Very subtle cinematic protection.
-  It must NOT hide the background.
-*/
-
-.layered-hero::after{
-
-  content:"";
-
-  position:absolute;
-
-  inset:0;
-
-  z-index:-9;
-
-  pointer-events:none;
-
-  background:
-
-    linear-gradient(
-      90deg,
-      rgba(4,10,17,.12) 0%,
-      rgba(4,10,17,.02) 50%,
-      rgba(4,10,17,.14) 100%
-    );
-
-}
-
-
-/* =========================================================
-   BRANDING
-========================================================= */
-
-.layered-branding{
-
-  position:absolute;
-
-  left:5.5vw;
-
-  top:50%;
-
-  transform:
-    translateY(-50%);
-
-  width:min(400px,33vw);
-
-  z-index:20;
-
-  pointer-events:none;
-
-}
-
-
-.layered-brand-name{
-
-  font-size:.82rem;
-
-  font-weight:700;
-
-  letter-spacing:.28em;
-
-  text-transform:uppercase;
-
-  color:#fff;
-
-  margin-bottom:8px;
-
-}
-
-
-.layered-brand-tagline{
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-style:italic;
-
-  font-size:1rem;
-
-  color:#efd8a6;
-
-  margin-bottom:18px;
-
-}
-
-
-.layered-branding h1{
-
-  margin:0;
-
-  font-size:
-    clamp(2.8rem,5vw,5.8rem);
-
-  line-height:.94;
-
-  font-weight:600;
-
-  letter-spacing:-.03em;
-
-}
-
-
-.layered-branding h1 span{
-
-  display:block;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-style:italic;
-
-  color:#efd8a6;
-
-}
-
-
-/* =========================================================
-   LAYERED ORBIT
-========================================================= */
-
-.layered-orbit{
-
-  position:absolute;
-
-  left:58%;
-
-  top:58%;
-
-  width:720px;
-
-  height:480px;
-
-  transform:
-    translate(-50%,-50%);
-
-  z-index:15;
-
-  perspective:1400px;
-
-  transform-style:preserve-3d;
-
-}
-
-
-/* =========================================================
-   INDIVIDUAL WING
-========================================================= */
-
-.layered-wing{
-
-  --x:0px;
-  --y:0px;
-  --scale:1;
-  --opacity:1;
-  --blur:0px;
-  --depth:1;
-
-  position:absolute;
-
-  left:50%;
-
-  top:50%;
-
-  width:250px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  transform:
-
-    translate(-50%,-50%)
-
-    translate3d(
-      var(--x),
-      var(--y),
-      0
-    )
-
-    scale(var(--scale));
-
-  opacity:var(--opacity);
-
-  filter:
-    blur(var(--blur));
-
-  z-index:var(--depth);
-
-  transition:
-
-    transform
-    1s
-    cubic-bezier(.22,.61,.36,1),
-
-    opacity
-    .8s ease,
-
-    filter
-    .8s ease;
-
-  text-decoration:none;
-
-  color:#fff;
-
-  cursor:pointer;
-
-  will-change:
-    transform,
-    opacity;
-
-}
-
-
-/* =========================================================
-   WING VISUAL
-========================================================= */
-
-.layered-wing-visual{
-
-  width:100%;
-
-  height:245px;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:flex-end;
-
-  position:relative;
-
-}
-
-
-/*
-  The visual itself should be a
-  transparent PNG/WebP.
-*/
-
-.layered-wing-visual img{
-
-  display:block;
-
-  width:auto;
-
-  max-width:100%;
-
-  height:auto;
-
-  max-height:245px;
-
-  object-fit:contain;
-
-  filter:
-
-    drop-shadow(
-      0 24px 28px
-      rgba(0,0,0,.35)
-    );
-
-  transition:
-
-    transform .45s ease,
-
-    filter .45s ease;
-
-}
-
-
-/* =========================================================
-   WING TITLE
-========================================================= */
-
-.layered-wing-title{
-
-  margin-top:8px;
-
-  padding:8px 14px;
-
-  text-align:center;
-
-  white-space:nowrap;
-
-  font-size:.78rem;
-
-  font-weight:600;
-
-  letter-spacing:.13em;
-
-  text-transform:uppercase;
-
-  color:#fff;
-
-  border-bottom:
-    1px solid
-    rgba(239,216,166,.5);
-
-  text-shadow:
-    0 2px 10px
-    rgba(0,0,0,.55);
-
-}
-
-
-/* =========================================================
-   ACTIVE WING
-========================================================= */
-
-.layered-wing.is-active{
-
-  --scale:1.08;
-
-  --opacity:1;
-
-  --blur:0px;
-
-  --depth:10;
-
-}
-
-
-.layered-wing.is-active
-.layered-wing-visual img{
-
-  transform:
-    translateY(-6px);
-
-  filter:
-
-    drop-shadow(
-      0 28px 38px
-      rgba(0,0,0,.45)
-    );
-
-}
-
-
-.layered-wing.is-active
-.layered-wing-title{
-
-  color:#f0d9a7;
-
-  border-bottom-color:
-    rgba(240,217,167,.9);
-
-}
-
-
-/* =========================================================
-   SIDE POSITIONS
-========================================================= */
-
-.layered-wing.position-left{
-
-  --x:-225px;
-
-  --y:25px;
-
-  --scale:.78;
-
-  --opacity:.78;
-
-  --blur:.2px;
-
-  --depth:5;
-
-}
-
-
-.layered-wing.position-right{
-
-  --x:225px;
-
-  --y:25px;
-
-  --scale:.78;
-
-  --opacity:.78;
-
-  --blur:.2px;
-
-  --depth:5;
-
-}
-
-
-.layered-wing.position-far-left{
-
-  --x:-425px;
-
-  --y:62px;
-
-  --scale:.55;
-
-  --opacity:.48;
-
-  --blur:.4px;
-
-  --depth:2;
-
-}
-
-
-.layered-wing.position-far-right{
-
-  --x:425px;
-
-  --y:62px;
-
-  --scale:.55;
-
-  --opacity:.48;
-
-  --blur:.4px;
-
-  --depth:2;
-
-}
-
-
-/* =========================================================
-   CONTROLS
-========================================================= */
-
-.layered-controls{
-
-  position:absolute;
-
-  left:58%;
-
-  bottom:34px;
-
-  transform:
-    translateX(-50%);
-
-  z-index:30;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:13px;
-
-}
-
-
-.layered-control{
-
-  width:42px;
-
-  height:42px;
-
-  display:grid;
-
-  place-items:center;
-
-  border-radius:50%;
-
-  border:
-    1px solid
-    rgba(255,255,255,.3);
-
-  background:
-    rgba(4,12,20,.35);
-
-  backdrop-filter:
-    blur(10px);
-
-  color:#fff;
-
-  font-size:1rem;
-
-  cursor:pointer;
-
-  transition:.25s ease;
-
-}
-
-
-.layered-control:hover{
-
-  border-color:
-    #c9a15b;
-
-  background:
-    rgba(201,161,91,.1);
-
-}
-
-
-/* =========================================================
-   DOTS
-========================================================= */
-
-.layered-dots{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:6px;
-
-}
-
-
-.layered-dot{
-
-  width:20px;
-
-  height:3px;
-
-  border:0;
-
-  padding:0;
-
-  border-radius:20px;
-
-  background:
-    rgba(255,255,255,.26);
-
-  cursor:pointer;
-
-  transition:
-
-    width .35s ease,
-
-    background .35s ease;
-
-}
-
-
-.layered-dot.active{
-
-  width:42px;
-
-  background:
-    #c9a15b;
-
-}
-
-
-/* =========================================================
-   SCROLL TEXT
-========================================================= */
-
-.layered-scroll{
-
-  position:absolute;
-
-  left:5.5vw;
-
-  bottom:30px;
-
-  z-index:20;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  font-size:.66rem;
-
-  letter-spacing:.16em;
-
-  color:
-    rgba(255,255,255,.65);
-
-}
-
-
-.layered-scroll span{
-
-  color:#e4c77e;
-
-  font-size:1rem;
-
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media(max-width:1100px){
-
-  .layered-branding{
-
-    width:340px;
-
-    left:4vw;
-
-  }
-
-
-  .layered-orbit{
-
-    left:62%;
-
-    width:620px;
-
-  }
-
-
-  .layered-wing{
-
-    width:220px;
-
-  }
-
-
-  .layered-wing.position-left{
-
-    --x:-190px;
-
-  }
-
-
-  .layered-wing.position-right{
-
-    --x:190px;
-
-  }
-
-
-  .layered-wing.position-far-left{
-
-    --x:-350px;
-
-  }
-
-
-  .layered-wing.position-far-right{
-
-    --x:350px;
-
-  }
-
-
-  .layered-controls{
-
-    left:62%;
-
-  }
-
-}
-
-
-/* =========================================================
-   TABLET / MOBILE
-========================================================= */
-
-@media(max-width:820px){
-
-  .layered-hero{
-
-    min-height:100svh;
-
-  }
-
-
-  .layered-branding{
-
-    top:13%;
-
-    left:50%;
-
-    transform:
-      translateX(-50%);
-
-    width:88%;
-
-    text-align:center;
-
-  }
-
-
-  .layered-branding h1{
-
-    font-size:
-      clamp(2.5rem,10vw,4rem);
-
-  }
-
-
-  .layered-orbit{
-
-    left:50%;
-
-    top:66%;
-
-    width:430px;
-
-    height:320px;
-
-    transform:
-      translate(-50%,-50%);
-
-  }
-
-
-  .layered-wing{
-
-    width:185px;
-
-  }
-
-
-  .layered-wing-visual{
-
-    height:190px;
-
-  }
-
-
-  .layered-wing-visual img{
-
-    max-height:190px;
-
-  }
-
-
-  .layered-wing-title{
-
-    font-size:.65rem;
-
-    letter-spacing:.08em;
-
-    white-space:normal;
-
-    max-width:180px;
-
-  }
-
-
-  .layered-wing.position-left{
-
-    --x:-120px;
-
-    --y:20px;
-
-    --scale:.64;
-
-  }
-
-
-  .layered-wing.position-right{
-
-    --x:120px;
-
-    --y:20px;
-
-    --scale:.64;
-
-  }
-
-
-  .layered-wing.position-far-left{
-
-    --x:-210px;
-
-    --y:35px;
-
-    --scale:.46;
-
-  }
-
-
-  .layered-wing.position-far-right{
-
-    --x:210px;
-
-    --y:35px;
-
-    --scale:.46;
-
-  }
-
-
-  .layered-controls{
-
-    left:50%;
-
-    bottom:24px;
-
-  }
-
-
-  .layered-scroll{
-
-    display:none;
-
-  }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media(max-width:520px){
-
-  .layered-branding{
-
-    top:10%;
-
-  }
-
-
-  .layered-branding h1{
-
-    font-size:
-      clamp(2.25rem,12vw,3.5rem);
-
-  }
-
-
-  .layered-brand-tagline{
-
-    font-size:.88rem;
-
-  }
-
-
-  .layered-orbit{
-
-    top:67%;
-
-    width:330px;
-
-    height:290px;
-
-  }
-
-
-  .layered-wing{
-
-    width:155px;
-
-  }
-
-
-  .layered-wing-visual{
-
-    height:170px;
-
-  }
-
-
-  .layered-wing-visual img{
-
-    max-height:170px;
-
-  }
-
-
-  .layered-wing.position-left{
-
-    --x:-92px;
-
-    --y:18px;
-
-    --scale:.58;
-
-  }
-
-
-  .layered-wing.position-right{
-
-    --x:92px;
-
-    --y:18px;
-
-    --scale:.58;
-
-  }
-
-
-  .layered-wing.position-far-left{
-
-    --x:-160px;
-
-    --y:32px;
-
-    --scale:.4;
-
-  }
-
-
-  .layered-wing.position-far-right{
-
-    --x:160px;
-
-    --y:32px;
-
-    --scale:.4;
 
   }
 
