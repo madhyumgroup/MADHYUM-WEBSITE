@@ -12,13 +12,11 @@
   --ink:#0a0d12;
   --navy:#081625;
   --paper:#f3f0ea;
+
   --muted:#6f777e;
   --muted-light:#aeb8c0;
 
   --gold:#c9a15b;
-  --gold-light:#f2d28e;
-
-  --white:#f8f8f6;
 
   --serif:
     'Playfair Display',
@@ -29,9 +27,6 @@
     'DM Sans',
     Arial,
     sans-serif;
-
-  --shadow:
-    0 30px 80px rgba(0,0,0,.25);
 
 }
 
@@ -161,7 +156,8 @@ button{
     blur(16px);
 
   box-shadow:
-    0 8px 30px rgba(0,0,0,.15);
+    0 8px 30px
+    rgba(0,0,0,.15);
 
 }
 
@@ -197,7 +193,8 @@ button{
 
   gap:28px;
 
-  color:rgba(255,255,255,.82);
+  color:
+    rgba(255,255,255,.82);
 
   font-size:.92rem;
 
@@ -279,7 +276,7 @@ button{
 
   border:
     1px solid
-    rgba(255,255,255,.3);
+    rgba(255,255,255,.30);
 
   color:#fff;
 
@@ -348,7 +345,7 @@ button{
 
   border-bottom:
     1px solid
-    rgba(255,255,255,.1);
+    rgba(255,255,255,.10);
 
   font-family:var(--serif);
 
@@ -411,11 +408,7 @@ button{
 
 
 /* =========================================================
-   CLEAN BACKGROUND
-
-   IMPORTANT:
-   hero-background.png must be the clean background.
-   It should NOT contain the old MADHYUM text block.
+   BACKGROUND ONLY
 ========================================================= */
 
 .layered-hero-background{
@@ -439,356 +432,12 @@ button{
 
 
 /* =========================================================
-   VERY LIGHT BACKGROUND PROTECTION
+   NO HERO BRANDING CSS
 ========================================================= */
-
-.layered-hero::after{
-
-  content:"";
-
-  position:absolute;
-
-  inset:0;
-
-  z-index:-9;
-
-  pointer-events:none;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(2,8,14,.06),
-      rgba(2,8,14,.015) 50%,
-      rgba(2,8,14,.06)
-    );
-
-}
 
 
 /* =========================================================
-   CENTER TOP BRANDING
-========================================================= */
-
-.hero-brand-lockup{
-
-  position:absolute;
-
-  top:3.4%;
-
-  left:50%;
-
-  transform:
-    translateX(-50%);
-
-  width:
-    min(720px,70vw);
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  justify-content:flex-start;
-
-  text-align:center;
-
-  z-index:60;
-
-  pointer-events:none;
-
-}
-
-
-/* =========================================================
-   M / LOGO MARK
-
-   This is a clean independent mark.
-   No background image required.
-========================================================= */
-
-.hero-logo-mark{
-
-  width:88px;
-
-  height:82px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  position:relative;
-
-  margin-bottom:2px;
-
-  color:#f5c866;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:78px;
-
-  line-height:1;
-
-  font-weight:700;
-
-  letter-spacing:-.12em;
-
-  text-shadow:
-    0 3px 18px
-    rgba(0,0,0,.42);
-
-}
-
-
-/* subtle gold underline for logo */
-
-.hero-logo-mark::after{
-
-  content:"";
-
-  position:absolute;
-
-  left:16px;
-
-  right:16px;
-
-  bottom:4px;
-
-  height:2px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #dcae42,
-      transparent
-    );
-
-  opacity:.8;
-
-}
-
-
-/* =========================================================
-   BRAND NAME
-========================================================= */
-
-.hero-brand-name{
-
-  margin-top:0;
-
-  color:#f5d58c;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    clamp(2.8rem,4.4vw,4.7rem);
-
-  line-height:.88;
-
-  font-weight:700;
-
-  letter-spacing:.14em;
-
-  text-transform:uppercase;
-
-  text-shadow:
-    0 4px 20px
-    rgba(0,0,0,.45);
-
-}
-
-
-/* =========================================================
-   GROUP
-========================================================= */
-
-.hero-brand-group{
-
-  margin-top:4px;
-
-  color:#efc15f;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    clamp(1.05rem,1.6vw,1.55rem);
-
-  font-weight:700;
-
-  letter-spacing:.55em;
-
-  line-height:1;
-
-}
-
-
-/* =========================================================
-   GOLD LINE
-========================================================= */
-
-.hero-brand-line{
-
-  width:
-    min(510px,55vw);
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  margin:
-    10px 0 7px;
-
-}
-
-
-.hero-brand-line::before,
-.hero-brand-line::after{
-
-  content:"";
-
-  height:2px;
-
-  flex:1;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(225,177,74,.9)
-    );
-
-}
-
-
-.hero-brand-line::after{
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(225,177,74,.9),
-      transparent
-    );
-
-}
-
-
-.hero-brand-line span{
-
-  width:9px;
-
-  height:9px;
-
-  margin:
-    0 10px;
-
-  border-radius:50%;
-
-  background:#f3c35d;
-
-  box-shadow:
-    0 0 16px
-    rgba(243,195,93,.75);
-
-}
-
-
-/* =========================================================
-   TAGLINE
-========================================================= */
-
-.hero-brand-tagline{
-
-  color:#f0d295;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    clamp(.92rem,1.55vw,1.35rem);
-
-  font-style:italic;
-
-  font-weight:500;
-
-  line-height:1.1;
-
-  letter-spacing:.01em;
-
-  text-shadow:
-    0 3px 12px
-    rgba(0,0,0,.42);
-
-}
-
-
-/* =========================================================
-   MAIN STATEMENT
-========================================================= */
-
-.hero-brand-statement{
-
-  display:flex;
-
-  align-items:baseline;
-
-  justify-content:center;
-
-  gap:.22em;
-
-  margin-top:15px;
-
-  white-space:nowrap;
-
-  color:#fff;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:
-    clamp(2rem,3.6vw,4rem);
-
-  line-height:.95;
-
-  font-weight:500;
-
-  text-shadow:
-    0 4px 20px
-    rgba(0,0,0,.48);
-
-}
-
-
-.hero-brand-statement em{
-
-  color:#eec66d;
-
-  font-style:italic;
-
-  font-weight:500;
-
-}
-
-
-/* =========================================================
-   FULL-WIDTH ORBIT
+   FULL-WIDTH C ORBIT
 ========================================================= */
 
 .layered-orbit{
@@ -797,11 +446,11 @@ button{
 
   left:50%;
 
-  top:65%;
+  top:58%;
 
   width:100vw;
 
-  height:500px;
+  height:550px;
 
   transform:
     translate(-50%,-50%);
@@ -814,25 +463,20 @@ button{
 
 
 /* =========================================================
-   WING
+   WINGS
 ========================================================= */
 
 .layered-wing{
 
   --x:0px;
-
   --y:0px;
-
   --scale:1;
-
   --opacity:1;
-
   --depth:10;
 
   position:absolute;
 
   left:50%;
-
   top:50%;
 
   width:230px;
@@ -888,14 +532,14 @@ button{
 
 
 /* =========================================================
-   WING VISUAL
+   WING IMAGE
 ========================================================= */
 
 .layered-wing-visual{
 
   width:100%;
 
-  height:200px;
+  height:190px;
 
   display:flex;
 
@@ -905,7 +549,6 @@ button{
 
 }
 
-
 .layered-wing-visual img{
 
   width:auto;
@@ -914,7 +557,7 @@ button{
 
   max-width:100%;
 
-  max-height:200px;
+  max-height:190px;
 
   object-fit:contain;
 
@@ -936,7 +579,6 @@ button{
 
 }
 
-
 .layered-wing:hover
 .layered-wing-visual img{
 
@@ -947,7 +589,7 @@ button{
   filter:
     drop-shadow(
       0 30px 38px
-      rgba(0,0,0,.48)
+      rgba(0,0,0,.50)
     );
 
 }
@@ -968,7 +610,7 @@ button{
 
   color:#fff;
 
-  font-size:.71rem;
+  font-size:.70rem;
 
   font-weight:600;
 
@@ -992,17 +634,13 @@ button{
 
 
 /* =========================================================
-   C-ORBIT POSITIONS
+   C-SHAPED POSITIONS
 
-   SLOT ORDER:
-
-   0 = LEFT
-   1 = LOWER LEFT
-   2 = BOTTOM CENTER
-   3 = LOWER RIGHT
-   4 = RIGHT
-
-   This is the exact structure requested.
+   LEFT
+   LOWER LEFT
+   BOTTOM
+   LOWER RIGHT
+   RIGHT
 ========================================================= */
 
 
@@ -1116,7 +754,6 @@ button{
 
 }
 
-
 .layered-control{
 
   width:42px;
@@ -1145,7 +782,6 @@ button{
 
 }
 
-
 .layered-control:hover{
 
   border-color:
@@ -1167,7 +803,6 @@ button{
   gap:6px;
 
 }
-
 
 .layered-dot{
 
@@ -1192,7 +827,6 @@ button{
 
 }
 
-
 .layered-dot.active{
 
   width:42px;
@@ -1215,8 +849,7 @@ button{
 
 .section.dark{
 
-  background:
-    var(--navy);
+  background:var(--navy);
 
   color:#fff;
 
@@ -1224,8 +857,7 @@ button{
 
 .section.tight{
 
-  padding:
-    84px 0;
+  padding:84px 0;
 
 }
 
@@ -1264,15 +896,13 @@ button{
 
   margin:0;
 
-  color:
-    var(--muted);
+  color:var(--muted);
 
 }
 
 .section.dark .section-head p{
 
-  color:
-    var(--muted-light);
+  color:var(--muted-light);
 
 }
 
@@ -1419,7 +1049,8 @@ button{
   isolation:isolate;
 
   box-shadow:
-    var(--shadow);
+    0 30px 80px
+    rgba(0,0,0,.25);
 
 }
 
@@ -1549,8 +1180,7 @@ button{
 
 .dark .brief-content p{
 
-  color:
-    var(--muted-light);
+  color:var(--muted-light);
 
 }
 
@@ -1784,7 +1414,7 @@ button{
 
 
 /* =========================================================
-   SEARCH
+   SEARCH DRAWER
 ========================================================= */
 
 .drawer{
@@ -1842,8 +1472,7 @@ button{
   margin:
     60px 0 10px;
 
-  font-family:
-    var(--serif);
+  font-family:var(--serif);
 
   font-size:3rem;
 
@@ -1928,7 +1557,7 @@ button{
 
 
 /* =========================================================
-   FORM
+   FORMS
 ========================================================= */
 
 .form-wrap{
@@ -2063,18 +1692,6 @@ textarea{
 
 @media(max-width:1100px){
 
-  .hero-brand-lockup{
-
-    width:78vw;
-
-  }
-
-  .hero-brand-name{
-
-    font-size:3.7rem;
-
-  }
-
   .layered-wing{
 
     width:195px;
@@ -2095,7 +1712,8 @@ textarea{
 
   .layered-wing.position-left{
 
-    --x:calc(-50vw + 92px);
+    --x:
+      calc(-50vw + 92px);
 
   }
 
@@ -2113,7 +1731,8 @@ textarea{
 
   .layered-wing.position-far-right{
 
-    --x:calc(50vw - 92px);
+    --x:
+      calc(50vw - 92px);
 
   }
 
@@ -2121,7 +1740,7 @@ textarea{
 
 
 /* =========================================================
-   960
+   960PX
 ========================================================= */
 
 @media(max-width:960px){
@@ -2181,61 +1800,11 @@ textarea{
 
   }
 
-
-  /* HERO BRANDING */
-
-  .hero-brand-lockup{
-
-    top:3.5%;
-
-    width:92%;
-
-  }
-
-  .hero-logo-mark{
-
-    width:70px;
-
-    height:65px;
-
-    font-size:62px;
-
-  }
-
-  .hero-brand-name{
-
-    font-size:
-      clamp(2.4rem,7vw,3.6rem);
-
-  }
-
-  .hero-brand-group{
-
-    font-size:1rem;
-
-  }
-
-  .hero-brand-tagline{
-
-    font-size:.92rem;
-
-  }
-
-  .hero-brand-statement{
-
-    font-size:
-      clamp(1.75rem,5vw,3rem);
-
-  }
-
-
-  /* FULL SCREEN ORBIT */
-
   .layered-orbit{
 
-    top:69%;
+    top:67%;
 
-    height:420px;
+    height:430px;
 
   }
 
@@ -2265,7 +1834,8 @@ textarea{
 
   .layered-wing.position-left{
 
-    --x:calc(-50vw + 82px);
+    --x:
+      calc(-50vw + 82px);
 
     --y:-20px;
 
@@ -2289,7 +1859,8 @@ textarea{
 
   .layered-wing.position-far-right{
 
-    --x:calc(50vw - 82px);
+    --x:
+      calc(50vw - 82px);
 
     --y:-20px;
 
@@ -2324,76 +1895,9 @@ textarea{
 
   }
 
-
-  /* BRANDING */
-
-  .hero-brand-lockup{
-
-    top:2.5%;
-
-    width:96%;
-
-  }
-
-  .hero-logo-mark{
-
-    width:54px;
-
-    height:53px;
-
-    font-size:49px;
-
-  }
-
-  .hero-brand-name{
-
-    font-size:
-      clamp(2rem,9vw,2.8rem);
-
-    letter-spacing:.10em;
-
-  }
-
-  .hero-brand-group{
-
-    font-size:.78rem;
-
-    letter-spacing:.40em;
-
-  }
-
-  .hero-brand-line{
-
-    width:76%;
-
-    margin:
-      7px 0 5px;
-
-  }
-
-  .hero-brand-tagline{
-
-    font-size:.76rem;
-
-  }
-
-  .hero-brand-statement{
-
-    margin-top:10px;
-
-    font-size:
-      clamp(1.35rem,7vw,2rem);
-
-    gap:.18em;
-
-  }
-
-
-  /* ORBIT */
-
   .layered-orbit{
 
-    top:70%;
+    top:68%;
 
     width:100vw;
 
@@ -2431,7 +1935,8 @@ textarea{
 
   .layered-wing.position-left{
 
-    --x:calc(-50vw + 72px);
+    --x:
+      calc(-50vw + 72px);
 
     --y:-14px;
 
@@ -2471,7 +1976,8 @@ textarea{
 
   .layered-wing.position-far-right{
 
-    --x:calc(50vw - 72px);
+    --x:
+      calc(50vw - 72px);
 
     --y:-14px;
 
@@ -2530,25 +2036,6 @@ textarea{
   .mobile-menu a{
 
     font-size:1.8rem;
-
-  }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media(prefers-reduced-motion:reduce){
-
-  *,
-  *::before,
-  *::after{
-
-    scroll-behavior:auto !important;
-
-    transition:none !important;
 
   }
 
