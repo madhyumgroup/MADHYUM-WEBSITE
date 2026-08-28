@@ -10,19 +10,11 @@
 :root{
 
   --ink:#0a0d12;
-
   --navy:#081625;
-
   --paper:#f3f0ea;
-
   --muted:#6f777e;
-
   --muted-light:#aeb8c0;
-
   --gold:#c9a15b;
-
-  --gold-soft:#eed9ad;
-
   --white:#f8f8f6;
 
   --serif:
@@ -36,8 +28,7 @@
     sans-serif;
 
   --shadow:
-    0 30px 80px
-    rgba(0,0,0,.25);
+    0 30px 80px rgba(0,0,0,.25);
 
 }
 
@@ -50,11 +41,9 @@
   box-sizing:border-box;
 }
 
-
 html{
   scroll-behavior:smooth;
 }
-
 
 body{
 
@@ -73,28 +62,23 @@ body{
 
 }
 
-
 body,
 button,
 input,
 select,
 textarea{
-  font-family:
-    var(--sans);
+  font-family:var(--sans);
 }
-
 
 a{
   color:inherit;
   text-decoration:none;
 }
 
-
 img{
   display:block;
   max-width:100%;
 }
-
 
 button{
   font:inherit;
@@ -107,17 +91,15 @@ button{
 
 .container{
 
-  width:
-    min(1200px,92vw);
+  width:min(1200px,92vw);
 
-  margin:
-    0 auto;
+  margin:0 auto;
 
 }
 
 
 /* =========================================================
-   TYPOGRAPHY
+   TYPE
 ========================================================= */
 
 .eyebrow{
@@ -132,27 +114,16 @@ button{
 
 }
 
-
 .eyebrow.light{
-
   color:#b8c2ca;
-
 }
-
 
 .serif{
-
-  font-family:
-    var(--serif);
-
+  font-family:var(--serif);
 }
 
-
 .muted{
-
-  color:
-    var(--muted);
-
+  color:var(--muted);
 }
 
 
@@ -179,7 +150,6 @@ button{
 
 }
 
-
 .site-header.scrolled{
 
   padding:12px 0;
@@ -196,7 +166,6 @@ button{
 
 }
 
-
 .nav{
 
   display:flex;
@@ -209,7 +178,6 @@ button{
 
 }
 
-
 .brand{
 
   color:#fff;
@@ -221,7 +189,6 @@ button{
   letter-spacing:.28em;
 
 }
-
 
 .navlinks{
 
@@ -238,13 +205,9 @@ button{
 
 }
 
-
 .navlinks a{
-
   position:relative;
-
 }
-
 
 .navlinks a::after{
 
@@ -263,16 +226,13 @@ button{
   background:
     var(--gold);
 
-  transition:
-    right .25s ease;
+  transition:right .25s ease;
 
 }
-
 
 .navlinks a:hover::after{
   right:0;
 }
-
 
 .actions{
 
@@ -283,7 +243,6 @@ button{
   gap:12px;
 
 }
-
 
 .iconbtn{
 
@@ -307,18 +266,11 @@ button{
 
   cursor:pointer;
 
-  transition:.25s ease;
-
 }
-
 
 .iconbtn:hover{
-
-  border-color:
-    var(--gold);
-
+  border-color:var(--gold);
 }
-
 
 .contact-pill{
 
@@ -336,14 +288,9 @@ button{
 
 }
 
-
 .contact-pill:hover{
-
-  border-color:
-    var(--gold);
-
+  border-color:var(--gold);
 }
-
 
 .menu-btn{
 
@@ -386,16 +333,13 @@ button{
 
   color:#fff;
 
-  padding:
-    90px 28px 40px;
+  padding:90px 28px 40px;
 
 }
-
 
 .mobile-menu.open{
   display:block;
 }
-
 
 .mobile-menu a{
 
@@ -413,7 +357,6 @@ button{
   font-size:2rem;
 
 }
-
 
 .mobile-close{
 
@@ -445,7 +388,7 @@ button{
 
 
 /* =========================================================
-   MADHYUM LAYERED HERO
+   HERO
 ========================================================= */
 
 .layered-hero{
@@ -460,7 +403,7 @@ button{
 
   overflow:hidden;
 
-  background:#06111d;
+  background:#07121d;
 
   color:#fff;
 
@@ -470,7 +413,7 @@ button{
 
 
 /* =========================================================
-   FIXED BACKGROUND
+   BACKGROUND
 ========================================================= */
 
 .layered-hero-background{
@@ -492,9 +435,6 @@ button{
 
 }
 
-
-/* Very light overlay */
-
 .layered-hero::after{
 
   content:"";
@@ -510,16 +450,16 @@ button{
   background:
     linear-gradient(
       90deg,
-      rgba(3,9,15,.08) 0%,
+      rgba(3,9,15,.08),
       rgba(3,9,15,.015) 50%,
-      rgba(3,9,15,.08) 100%
+      rgba(3,9,15,.08)
     );
 
 }
 
 
 /* =========================================================
-   HERO BRANDING
+   HERO BRAND
 ========================================================= */
 
 .layered-branding{
@@ -533,19 +473,15 @@ button{
   transform:
     translateY(-50%);
 
-  width:
-    min(360px,29vw);
+  width:min(360px,28vw);
 
-  z-index:30;
+  z-index:40;
 
   pointer-events:none;
 
 }
 
-
 .layered-brand-name{
-
-  color:#fff;
 
   font-size:.82rem;
 
@@ -557,31 +493,29 @@ button{
 
 }
 
-
 .layered-brand-tagline{
 
   margin-bottom:18px;
+
+  color:#efd8a6;
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
 
-  font-style:italic;
-
   font-size:1rem;
 
-  color:#efd8a6;
+  font-style:italic;
 
 }
-
 
 .layered-branding h1{
 
   margin:0;
 
   font-size:
-    clamp(2.7rem,4.7vw,5.4rem);
+    clamp(2.6rem,4.5vw,5.2rem);
 
   line-height:.94;
 
@@ -591,10 +525,11 @@ button{
 
 }
 
-
 .layered-branding h1 span{
 
   display:block;
+
+  color:#efd8a6;
 
   font-family:
     Georgia,
@@ -603,32 +538,29 @@ button{
 
   font-style:italic;
 
-  color:#efd8a6;
-
 }
 
 
 /* =========================================================
-   C-SHAPED ORBIT
+   FULL SCREEN ORBIT
 ========================================================= */
 
 .layered-orbit{
 
   position:absolute;
 
-  left:63%;
+  left:50%;
 
-  top:57%;
+  top:58%;
 
-  width:
-    min(850px,70vw);
+  width:100vw;
 
-  height:540px;
+  height:550px;
 
   transform:
     translate(-50%,-50%);
 
-  z-index:25;
+  z-index:30;
 
   pointer-events:none;
 
@@ -636,28 +568,23 @@ button{
 
 
 /* =========================================================
-   WING
+   WINGS
 ========================================================= */
 
 .layered-wing{
 
   --x:0px;
-
   --y:0px;
-
   --scale:1;
-
   --opacity:1;
-
   --depth:10;
 
   position:absolute;
 
   left:50%;
-
   top:50%;
 
-  width:235px;
+  width:220px;
 
   display:flex;
 
@@ -684,13 +611,13 @@ button{
   z-index:
     var(--depth);
 
-  color:#fff;
-
-  text-decoration:none;
-
   pointer-events:auto;
 
   cursor:pointer;
+
+  color:#fff;
+
+  text-decoration:none;
 
   transition:
 
@@ -699,10 +626,7 @@ button{
     cubic-bezier(.22,.61,.36,1),
 
     opacity
-    .75s ease,
-
-    filter
-    .75s ease;
+    .8s ease;
 
   will-change:
     transform,
@@ -719,7 +643,7 @@ button{
 
   width:100%;
 
-  height:205px;
+  height:190px;
 
   display:flex;
 
@@ -729,7 +653,6 @@ button{
 
 }
 
-
 .layered-wing-visual img{
 
   width:auto;
@@ -738,7 +661,7 @@ button{
 
   max-width:100%;
 
-  max-height:205px;
+  max-height:190px;
 
   object-fit:contain;
 
@@ -750,18 +673,15 @@ button{
 
   filter:
     drop-shadow(
-      0 24px 31px
-      rgba(0,0,0,.40)
+      0 24px 30px
+      rgba(0,0,0,.42)
     );
 
   transition:
-
     transform .4s ease,
-
     filter .4s ease;
 
 }
-
 
 .layered-wing:hover
 .layered-wing-visual img{
@@ -773,7 +693,7 @@ button{
   filter:
     drop-shadow(
       0 30px 38px
-      rgba(0,0,0,.48)
+      rgba(0,0,0,.50)
     );
 
 }
@@ -790,19 +710,19 @@ button{
   padding:
     7px 12px;
 
-  max-width:100%;
-
-  text-align:center;
+  max-width:220px;
 
   font-size:.70rem;
 
-  font-weight:600;
-
   line-height:1.3;
 
-  letter-spacing:.105em;
+  font-weight:600;
+
+  letter-spacing:.10em;
 
   text-transform:uppercase;
+
+  text-align:center;
 
   color:#fff;
 
@@ -818,143 +738,105 @@ button{
 
 
 /* =========================================================
-   ACTIVE = BOTTOM-CENTER SLOT
+   C-SHAPE SLOTS
 ========================================================= */
+
+/*
+   LEFT
+   Real Estate
+*/
+
+.layered-wing.position-left{
+
+  --x:calc(-50vw + 135px);
+
+  --y:-95px;
+
+  --scale:.92;
+
+  --opacity:1;
+
+  --depth:20;
+
+}
+
+
+/*
+   LOWER LEFT
+   Travel
+*/
+
+.layered-wing.position-far-left{
+
+  --x:-26vw;
+
+  --y:62px;
+
+  --scale:.94;
+
+  --opacity:1;
+
+  --depth:25;
+
+}
+
+
+/*
+   BOTTOM CENTER
+   Education
+*/
 
 .layered-wing.is-active{
 
   --x:0px;
 
-  --y:160px;
+  --y:175px;
 
-  --scale:1.08;
+  --scale:1.04;
 
   --opacity:1;
 
-  --depth:30;
+  --depth:35;
 
 }
 
 
-.layered-wing.is-active
-.layered-wing-title{
-
-  color:#f0d9a7;
-
-  border-bottom-color:
-    rgba(240,217,167,.95);
-
-}
-
-
-.layered-wing.is-active
-.layered-wing-visual img{
-
-  transform:
-    translateY(-7px);
-
-  filter:
-    drop-shadow(
-      0 31px 42px
-      rgba(0,0,0,.52)
-    );
-
-}
-
-
-/* =========================================================
-   C-SHAPE POSITIONS
-
-   These mappings are intentionally tied
-   to the JS relative slot:
-
-   relative 0 = bottom-center
-   relative 1 = lower-right
-   relative 2 = right
-   relative 3 = left
-   relative 4 = lower-left
-
-   Rotation direction is handled in JS
-   so the motion becomes:
-
-   LEFT
-     ↓
-   LOWER LEFT
-     ↓
-   BOTTOM
-     ↓
+/*
    LOWER RIGHT
-     ↓
-   RIGHT
-     ↓
-   LEFT
-========================================================= */
-
-
-/* LEFT END */
-
-.layered-wing.position-left{
-
-  --x:-285px;
-
-  --y:-78px;
-
-  --scale:.82;
-
-  --opacity:.92;
-
-  --depth:12;
-
-}
-
-
-/* LOWER LEFT */
-
-.layered-wing.position-far-left{
-
-  --x:-145px;
-
-  --y:52px;
-
-  --scale:.91;
-
-  --opacity:.97;
-
-  --depth:18;
-
-}
-
-
-/* LOWER RIGHT */
+   Consultancy
+*/
 
 .layered-wing.position-right{
 
-  --x:145px;
+  --x:26vw;
 
-  --y:52px;
+  --y:62px;
 
-  --scale:.91;
+  --scale:.94;
 
-  --opacity:.97;
+  --opacity:1;
 
-  --depth:18;
+  --depth:25;
 
 }
 
 
-/* RIGHT END */
+/*
+   RIGHT
+   Events
+*/
 
 .layered-wing.position-far-right{
 
-  --x:285px;
+  --x:calc(50vw - 135px);
 
-  --y:-78px;
+  --y:-95px;
 
-  --scale:.82;
+  --scale:.92;
 
-  --opacity:.92;
+  --opacity:1;
 
-  --depth:12;
+  --depth:20;
 
 }
 
@@ -967,14 +849,14 @@ button{
 
   position:absolute;
 
-  left:63%;
+  left:50%;
 
-  bottom:22px;
+  bottom:20px;
 
   transform:
     translateX(-50%);
 
-  z-index:50;
+  z-index:60;
 
   display:flex;
 
@@ -983,7 +865,6 @@ button{
   gap:13px;
 
 }
-
 
 .layered-control{
 
@@ -1002,7 +883,7 @@ button{
     rgba(255,255,255,.30);
 
   background:
-    rgba(4,12,20,.35);
+    rgba(4,12,20,.36);
 
   backdrop-filter:
     blur(10px);
@@ -1011,10 +892,7 @@ button{
 
   cursor:pointer;
 
-  transition:.25s ease;
-
 }
-
 
 .layered-control:hover{
 
@@ -1041,7 +919,6 @@ button{
 
 }
 
-
 .layered-dot{
 
   width:20px;
@@ -1060,13 +937,10 @@ button{
   cursor:pointer;
 
   transition:
-
     width .35s ease,
-
     background .35s ease;
 
 }
-
 
 .layered-dot.active{
 
@@ -1079,54 +953,12 @@ button{
 
 
 /* =========================================================
-   SCROLL INDICATOR
-========================================================= */
-
-.layered-scroll{
-
-  position:absolute;
-
-  left:5vw;
-
-  bottom:28px;
-
-  z-index:30;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  color:
-    rgba(255,255,255,.65);
-
-  font-size:.66rem;
-
-  letter-spacing:.16em;
-
-}
-
-
-.layered-scroll span{
-
-  color:#e4c77e;
-
-  font-size:1rem;
-
-}
-
-
-/* =========================================================
-   GENERAL SECTIONS
+   SECTIONS
 ========================================================= */
 
 .section{
-
   padding:110px 0;
-
 }
-
 
 .section.dark{
 
@@ -1137,14 +969,9 @@ button{
 
 }
 
-
 .section.tight{
-
-  padding:
-    84px 0;
-
+  padding:84px 0;
 }
-
 
 .section-head{
 
@@ -1161,7 +988,6 @@ button{
 
 }
 
-
 .section h2{
 
   margin:
@@ -1176,7 +1002,6 @@ button{
 
 }
 
-
 .section-head p{
 
   max-width:560px;
@@ -1187,7 +1012,6 @@ button{
     var(--muted);
 
 }
-
 
 .section.dark .section-head p{
 
@@ -1211,7 +1035,6 @@ button{
   gap:70px;
 
 }
-
 
 .lead{
 
@@ -1249,16 +1072,13 @@ button{
 
 }
 
-
 .dark .smalllink{
-
   color:#f0d9a7;
-
 }
 
 
 /* =========================================================
-   BUTTONS
+   BUTTON
 ========================================================= */
 
 .btn{
@@ -1286,7 +1106,6 @@ button{
 
 }
 
-
 .btn:hover{
 
   transform:
@@ -1296,7 +1115,6 @@ button{
     var(--gold);
 
 }
-
 
 .btn.primary{
 
@@ -1324,7 +1142,6 @@ button{
 
 }
 
-
 .business-card{
 
   position:relative;
@@ -1348,14 +1165,12 @@ button{
 
 }
 
-
 .business-card:nth-child(3),
 .business-card:nth-child(4){
 
   min-height:440px;
 
 }
-
 
 .business-card:nth-child(5){
 
@@ -1364,7 +1179,6 @@ button{
   min-height:520px;
 
 }
-
 
 .business-card img{
 
@@ -1385,14 +1199,9 @@ button{
 
 }
 
-
 .business-card:hover img{
-
-  transform:
-    scale(1.04);
-
+  transform:scale(1.04);
 }
-
 
 .business-card::after{
 
@@ -1413,7 +1222,6 @@ button{
 
 }
 
-
 .business-card .content{
 
   max-width:650px;
@@ -1423,7 +1231,6 @@ button{
   color:#fff;
 
 }
-
 
 .business-card h3{
 
@@ -1436,7 +1243,6 @@ button{
   line-height:.98;
 
 }
-
 
 .business-card p{
 
@@ -1463,7 +1269,6 @@ button{
 
 }
 
-
 .brief-content h3{
 
   margin:
@@ -1476,19 +1281,12 @@ button{
 
 }
 
-
 .brief-content p{
-
   max-width:560px;
-
 }
 
-
 .dark .brief-content p{
-
-  color:
-    var(--muted-light);
-
+  color:var(--muted-light);
 }
 
 
@@ -1506,7 +1304,6 @@ button{
   gap:12px;
 
 }
-
 
 .chip-card{
 
@@ -1530,7 +1327,6 @@ button{
 
 }
 
-
 .dark .chip-card{
 
   border-color:
@@ -1540,7 +1336,6 @@ button{
     rgba(255,255,255,.02);
 
 }
-
 
 .chip-card:hover{
 
@@ -1570,7 +1365,6 @@ button{
 
 }
 
-
 .flow-item{
 
   padding:26px;
@@ -1580,7 +1374,6 @@ button{
     rgba(15,25,35,.15);
 
 }
-
 
 .flow-item strong{
 
@@ -1612,7 +1405,6 @@ button{
 
 }
 
-
 .final-inner{
 
   display:flex;
@@ -1624,7 +1416,6 @@ button{
   gap:40px;
 
 }
-
 
 .final-cta h2{
 
@@ -1654,7 +1445,6 @@ button{
 
 }
 
-
 .footer-grid{
 
   display:grid;
@@ -1666,7 +1456,6 @@ button{
 
 }
 
-
 .footer-description{
 
   max-width:360px;
@@ -1674,7 +1463,6 @@ button{
   color:#8b969e;
 
 }
-
 
 .footer h4{
 
@@ -1691,7 +1479,6 @@ button{
 
 }
 
-
 .footer a{
 
   display:block;
@@ -1704,13 +1491,9 @@ button{
 
 }
 
-
 .footer a:hover{
-
   color:#fff;
-
 }
-
 
 .footer-bottom{
 
@@ -1736,7 +1519,7 @@ button{
 
 
 /* =========================================================
-   SEARCH DRAWER
+   SEARCH
 ========================================================= */
 
 .drawer{
@@ -1757,11 +1540,9 @@ button{
 
 }
 
-
 .drawer.open{
   display:block;
 }
-
 
 .drawer-panel{
 
@@ -1787,11 +1568,9 @@ button{
 
 }
 
-
 .drawer-close{
   float:right;
 }
-
 
 .drawer-panel h2{
 
@@ -1807,13 +1586,9 @@ button{
 
 }
 
-
 .search-box{
-
   margin-top:30px;
-
 }
-
 
 .search-box input{
 
@@ -1836,14 +1611,12 @@ button{
 
 }
 
-
 .search-box input::placeholder{
 
   color:
     rgba(255,255,255,.45);
 
 }
-
 
 .search-results{
 
@@ -1854,7 +1627,6 @@ button{
   margin-top:18px;
 
 }
-
 
 .result{
 
@@ -1872,7 +1644,6 @@ button{
 
 }
 
-
 .result:hover{
 
   border-color:
@@ -1880,11 +1651,9 @@ button{
 
 }
 
-
 .result strong{
   display:block;
 }
-
 
 .result small{
   color:#aeb8c0;
@@ -1909,7 +1678,6 @@ button{
 
 }
 
-
 label{
 
   display:block;
@@ -1921,7 +1689,6 @@ label{
   color:#51585e;
 
 }
-
 
 input,
 select,
@@ -1945,7 +1712,6 @@ textarea{
 
 }
 
-
 input:focus,
 select:focus,
 textarea:focus{
@@ -1955,7 +1721,6 @@ textarea:focus{
 
 }
 
-
 textarea{
 
   min-height:140px;
@@ -1963,7 +1728,6 @@ textarea{
   resize:vertical;
 
 }
-
 
 .submit-btn{
 
@@ -1982,7 +1746,6 @@ textarea{
   cursor:pointer;
 
 }
-
 
 .success{
 
@@ -2018,7 +1781,6 @@ textarea{
 
 }
 
-
 .reveal.visible{
 
   opacity:1;
@@ -2040,54 +1802,33 @@ textarea{
 
   }
 
-
-  .layered-orbit{
-
-    left:63%;
-
-    width:700px;
-
-  }
-
-
   .layered-wing{
 
-    width:210px;
+    width:190px;
 
   }
-
 
   .layered-wing.position-left{
 
-    --x:-240px;
+    --x:calc(-50vw + 115px);
 
   }
-
 
   .layered-wing.position-far-left{
 
-    --x:-120px;
+    --x:-27vw;
 
   }
-
 
   .layered-wing.position-right{
 
-    --x:120px;
+    --x:27vw;
 
   }
-
 
   .layered-wing.position-far-right{
 
-    --x:240px;
-
-  }
-
-
-  .layered-controls{
-
-    left:63%;
+    --x:calc(50vw - 115px);
 
   }
 
@@ -2107,7 +1848,6 @@ textarea{
 
   }
 
-
   .menu-btn{
 
     display:grid;
@@ -2115,7 +1855,6 @@ textarea{
     place-items:center;
 
   }
-
 
   .intro-grid,
   .brief,
@@ -2125,13 +1864,11 @@ textarea{
 
   }
 
-
   .business-grid{
 
     grid-template-columns:1fr;
 
   }
-
 
   .business-card,
   .business-card:nth-child(3),
@@ -2144,7 +1881,6 @@ textarea{
 
   }
 
-
   .category-grid,
   .footer-grid{
 
@@ -2153,7 +1889,6 @@ textarea{
 
   }
 
-
   .flow{
 
     grid-template-columns:
@@ -2161,12 +1896,11 @@ textarea{
 
   }
 
-
   .layered-branding{
 
     left:50%;
 
-    top:12%;
+    top:11%;
 
     transform:
       translateX(-50%);
@@ -2177,65 +1911,38 @@ textarea{
 
   }
 
-
   .layered-branding h1{
 
     font-size:
-      clamp(2.5rem,8vw,4.2rem);
+      clamp(2.5rem,8vw,4.1rem);
 
   }
-
 
   .layered-orbit{
 
-    top:68%;
-
-    left:50%;
-
-    width:620px;
+    top:67%;
 
     height:430px;
 
-    transform:
-      translate(-50%,-50%);
-
   }
-
-
-  .layered-controls{
-
-    left:50%;
-
-  }
-
-
-  .layered-scroll{
-
-    display:none;
-
-  }
-
 
   .layered-wing{
 
-    width:190px;
+    width:175px;
 
   }
-
 
   .layered-wing-visual{
 
-    height:180px;
+    height:175px;
 
   }
-
 
   .layered-wing-visual img{
 
-    max-height:180px;
+    max-height:175px;
 
   }
-
 
   .layered-wing.is-active{
 
@@ -2243,39 +1950,35 @@ textarea{
 
   }
 
-
   .layered-wing.position-left{
 
-    --x:-205px;
+    --x:calc(-50vw + 100px);
 
-    --y:-24px;
+    --y:-25px;
 
   }
-
 
   .layered-wing.position-far-left{
 
-    --x:-100px;
+    --x:-25vw;
 
-    --y:36px;
+    --y:32px;
 
   }
-
 
   .layered-wing.position-right{
 
-    --x:100px;
+    --x:25vw;
 
-    --y:36px;
+    --y:32px;
 
   }
 
-
   .layered-wing.position-far-right{
 
-    --x:205px;
+    --x:calc(50vw - 100px);
 
-    --y:-24px;
+    --y:-25px;
 
   }
 
@@ -2294,13 +1997,11 @@ textarea{
 
   }
 
-
   .section.tight{
 
     padding:70px 0;
 
   }
-
 
   .section-head{
 
@@ -2310,7 +2011,6 @@ textarea{
 
   }
 
-
   .category-grid,
   .footer-grid,
   .flow{
@@ -2319,22 +2019,19 @@ textarea{
 
   }
 
-
   .layered-hero{
 
     min-height:100svh;
 
   }
 
-
   .layered-branding{
 
-    top:8%;
+    top:7%;
 
     width:90%;
 
   }
-
 
   .layered-brand-name{
 
@@ -2342,126 +2039,112 @@ textarea{
 
   }
 
-
   .layered-brand-tagline{
 
     font-size:.84rem;
 
   }
 
-
   .layered-branding h1{
 
     font-size:
-      clamp(2.15rem,11vw,3.45rem);
+      clamp(2.15rem,11vw,3.4rem);
 
   }
-
 
   .layered-orbit{
 
     top:68%;
 
-    width:360px;
+    width:100vw;
 
     height:310px;
 
   }
 
-
   .layered-wing{
 
-    width:150px;
+    width:135px;
 
   }
-
 
   .layered-wing-visual{
 
-    height:150px;
+    height:140px;
 
   }
-
 
   .layered-wing-visual img{
 
-    max-height:150px;
+    max-height:140px;
 
   }
-
 
   .layered-wing-title{
 
-    max-width:150px;
+    max-width:140px;
 
-    white-space:normal;
+    font-size:.54rem;
 
-    font-size:.57rem;
-
-    letter-spacing:.065em;
+    letter-spacing:.06em;
 
   }
-
 
   .layered-wing.is-active{
 
-    --y:82px;
+    --x:0px;
 
-    --scale:.77;
+    --y:78px;
+
+    --scale:.76;
 
   }
-
 
   .layered-wing.position-left{
 
-    --x:-112px;
+    --x:calc(-50vw + 78px);
 
-    --y:-22px;
+    --y:-15px;
 
     --scale:.55;
 
   }
-
 
   .layered-wing.position-far-left{
 
-    --x:-57px;
+    --x:-29vw;
 
-    --y:27px;
+    --y:26px;
 
-    --scale:.64;
+    --scale:.63;
 
   }
-
 
   .layered-wing.position-right{
 
-    --x:57px;
+    --x:29vw;
 
-    --y:27px;
+    --y:26px;
 
-    --scale:.64;
+    --scale:.63;
 
   }
 
-
   .layered-wing.position-far-right{
 
-    --x:112px;
+    --x:calc(50vw - 78px);
 
-    --y:-22px;
+    --y:-15px;
 
     --scale:.55;
 
   }
 
-
   .layered-controls{
 
-    bottom:14px;
+    bottom:13px;
 
   }
-
 
   .layered-control{
 
@@ -2471,20 +2154,17 @@ textarea{
 
   }
 
-
   .layered-dot{
 
     width:16px;
 
   }
 
-
   .layered-dot.active{
 
     width:31px;
 
   }
-
 
   .final-inner{
 
@@ -2496,20 +2176,17 @@ textarea{
 
   }
 
-
   .drawer-panel{
 
     padding:26px;
 
   }
 
-
   .drawer-panel h2{
 
     font-size:2.5rem;
 
   }
-
 
   .mobile-menu a{
 
@@ -2531,8 +2208,6 @@ textarea{
   *::after{
 
     scroll-behavior:auto !important;
-
-    animation:none !important;
 
     transition:none !important;
 
