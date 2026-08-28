@@ -14,7 +14,10 @@
   --paper:#f3f0ea;
   --muted:#6f777e;
   --muted-light:#aeb8c0;
+
   --gold:#c9a15b;
+  --gold-light:#f2d28e;
+
   --white:#f8f8f6;
 
   --serif:
@@ -49,14 +52,11 @@ body{
 
   margin:0;
 
-  background:
-    var(--paper);
+  background:var(--paper);
 
-  color:
-    var(--ink);
+  color:var(--ink);
 
-  font-family:
-    var(--sans);
+  font-family:var(--sans);
 
   line-height:1.6;
 
@@ -99,7 +99,7 @@ button{
 
 
 /* =========================================================
-   TYPE
+   TYPOGRAPHY
 ========================================================= */
 
 .eyebrow{
@@ -155,14 +155,13 @@ button{
   padding:12px 0;
 
   background:
-    rgba(7,14,22,.76);
+    rgba(7,14,22,.78);
 
   backdrop-filter:
     blur(16px);
 
   box-shadow:
-    0 8px 30px
-    rgba(0,0,0,.15);
+    0 8px 30px rgba(0,0,0,.15);
 
 }
 
@@ -198,15 +197,16 @@ button{
 
   gap:28px;
 
-  color:
-    rgba(255,255,255,.82);
+  color:rgba(255,255,255,.82);
 
   font-size:.92rem;
 
 }
 
 .navlinks a{
+
   position:relative;
+
 }
 
 .navlinks a::after{
@@ -223,8 +223,7 @@ button{
 
   height:1px;
 
-  background:
-    var(--gold);
+  background:var(--gold);
 
   transition:right .25s ease;
 
@@ -351,8 +350,7 @@ button{
     1px solid
     rgba(255,255,255,.1);
 
-  font-family:
-    var(--serif);
+  font-family:var(--serif);
 
   font-size:2rem;
 
@@ -413,7 +411,11 @@ button{
 
 
 /* =========================================================
-   BACKGROUND
+   CLEAN BACKGROUND
+
+   IMPORTANT:
+   hero-background.png must be the clean background.
+   It should NOT contain the old MADHYUM text block.
 ========================================================= */
 
 .layered-hero-background{
@@ -435,6 +437,11 @@ button{
 
 }
 
+
+/* =========================================================
+   VERY LIGHT BACKGROUND PROTECTION
+========================================================= */
+
 .layered-hero::after{
 
   content:"";
@@ -450,99 +457,338 @@ button{
   background:
     linear-gradient(
       90deg,
-      rgba(3,9,15,.08),
-      rgba(3,9,15,.015) 50%,
-      rgba(3,9,15,.08)
+      rgba(2,8,14,.06),
+      rgba(2,8,14,.015) 50%,
+      rgba(2,8,14,.06)
     );
 
 }
 
 
 /* =========================================================
-   HERO BRAND
+   CENTER TOP BRANDING
 ========================================================= */
 
-.layered-branding{
+.hero-brand-lockup{
 
   position:absolute;
 
-  left:5vw;
+  top:3.4%;
 
-  top:43%;
+  left:50%;
 
   transform:
-    translateY(-50%);
+    translateX(-50%);
 
-  width:min(360px,28vw);
+  width:
+    min(720px,70vw);
 
-  z-index:40;
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:flex-start;
+
+  text-align:center;
+
+  z-index:60;
 
   pointer-events:none;
 
 }
 
-.layered-brand-name{
 
-  font-size:.82rem;
+/* =========================================================
+   M / LOGO MARK
+
+   This is a clean independent mark.
+   No background image required.
+========================================================= */
+
+.hero-logo-mark{
+
+  width:88px;
+
+  height:82px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  position:relative;
+
+  margin-bottom:2px;
+
+  color:#f5c866;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:78px;
+
+  line-height:1;
 
   font-weight:700;
 
-  letter-spacing:.28em;
+  letter-spacing:-.12em;
 
-  margin-bottom:8px;
-
-}
-
-.layered-brand-tagline{
-
-  margin-bottom:18px;
-
-  color:#efd8a6;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:1rem;
-
-  font-style:italic;
+  text-shadow:
+    0 3px 18px
+    rgba(0,0,0,.42);
 
 }
 
-.layered-branding h1{
 
-  margin:0;
+/* subtle gold underline for logo */
 
-  font-size:
-    clamp(2.6rem,4.5vw,5.2rem);
+.hero-logo-mark::after{
 
-  line-height:.94;
+  content:"";
 
-  font-weight:600;
+  position:absolute;
 
-  letter-spacing:-.035em;
+  left:16px;
 
-}
+  right:16px;
 
-.layered-branding h1 span{
+  bottom:4px;
 
-  display:block;
+  height:2px;
 
-  color:#efd8a6;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #dcae42,
+      transparent
+    );
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-style:italic;
+  opacity:.8;
 
 }
 
 
 /* =========================================================
-   FULL SCREEN ORBIT
+   BRAND NAME
+========================================================= */
+
+.hero-brand-name{
+
+  margin-top:0;
+
+  color:#f5d58c;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(2.8rem,4.4vw,4.7rem);
+
+  line-height:.88;
+
+  font-weight:700;
+
+  letter-spacing:.14em;
+
+  text-transform:uppercase;
+
+  text-shadow:
+    0 4px 20px
+    rgba(0,0,0,.45);
+
+}
+
+
+/* =========================================================
+   GROUP
+========================================================= */
+
+.hero-brand-group{
+
+  margin-top:4px;
+
+  color:#efc15f;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(1.05rem,1.6vw,1.55rem);
+
+  font-weight:700;
+
+  letter-spacing:.55em;
+
+  line-height:1;
+
+}
+
+
+/* =========================================================
+   GOLD LINE
+========================================================= */
+
+.hero-brand-line{
+
+  width:
+    min(510px,55vw);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  margin:
+    10px 0 7px;
+
+}
+
+
+.hero-brand-line::before,
+.hero-brand-line::after{
+
+  content:"";
+
+  height:2px;
+
+  flex:1;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(225,177,74,.9)
+    );
+
+}
+
+
+.hero-brand-line::after{
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(225,177,74,.9),
+      transparent
+    );
+
+}
+
+
+.hero-brand-line span{
+
+  width:9px;
+
+  height:9px;
+
+  margin:
+    0 10px;
+
+  border-radius:50%;
+
+  background:#f3c35d;
+
+  box-shadow:
+    0 0 16px
+    rgba(243,195,93,.75);
+
+}
+
+
+/* =========================================================
+   TAGLINE
+========================================================= */
+
+.hero-brand-tagline{
+
+  color:#f0d295;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(.92rem,1.55vw,1.35rem);
+
+  font-style:italic;
+
+  font-weight:500;
+
+  line-height:1.1;
+
+  letter-spacing:.01em;
+
+  text-shadow:
+    0 3px 12px
+    rgba(0,0,0,.42);
+
+}
+
+
+/* =========================================================
+   MAIN STATEMENT
+========================================================= */
+
+.hero-brand-statement{
+
+  display:flex;
+
+  align-items:baseline;
+
+  justify-content:center;
+
+  gap:.22em;
+
+  margin-top:15px;
+
+  white-space:nowrap;
+
+  color:#fff;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(2rem,3.6vw,4rem);
+
+  line-height:.95;
+
+  font-weight:500;
+
+  text-shadow:
+    0 4px 20px
+    rgba(0,0,0,.48);
+
+}
+
+
+.hero-brand-statement em{
+
+  color:#eec66d;
+
+  font-style:italic;
+
+  font-weight:500;
+
+}
+
+
+/* =========================================================
+   FULL-WIDTH ORBIT
 ========================================================= */
 
 .layered-orbit{
@@ -551,11 +797,11 @@ button{
 
   left:50%;
 
-  top:58%;
+  top:65%;
 
   width:100vw;
 
-  height:550px;
+  height:500px;
 
   transform:
     translate(-50%,-50%);
@@ -568,29 +814,36 @@ button{
 
 
 /* =========================================================
-   WINGS
+   WING
 ========================================================= */
 
 .layered-wing{
 
   --x:0px;
+
   --y:0px;
+
   --scale:1;
+
   --opacity:1;
+
   --depth:10;
 
   position:absolute;
 
   left:50%;
+
   top:50%;
 
-  width:220px;
+  width:230px;
 
   display:flex;
 
   flex-direction:column;
 
   align-items:center;
+
+  justify-content:flex-start;
 
   text-align:center;
 
@@ -625,8 +878,7 @@ button{
     1.15s
     cubic-bezier(.22,.61,.36,1),
 
-    opacity
-    .8s ease;
+    opacity .8s ease;
 
   will-change:
     transform,
@@ -636,14 +888,14 @@ button{
 
 
 /* =========================================================
-   VISUAL
+   WING VISUAL
 ========================================================= */
 
 .layered-wing-visual{
 
   width:100%;
 
-  height:190px;
+  height:200px;
 
   display:flex;
 
@@ -653,6 +905,7 @@ button{
 
 }
 
+
 .layered-wing-visual img{
 
   width:auto;
@@ -661,7 +914,7 @@ button{
 
   max-width:100%;
 
-  max-height:190px;
+  max-height:200px;
 
   object-fit:contain;
 
@@ -673,7 +926,7 @@ button{
 
   filter:
     drop-shadow(
-      0 24px 30px
+      0 22px 28px
       rgba(0,0,0,.42)
     );
 
@@ -682,6 +935,7 @@ button{
     filter .4s ease;
 
 }
+
 
 .layered-wing:hover
 .layered-wing-visual img{
@@ -693,14 +947,14 @@ button{
   filter:
     drop-shadow(
       0 30px 38px
-      rgba(0,0,0,.50)
+      rgba(0,0,0,.48)
     );
 
 }
 
 
 /* =========================================================
-   TITLE
+   WING TITLE
 ========================================================= */
 
 .layered-wing-title{
@@ -710,13 +964,15 @@ button{
   padding:
     7px 12px;
 
-  max-width:220px;
+  max-width:230px;
 
-  font-size:.70rem;
+  color:#fff;
 
-  line-height:1.3;
+  font-size:.71rem;
 
   font-weight:600;
+
+  line-height:1.3;
 
   letter-spacing:.10em;
 
@@ -724,11 +980,9 @@ button{
 
   text-align:center;
 
-  color:#fff;
-
   text-shadow:
     0 2px 12px
-    rgba(0,0,0,.65);
+    rgba(0,0,0,.68);
 
   border-bottom:
     1px solid
@@ -738,21 +992,29 @@ button{
 
 
 /* =========================================================
-   C-SHAPE SLOTS
+   C-ORBIT POSITIONS
+
+   SLOT ORDER:
+
+   0 = LEFT
+   1 = LOWER LEFT
+   2 = BOTTOM CENTER
+   3 = LOWER RIGHT
+   4 = RIGHT
+
+   This is the exact structure requested.
 ========================================================= */
 
-/*
-   LEFT
-   Real Estate
-*/
+
+/* REAL ESTATE — LEFT */
 
 .layered-wing.position-left{
 
-  --x:calc(-50vw + 135px);
+  --x:calc(-50vw + 105px);
 
-  --y:-95px;
+  --y:-15px;
 
-  --scale:.92;
+  --scale:.90;
 
   --opacity:1;
 
@@ -761,16 +1023,13 @@ button{
 }
 
 
-/*
-   LOWER LEFT
-   Travel
-*/
+/* TRAVEL — LOWER LEFT */
 
 .layered-wing.position-far-left{
 
-  --x:-26vw;
+  --x:-25vw;
 
-  --y:62px;
+  --y:75px;
 
   --scale:.94;
 
@@ -781,18 +1040,15 @@ button{
 }
 
 
-/*
-   BOTTOM CENTER
-   Education
-*/
+/* EDUCATION — BOTTOM CENTER */
 
 .layered-wing.is-active{
 
   --x:0px;
 
-  --y:175px;
+  --y:185px;
 
-  --scale:1.04;
+  --scale:1.06;
 
   --opacity:1;
 
@@ -801,16 +1057,13 @@ button{
 }
 
 
-/*
-   LOWER RIGHT
-   Consultancy
-*/
+/* CONSULTANCY — LOWER RIGHT */
 
 .layered-wing.position-right{
 
-  --x:26vw;
+  --x:25vw;
 
-  --y:62px;
+  --y:75px;
 
   --scale:.94;
 
@@ -821,18 +1074,15 @@ button{
 }
 
 
-/*
-   RIGHT
-   Events
-*/
+/* EVENTS — RIGHT */
 
 .layered-wing.position-far-right{
 
-  --x:calc(50vw - 135px);
+  --x:calc(50vw - 105px);
 
-  --y:-95px;
+  --y:-15px;
 
-  --scale:.92;
+  --scale:.90;
 
   --opacity:1;
 
@@ -851,12 +1101,12 @@ button{
 
   left:50%;
 
-  bottom:20px;
+  bottom:19px;
 
   transform:
     translateX(-50%);
 
-  z-index:60;
+  z-index:70;
 
   display:flex;
 
@@ -865,6 +1115,7 @@ button{
   gap:13px;
 
 }
+
 
 .layered-control{
 
@@ -883,7 +1134,7 @@ button{
     rgba(255,255,255,.30);
 
   background:
-    rgba(4,12,20,.36);
+    rgba(4,12,20,.35);
 
   backdrop-filter:
     blur(10px);
@@ -894,13 +1145,11 @@ button{
 
 }
 
+
 .layered-control:hover{
 
   border-color:
     var(--gold);
-
-  background:
-    rgba(201,161,91,.10);
 
 }
 
@@ -918,6 +1167,7 @@ button{
   gap:6px;
 
 }
+
 
 .layered-dot{
 
@@ -942,6 +1192,7 @@ button{
 
 }
 
+
 .layered-dot.active{
 
   width:42px;
@@ -953,11 +1204,13 @@ button{
 
 
 /* =========================================================
-   SECTIONS
+   GENERAL SECTIONS
 ========================================================= */
 
 .section{
+
   padding:110px 0;
+
 }
 
 .section.dark{
@@ -970,7 +1223,10 @@ button{
 }
 
 .section.tight{
-  padding:84px 0;
+
+  padding:
+    84px 0;
+
 }
 
 .section-head{
@@ -1073,12 +1329,14 @@ button{
 }
 
 .dark .smalllink{
+
   color:#f0d9a7;
+
 }
 
 
 /* =========================================================
-   BUTTON
+   BUTTONS
 ========================================================= */
 
 .btn{
@@ -1200,7 +1458,9 @@ button{
 }
 
 .business-card:hover img{
+
   transform:scale(1.04);
+
 }
 
 .business-card::after{
@@ -1282,11 +1542,16 @@ button{
 }
 
 .brief-content p{
+
   max-width:560px;
+
 }
 
 .dark .brief-content p{
-  color:var(--muted-light);
+
+  color:
+    var(--muted-light);
+
 }
 
 
@@ -1587,7 +1852,9 @@ button{
 }
 
 .search-box{
+
   margin-top:30px;
+
 }
 
 .search-box input{
@@ -1661,7 +1928,7 @@ button{
 
 
 /* =========================================================
-   FORMS
+   FORM
 ========================================================= */
 
 .form-wrap{
@@ -1796,39 +2063,57 @@ textarea{
 
 @media(max-width:1100px){
 
-  .layered-branding{
+  .hero-brand-lockup{
 
-    width:300px;
+    width:78vw;
+
+  }
+
+  .hero-brand-name{
+
+    font-size:3.7rem;
 
   }
 
   .layered-wing{
 
-    width:190px;
+    width:195px;
+
+  }
+
+  .layered-wing-visual{
+
+    height:175px;
+
+  }
+
+  .layered-wing-visual img{
+
+    max-height:175px;
 
   }
 
   .layered-wing.position-left{
 
-    --x:calc(-50vw + 115px);
+    --x:calc(-50vw + 92px);
 
   }
 
   .layered-wing.position-far-left{
 
-    --x:-27vw;
+    --x:-25vw;
 
   }
 
   .layered-wing.position-right{
 
-    --x:27vw;
+    --x:25vw;
 
   }
 
   .layered-wing.position-far-right{
 
-    --x:calc(50vw - 115px);
+    --x:calc(50vw - 92px);
 
   }
 
@@ -1836,7 +2121,7 @@ textarea{
 
 
 /* =========================================================
-   960px
+   960
 ========================================================= */
 
 @media(max-width:960px){
@@ -1896,65 +2181,93 @@ textarea{
 
   }
 
-  .layered-branding{
 
-    left:50%;
+  /* HERO BRANDING */
 
-    top:11%;
+  .hero-brand-lockup{
 
-    transform:
-      translateX(-50%);
+    top:3.5%;
 
-    width:88%;
-
-    text-align:center;
+    width:92%;
 
   }
 
-  .layered-branding h1{
+  .hero-logo-mark{
+
+    width:70px;
+
+    height:65px;
+
+    font-size:62px;
+
+  }
+
+  .hero-brand-name{
 
     font-size:
-      clamp(2.5rem,8vw,4.1rem);
+      clamp(2.4rem,7vw,3.6rem);
 
   }
+
+  .hero-brand-group{
+
+    font-size:1rem;
+
+  }
+
+  .hero-brand-tagline{
+
+    font-size:.92rem;
+
+  }
+
+  .hero-brand-statement{
+
+    font-size:
+      clamp(1.75rem,5vw,3rem);
+
+  }
+
+
+  /* FULL SCREEN ORBIT */
 
   .layered-orbit{
 
-    top:67%;
+    top:69%;
 
-    height:430px;
+    height:420px;
 
   }
 
   .layered-wing{
 
-    width:175px;
+    width:170px;
 
   }
 
   .layered-wing-visual{
 
-    height:175px;
+    height:165px;
 
   }
 
   .layered-wing-visual img{
 
-    max-height:175px;
+    max-height:165px;
 
   }
 
   .layered-wing.is-active{
 
-    --y:112px;
+    --y:125px;
 
   }
 
   .layered-wing.position-left{
 
-    --x:calc(-50vw + 100px);
+    --x:calc(-50vw + 82px);
 
-    --y:-25px;
+    --y:-20px;
 
   }
 
@@ -1962,7 +2275,7 @@ textarea{
 
     --x:-25vw;
 
-    --y:32px;
+    --y:38px;
 
   }
 
@@ -1970,15 +2283,15 @@ textarea{
 
     --x:25vw;
 
-    --y:32px;
+    --y:38px;
 
   }
 
   .layered-wing.position-far-right{
 
-    --x:calc(50vw - 100px);
+    --x:calc(50vw - 82px);
 
-    --y:-25px;
+    --y:-20px;
 
   }
 
@@ -2003,14 +2316,6 @@ textarea{
 
   }
 
-  .section-head{
-
-    gap:16px;
-
-    margin-bottom:30px;
-
-  }
-
   .category-grid,
   .footer-grid,
   .flow{
@@ -2019,42 +2324,76 @@ textarea{
 
   }
 
-  .layered-hero{
 
-    min-height:100svh;
+  /* BRANDING */
 
-  }
+  .hero-brand-lockup{
 
-  .layered-branding{
+    top:2.5%;
 
-    top:7%;
-
-    width:90%;
+    width:96%;
 
   }
 
-  .layered-brand-name{
+  .hero-logo-mark{
 
-    font-size:.70rem;
+    width:54px;
 
-  }
+    height:53px;
 
-  .layered-brand-tagline{
-
-    font-size:.84rem;
+    font-size:49px;
 
   }
 
-  .layered-branding h1{
+  .hero-brand-name{
 
     font-size:
-      clamp(2.15rem,11vw,3.4rem);
+      clamp(2rem,9vw,2.8rem);
+
+    letter-spacing:.10em;
 
   }
+
+  .hero-brand-group{
+
+    font-size:.78rem;
+
+    letter-spacing:.40em;
+
+  }
+
+  .hero-brand-line{
+
+    width:76%;
+
+    margin:
+      7px 0 5px;
+
+  }
+
+  .hero-brand-tagline{
+
+    font-size:.76rem;
+
+  }
+
+  .hero-brand-statement{
+
+    margin-top:10px;
+
+    font-size:
+      clamp(1.35rem,7vw,2rem);
+
+    gap:.18em;
+
+  }
+
+
+  /* ORBIT */
 
   .layered-orbit{
 
-    top:68%;
+    top:70%;
 
     width:100vw;
 
@@ -2070,41 +2409,31 @@ textarea{
 
   .layered-wing-visual{
 
-    height:140px;
+    height:135px;
 
   }
 
   .layered-wing-visual img{
 
-    max-height:140px;
+    max-height:135px;
 
   }
 
   .layered-wing-title{
 
-    max-width:140px;
+    max-width:135px;
 
-    font-size:.54rem;
+    font-size:.53rem;
 
-    letter-spacing:.06em;
-
-  }
-
-  .layered-wing.is-active{
-
-    --x:0px;
-
-    --y:78px;
-
-    --scale:.76;
+    letter-spacing:.055em;
 
   }
 
   .layered-wing.position-left{
 
-    --x:calc(-50vw + 78px);
+    --x:calc(-50vw + 72px);
 
-    --y:-15px;
+    --y:-14px;
 
     --scale:.55;
 
@@ -2112,19 +2441,29 @@ textarea{
 
   .layered-wing.position-far-left{
 
-    --x:-29vw;
+    --x:-28vw;
 
-    --y:26px;
+    --y:25px;
 
     --scale:.63;
 
   }
 
+  .layered-wing.is-active{
+
+    --x:0px;
+
+    --y:82px;
+
+    --scale:.75;
+
+  }
+
   .layered-wing.position-right{
 
-    --x:29vw;
+    --x:28vw;
 
-    --y:26px;
+    --y:25px;
 
     --scale:.63;
 
@@ -2132,9 +2471,9 @@ textarea{
 
   .layered-wing.position-far-right{
 
-    --x:calc(50vw - 78px);
+    --x:calc(50vw - 72px);
 
-    --y:-15px;
+    --y:-14px;
 
     --scale:.55;
 
@@ -2142,7 +2481,7 @@ textarea{
 
   .layered-controls{
 
-    bottom:13px;
+    bottom:12px;
 
   }
 
