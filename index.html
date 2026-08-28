@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,11 +10,13 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>MADHYUM GROUP — Your Dreams R Network.</title>
+  <title>
+    MADHYUM GROUP — Your Dreams R Network.
+  </title>
 
   <meta
     name="description"
-    content="MADHYUM is a membership-led multi-service network across Real Estate, Travel, Education & Admissions, Consultancy & Business Services, and Events & Weddings."
+    content="MADHYUM is a premium multi-service network across Real Estate, Travel, Education & Admissions, Consultancy & Business Services, and Events & Weddings."
   >
 
   <link
@@ -37,14 +38,20 @@
 
     <div class="container nav">
 
-      <a href="index.html" class="brand">
+      <a
+        href="index.html"
+        class="brand"
+      >
         MADHYUM
       </a>
 
 
       <nav class="navlinks">
 
-        <a href="#business" data-scroll>
+        <a
+          href="#business"
+          data-scroll
+        >
           Business
         </a>
 
@@ -52,7 +59,10 @@
           About MADHYUM
         </a>
 
-        <a href="#community" data-scroll>
+        <a
+          href="#community"
+          data-scroll
+        >
           Community
         </a>
 
@@ -74,12 +84,14 @@
           ⌕
         </button>
 
+
         <a
           class="contact-pill"
           href="contact.html"
         >
           Contact Us
         </a>
+
 
         <button
           class="menu-btn"
@@ -107,25 +119,39 @@
       class="mobile-close"
       type="button"
       data-close-mobile
+      aria-label="Close menu"
     >
       ×
     </button>
 
-    <a href="#business" data-scroll data-close-mobile>
+
+    <a
+      href="#business"
+      data-scroll
+      data-close-mobile
+    >
       Business
     </a>
 
+
     <a href="about.html">
-      About MADHYAM
+      About MADHYUM
     </a>
 
-    <a href="#community" data-scroll data-close-mobile>
+
+    <a
+      href="#community"
+      data-scroll
+      data-close-mobile
+    >
       Community
     </a>
+
 
     <a href="membership.html">
       Membership
     </a>
+
 
     <a href="contact.html">
       Contact
@@ -136,57 +162,55 @@
 
 
   <!-- =====================================================
-       HERO — FINAL MADHYAM NETWORK STRUCTURE
+       HERO
+       
+       IMPORTANT:
+       Background image:
+       hero-background.png
+
+       It must be in the SAME root folder
+       as index.html.
   ====================================================== -->
 
-  <section class="network-hero" id="hero">
+  <section
+    class="layered-hero"
+    id="hero"
+  >
 
 
-    <!-- BACKGROUND IMAGE -->
+    <!-- FIXED BACKGROUND -->
 
-    <div class="hero-background"></div>
-
-
-    <!-- DARK / SOFT OVERLAY -->
-
-    <div class="hero-overlay"></div>
-
-
-    <!-- =================================================
-         FIXED BACK GLOBE
-    ================================================== -->
-
-    <div class="globe-wrapper">
-
-      <div class="globe">
-
-        <div class="globe-grid"></div>
-
-        <div class="globe-shine"></div>
-
-      </div>
-
-    </div>
+    <div
+      class="layered-hero-background"
+      aria-hidden="true"
+    ></div>
 
 
 
     <!-- =================================================
-         CENTER BRAND
+         BRANDING
     ================================================== -->
 
-    <div class="brand-center">
+    <div class="layered-branding">
 
-      <div class="brand-small">
-        MADHYAM
+      <div class="layered-brand-name">
+        MADHYUM
       </div>
 
-      <div class="brand-tagline">
+
+      <div class="layered-brand-tagline">
         Ek Bharosemand Zariya
       </div>
 
+
       <h1>
+
         Your Dreams
-        <span>R Network.</span>
+
+        <span>
+          R Network.
+        </span>
+
       </h1>
 
     </div>
@@ -194,172 +218,211 @@
 
 
     <!-- =================================================
-         REAL ESTATE
+         FIVE MOVING BUSINESS GROUPS
     ================================================== -->
 
-    <a
-      href="real-estate.html"
-      class="network-wing real-estate"
+    <div
+      class="layered-orbit"
+      id="layeredOrbit"
     >
 
-      <div class="wing-dot"></div>
 
-      <div class="wing-text">
+      <!-- ===============================================
+           REAL ESTATE
+      ================================================ -->
 
-        <span class="wing-number">
-          01
-        </span>
+      <a
+        class="layered-wing"
+        href="real-estate.html"
+        data-wing="0"
+        aria-label="Real Estate"
+      >
 
-        <h2>
+        <div class="layered-wing-visual">
+
+          <img
+            src="real-estate.png"
+            alt="Real Estate"
+          >
+
+        </div>
+
+
+        <div class="layered-wing-title">
           REAL ESTATE
-        </h2>
+        </div>
 
-        <p>
-          Properties • Investments • Opportunities
-        </p>
-
-      </div>
-
-    </a>
+      </a>
 
 
 
-    <!-- =================================================
-         EVENTS
-    ================================================== -->
+      <!-- ===============================================
+           TRAVEL
+      ================================================ -->
 
-    <a
-      href="events.html"
-      class="network-wing events"
-    >
+      <a
+        class="layered-wing"
+        href="travel.html"
+        data-wing="1"
+        aria-label="Travel"
+      >
 
-      <div class="wing-dot"></div>
+        <div class="layered-wing-visual">
 
-      <div class="wing-text">
+          <img
+            src="travel.png"
+            alt="Travel"
+          >
 
-        <span class="wing-number">
-          05
-        </span>
-
-        <h2>
-          EVENTS
-        </h2>
-
-        <p>
-          Weddings • Events • Celebrations
-        </p>
-
-      </div>
-
-    </a>
+        </div>
 
 
-
-    <!-- =================================================
-         TRAVEL
-    ================================================== -->
-
-    <a
-      href="travel.html"
-      class="network-wing travel"
-    >
-
-      <div class="wing-dot"></div>
-
-      <div class="wing-text">
-
-        <span class="wing-number">
-          02
-        </span>
-
-        <h2>
+        <div class="layered-wing-title">
           TRAVEL
-        </h2>
+        </div>
 
-        <p>
-          Domestic • International • Experiences
-        </p>
-
-      </div>
-
-    </a>
+      </a>
 
 
 
-    <!-- =================================================
-         CONSULTANCY
-    ================================================== -->
+      <!-- ===============================================
+           EDUCATION
+      ================================================ -->
 
-    <a
-      href="consultancy.html"
-      class="network-wing consultancy"
-    >
+      <a
+        class="layered-wing"
+        href="education.html"
+        data-wing="2"
+        aria-label="Education and Admissions"
+      >
 
-      <div class="wing-dot"></div>
+        <div class="layered-wing-visual">
 
-      <div class="wing-text">
+          <img
+            src="education.png"
+            alt="Education and Admissions"
+          >
 
-        <span class="wing-number">
-          04
-        </span>
+        </div>
 
-        <h2>
-          CONSULTANCY
-        </h2>
 
-        <p>
-          Business • Professional • Advisory
-        </p>
+        <div class="layered-wing-title">
+          EDUCATION &amp; ADMISSIONS
+        </div>
 
-      </div>
-
-    </a>
+      </a>
 
 
 
-    <!-- =================================================
-         EDUCATION
-    ================================================== -->
+      <!-- ===============================================
+           CONSULTANCY
+      ================================================ -->
 
-    <a
-      href="education.html"
-      class="network-wing education"
-    >
+      <a
+        class="layered-wing"
+        href="consultancy.html"
+        data-wing="3"
+        aria-label="Consultancy and Business Services"
+      >
 
-      <div class="wing-dot"></div>
+        <div class="layered-wing-visual">
 
-      <div class="wing-text">
+          <img
+            src="consultancy.png"
+            alt="Consultancy and Business Services"
+          >
 
-        <span class="wing-number">
-          03
-        </span>
+        </div>
 
-        <h2>
-          EDUCATION
-        </h2>
 
-        <p>
-          Admissions • Guidance • Opportunities
-        </p>
+        <div class="layered-wing-title">
+          CONSULTANCY &amp; BUSINESS SERVICES
+        </div>
 
-      </div>
-
-    </a>
+      </a>
 
 
 
-    <!-- =================================================
-         SCROLL
-    ================================================== -->
+      <!-- ===============================================
+           EVENTS
+      ================================================ -->
 
-    <div class="hero-scroll">
+      <a
+        class="layered-wing"
+        href="events.html"
+        data-wing="4"
+        aria-label="Events and Weddings"
+      >
 
-      SCROLL TO EXPLORE
+        <div class="layered-wing-visual">
 
-      <span>↓</span>
+          <img
+            src="events.png"
+            alt="Events and Weddings"
+          >
+
+        </div>
+
+
+        <div class="layered-wing-title">
+          EVENTS &amp; WEDDINGS
+        </div>
+
+      </a>
 
     </div>
 
+
+
+    <!-- =================================================
+         CAROUSEL CONTROLS
+    ================================================== -->
+
+    <div
+      class="layered-controls"
+      aria-label="Business navigation"
+    >
+
+      <button
+        id="layeredPrev"
+        class="layered-control"
+        type="button"
+        aria-label="Previous business"
+      >
+        ←
+      </button>
+
+
+      <div
+        id="layeredDots"
+        class="layered-dots"
+      ></div>
+
+
+      <button
+        id="layeredNext"
+        class="layered-control"
+        type="button"
+        aria-label="Next business"
+      >
+        →
+      </button>
+
+    </div>
+
+
+
+    <!-- SCROLL INDICATOR -->
+
+    <div class="layered-scroll">
+
+      SCROLL TO EXPLORE
+
+      <span>
+        ↓
+      </span>
+
+    </div>
 
   </section>
 
@@ -376,7 +439,7 @@
       <div class="reveal">
 
         <div class="eyebrow">
-          01 / MADHYAM
+          01 / MADHYUM
         </div>
 
         <h2>
@@ -390,24 +453,30 @@
       <div class="reveal">
 
         <p class="lead">
-          MADHYAM is a membership-led
+
+          MADHYUM is a membership-led
           multi-service network. We connect
           people and their aspirations with
           relevant businesses, opportunities,
           professionals and service providers.
+
         </p>
 
+
         <p class="muted">
+
           The journey can begin with one dream —
           and open the door to the right
           possibilities across our network.
+
         </p>
+
 
         <a
           class="smalllink"
           href="about.html"
         >
-          Discover MADHYAM →
+          Discover MADHYUM →
         </a>
 
       </div>
@@ -419,7 +488,7 @@
 
 
   <!-- =====================================================
-       BUSINESS
+       BUSINESS SECTION
   ====================================================== -->
 
   <section
@@ -428,6 +497,7 @@
   >
 
     <div class="container">
+
 
       <div class="section-head reveal">
 
@@ -443,22 +513,27 @@
 
         </div>
 
+
         <p>
           Five focused areas across one
-          connected MADHYAM experience.
+          connected MADHYUM experience.
         </p>
 
       </div>
 
 
+
       <div class="business-grid">
 
+
+        <!-- REAL ESTATE -->
 
         <article class="business-card reveal">
 
           <img
             src="real-estate.png"
             alt="Real Estate"
+            loading="lazy"
           >
 
           <div class="content">
@@ -492,11 +567,14 @@
 
 
 
+        <!-- TRAVEL -->
+
         <article class="business-card reveal">
 
           <img
             src="travel.png"
             alt="Travel"
+            loading="lazy"
           >
 
           <div class="content">
@@ -528,11 +606,14 @@
 
 
 
+        <!-- EDUCATION -->
+
         <article class="business-card reveal">
 
           <img
             src="education.png"
             alt="Education and Admissions"
+            loading="lazy"
           >
 
           <div class="content">
@@ -564,11 +645,14 @@
 
 
 
+        <!-- CONSULTANCY -->
+
         <article class="business-card reveal">
 
           <img
             src="consultancy.png"
             alt="Consultancy and Business Services"
+            loading="lazy"
           >
 
           <div class="content">
@@ -600,11 +684,14 @@
 
 
 
+        <!-- EVENTS -->
+
         <article class="business-card reveal">
 
           <img
             src="events.png"
             alt="Events and Weddings"
+            loading="lazy"
           >
 
           <div class="content">
@@ -643,7 +730,7 @@
 
 
   <!-- =====================================================
-       REAL ESTATE
+       REAL ESTATE BRIEF
   ====================================================== -->
 
   <section
@@ -668,7 +755,7 @@
           Explore residential and commercial
           opportunities, plots, new projects
           and investment-led property requirements
-          through the MADHYAM network.
+          through the MADHYUM network.
         </p>
 
         <a
@@ -683,12 +770,29 @@
 
       <div class="category-grid reveal">
 
-        <div class="chip-card">Residential</div>
-        <div class="chip-card">Commercial</div>
-        <div class="chip-card">Plots &amp; Land</div>
-        <div class="chip-card">New Projects</div>
-        <div class="chip-card">Investment</div>
-        <div class="chip-card">Property Services</div>
+        <div class="chip-card">
+          Residential
+        </div>
+
+        <div class="chip-card">
+          Commercial
+        </div>
+
+        <div class="chip-card">
+          Plots &amp; Land
+        </div>
+
+        <div class="chip-card">
+          New Projects
+        </div>
+
+        <div class="chip-card">
+          Investment
+        </div>
+
+        <div class="chip-card">
+          Property Services
+        </div>
 
       </div>
 
@@ -699,7 +803,7 @@
 
 
   <!-- =====================================================
-       TRAVEL
+       TRAVEL BRIEF
   ====================================================== -->
 
   <section
@@ -738,12 +842,29 @@
 
       <div class="category-grid reveal">
 
-        <div class="chip-card">Domestic</div>
-        <div class="chip-card">International</div>
-        <div class="chip-card">Family</div>
-        <div class="chip-card">Honeymoon</div>
-        <div class="chip-card">Friends / Group</div>
-        <div class="chip-card">Custom Trip</div>
+        <div class="chip-card">
+          Domestic
+        </div>
+
+        <div class="chip-card">
+          International
+        </div>
+
+        <div class="chip-card">
+          Family
+        </div>
+
+        <div class="chip-card">
+          Honeymoon
+        </div>
+
+        <div class="chip-card">
+          Friends / Group
+        </div>
+
+        <div class="chip-card">
+          Custom Trip
+        </div>
 
       </div>
 
@@ -754,7 +875,7 @@
 
 
   <!-- =====================================================
-       EDUCATION
+       EDUCATION BRIEF
   ====================================================== -->
 
   <section
@@ -793,12 +914,29 @@
 
       <div class="category-grid reveal">
 
-        <div class="chip-card">India</div>
-        <div class="chip-card">Abroad</div>
-        <div class="chip-card">Medical</div>
-        <div class="chip-card">Engineering</div>
-        <div class="chip-card">Management</div>
-        <div class="chip-card">Career Guidance</div>
+        <div class="chip-card">
+          India
+        </div>
+
+        <div class="chip-card">
+          Abroad
+        </div>
+
+        <div class="chip-card">
+          Medical
+        </div>
+
+        <div class="chip-card">
+          Engineering
+        </div>
+
+        <div class="chip-card">
+          Management
+        </div>
+
+        <div class="chip-card">
+          Career Guidance
+        </div>
 
       </div>
 
@@ -809,7 +947,7 @@
 
 
   <!-- =====================================================
-       CONSULTANCY
+       CONSULTANCY BRIEF
   ====================================================== -->
 
   <section
@@ -849,12 +987,29 @@
 
       <div class="category-grid reveal">
 
-        <div class="chip-card">Business Registration</div>
-        <div class="chip-card">GST</div>
-        <div class="chip-card">Gumasta</div>
-        <div class="chip-card">MSME / UDYAM</div>
-        <div class="chip-card">ITR / Tax</div>
-        <div class="chip-card">Licences</div>
+        <div class="chip-card">
+          Business Registration
+        </div>
+
+        <div class="chip-card">
+          GST
+        </div>
+
+        <div class="chip-card">
+          Gumasta
+        </div>
+
+        <div class="chip-card">
+          MSME / UDYAM
+        </div>
+
+        <div class="chip-card">
+          ITR / Tax
+        </div>
+
+        <div class="chip-card">
+          Licences
+        </div>
 
       </div>
 
@@ -865,7 +1020,7 @@
 
 
   <!-- =====================================================
-       EVENTS
+       EVENTS BRIEF
   ====================================================== -->
 
   <section
@@ -904,14 +1059,37 @@
 
       <div class="category-grid reveal">
 
-        <div class="chip-card">Weddings</div>
-        <div class="chip-card">Corporate Events</div>
-        <div class="chip-card">Social Events</div>
-        <div class="chip-card">Venues</div>
-        <div class="chip-card">Catering</div>
-        <div class="chip-card">Décor</div>
-        <div class="chip-card">Photography</div>
-        <div class="chip-card">Planning</div>
+        <div class="chip-card">
+          Weddings
+        </div>
+
+        <div class="chip-card">
+          Corporate Events
+        </div>
+
+        <div class="chip-card">
+          Social Events
+        </div>
+
+        <div class="chip-card">
+          Venues
+        </div>
+
+        <div class="chip-card">
+          Catering
+        </div>
+
+        <div class="chip-card">
+          Décor
+        </div>
+
+        <div class="chip-card">
+          Photography
+        </div>
+
+        <div class="chip-card">
+          Planning
+        </div>
 
       </div>
 
@@ -960,31 +1138,57 @@
       <div class="flow reveal">
 
         <div class="flow-item">
-          <strong>Members</strong>
+
+          <strong>
+            Members
+          </strong>
+
           <span class="muted">
-            People who enter the MADHYAM ecosystem.
+            People who enter the
+            MADHYUM ecosystem.
           </span>
+
         </div>
 
+
         <div class="flow-item">
-          <strong>MADHYAM</strong>
+
+          <strong>
+            MADHYUM
+          </strong>
+
           <span class="muted">
             The connecting point.
           </span>
+
         </div>
 
-        <div class="flow-item">
-          <strong>Network</strong>
-          <span class="muted">
-            Partners, professionals and opportunities.
-          </span>
-        </div>
 
         <div class="flow-item">
-          <strong>Solution</strong>
+
+          <strong>
+            Network
+          </strong>
+
           <span class="muted">
-            A relevant route through the network.
+            Partners, professionals
+            and opportunities.
           </span>
+
+        </div>
+
+
+        <div class="flow-item">
+
+          <strong>
+            Solution
+          </strong>
+
+          <span class="muted">
+            A relevant route through
+            the network.
+          </span>
+
         </div>
 
       </div>
@@ -1011,6 +1215,7 @@
 
         <h2>
           Your Dreams<br>
+
           <span class="serif">
             R Network.
           </span>
@@ -1040,17 +1245,20 @@
 
     <div class="container footer-grid">
 
+
       <div>
 
         <div class="brand">
-          MADHYAM
+          MADHYUM
         </div>
 
         <p class="footer-description">
+
           A membership-led multi-service
           network connecting dreams with
           relevant businesses, professionals,
           opportunities and services.
+
         </p>
 
       </div>
@@ -1058,37 +1266,94 @@
 
       <div>
 
-        <h4>Business</h4>
+        <h4>
+          Business
+        </h4>
 
-        <a href="real-estate.html">Real Estate</a>
-        <a href="travel.html">Travel</a>
-        <a href="education.html">Education &amp; Admissions</a>
-        <a href="consultancy.html">Consultancy &amp; Business Services</a>
-        <a href="events.html">Events &amp; Weddings</a>
+        <a href="real-estate.html">
+          Real Estate
+        </a>
+
+        <a href="travel.html">
+          Travel
+        </a>
+
+        <a href="education.html">
+          Education &amp; Admissions
+        </a>
+
+        <a href="consultancy.html">
+          Consultancy &amp; Business Services
+        </a>
+
+        <a href="events.html">
+          Events &amp; Weddings
+        </a>
 
       </div>
 
 
       <div>
 
-        <h4>MADHYAM</h4>
+        <h4>
+          MADHYUM
+        </h4>
 
-        <a href="about.html">About MADHYAM</a>
-        <a href="#community" data-scroll>Community</a>
-        <a href="membership.html">Membership</a>
-        <a href="contact.html">Contact Us</a>
+        <a href="about.html">
+          About MADHYUM
+        </a>
+
+        <a
+          href="#community"
+          data-scroll
+        >
+          Community
+        </a>
+
+        <a href="membership.html">
+          Membership
+        </a>
+
+        <a href="contact.html">
+          Contact Us
+        </a>
 
       </div>
 
 
       <div>
 
-        <h4>Network</h4>
+        <h4>
+          Network
+        </h4>
 
-        <a href="#community" data-scroll>Members</a>
-        <a href="#community" data-scroll>Partners</a>
-        <a href="#community" data-scroll>Connectors</a>
-        <a href="#community" data-scroll>Service Network</a>
+        <a
+          href="#community"
+          data-scroll
+        >
+          Members
+        </a>
+
+        <a
+          href="#community"
+          data-scroll
+        >
+          Partners
+        </a>
+
+        <a
+          href="#community"
+          data-scroll
+        >
+          Connectors
+        </a>
+
+        <a
+          href="#community"
+          data-scroll
+        >
+          Service Network
+        </a>
 
       </div>
 
@@ -1098,7 +1363,7 @@
     <div class="container footer-bottom">
 
       <span>
-        © MADHYAM GROUP
+        © MADHYUM GROUP
       </span>
 
       <span>
@@ -1126,17 +1391,21 @@
         class="iconbtn drawer-close"
         type="button"
         data-close-search
+        aria-label="Close search"
       >
         ×
       </button>
+
 
       <div class="eyebrow light">
         SEARCH
       </div>
 
+
       <h2>
         What are you looking for?
       </h2>
+
 
       <div class="search-box">
 
@@ -1148,6 +1417,7 @@
         >
 
       </div>
+
 
       <div
         id="searchResults"
@@ -1165,4 +1435,3 @@
 </body>
 
 </html>
-```
