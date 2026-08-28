@@ -1,5 +1,6 @@
 /* =========================================================
    MADHYUM WEBSITE — MAIN JAVASCRIPT
+   V-ORBIT HERO VERSION
 ========================================================= */
 
 
@@ -10,22 +11,16 @@
 const header =
   document.querySelector(".site-header");
 
+window.addEventListener("scroll", () => {
 
-window.addEventListener(
-  "scroll",
-  () => {
+  if (!header) return;
 
-    if (!header) {
-      return;
-    }
+  header.classList.toggle(
+    "scrolled",
+    window.scrollY > 30
+  );
 
-    header.classList.toggle(
-      "scrolled",
-      window.scrollY > 30
-    );
-
-  }
-);
+});
 
 
 /* =========================================================
@@ -36,40 +31,30 @@ const revealObserver =
   new IntersectionObserver(
     (entries) => {
 
-      entries.forEach(
-        (entry) => {
+      entries.forEach((entry) => {
 
-          if (
-            entry.isIntersecting
-          ) {
+        if (entry.isIntersecting) {
 
-            entry.target.classList.add(
-              "visible"
-            );
-
-          }
+          entry.target.classList.add("visible");
 
         }
-      );
+
+      });
 
     },
     {
-      threshold:0.1
+      threshold: 0.1
     }
   );
 
 
 document
   .querySelectorAll(".reveal")
-  .forEach(
-    (element) => {
+  .forEach((element) => {
 
-      revealObserver.observe(
-        element
-      );
+    revealObserver.observe(element);
 
-    }
-  );
+  });
 
 
 /* =========================================================
@@ -77,51 +62,37 @@ document
 ========================================================= */
 
 const mobileMenu =
-  document.querySelector(
-    ".mobile-menu"
-  );
-
+  document.querySelector(".mobile-menu");
 
 const menuButton =
-  document.querySelector(
-    ".menu-btn"
-  );
-
+  document.querySelector(".menu-btn");
 
 const mobileCloseButtons =
-  document.querySelectorAll(
-    "[data-close-mobile]"
-  );
+  document.querySelectorAll("[data-close-mobile]");
 
 
 menuButton?.addEventListener(
   "click",
   () => {
 
-    mobileMenu?.classList.add(
-      "open"
-    );
+    mobileMenu?.classList.add("open");
 
   }
 );
 
 
-mobileCloseButtons.forEach(
-  (button) => {
+mobileCloseButtons.forEach((button) => {
 
-    button.addEventListener(
-      "click",
-      () => {
+  button.addEventListener(
+    "click",
+    () => {
 
-        mobileMenu?.classList.remove(
-          "open"
-        );
+      mobileMenu?.classList.remove("open");
 
-      }
-    );
+    }
+  );
 
-  }
-);
+});
 
 
 /* =========================================================
@@ -129,63 +100,43 @@ mobileCloseButtons.forEach(
 ========================================================= */
 
 document
-  .querySelectorAll(
-    "[data-scroll]"
-  )
-  .forEach(
-    (link) => {
+  .querySelectorAll("[data-scroll]")
+  .forEach((link) => {
 
-      link.addEventListener(
-        "click",
-        (event) => {
+    link.addEventListener(
+      "click",
+      (event) => {
 
-          const target =
-            link.getAttribute(
-              "href"
-            );
+        const target =
+          link.getAttribute("href");
 
-
-          if (
-            !target ||
-            !target.startsWith("#")
-          ) {
-
-            return;
-
-          }
-
-
-          const element =
-            document.querySelector(
-              target
-            );
-
-
-          if (!element) {
-
-            return;
-
-          }
-
-
-          event.preventDefault();
-
-
-          element.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-          });
-
-
-          mobileMenu?.classList.remove(
-            "open"
-          );
-
+        if (
+          !target ||
+          !target.startsWith("#")
+        ) {
+          return;
         }
-      );
 
-    }
-  );
+        const element =
+          document.querySelector(target);
+
+        if (!element) {
+          return;
+        }
+
+        event.preventDefault();
+
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+        mobileMenu?.classList.remove("open");
+
+      }
+    );
+
+  });
 
 
 /* =========================================================
@@ -193,104 +144,78 @@ document
 ========================================================= */
 
 const drawer =
-  document.querySelector(
-    ".drawer"
-  );
-
+  document.querySelector(".drawer");
 
 const searchButtons =
-  document.querySelectorAll(
-    "[data-search]"
-  );
-
+  document.querySelectorAll("[data-search]");
 
 const closeSearchButtons =
-  document.querySelectorAll(
-    "[data-close-search]"
-  );
-
+  document.querySelectorAll("[data-close-search]");
 
 const searchInput =
-  document.querySelector(
-    "#searchInput"
-  );
-
+  document.querySelector("#searchInput");
 
 const searchResults =
-  document.querySelector(
-    "#searchResults"
+  document.querySelector("#searchResults");
+
+
+/* OPEN SEARCH */
+
+searchButtons.forEach((button) => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      drawer?.classList.add("open");
+
+      drawer?.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      setTimeout(() => {
+
+        searchInput?.focus();
+
+      }, 100);
+
+    }
   );
 
-
-searchButtons.forEach(
-  (button) => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        drawer?.classList.add(
-          "open"
-        );
+});
 
 
-        drawer?.setAttribute(
-          "aria-hidden",
-          "false"
-        );
+/* CLOSE SEARCH */
+
+closeSearchButtons.forEach((button) => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      drawer?.classList.remove("open");
+
+      drawer?.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+    }
+  );
+
+});
 
 
-        setTimeout(
-          () => {
-
-            searchInput?.focus();
-
-          },
-          100
-        );
-
-      }
-    );
-
-  }
-);
-
-
-closeSearchButtons.forEach(
-  (button) => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        drawer?.classList.remove(
-          "open"
-        );
-
-
-        drawer?.setAttribute(
-          "aria-hidden",
-          "true"
-        );
-
-      }
-    );
-
-  }
-);
-
+/* CLICK OUTSIDE SEARCH */
 
 drawer?.addEventListener(
   "click",
   (event) => {
 
-    if (
-      event.target === drawer
-    ) {
+    if (event.target === drawer) {
 
-      drawer.classList.remove(
-        "open"
-      );
+      drawer.classList.remove("open");
 
       drawer.setAttribute(
         "aria-hidden",
@@ -322,6 +247,18 @@ const SEARCH_DATA = [
   ],
 
   [
+    "Residential Property",
+    "Real Estate",
+    "real-estate.html"
+  ],
+
+  [
+    "Commercial Property",
+    "Real Estate",
+    "real-estate.html"
+  ],
+
+  [
     "Dubai",
     "Travel",
     "travel.html"
@@ -329,6 +266,18 @@ const SEARCH_DATA = [
 
   [
     "Honeymoon",
+    "Travel",
+    "travel.html"
+  ],
+
+  [
+    "Family Travel",
+    "Travel",
+    "travel.html"
+  ],
+
+  [
+    "International Travel",
     "Travel",
     "travel.html"
   ],
@@ -352,6 +301,12 @@ const SEARCH_DATA = [
   ],
 
   [
+    "Management",
+    "Education & Admissions",
+    "education.html"
+  ],
+
+  [
     "GST",
     "Consultancy & Business Services",
     "consultancy.html"
@@ -359,6 +314,18 @@ const SEARCH_DATA = [
 
   [
     "MSME Udyam",
+    "Consultancy & Business Services",
+    "consultancy.html"
+  ],
+
+  [
+    "Gumasta",
+    "Consultancy & Business Services",
+    "consultancy.html"
+  ],
+
+  [
+    "Business Registration",
     "Consultancy & Business Services",
     "consultancy.html"
   ],
@@ -373,6 +340,18 @@ const SEARCH_DATA = [
     "Corporate Event",
     "Events & Weddings",
     "events.html"
+  ],
+
+  [
+    "Wedding Planning",
+    "Events & Weddings",
+    "events.html"
+  ],
+
+  [
+    "Catering",
+    "Events & Weddings",
+    "events.html"
   ]
 
 ];
@@ -382,22 +361,15 @@ const SEARCH_DATA = [
    SEARCH RENDER
 ========================================================= */
 
-function renderSearch(
-  query = ""
-){
+function renderSearch(query = "") {
 
-  if (!searchResults) {
-    return;
-  }
-
+  if (!searchResults) return;
 
   const term =
-    query
-      .trim()
-      .toLowerCase();
+    query.trim().toLowerCase();
 
 
-  if (!term){
+  if (!term) {
 
     searchResults.innerHTML = `
 
@@ -422,28 +394,24 @@ function renderSearch(
 
 
   const matches =
-    SEARCH_DATA.filter(
-      (item) => {
+    SEARCH_DATA.filter((item) => {
 
-        return (
+      return (
+        item[0]
+          .toLowerCase()
+          .includes(term)
 
-          item[0]
-            .toLowerCase()
-            .includes(term)
+        ||
 
-          ||
+        item[1]
+          .toLowerCase()
+          .includes(term)
+      );
 
-          item[1]
-            .toLowerCase()
-            .includes(term)
-
-        );
-
-      }
-    );
+    });
 
 
-  if (!matches.length){
+  if (!matches.length) {
 
     searchResults.innerHTML = `
 
@@ -468,30 +436,28 @@ function renderSearch(
 
   searchResults.innerHTML =
     matches
-      .map(
-        (item) => {
+      .map((item) => {
 
-          return `
+        return `
 
-            <a
-              class="result"
-              href="${item[2]}"
-            >
+          <a
+            class="result"
+            href="${item[2]}"
+          >
 
-              <strong>
-                ${item[0]}
-              </strong>
+            <strong>
+              ${item[0]}
+            </strong>
 
-              <small>
-                → ${item[1]}
-              </small>
+            <small>
+              → ${item[1]}
+            </small>
 
-            </a>
+          </a>
 
-          `;
+        `;
 
-        }
-      )
+      })
       .join("");
 
 }
@@ -501,9 +467,7 @@ searchInput?.addEventListener(
   "input",
   (event) => {
 
-    renderSearch(
-      event.target.value
-    );
+    renderSearch(event.target.value);
 
   }
 );
@@ -513,61 +477,60 @@ renderSearch();
 
 
 /* =========================================================
-   FINAL LAYERED HERO CAROUSEL
+   MADHYUM V-ORBIT HERO
 ========================================================= */
 
 const layeredOrbit =
-  document.getElementById(
-    "layeredOrbit"
-  );
-
+  document.getElementById("layeredOrbit");
 
 const layeredWings =
   Array.from(
-    document.querySelectorAll(
-      ".layered-wing"
-    )
+    document.querySelectorAll(".layered-wing")
   );
-
 
 const layeredPrev =
-  document.getElementById(
-    "layeredPrev"
-  );
-
+  document.getElementById("layeredPrev");
 
 const layeredNext =
-  document.getElementById(
-    "layeredNext"
-  );
-
+  document.getElementById("layeredNext");
 
 const layeredDots =
-  document.getElementById(
-    "layeredDots"
-  );
+  document.getElementById("layeredDots");
 
-
-/*
-  Five business wings.
-*/
 
 const WING_COUNT =
   layeredWings.length;
 
 
-let activeWing = 0;
+/*
+  IMPORTANT:
+
+  HTML order is fixed:
+
+  0 = Real Estate
+  1 = Travel
+  2 = Education
+  3 = Consultancy
+  4 = Events
+
+
+  Initial active/front position:
+
+  Education = bottom centre.
+*/
+
+let activeWing = 2;
 
 
 /*
-  Automatic rotation timer.
+  Rotation timer
 */
 
 let rotationTimer = null;
 
 
 /*
-  Interaction states.
+  Interaction states
 */
 
 let isHovering = false;
@@ -576,25 +539,86 @@ let isTouching = false;
 
 
 /*
-  Touch tracking.
+  Touch tracking
 */
 
 let touchStartX = 0;
 
 
 /* =========================================================
+   V-ORBIT POSITIONS
+========================================================= */
+
+const V_POSITIONS = [
+
+  /*
+    Position 0
+    LEFT / UPPER
+    REAL ESTATE
+  */
+
+  {
+    className: "v-real-estate"
+  },
+
+
+  /*
+    Position 1
+    LEFT / MIDDLE
+    TRAVEL
+  */
+
+  {
+    className: "v-travel"
+  },
+
+
+  /*
+    Position 2
+    BOTTOM / CENTRE
+    EDUCATION
+  */
+
+  {
+    className: "v-education"
+  },
+
+
+  /*
+    Position 3
+    RIGHT / MIDDLE
+    CONSULTANCY
+  */
+
+  {
+    className: "v-consultancy"
+  },
+
+
+  /*
+    Position 4
+    RIGHT / UPPER
+    EVENTS
+  */
+
+  {
+    className: "v-events"
+  }
+
+];
+
+
+/* =========================================================
    CREATE DOTS
 ========================================================= */
 
-function createLayeredDots(){
+function createLayeredDots() {
 
   if (
     !layeredDots ||
     !WING_COUNT
-  ){
-
+  ) {
     return;
-
   }
 
 
@@ -605,9 +629,7 @@ function createLayeredDots(){
     (wing, index) => {
 
       const dot =
-        document.createElement(
-          "button"
-        );
+        document.createElement("button");
 
 
       dot.type = "button";
@@ -618,9 +640,7 @@ function createLayeredDots(){
 
       dot.setAttribute(
         "aria-label",
-        `Select business ${
-          index + 1
-        }`
+        `Select business ${index + 1}`
       );
 
 
@@ -636,9 +656,7 @@ function createLayeredDots(){
       );
 
 
-      layeredDots.appendChild(
-        dot
-      );
+      layeredDots.appendChild(dot);
 
     }
   );
@@ -647,20 +665,21 @@ function createLayeredDots(){
 
 
 /* =========================================================
-   APPLY POSITION CLASSES
+   APPLY V-ORBIT POSITIONS
 ========================================================= */
 
-function updateWingPositions(){
+function updateWingPositions() {
 
   layeredWings.forEach(
     (wing, index) => {
 
       /*
-        Remove all old states.
+        Remove old positioning classes.
       */
 
       wing.classList.remove(
         "is-active",
+        "is-v-active",
         "position-left",
         "position-right",
         "position-far-left",
@@ -669,13 +688,8 @@ function updateWingPositions(){
 
 
       /*
-        Relative position.
-
-        0 = active
-        1 = right
-        2 = far-right
-        3 = far-left
-        4 = left
+        Determine where this wing sits
+        relative to the current front item.
       */
 
       const relative =
@@ -683,56 +697,65 @@ function updateWingPositions(){
           index -
           activeWing +
           WING_COUNT
-        ) %
-        WING_COUNT;
+        ) % WING_COUNT;
 
+
+      /*
+        Position 2 is always the
+        bottom / front position.
+      */
+
+      const targetPosition =
+        (
+          relative + 2
+        ) % WING_COUNT;
+
+
+      const target =
+        V_POSITIONS[targetPosition];
+
+
+      /*
+        Apply the correct V-position class.
+      */
+
+      if (target) {
+
+        wing.classList.add(
+          target.className
+        );
+
+      }
+
+
+      /*
+        Current front item.
+
+        This is the LOWEST point.
+      */
 
       if (
-        relative === 0
-      ){
+        targetPosition === 2
+      ) {
+
+        wing.classList.add(
+          "is-v-active"
+        );
+
+      }
+
+
+      /*
+        Keep compatibility with
+        any existing CSS.
+      */
+
+      if (
+        targetPosition === 2
+      ) {
 
         wing.classList.add(
           "is-active"
-        );
-
-      }
-
-      else if (
-        relative === 1
-      ){
-
-        wing.classList.add(
-          "position-right"
-        );
-
-      }
-
-      else if (
-        relative === 2
-      ){
-
-        wing.classList.add(
-          "position-far-right"
-        );
-
-      }
-
-      else if (
-        relative === 3
-      ){
-
-        wing.classList.add(
-          "position-far-left"
-        );
-
-      }
-
-      else if (
-        relative === 4
-      ){
-
-        wing.classList.add(
-          "position-left"
         );
 
       }
@@ -771,14 +794,10 @@ function updateWingPositions(){
    SET ACTIVE WING
 ========================================================= */
 
-function setWing(
-  index
-){
+function setWing(index) {
 
-  if (!WING_COUNT){
-
+  if (!WING_COUNT) {
     return;
-
   }
 
 
@@ -786,8 +805,7 @@ function setWing(
     (
       index +
       WING_COUNT
-    ) %
-    WING_COUNT;
+    ) % WING_COUNT;
 
 
   updateWingPositions();
@@ -799,7 +817,7 @@ function setWing(
    NEXT
 ========================================================= */
 
-function nextWing(){
+function nextWing() {
 
   setWing(
     activeWing + 1
@@ -812,7 +830,7 @@ function nextWing(){
    PREVIOUS
 ========================================================= */
 
-function previousWing(){
+function previousWing() {
 
   setWing(
     activeWing - 1
@@ -853,14 +871,6 @@ layeredPrev?.addEventListener(
    CLICK BEHAVIOUR
 ========================================================= */
 
-/*
-  If user clicks a side wing:
-    first bring it to centre.
-
-  If user clicks the active wing:
-    its href opens normally.
-*/
-
 layeredWings.forEach(
   (wing, index) => {
 
@@ -868,9 +878,15 @@ layeredWings.forEach(
       "click",
       (event) => {
 
+        /*
+          If the item is not currently
+          at the bottom/front position,
+          bring it there first.
+        */
+
         if (
           index !== activeWing
-        ){
+        ) {
 
           event.preventDefault();
 
@@ -878,14 +894,21 @@ layeredWings.forEach(
 
           restartRotation();
 
+          return;
+
         }
+
+        /*
+          If already active,
+          allow its normal href.
+        */
 
       }
     );
 
 
     /*
-      Desktop hover pauses animation.
+      Pause on hover.
     */
 
     wing.addEventListener(
@@ -919,7 +942,7 @@ layeredWings.forEach(
    AUTO ROTATION
 ========================================================= */
 
-function startRotation(){
+function startRotation() {
 
   stopRotation();
 
@@ -931,7 +954,7 @@ function startRotation(){
         if (
           !isHovering &&
           !isTouching
-        ){
+        ) {
 
           nextWing();
 
@@ -944,11 +967,9 @@ function startRotation(){
 }
 
 
-function stopRotation(){
+function stopRotation() {
 
-  if (
-    rotationTimer
-  ){
+  if (rotationTimer) {
 
     clearInterval(
       rotationTimer
@@ -961,7 +982,7 @@ function stopRotation(){
 }
 
 
-function restartRotation(){
+function restartRotation() {
 
   stopRotation();
 
@@ -996,7 +1017,7 @@ layeredOrbit?.addEventListener(
 
   },
   {
-    passive:true
+    passive: true
   }
 );
 
@@ -1017,16 +1038,16 @@ layeredOrbit?.addEventListener(
 
     if (
       Math.abs(distance) > 45
-    ){
+    ) {
 
       if (
         distance < 0
-      ){
+      ) {
 
         nextWing();
 
       }
-      else{
+      else {
 
         previousWing();
 
@@ -1041,13 +1062,13 @@ layeredOrbit?.addEventListener(
 
   },
   {
-    passive:true
+    passive: true
   }
 );
 
 
 /* =========================================================
-   KEYBOARD
+   KEYBOARD NAVIGATION
 ========================================================= */
 
 document.addEventListener(
@@ -1062,7 +1083,7 @@ document.addEventListener(
       tag === "INPUT" ||
       tag === "TEXTAREA" ||
       tag === "SELECT"
-    ){
+    ) {
 
       return;
 
@@ -1071,7 +1092,7 @@ document.addEventListener(
 
     if (
       event.key === "ArrowRight"
-    ){
+    ) {
 
       nextWing();
 
@@ -1082,7 +1103,7 @@ document.addEventListener(
 
     if (
       event.key === "ArrowLeft"
-    ){
+    ) {
 
       previousWing();
 
@@ -1095,17 +1116,26 @@ document.addEventListener(
 
 
 /* =========================================================
-   INITIALISE LAYERED HERO
+   INITIALISE
 ========================================================= */
 
 if (
   layeredOrbit &&
   WING_COUNT === 5
-){
+) {
 
   createLayeredDots();
 
-  setWing(0);
+
+  /*
+    IMPORTANT:
+
+    Start with EDUCATION
+    at bottom-centre.
+  */
+
+  setWing(2);
+
 
   startRotation();
 
