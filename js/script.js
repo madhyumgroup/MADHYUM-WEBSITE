@@ -1,18 +1,20 @@
 /* =========================================================
-   MADHYUM WEBSITE — MAIN JAVASCRIPT
+   MADHYUM WEBSITE — CLEAN FINAL JAVASCRIPT
 ========================================================= */
 
 
 /* =========================================================
-   HEADER
+   HEADER SCROLL
 ========================================================= */
 
 const header =
-  document.querySelector(".site-header");
+  document.querySelector(
+    '.site-header'
+  );
 
 
 window.addEventListener(
-  "scroll",
+  'scroll',
   () => {
 
     if (!header) {
@@ -20,7 +22,7 @@ window.addEventListener(
     }
 
     header.classList.toggle(
-      "scrolled",
+      'scrolled',
       window.scrollY > 30
     );
 
@@ -29,7 +31,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   REVEAL ANIMATIONS
+   REVEAL
 ========================================================= */
 
 const revealObserver =
@@ -41,10 +43,10 @@ const revealObserver =
 
           if (
             entry.isIntersecting
-          ) {
+          ){
 
             entry.target.classList.add(
-              "visible"
+              'visible'
             );
 
           }
@@ -60,7 +62,7 @@ const revealObserver =
 
 
 document
-  .querySelectorAll(".reveal")
+  .querySelectorAll('.reveal')
   .forEach(
     (element) => {
 
@@ -78,28 +80,28 @@ document
 
 const mobileMenu =
   document.querySelector(
-    ".mobile-menu"
+    '.mobile-menu'
   );
 
 
 const menuButton =
   document.querySelector(
-    ".menu-btn"
+    '.menu-btn'
   );
 
 
 const mobileCloseButtons =
   document.querySelectorAll(
-    "[data-close-mobile]"
+    '[data-close-mobile]'
   );
 
 
 menuButton?.addEventListener(
-  "click",
+  'click',
   () => {
 
     mobileMenu?.classList.add(
-      "open"
+      'open'
     );
 
   }
@@ -110,11 +112,11 @@ mobileCloseButtons.forEach(
   (button) => {
 
     button.addEventListener(
-      "click",
+      'click',
       () => {
 
         mobileMenu?.classList.remove(
-          "open"
+          'open'
         );
 
       }
@@ -130,25 +132,25 @@ mobileCloseButtons.forEach(
 
 document
   .querySelectorAll(
-    "[data-scroll]"
+    '[data-scroll]'
   )
   .forEach(
     (link) => {
 
       link.addEventListener(
-        "click",
+        'click',
         (event) => {
 
           const target =
             link.getAttribute(
-              "href"
+              'href'
             );
 
 
           if (
             !target ||
-            !target.startsWith("#")
-          ) {
+            !target.startsWith('#')
+          ){
 
             return;
 
@@ -161,7 +163,7 @@ document
             );
 
 
-          if (!element) {
+          if (!element){
 
             return;
 
@@ -172,13 +174,16 @@ document
 
 
           element.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
+
+            behavior:'smooth',
+
+            block:'start'
+
           });
 
 
           mobileMenu?.classList.remove(
-            "open"
+            'open'
           );
 
         }
@@ -194,31 +199,31 @@ document
 
 const drawer =
   document.querySelector(
-    ".drawer"
+    '.drawer'
   );
 
 
 const searchButtons =
   document.querySelectorAll(
-    "[data-search]"
+    '[data-search]'
   );
 
 
 const closeSearchButtons =
   document.querySelectorAll(
-    "[data-close-search]"
+    '[data-close-search]'
   );
 
 
 const searchInput =
   document.querySelector(
-    "#searchInput"
+    '#searchInput'
   );
 
 
 const searchResults =
   document.querySelector(
-    "#searchResults"
+    '#searchResults'
   );
 
 
@@ -226,17 +231,17 @@ searchButtons.forEach(
   (button) => {
 
     button.addEventListener(
-      "click",
+      'click',
       () => {
 
         drawer?.classList.add(
-          "open"
+          'open'
         );
 
 
         drawer?.setAttribute(
-          "aria-hidden",
-          "false"
+          'aria-hidden',
+          'false'
         );
 
 
@@ -260,17 +265,17 @@ closeSearchButtons.forEach(
   (button) => {
 
     button.addEventListener(
-      "click",
+      'click',
       () => {
 
         drawer?.classList.remove(
-          "open"
+          'open'
         );
 
 
         drawer?.setAttribute(
-          "aria-hidden",
-          "true"
+          'aria-hidden',
+          'true'
         );
 
       }
@@ -281,20 +286,21 @@ closeSearchButtons.forEach(
 
 
 drawer?.addEventListener(
-  "click",
+  'click',
   (event) => {
 
     if (
       event.target === drawer
-    ) {
+    ){
 
       drawer.classList.remove(
-        "open"
+        'open'
       );
 
+
       drawer.setAttribute(
-        "aria-hidden",
-        "true"
+        'aria-hidden',
+        'true'
       );
 
     }
@@ -310,69 +316,69 @@ drawer?.addEventListener(
 const SEARCH_DATA = [
 
   [
-    "3 BHK Bhopal",
-    "Real Estate",
-    "real-estate.html"
+    '3 BHK Bhopal',
+    'Real Estate',
+    'real-estate.html'
   ],
 
   [
-    "Plots & Land",
-    "Real Estate",
-    "real-estate.html"
+    'Plots & Land',
+    'Real Estate',
+    'real-estate.html'
   ],
 
   [
-    "Dubai",
-    "Travel",
-    "travel.html"
+    'Dubai',
+    'Travel',
+    'travel.html'
   ],
 
   [
-    "Honeymoon",
-    "Travel",
-    "travel.html"
+    'Honeymoon',
+    'Travel',
+    'travel.html'
   ],
 
   [
-    "MBBS",
-    "Education & Admissions",
-    "education.html"
+    'MBBS',
+    'Education & Admissions',
+    'education.html'
   ],
 
   [
-    "Engineering",
-    "Education & Admissions",
-    "education.html"
+    'Engineering',
+    'Education & Admissions',
+    'education.html'
   ],
 
   [
-    "Study Abroad",
-    "Education & Admissions",
-    "education.html"
+    'Study Abroad',
+    'Education & Admissions',
+    'education.html'
   ],
 
   [
-    "GST",
-    "Consultancy & Business Services",
-    "consultancy.html"
+    'GST',
+    'Consultancy & Business Services',
+    'consultancy.html'
   ],
 
   [
-    "MSME Udyam",
-    "Consultancy & Business Services",
-    "consultancy.html"
+    'MSME Udyam',
+    'Consultancy & Business Services',
+    'consultancy.html'
   ],
 
   [
-    "Wedding Venue",
-    "Events & Weddings",
-    "events.html"
+    'Wedding Venue',
+    'Events & Weddings',
+    'events.html'
   ],
 
   [
-    "Corporate Event",
-    "Events & Weddings",
-    "events.html"
+    'Corporate Event',
+    'Events & Weddings',
+    'events.html'
   ]
 
 ];
@@ -383,11 +389,13 @@ const SEARCH_DATA = [
 ========================================================= */
 
 function renderSearch(
-  query = ""
+  query = ''
 ){
 
-  if (!searchResults) {
+  if (!searchResults){
+
     return;
+
   }
 
 
@@ -423,23 +431,19 @@ function renderSearch(
 
   const matches =
     SEARCH_DATA.filter(
-      (item) => {
+      (item) => (
 
-        return (
+        item[0]
+          .toLowerCase()
+          .includes(term)
 
-          item[0]
-            .toLowerCase()
-            .includes(term)
+        ||
 
-          ||
+        item[1]
+          .toLowerCase()
+          .includes(term)
 
-          item[1]
-            .toLowerCase()
-            .includes(term)
-
-        );
-
-      }
+      )
     );
 
 
@@ -469,36 +473,32 @@ function renderSearch(
   searchResults.innerHTML =
     matches
       .map(
-        (item) => {
+        (item) => `
 
-          return `
+          <a
+            class="result"
+            href="${item[2]}"
+          >
 
-            <a
-              class="result"
-              href="${item[2]}"
-            >
+            <strong>
+              ${item[0]}
+            </strong>
 
-              <strong>
-                ${item[0]}
-              </strong>
+            <small>
+              → ${item[1]}
+            </small>
 
-              <small>
-                → ${item[1]}
-              </small>
+          </a>
 
-            </a>
-
-          `;
-
-        }
+        `
       )
-      .join("");
+      .join('');
 
 }
 
 
 searchInput?.addEventListener(
-  "input",
+  'input',
   (event) => {
 
     renderSearch(
@@ -513,44 +513,46 @@ renderSearch();
 
 
 /* =========================================================
-   FINAL LAYERED HERO CAROUSEL
+   LAYERED HERO
 ========================================================= */
+
+const hero =
+  document.querySelector(
+    '.layered-hero'
+  );
+
 
 const layeredOrbit =
   document.getElementById(
-    "layeredOrbit"
+    'layeredOrbit'
   );
 
 
 const layeredWings =
   Array.from(
     document.querySelectorAll(
-      ".layered-wing"
+      '.layered-wing'
     )
   );
 
 
 const layeredPrev =
   document.getElementById(
-    "layeredPrev"
+    'layeredPrev'
   );
 
 
 const layeredNext =
   document.getElementById(
-    "layeredNext"
+    'layeredNext'
   );
 
 
 const layeredDots =
   document.getElementById(
-    "layeredDots"
+    'layeredDots'
   );
 
-
-/*
-  Five business wings.
-*/
 
 const WING_COUNT =
   layeredWings.length;
@@ -559,34 +561,42 @@ const WING_COUNT =
 let activeWing = 0;
 
 
-/*
-  Automatic rotation timer.
-*/
-
 let rotationTimer = null;
 
 
-/*
-  Interaction states.
-*/
-
-let isHovering = false;
-
-let isTouching = false;
+let resumeTimer = null;
 
 
-/*
-  Touch tracking.
-*/
+let paused = false;
+
 
 let touchStartX = 0;
+
+
+/* =========================================================
+   POSITION CLASSES
+========================================================= */
+
+const POSITION_CLASSES = [
+
+  'is-active',
+
+  'position-right',
+
+  'position-far-right',
+
+  'position-far-left',
+
+  'position-left'
+
+];
 
 
 /* =========================================================
    CREATE DOTS
 ========================================================= */
 
-function createLayeredDots(){
+function createDots(){
 
   if (
     !layeredDots ||
@@ -598,7 +608,7 @@ function createLayeredDots(){
   }
 
 
-  layeredDots.innerHTML = "";
+  layeredDots.innerHTML = '';
 
 
   layeredWings.forEach(
@@ -606,26 +616,36 @@ function createLayeredDots(){
 
       const dot =
         document.createElement(
-          "button"
+          'button'
         );
 
 
-      dot.type = "button";
+      dot.type =
+        'button';
+
 
       dot.className =
-        "layered-dot";
+        'layered-dot';
+
+
+      const label =
+        wing
+          .innerText
+          .replace(
+            /\s+/g,
+            ' '
+          )
+          .trim();
 
 
       dot.setAttribute(
-        "aria-label",
-        `Select business ${
-          index + 1
-        }`
+        'aria-label',
+        `Select ${label}`
       );
 
 
       dot.addEventListener(
-        "click",
+        'click',
         () => {
 
           setWing(index);
@@ -647,117 +667,29 @@ function createLayeredDots(){
 
 
 /* =========================================================
-   APPLY POSITION CLASSES
+   UPDATE DOTS
 ========================================================= */
 
-function updateWingPositions(){
+function updateDots(){
 
-  layeredWings.forEach(
-    (wing, index) => {
+  if (!layeredDots){
 
-      /*
-        Remove all old states.
-      */
+    return;
 
-      wing.classList.remove(
-        "is-active",
-        "position-left",
-        "position-right",
-        "position-far-left",
-        "position-far-right"
-      );
+  }
 
-
-      /*
-        Relative position.
-
-        0 = active
-        1 = right
-        2 = far-right
-        3 = far-left
-        4 = left
-      */
-
-      const relative =
-        (
-          index -
-          activeWing +
-          WING_COUNT
-        ) %
-        WING_COUNT;
-
-
-      if (
-        relative === 0
-      ){
-
-        wing.classList.add(
-          "is-active"
-        );
-
-      }
-
-      else if (
-        relative === 1
-      ){
-
-        wing.classList.add(
-          "position-right"
-        );
-
-      }
-
-      else if (
-        relative === 2
-      ){
-
-        wing.classList.add(
-          "position-far-right"
-        );
-
-      }
-
-      else if (
-        relative === 3
-      ){
-
-        wing.classList.add(
-          "position-far-left"
-        );
-
-      }
-
-      else if (
-        relative === 4
-      ){
-
-        wing.classList.add(
-          "position-left"
-        );
-
-      }
-
-    }
-  );
-
-
-  /*
-    Update dots.
-  */
 
   const dots =
-    layeredDots
-      ? layeredDots.querySelectorAll(
-          ".layered-dot"
-        )
-      : [];
+    layeredDots.querySelectorAll(
+      '.layered-dot'
+    );
 
 
   dots.forEach(
     (dot, index) => {
 
       dot.classList.toggle(
-        "active",
+        'active',
         index === activeWing
       );
 
@@ -768,7 +700,67 @@ function updateWingPositions(){
 
 
 /* =========================================================
-   SET ACTIVE WING
+   APPLY POSITIONS
+========================================================= */
+
+function applyWingPositions(){
+
+  layeredWings.forEach(
+    (wing, index) => {
+
+      POSITION_CLASSES.forEach(
+        (className) => {
+
+          wing.classList.remove(
+            className
+          );
+
+        }
+      );
+
+
+      const relative =
+        (
+          index -
+          activeWing +
+          WING_COUNT
+        ) %
+        WING_COUNT;
+
+
+      const className =
+        POSITION_CLASSES[
+          relative
+        ];
+
+
+      if (className){
+
+        wing.classList.add(
+          className
+        );
+
+      }
+
+
+      wing.setAttribute(
+        'aria-current',
+        relative === 0
+          ? 'true'
+          : 'false'
+      );
+
+    }
+  );
+
+
+  updateDots();
+
+}
+
+
+/* =========================================================
+   SET ACTIVE
 ========================================================= */
 
 function setWing(
@@ -790,13 +782,13 @@ function setWing(
     WING_COUNT;
 
 
-  updateWingPositions();
+  applyWingPositions();
 
 }
 
 
 /* =========================================================
-   NEXT
+   NEXT / PREVIOUS
 ========================================================= */
 
 function nextWing(){
@@ -808,10 +800,6 @@ function nextWing(){
 }
 
 
-/* =========================================================
-   PREVIOUS
-========================================================= */
-
 function previousWing(){
 
   setWing(
@@ -822,11 +810,88 @@ function previousWing(){
 
 
 /* =========================================================
-   BUTTONS
+   ROTATION CONTROL
+========================================================= */
+
+function stopRotation(){
+
+  if (
+    rotationTimer
+  ){
+
+    clearInterval(
+      rotationTimer
+    );
+
+    rotationTimer = null;
+
+  }
+
+}
+
+
+function startRotation(){
+
+  stopRotation();
+
+
+  if (paused){
+
+    return;
+
+  }
+
+
+  rotationTimer =
+    setInterval(
+      () => {
+
+        if (!paused){
+
+          nextWing();
+
+        }
+
+      },
+      4500
+    );
+
+}
+
+
+function restartRotation(){
+
+  stopRotation();
+
+
+  if (resumeTimer){
+
+    clearTimeout(
+      resumeTimer
+    );
+
+  }
+
+
+  resumeTimer =
+    setTimeout(
+      () => {
+
+        startRotation();
+
+      },
+      800
+    );
+
+}
+
+
+/* =========================================================
+   PREVIOUS / NEXT BUTTONS
 ========================================================= */
 
 layeredNext?.addEventListener(
-  "click",
+  'click',
   () => {
 
     nextWing();
@@ -838,7 +903,7 @@ layeredNext?.addEventListener(
 
 
 layeredPrev?.addEventListener(
-  "click",
+  'click',
   () => {
 
     previousWing();
@@ -850,22 +915,50 @@ layeredPrev?.addEventListener(
 
 
 /* =========================================================
-   CLICK BEHAVIOUR
+   WING HOVER + CLICK
 ========================================================= */
-
-/*
-  If user clicks a side wing:
-    first bring it to centre.
-
-  If user clicks the active wing:
-    its href opens normally.
-*/
 
 layeredWings.forEach(
   (wing, index) => {
 
+    /*
+      Hover = pause.
+    */
+
     wing.addEventListener(
-      "click",
+      'mouseenter',
+      () => {
+
+        paused = true;
+
+        stopRotation();
+
+      }
+    );
+
+
+    wing.addEventListener(
+      'mouseleave',
+      () => {
+
+        paused = false;
+
+        startRotation();
+
+      }
+    );
+
+
+    /*
+      Side wing:
+      bring it to front.
+
+      Active wing:
+      let normal href open.
+    */
+
+    wing.addEventListener(
+      'click',
       (event) => {
 
         if (
@@ -885,28 +978,22 @@ layeredWings.forEach(
 
 
     /*
-      Desktop hover pauses animation.
+      Detect image load failure.
     */
 
-    wing.addEventListener(
-      "mouseenter",
+    const image =
+      wing.querySelector(
+        'img'
+      );
+
+
+    image?.addEventListener(
+      'error',
       () => {
 
-        isHovering = true;
-
-        stopRotation();
-
-      }
-    );
-
-
-    wing.addEventListener(
-      "mouseleave",
-      () => {
-
-        isHovering = false;
-
-        startRotation();
+        wing.classList.add(
+          'image-missing'
+        );
 
       }
     );
@@ -916,81 +1003,20 @@ layeredWings.forEach(
 
 
 /* =========================================================
-   AUTO ROTATION
-========================================================= */
-
-function startRotation(){
-
-  stopRotation();
-
-
-  rotationTimer =
-    setInterval(
-      () => {
-
-        if (
-          !isHovering &&
-          !isTouching
-        ){
-
-          nextWing();
-
-        }
-
-      },
-      4500
-    );
-
-}
-
-
-function stopRotation(){
-
-  if (
-    rotationTimer
-  ){
-
-    clearInterval(
-      rotationTimer
-    );
-
-    rotationTimer = null;
-
-  }
-
-}
-
-
-function restartRotation(){
-
-  stopRotation();
-
-
-  setTimeout(
-    () => {
-
-      startRotation();
-
-    },
-    700
-  );
-
-}
-
-
-/* =========================================================
-   TOUCH SWIPE
+   MOBILE SWIPE
 ========================================================= */
 
 layeredOrbit?.addEventListener(
-  "touchstart",
+  'touchstart',
   (event) => {
 
     touchStartX =
-      event.changedTouches[0]
+      event
+        .changedTouches[0]
         .screenX;
 
-    isTouching = true;
+
+    paused = true;
 
     stopRotation();
 
@@ -1002,11 +1028,12 @@ layeredOrbit?.addEventListener(
 
 
 layeredOrbit?.addEventListener(
-  "touchend",
+  'touchend',
   (event) => {
 
     const touchEndX =
-      event.changedTouches[0]
+      event
+        .changedTouches[0]
         .screenX;
 
 
@@ -1035,9 +1062,9 @@ layeredOrbit?.addEventListener(
     }
 
 
-    isTouching = false;
+    paused = false;
 
-    restartRotation();
+    startRotation();
 
   },
   {
@@ -1051,17 +1078,23 @@ layeredOrbit?.addEventListener(
 ========================================================= */
 
 document.addEventListener(
-  "keydown",
+  'keydown',
   (event) => {
 
     const tag =
       document.activeElement?.tagName;
 
 
+    /*
+      Do not interfere with typing.
+    */
+
     if (
-      tag === "INPUT" ||
-      tag === "TEXTAREA" ||
-      tag === "SELECT"
+
+      tag === 'INPUT' ||
+      tag === 'TEXTAREA' ||
+      tag === 'SELECT'
+
     ){
 
       return;
@@ -1070,7 +1103,7 @@ document.addEventListener(
 
 
     if (
-      event.key === "ArrowRight"
+      event.key === 'ArrowRight'
     ){
 
       nextWing();
@@ -1081,7 +1114,7 @@ document.addEventListener(
 
 
     if (
-      event.key === "ArrowLeft"
+      event.key === 'ArrowLeft'
     ){
 
       previousWing();
@@ -1095,7 +1128,46 @@ document.addEventListener(
 
 
 /* =========================================================
-   INITIALISE LAYERED HERO
+   STOP HERO ROTATION WHEN HERO LEAVES VIEW
+========================================================= */
+
+if (hero){
+
+  const heroObserver =
+    new IntersectionObserver(
+      (entries) => {
+
+        const visible =
+          entries[0]?.isIntersecting;
+
+
+        if (visible){
+
+          startRotation();
+
+        }
+        else{
+
+          stopRotation();
+
+        }
+
+      },
+      {
+        threshold:0.05
+      }
+    );
+
+
+  heroObserver.observe(
+    hero
+  );
+
+}
+
+
+/* =========================================================
+   INITIALISE
 ========================================================= */
 
 if (
@@ -1103,7 +1175,7 @@ if (
   WING_COUNT === 5
 ){
 
-  createLayeredDots();
+  createDots();
 
   setWing(0);
 
