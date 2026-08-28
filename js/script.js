@@ -1,10 +1,10 @@
 /* =========================================================
-   MADHYUM WEBSITE — CLEAN FINAL JAVASCRIPT
+   MADHYUM — MAIN JAVASCRIPT
 ========================================================= */
 
 
 /* =========================================================
-   HEADER SCROLL
+   HEADER
 ========================================================= */
 
 const header =
@@ -56,7 +56,7 @@ const revealObserver =
 
     },
     {
-      threshold:0.1
+      threshold:.1
     }
   );
 
@@ -194,7 +194,7 @@ document
 
 
 /* =========================================================
-   SEARCH DRAWER
+   SEARCH
 ========================================================= */
 
 const drawer =
@@ -513,81 +513,90 @@ renderSearch();
 
 
 /* =========================================================
-   LAYERED HERO
+   C-SHAPED ROTATIONAL HERO
 ========================================================= */
 
-const hero =
-  document.querySelector(
-    '.layered-hero'
-  );
-
-
-const layeredOrbit =
+const cOrbit =
   document.getElementById(
-    'layeredOrbit'
+    'cOrbit'
   );
 
 
-const layeredWings =
+const cWings =
   Array.from(
     document.querySelectorAll(
-      '.layered-wing'
+      '.c-wing'
     )
   );
 
 
-const layeredPrev =
+const cPrev =
   document.getElementById(
-    'layeredPrev'
+    'cPrev'
   );
 
 
-const layeredNext =
+const cNext =
   document.getElementById(
-    'layeredNext'
+    'cNext'
   );
 
 
-const layeredDots =
+const cDots =
   document.getElementById(
-    'layeredDots'
+    'cDots'
   );
 
 
-const WING_COUNT =
-  layeredWings.length;
+const WINGS =
+  cWings.length;
 
 
-let activeWing = 0;
+let current =
+  0;
 
 
-let rotationTimer = null;
+let timer =
+  null;
 
 
-let resumeTimer = null;
+let resumeTimer =
+  null;
 
 
-let paused = false;
+let paused =
+  false;
 
 
-let touchStartX = 0;
+let touchStartX =
+  0;
 
 
 /* =========================================================
-   POSITION CLASSES
+   C POSITIONS
 ========================================================= */
 
-const POSITION_CLASSES = [
+/*
+  These five slots form the C curve.
 
-  'is-active',
+  0 = left
+  1 = lower-left
+  2 = bottom
+  3 = lower-right
+  4 = right
+*/
 
-  'position-right',
+const SLOT_CLASSES = [
 
-  'position-far-right',
+  'c-left',
 
-  'position-far-left',
+  'c-lower-left',
 
-  'position-left'
+  'c-bottom',
+
+  'c-lower-right',
+
+  'c-right'
 
 ];
 
@@ -596,11 +605,11 @@ const POSITION_CLASSES = [
    CREATE DOTS
 ========================================================= */
 
-function createDots(){
+function createCDots(){
 
   if (
-    !layeredDots ||
-    !WING_COUNT
+    !cDots ||
+    WINGS !== 5
   ){
 
     return;
@@ -608,10 +617,10 @@ function createDots(){
   }
 
 
-  layeredDots.innerHTML = '';
+  cDots.innerHTML = '';
 
 
-  layeredWings.forEach(
+  cWings.forEach(
     (wing, index) => {
 
       const dot =
@@ -625,10 +634,10 @@ function createDots(){
 
 
       dot.className =
-        'layered-dot';
+        'c-dot';
 
 
-      const label =
+      const name =
         wing
           .innerText
           .replace(
@@ -640,7 +649,7 @@ function createDots(){
 
       dot.setAttribute(
         'aria-label',
-        `Select ${label}`
+        `Show ${name}`
       );
 
 
@@ -648,15 +657,17 @@ function createDots(){
         'click',
         () => {
 
-          setWing(index);
+          goTo(
+            index
+          );
 
-          restartRotation();
+          restartAuto();
 
         }
       );
 
 
-      layeredDots.appendChild(
+      cDots.appendChild(
         dot
       );
 
@@ -670,18 +681,16 @@ function createDots(){
    UPDATE DOTS
 ========================================================= */
 
-function updateDots(){
+function updateCDots(){
 
-  if (!layeredDots){
-
+  if (!cDots){
     return;
-
   }
 
 
   const dots =
-    layeredDots.querySelectorAll(
-      '.layered-dot'
+    cDots.querySelectorAll(
+      '.c-dot'
     );
 
 
@@ -690,7 +699,7 @@ function updateDots(){
 
       dot.classList.toggle(
         'active',
-        index === activeWing
+        index === current
       );
 
     }
@@ -700,15 +709,19 @@ function updateDots(){
 
 
 /* =========================================================
-   APPLY POSITIONS
+   UPDATE C POSITIONS
 ========================================================= */
 
-function applyWingPositions(){
+function updateCPositions(){
 
-  layeredWings.forEach(
+  cWings.forEach(
     (wing, index) => {
 
-      POSITION_CLASSES.forEach(
+      /*
+        Remove old state classes.
+      */
+
+      SLOT_CLASSES.forEach(
         (className) => {
 
           wing.classList.remove(
@@ -719,152 +732,186 @@ function applyWingPositions(){
       );
 
 
+      /*
+        Remove active.
+      */
+
+      wing.classList.remove(
+        'c-active'
+      );
+
+
+      /*
+        Calculate circular relative slot.
+      */
+
       const relative =
         (
           index -
-          activeWing +
-          WING_COUNT
+          current +
+          WINGS
         ) %
-        WING_COUNT;
+        WINGS;
 
 
-      const className =
-        POSITION_CLASSES[
+      const slotClass =
+        SLOT_CLASSES[
           relative
         ];
 
 
-      if (className){
+      if (slotClass){
 
         wing.classList.add(
-          className
+          slotClass
         );
 
       }
 
 
-      wing.setAttribute(
-        'aria-current',
-        relative === 0
-          ? 'true'
-          : 'false'
-      );
+      /*
+        Current selected item
+        is the strongest item.
+      */
+
+      if (
+        relative === 2
+      ){
+
+        wing.classList.add(
+          'c-active'
+        );
+
+      }
 
     }
   );
 
 
-  updateDots();
+  updateCDots();
 
 }
 
 
 /* =========================================================
-   SET ACTIVE
+   GO TO
 ========================================================= */
 
-function setWing(
+function goTo(
   index
 ){
 
-  if (!WING_COUNT){
+  if (
+    WINGS !== 5
+  ){
 
     return;
 
   }
 
 
-  activeWing =
+  current =
     (
       index +
-      WING_COUNT
+      WINGS
     ) %
-    WING_COUNT;
+    WINGS;
 
 
-  applyWingPositions();
+  updateCPositions();
 
 }
 
 
 /* =========================================================
-   NEXT / PREVIOUS
+   NEXT
 ========================================================= */
 
-function nextWing(){
+function nextC(){
 
-  setWing(
-    activeWing + 1
-  );
-
-}
-
-
-function previousWing(){
-
-  setWing(
-    activeWing - 1
+  goTo(
+    current + 1
   );
 
 }
 
 
 /* =========================================================
-   ROTATION CONTROL
+   PREVIOUS
 ========================================================= */
 
-function stopRotation(){
+function previousC(){
+
+  goTo(
+    current - 1
+  );
+
+}
+
+
+/* =========================================================
+   AUTO ROTATION
+========================================================= */
+
+function stopAuto(){
 
   if (
-    rotationTimer
+    timer
   ){
 
     clearInterval(
-      rotationTimer
+      timer
     );
 
-    rotationTimer = null;
+    timer = null;
 
   }
 
 }
 
 
-function startRotation(){
+function startAuto(){
 
-  stopRotation();
+  stopAuto();
 
 
-  if (paused){
+  if (
+    paused ||
+    WINGS !== 5
+  ){
 
     return;
 
   }
 
 
-  rotationTimer =
+  timer =
     setInterval(
       () => {
 
-        if (!paused){
+        if (
+          !paused
+        ){
 
-          nextWing();
+          nextC();
 
         }
 
       },
-      4500
+      4300
     );
 
 }
 
 
-function restartRotation(){
+function restartAuto(){
 
-  stopRotation();
+  stopAuto();
 
 
-  if (resumeTimer){
+  if (
+    resumeTimer
+  ){
 
     clearTimeout(
       resumeTimer
@@ -877,7 +924,7 @@ function restartRotation(){
     setTimeout(
       () => {
 
-        startRotation();
+        startAuto();
 
       },
       800
@@ -887,43 +934,39 @@ function restartRotation(){
 
 
 /* =========================================================
-   PREVIOUS / NEXT BUTTONS
+   ARROWS
 ========================================================= */
 
-layeredNext?.addEventListener(
+cNext?.addEventListener(
   'click',
   () => {
 
-    nextWing();
+    nextC();
 
-    restartRotation();
+    restartAuto();
 
   }
 );
 
 
-layeredPrev?.addEventListener(
+cPrev?.addEventListener(
   'click',
   () => {
 
-    previousWing();
+    previousC();
 
-    restartRotation();
+    restartAuto();
 
   }
 );
 
 
 /* =========================================================
-   WING HOVER + CLICK
+   HOVER
 ========================================================= */
 
-layeredWings.forEach(
+cWings.forEach(
   (wing, index) => {
-
-    /*
-      Hover = pause.
-    */
 
     wing.addEventListener(
       'mouseenter',
@@ -931,7 +974,7 @@ layeredWings.forEach(
 
         paused = true;
 
-        stopRotation();
+        stopAuto();
 
       }
     );
@@ -943,57 +986,55 @@ layeredWings.forEach(
 
         paused = false;
 
-        startRotation();
+        startAuto();
 
       }
     );
 
 
     /*
-      Side wing:
-      bring it to front.
+      Side item:
+      bring into the centre/bottom slot.
 
-      Active wing:
-      let normal href open.
+      Active item:
+      normal href works.
     */
 
     wing.addEventListener(
       'click',
       (event) => {
 
+        /*
+          The active item is the one
+          occupying the bottom-centre
+          Education-style slot.
+
+          Its click should open the
+          respective page.
+        */
+
+        const relative =
+          (
+            index -
+            current +
+            WINGS
+          ) %
+          WINGS;
+
+
         if (
-          index !== activeWing
+          relative !== 2
         ){
 
           event.preventDefault();
 
-          setWing(index);
+          goTo(
+            index - 2
+          );
 
-          restartRotation();
+          restartAuto();
 
         }
-
-      }
-    );
-
-
-    /*
-      Detect image load failure.
-    */
-
-    const image =
-      wing.querySelector(
-        'img'
-      );
-
-
-    image?.addEventListener(
-      'error',
-      () => {
-
-        wing.classList.add(
-          'image-missing'
-        );
 
       }
     );
@@ -1003,10 +1044,10 @@ layeredWings.forEach(
 
 
 /* =========================================================
-   MOBILE SWIPE
+   TOUCH / SWIPE
 ========================================================= */
 
-layeredOrbit?.addEventListener(
+cOrbit?.addEventListener(
   'touchstart',
   (event) => {
 
@@ -1018,7 +1059,7 @@ layeredOrbit?.addEventListener(
 
     paused = true;
 
-    stopRotation();
+    stopAuto();
 
   },
   {
@@ -1027,18 +1068,18 @@ layeredOrbit?.addEventListener(
 );
 
 
-layeredOrbit?.addEventListener(
+cOrbit?.addEventListener(
   'touchend',
   (event) => {
 
-    const touchEndX =
+    const endX =
       event
         .changedTouches[0]
         .screenX;
 
 
     const distance =
-      touchEndX -
+      endX -
       touchStartX;
 
 
@@ -1050,12 +1091,12 @@ layeredOrbit?.addEventListener(
         distance < 0
       ){
 
-        nextWing();
+        nextC();
 
       }
       else{
 
-        previousWing();
+        previousC();
 
       }
 
@@ -1064,7 +1105,7 @@ layeredOrbit?.addEventListener(
 
     paused = false;
 
-    startRotation();
+    startAuto();
 
   },
   {
@@ -1085,10 +1126,6 @@ document.addEventListener(
       document.activeElement?.tagName;
 
 
-    /*
-      Do not interfere with typing.
-    */
-
     if (
 
       tag === 'INPUT' ||
@@ -1106,9 +1143,9 @@ document.addEventListener(
       event.key === 'ArrowRight'
     ){
 
-      nextWing();
+      nextC();
 
-      restartRotation();
+      restartAuto();
 
     }
 
@@ -1117,9 +1154,9 @@ document.addEventListener(
       event.key === 'ArrowLeft'
     ){
 
-      previousWing();
+      previousC();
 
-      restartRotation();
+      restartAuto();
 
     }
 
@@ -1128,57 +1165,29 @@ document.addEventListener(
 
 
 /* =========================================================
-   STOP HERO ROTATION WHEN HERO LEAVES VIEW
-========================================================= */
-
-if (hero){
-
-  const heroObserver =
-    new IntersectionObserver(
-      (entries) => {
-
-        const visible =
-          entries[0]?.isIntersecting;
-
-
-        if (visible){
-
-          startRotation();
-
-        }
-        else{
-
-          stopRotation();
-
-        }
-
-      },
-      {
-        threshold:0.05
-      }
-    );
-
-
-  heroObserver.observe(
-    hero
-  );
-
-}
-
-
-/* =========================================================
    INITIALISE
 ========================================================= */
 
 if (
-  layeredOrbit &&
-  WING_COUNT === 5
+  cOrbit &&
+  WINGS === 5
 ){
 
-  createDots();
+  createCDots();
 
-  setWing(0);
+  /*
+    We deliberately start with:
+    Real Estate = left
+    Travel = lower-left
+    Education = bottom
+    Consultancy = lower-right
+    Events = right
+  */
 
-  startRotation();
+  current = 0;
+
+  updateCPositions();
+
+  startAuto();
 
 }
