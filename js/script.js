@@ -1,6 +1,5 @@
-```javascript
 /* =========================================================
-   MADHYAM WEBSITE — MAIN JAVASCRIPT
+   MADHYUM WEBSITE — MAIN JAVASCRIPT
 ========================================================= */
 
 
@@ -9,67 +8,70 @@
 ========================================================= */
 
 const header =
-  document.querySelector(".site-header");
-
-
-window.addEventListener("scroll", () => {
-
-  if (!header) {
-    return;
-  }
-
-  header.classList.toggle(
-    "scrolled",
-    window.scrollY > 30
+  document.querySelector(
+    ".site-header"
   );
 
-});
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    if (!header) {
+      return;
+    }
+
+    header.classList.toggle(
+      "scrolled",
+      window.scrollY > 30
+    );
+
+  }
+);
 
 
 /* =========================================================
    REVEAL ANIMATIONS
 ========================================================= */
 
-const revealElements =
-  document.querySelectorAll(".reveal");
+const revealObserver =
+  new IntersectionObserver(
+    (entries) => {
 
+      entries.forEach(
+        (entry) => {
 
-if ("IntersectionObserver" in window) {
-
-  const revealObserver =
-    new IntersectionObserver(
-      (entries) => {
-
-        entries.forEach((entry) => {
-
-          if (entry.isIntersecting) {
+          if (
+            entry.isIntersecting
+          ) {
 
             entry.target.classList.add(
               "visible"
             );
 
-            revealObserver.unobserve(
-              entry.target
-            );
-
           }
 
-        });
+        }
+      );
 
-      },
-      {
-        threshold:0.1
-      }
-    );
+    },
+    {
+      threshold:0.1
+    }
+  );
 
 
-  revealElements.forEach((element) => {
+document
+  .querySelectorAll(".reveal")
+  .forEach(
+    (element) => {
 
-    revealObserver.observe(element);
+      revealObserver.observe(
+        element
+      );
 
-  });
-
-}
+    }
+  );
 
 
 /* =========================================================
@@ -77,11 +79,15 @@ if ("IntersectionObserver" in window) {
 ========================================================= */
 
 const mobileMenu =
-  document.querySelector(".mobile-menu");
+  document.querySelector(
+    ".mobile-menu"
+  );
 
 
 const menuButton =
-  document.querySelector(".menu-btn");
+  document.querySelector(
+    ".menu-btn"
+  );
 
 
 const mobileCloseButtons =
@@ -94,71 +100,20 @@ menuButton?.addEventListener(
   "click",
   () => {
 
-    mobileMenu?.classList.add("open");
+    mobileMenu?.classList.add(
+      "open"
+    );
 
   }
 );
 
 
-mobileCloseButtons.forEach((button) => {
+mobileCloseButtons.forEach(
+  (button) => {
 
-  button.addEventListener(
-    "click",
-    () => {
-
-      mobileMenu?.classList.remove("open");
-
-    }
-  );
-
-});
-
-
-/* =========================================================
-   SMOOTH SCROLL
-========================================================= */
-
-document
-  .querySelectorAll("[data-scroll]")
-  .forEach((link) => {
-
-    link.addEventListener(
+    button.addEventListener(
       "click",
-      (event) => {
-
-        const target =
-          link.getAttribute("href");
-
-
-        if (
-          !target ||
-          !target.startsWith("#")
-        ) {
-
-          return;
-
-        }
-
-
-        const element =
-          document.querySelector(target);
-
-
-        if (!element) {
-
-          return;
-
-        }
-
-
-        event.preventDefault();
-
-
-        element.scrollIntoView({
-          behavior:"smooth",
-          block:"start"
-        });
-
+      () => {
 
         mobileMenu?.classList.remove(
           "open"
@@ -167,7 +122,75 @@ document
       }
     );
 
-  });
+  }
+);
+
+
+/* =========================================================
+   SMOOTH SCROLL
+========================================================= */
+
+document
+  .querySelectorAll(
+    "[data-scroll]"
+  )
+  .forEach(
+    (link) => {
+
+      link.addEventListener(
+        "click",
+        (event) => {
+
+          const target =
+            link.getAttribute(
+              "href"
+            );
+
+
+          if (
+            !target ||
+            !target.startsWith("#")
+          ) {
+
+            return;
+
+          }
+
+
+          const element =
+            document.querySelector(
+              target
+            );
+
+
+          if (!element) {
+
+            return;
+
+          }
+
+
+          event.preventDefault();
+
+
+          element.scrollIntoView({
+
+            behavior:"smooth",
+
+            block:"start"
+
+          });
+
+
+          mobileMenu?.classList.remove(
+            "open"
+          );
+
+        }
+      );
+
+    }
+  );
 
 
 /* =========================================================
@@ -175,7 +198,9 @@ document
 ========================================================= */
 
 const drawer =
-  document.querySelector(".drawer");
+  document.querySelector(
+    ".drawer"
+  );
 
 
 const searchButtons =
@@ -191,65 +216,87 @@ const closeSearchButtons =
 
 
 const searchInput =
-  document.querySelector("#searchInput");
+  document.querySelector(
+    "#searchInput"
+  );
 
 
 const searchResults =
-  document.querySelector("#searchResults");
-
-
-searchButtons.forEach((button) => {
-
-  button.addEventListener(
-    "click",
-    () => {
-
-      drawer?.classList.add("open");
-
-      drawer?.setAttribute(
-        "aria-hidden",
-        "false"
-      );
-
-
-      setTimeout(() => {
-
-        searchInput?.focus();
-
-      },100);
-
-    }
+  document.querySelector(
+    "#searchResults"
   );
 
-});
+
+searchButtons.forEach(
+  (button) => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        drawer?.classList.add(
+          "open"
+        );
 
 
-closeSearchButtons.forEach((button) => {
+        drawer?.setAttribute(
+          "aria-hidden",
+          "false"
+        );
 
-  button.addEventListener(
-    "click",
-    () => {
 
-      drawer?.classList.remove("open");
+        setTimeout(
+          () => {
 
-      drawer?.setAttribute(
-        "aria-hidden",
-        "true"
-      );
+            searchInput?.focus();
 
-    }
-  );
+          },
+          100
+        );
 
-});
+      }
+    );
+
+  }
+);
+
+
+closeSearchButtons.forEach(
+  (button) => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        drawer?.classList.remove(
+          "open"
+        );
+
+
+        drawer?.setAttribute(
+          "aria-hidden",
+          "true"
+        );
+
+      }
+    );
+
+  }
+);
 
 
 drawer?.addEventListener(
   "click",
   (event) => {
 
-    if (event.target === drawer) {
+    if (
+      event.target === drawer
+    ) {
 
-      drawer.classList.remove("open");
+      drawer.classList.remove(
+        "open"
+      );
+
 
       drawer.setAttribute(
         "aria-hidden",
@@ -341,10 +388,14 @@ const SEARCH_DATA = [
    SEARCH RENDER
 ========================================================= */
 
-function renderSearch(query = ""){
+function renderSearch(
+  query = ""
+){
 
   if (!searchResults) {
+
     return;
+
   }
 
 
@@ -379,23 +430,25 @@ function renderSearch(query = ""){
 
 
   const matches =
-    SEARCH_DATA.filter((item) => {
+    SEARCH_DATA.filter(
+      (item) => {
 
-      return (
+        return (
 
-        item[0]
-          .toLowerCase()
-          .includes(term)
+          item[0]
+            .toLowerCase()
+            .includes(term)
 
-        ||
+          ||
 
-        item[1]
-          .toLowerCase()
-          .includes(term)
+          item[1]
+            .toLowerCase()
+            .includes(term)
 
-      );
+        );
 
-    });
+      }
+    );
 
 
   if (!matches.length){
@@ -423,9 +476,8 @@ function renderSearch(query = ""){
 
   searchResults.innerHTML =
     matches
-      .map((item) => {
-
-        return `
+      .map(
+        (item) => `
 
           <a
             class="result"
@@ -442,9 +494,8 @@ function renderSearch(query = ""){
 
           </a>
 
-        `;
-
-      })
+        `
+      )
       .join("");
 
 }
@@ -466,75 +517,582 @@ renderSearch();
 
 
 /* =========================================================
-   HERO WING INTERACTION
+   FINAL LAYERED HERO
 ========================================================= */
 
-const networkWings =
-  document.querySelectorAll(
-    ".network-wing"
+const layeredOrbit =
+  document.getElementById(
+    "layeredOrbit"
   );
 
 
-networkWings.forEach((wing) => {
-
-  wing.addEventListener(
-    "mouseenter",
-    () => {
-
-      networkWings.forEach((otherWing) => {
-
-        if (otherWing !== wing) {
-
-          otherWing.style.opacity = "0.45";
-
-        }
-
-      });
-
-    }
+const layeredWings =
+  Array.from(
+    document.querySelectorAll(
+      ".layered-wing"
+    )
   );
 
 
-  wing.addEventListener(
-    "mouseleave",
-    () => {
-
-      networkWings.forEach((otherWing) => {
-
-        otherWing.style.opacity = "";
-
-      });
-
-    }
+const layeredPrev =
+  document.getElementById(
+    "layeredPrev"
   );
 
-});
+
+const layeredNext =
+  document.getElementById(
+    "layeredNext"
+  );
+
+
+const layeredDots =
+  document.getElementById(
+    "layeredDots"
+  );
+
+
+const WING_COUNT =
+  layeredWings.length;
+
+
+let activeWing = 0;
+
+
+let rotationTimer = null;
+
+
+let isHovering = false;
+
+
+let isTouching = false;
+
+
+let touchStartX = 0;
 
 
 /* =========================================================
-   KEYBOARD ACCESSIBILITY
+   CREATE DOTS
+========================================================= */
+
+function createDots(){
+
+  if (
+    !layeredDots ||
+    !WING_COUNT
+  ){
+
+    return;
+
+  }
+
+
+  layeredDots.innerHTML = "";
+
+
+  layeredWings.forEach(
+    (wing, index) => {
+
+      const dot =
+        document.createElement(
+          "button"
+        );
+
+
+      dot.type = "button";
+
+      dot.className =
+        "layered-dot";
+
+
+      dot.setAttribute(
+        "aria-label",
+        `Select business ${
+          index + 1
+        }`
+      );
+
+
+      dot.addEventListener(
+        "click",
+        () => {
+
+          setWing(index);
+
+          restartRotation();
+
+        }
+      );
+
+
+      layeredDots.appendChild(
+        dot
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   UPDATE POSITIONS
+========================================================= */
+
+function updatePositions(){
+
+  layeredWings.forEach(
+    (wing, index) => {
+
+      wing.classList.remove(
+
+        "is-active",
+
+        "position-left",
+
+        "position-right",
+
+        "position-far-left",
+
+        "position-far-right"
+
+      );
+
+
+      const relative =
+        (
+          index -
+          activeWing +
+          WING_COUNT
+        ) %
+        WING_COUNT;
+
+
+      /*
+        0 = centre
+        1 = right
+        2 = far right
+        3 = far left
+        4 = left
+      */
+
+
+      if (
+        relative === 0
+      ){
+
+        wing.classList.add(
+          "is-active"
+        );
+
+      }
+
+
+      else if (
+        relative === 1
+      ){
+
+        wing.classList.add(
+          "position-right"
+        );
+
+      }
+
+
+      else if (
+        relative === 2
+      ){
+
+        wing.classList.add(
+          "position-far-right"
+        );
+
+      }
+
+
+      else if (
+        relative === 3
+      ){
+
+        wing.classList.add(
+          "position-far-left"
+        );
+
+      }
+
+
+      else if (
+        relative === 4
+      ){
+
+        wing.classList.add(
+          "position-left"
+        );
+
+      }
+
+    }
+  );
+
+
+  /*
+    Update progress dots.
+  */
+
+  if (layeredDots){
+
+    const dots =
+      layeredDots.querySelectorAll(
+        ".layered-dot"
+      );
+
+
+    dots.forEach(
+      (dot, index) => {
+
+        dot.classList.toggle(
+          "active",
+          index === activeWing
+        );
+
+      }
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SELECT WING
+========================================================= */
+
+function setWing(
+  index
+){
+
+  if (!WING_COUNT){
+
+    return;
+
+  }
+
+
+  activeWing =
+    (
+      index +
+      WING_COUNT
+    ) %
+    WING_COUNT;
+
+
+  updatePositions();
+
+}
+
+
+/* =========================================================
+   NEXT
+========================================================= */
+
+function nextWing(){
+
+  setWing(
+    activeWing + 1
+  );
+
+}
+
+
+/* =========================================================
+   PREVIOUS
+========================================================= */
+
+function previousWing(){
+
+  setWing(
+    activeWing - 1
+  );
+
+}
+
+
+/* =========================================================
+   CONTROL BUTTONS
+========================================================= */
+
+layeredNext?.addEventListener(
+  "click",
+  () => {
+
+    nextWing();
+
+    restartRotation();
+
+  }
+);
+
+
+layeredPrev?.addEventListener(
+  "click",
+  () => {
+
+    previousWing();
+
+    restartRotation();
+
+  }
+);
+
+
+/* =========================================================
+   CARD / VISUAL CLICK
+========================================================= */
+
+layeredWings.forEach(
+  (wing, index) => {
+
+
+    wing.addEventListener(
+      "click",
+      (event) => {
+
+        /*
+          Side item:
+          first bring it to centre.
+        */
+
+        if (
+          index !== activeWing
+        ){
+
+          event.preventDefault();
+
+          setWing(index);
+
+          restartRotation();
+
+        }
+
+        /*
+          Active item:
+          normal href works.
+        */
+
+      }
+    );
+
+
+    /*
+      Hover pauses rotation.
+    */
+
+    wing.addEventListener(
+      "mouseenter",
+      () => {
+
+        isHovering = true;
+
+        stopRotation();
+
+      }
+    );
+
+
+    wing.addEventListener(
+      "mouseleave",
+      () => {
+
+        isHovering = false;
+
+        startRotation();
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   AUTO ROTATION
+========================================================= */
+
+function startRotation(){
+
+  stopRotation();
+
+
+  rotationTimer =
+    setInterval(
+      () => {
+
+        if (
+          !isHovering &&
+          !isTouching
+        ){
+
+          nextWing();
+
+        }
+
+      },
+      4500
+    );
+
+}
+
+
+function stopRotation(){
+
+  if (rotationTimer){
+
+    clearInterval(
+      rotationTimer
+    );
+
+    rotationTimer = null;
+
+  }
+
+}
+
+
+function restartRotation(){
+
+  stopRotation();
+
+
+  setTimeout(
+    () => {
+
+      startRotation();
+
+    },
+    700
+  );
+
+}
+
+
+/* =========================================================
+   TOUCH / MOBILE SWIPE
+========================================================= */
+
+layeredOrbit?.addEventListener(
+  "touchstart",
+  (event) => {
+
+    touchStartX =
+      event
+        .changedTouches[0]
+        .screenX;
+
+
+    isTouching = true;
+
+    stopRotation();
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+layeredOrbit?.addEventListener(
+  "touchend",
+  (event) => {
+
+    const touchEndX =
+      event
+        .changedTouches[0]
+        .screenX;
+
+
+    const distance =
+      touchEndX -
+      touchStartX;
+
+
+    if (
+      Math.abs(distance) > 45
+    ){
+
+      if (
+        distance < 0
+      ){
+
+        nextWing();
+
+      }
+      else{
+
+        previousWing();
+
+      }
+
+    }
+
+
+    isTouching = false;
+
+    restartRotation();
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+/* =========================================================
+   KEYBOARD
 ========================================================= */
 
 document.addEventListener(
   "keydown",
   (event) => {
 
-    if (event.key === "Escape") {
-
-      mobileMenu?.classList.remove(
-        "open"
-      );
+    const activeTag =
+      document.activeElement?.tagName;
 
 
-      drawer?.classList.remove(
-        "open"
-      );
+    /*
+      Don't interfere with inputs.
+    */
+
+    if (
+
+      activeTag === "INPUT" ||
+      activeTag === "TEXTAREA" ||
+      activeTag === "SELECT"
+
+    ){
+
+      return;
+
+    }
 
 
-      drawer?.setAttribute(
-        "aria-hidden",
-        "true"
-      );
+    if (
+      event.key === "ArrowRight"
+    ){
+
+      nextWing();
+
+      restartRotation();
+
+    }
+
+
+    if (
+      event.key === "ArrowLeft"
+    ){
+
+      previousWing();
+
+      restartRotation();
 
     }
 
@@ -543,36 +1101,59 @@ document.addEventListener(
 
 
 /* =========================================================
+   INITIALISE
+========================================================= */
+
+if (
+  layeredOrbit &&
+  WING_COUNT === 5
+){
+
+  createDots();
+
+  setWing(0);
+
+  startRotation();
+
+}
+
+
+/* =========================================================
    FORM DEMO
 ========================================================= */
 
 document
-  .querySelectorAll(".requirement-form")
-  .forEach((form) => {
+  .querySelectorAll(
+    ".requirement-form"
+  )
+  .forEach(
+    (form) => {
 
-    form.addEventListener(
-      "submit",
-      (event) => {
+      form.addEventListener(
+        "submit",
+        (event) => {
 
-        event.preventDefault();
-
-
-        const success =
-          form.querySelector(".success");
+          event.preventDefault();
 
 
-        if (success){
+          const success =
+            form.querySelector(
+              ".success"
+            );
 
-          success.style.display =
-            "block";
+
+          if (success){
+
+            success.style.display =
+              "block";
+
+          }
+
+
+          form.reset();
 
         }
+      );
 
-
-        form.reset();
-
-      }
-    );
-
-  });
-```
+    }
+  );
