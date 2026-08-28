@@ -21,6 +21,7 @@ window.addEventListener(
       return;
     }
 
+
     header.classList.toggle(
       'scrolled',
       window.scrollY > 30
@@ -31,7 +32,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   REVEAL ANIMATION
+   REVEAL ANIMATIONS
 ========================================================= */
 
 const revealElements =
@@ -217,7 +218,7 @@ document
 
 
 /* =========================================================
-   SEARCH DRAWER
+   SEARCH
 ========================================================= */
 
 const drawer =
@@ -536,7 +537,7 @@ renderSearch();
 
 
 /* =========================================================
-   C-SHAPED HERO
+   C-SHAPED HERO ORBIT
 ========================================================= */
 
 const layeredOrbit =
@@ -576,13 +577,21 @@ const WING_COUNT =
 
 
 /* =========================================================
-   C ORBIT SLOT ORDER
+   FIVE FIXED C-ORBIT SLOTS
 
    0 = LEFT
    1 = LOWER LEFT
    2 = BOTTOM CENTER
    3 = LOWER RIGHT
    4 = RIGHT
+
+   Initial:
+
+   REAL ESTATE  → LEFT
+   TRAVEL       → LOWER LEFT
+   EDUCATION    → BOTTOM
+   CONSULTANCY  → LOWER RIGHT
+   EVENTS       → RIGHT
 ========================================================= */
 
 const SLOT_CLASSES = [
@@ -600,43 +609,20 @@ const SLOT_CLASSES = [
 ];
 
 
-/*
-  currentSlot describes which wing
-  index is currently sitting at slot 0.
-
-  Initially:
-
-  index 0 Real Estate = LEFT
-  index 1 Travel      = LOWER LEFT
-  index 2 Education   = BOTTOM
-  index 3 Consultancy = LOWER RIGHT
-  index 4 Events      = RIGHT
-
-  Therefore:
-*/
-
-let currentSlot =
-  0;
+let currentSlot = 0;
 
 
 /* =========================================================
-   ROTATION
+   ROTATION STATE
 ========================================================= */
 
-let rotationTimer =
-  null;
+let rotationTimer = null;
 
+let hoverPaused = false;
 
-let hoverPaused =
-  false;
+let touchPaused = false;
 
-
-let touchPaused =
-  false;
-
-
-let touchStartX =
-  0;
+let touchStartX = 0;
 
 
 /* =========================================================
@@ -655,8 +641,7 @@ function createDots(){
   }
 
 
-  layeredDots.innerHTML =
-    '';
+  layeredDots.innerHTML = '';
 
 
   layeredWings.forEach(
@@ -697,13 +682,10 @@ function createDots(){
         () => {
 
           /*
-            Put clicked wing at
-            BOTTOM CENTER.
+            Put selected wing
+            at bottom-center.
 
-            Bottom-center is slot 2.
-
-            currentSlot =
-              index - 2
+            Bottom slot = 2.
           */
 
           currentSlot =
@@ -776,7 +758,7 @@ function updateDots(){
 
 
 /* =========================================================
-   APPLY ORBIT POSITIONS
+   UPDATE ORBIT
 ========================================================= */
 
 function updateOrbit(){
@@ -845,9 +827,9 @@ function updateOrbit(){
 
 
 /* =========================================================
-   NEXT C-ORBIT STEP
+   NEXT
 
-   Movement:
+   C PATH:
 
    LEFT
       ↓
@@ -864,13 +846,6 @@ function updateOrbit(){
 
 function nextWing(){
 
-  /*
-    Decrease currentSlot by one.
-
-    This causes every wing to move
-    one position along the C path.
-  */
-
   currentSlot =
     (
       currentSlot -
@@ -886,7 +861,7 @@ function nextWing(){
 
 
 /* =========================================================
-   PREVIOUS C-ORBIT STEP
+   PREVIOUS
 ========================================================= */
 
 function previousWing(){
@@ -918,11 +893,10 @@ function stopRotation(){
       rotationTimer
     );
 
+    rotationTimer =
+      null;
+
   }
-
-
-  rotationTimer =
-    null;
 
 }
 
@@ -1017,15 +991,14 @@ layeredWings.forEach(
 
 
     /* -----------------------------------------------
-       HOVER PAUSE
+       PAUSE ON HOVER
     ------------------------------------------------ */
 
     wing.addEventListener(
       'mouseenter',
       () => {
 
-        hoverPaused =
-          true;
+        hoverPaused = true;
 
         stopRotation();
 
@@ -1037,8 +1010,7 @@ layeredWings.forEach(
       'mouseleave',
       () => {
 
-        hoverPaused =
-          false;
+        hoverPaused = false;
 
         startRotation();
 
@@ -1064,8 +1036,10 @@ layeredWings.forEach(
 
 
         /*
-          If not already at bottom-center,
-          first move the wing there.
+          Side wing:
+
+          Bring it to the
+          bottom-center position.
         */
 
         if (
@@ -1092,32 +1066,10 @@ layeredWings.forEach(
         }
 
         /*
-          If relative === 2,
-          normal <a href> works.
+          Bottom-center wing:
+
+          Normal href works.
         */
-
-      }
-    );
-
-
-    /* -----------------------------------------------
-       IMAGE LOAD ERROR
-    ------------------------------------------------ */
-
-    const image =
-      wing.querySelector(
-        'img'
-      );
-
-
-    image?.addEventListener(
-      'error',
-      () => {
-
-        console.warn(
-          'MADHYUM image failed to load:',
-          image.src
-        );
 
       }
     );
@@ -1127,7 +1079,7 @@ layeredWings.forEach(
 
 
 /* =========================================================
-   MOBILE SWIPE
+   TOUCH SWIPE
 ========================================================= */
 
 layeredOrbit?.addEventListener(
@@ -1140,8 +1092,7 @@ layeredOrbit?.addEventListener(
         .screenX;
 
 
-    touchPaused =
-      true;
+    touchPaused = true;
 
     stopRotation();
 
@@ -1187,8 +1138,7 @@ layeredOrbit?.addEventListener(
     }
 
 
-    touchPaused =
-      false;
+    touchPaused = false;
 
     startRotation();
 
@@ -1259,17 +1209,16 @@ if (
 ){
 
   /*
-    Exact initial layout:
+    Initial layout:
 
-    Real Estate  → LEFT
-    Travel       → LOWER LEFT
-    Education    → BOTTOM CENTER
-    Consultancy  → LOWER RIGHT
-    Events       → RIGHT
+    Real Estate  = LEFT
+    Travel       = LOWER LEFT
+    Education    = BOTTOM CENTER
+    Consultancy  = LOWER RIGHT
+    Events       = RIGHT
   */
 
-  currentSlot =
-    0;
+  currentSlot = 0;
 
 
   createDots();
