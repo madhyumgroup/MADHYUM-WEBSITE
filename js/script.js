@@ -8,9 +8,7 @@
 ========================================================= */
 
 const header =
-  document.querySelector(
-    ".site-header"
-  );
+  document.querySelector(".site-header");
 
 
 window.addEventListener(
@@ -174,11 +172,8 @@ document
 
 
           element.scrollIntoView({
-
             behavior:"smooth",
-
             block:"start"
-
           });
 
 
@@ -194,7 +189,7 @@ document
 
 
 /* =========================================================
-   SEARCH
+   SEARCH DRAWER
 ========================================================= */
 
 const drawer =
@@ -297,7 +292,6 @@ drawer?.addEventListener(
         "open"
       );
 
-
       drawer.setAttribute(
         "aria-hidden",
         "true"
@@ -393,9 +387,7 @@ function renderSearch(
 ){
 
   if (!searchResults) {
-
     return;
-
   }
 
 
@@ -477,24 +469,28 @@ function renderSearch(
   searchResults.innerHTML =
     matches
       .map(
-        (item) => `
+        (item) => {
 
-          <a
-            class="result"
-            href="${item[2]}"
-          >
+          return `
 
-            <strong>
-              ${item[0]}
-            </strong>
+            <a
+              class="result"
+              href="${item[2]}"
+            >
 
-            <small>
-              → ${item[1]}
-            </small>
+              <strong>
+                ${item[0]}
+              </strong>
 
-          </a>
+              <small>
+                → ${item[1]}
+              </small>
 
-        `
+            </a>
+
+          `;
+
+        }
       )
       .join("");
 
@@ -517,7 +513,7 @@ renderSearch();
 
 
 /* =========================================================
-   FINAL LAYERED HERO
+   FINAL LAYERED HERO CAROUSEL
 ========================================================= */
 
 const layeredOrbit =
@@ -552,6 +548,10 @@ const layeredDots =
   );
 
 
+/*
+  Five business wings.
+*/
+
 const WING_COUNT =
   layeredWings.length;
 
@@ -559,14 +559,25 @@ const WING_COUNT =
 let activeWing = 0;
 
 
+/*
+  Automatic rotation timer.
+*/
+
 let rotationTimer = null;
 
 
-let isHovering = false;
+/*
+  Interaction states.
+*/
 
+let isHovering = false;
 
 let isTouching = false;
 
+
+/*
+  Touch tracking.
+*/
 
 let touchStartX = 0;
 
@@ -575,7 +586,7 @@ let touchStartX = 0;
    CREATE DOTS
 ========================================================= */
 
-function createDots(){
+function createLayeredDots(){
 
   if (
     !layeredDots ||
@@ -636,28 +647,36 @@ function createDots(){
 
 
 /* =========================================================
-   UPDATE POSITIONS
+   APPLY POSITION CLASSES
 ========================================================= */
 
-function updatePositions(){
+function updateWingPositions(){
 
   layeredWings.forEach(
     (wing, index) => {
 
+      /*
+        Remove all old states.
+      */
+
       wing.classList.remove(
-
         "is-active",
-
         "position-left",
-
         "position-right",
-
         "position-far-left",
-
         "position-far-right"
-
       );
 
+
+      /*
+        Relative position.
+
+        0 = active
+        1 = right
+        2 = far-right
+        3 = far-left
+        4 = left
+      */
 
       const relative =
         (
@@ -666,15 +685,6 @@ function updatePositions(){
           WING_COUNT
         ) %
         WING_COUNT;
-
-
-      /*
-        0 = centre
-        1 = right
-        2 = far right
-        3 = far left
-        4 = left
-      */
 
 
       if (
@@ -687,7 +697,6 @@ function updatePositions(){
 
       }
 
-
       else if (
         relative === 1
       ){
@@ -697,7 +706,6 @@ function updatePositions(){
         );
 
       }
-
 
       else if (
         relative === 2
@@ -709,7 +717,6 @@ function updatePositions(){
 
       }
 
-
       else if (
         relative === 3
       ){
@@ -719,7 +726,6 @@ function updatePositions(){
         );
 
       }
-
 
       else if (
         relative === 4
@@ -736,35 +742,33 @@ function updatePositions(){
 
 
   /*
-    Update progress dots.
+    Update dots.
   */
 
-  if (layeredDots){
+  const dots =
+    layeredDots
+      ? layeredDots.querySelectorAll(
+          ".layered-dot"
+        )
+      : [];
 
-    const dots =
-      layeredDots.querySelectorAll(
-        ".layered-dot"
+
+  dots.forEach(
+    (dot, index) => {
+
+      dot.classList.toggle(
+        "active",
+        index === activeWing
       );
 
-
-    dots.forEach(
-      (dot, index) => {
-
-        dot.classList.toggle(
-          "active",
-          index === activeWing
-        );
-
-      }
-    );
-
-  }
+    }
+  );
 
 }
 
 
 /* =========================================================
-   SELECT WING
+   SET ACTIVE WING
 ========================================================= */
 
 function setWing(
@@ -786,7 +790,7 @@ function setWing(
     WING_COUNT;
 
 
-  updatePositions();
+  updateWingPositions();
 
 }
 
@@ -818,7 +822,7 @@ function previousWing(){
 
 
 /* =========================================================
-   CONTROL BUTTONS
+   BUTTONS
 ========================================================= */
 
 layeredNext?.addEventListener(
@@ -846,21 +850,23 @@ layeredPrev?.addEventListener(
 
 
 /* =========================================================
-   CARD / VISUAL CLICK
+   CLICK BEHAVIOUR
 ========================================================= */
+
+/*
+  If user clicks a side wing:
+    first bring it to centre.
+
+  If user clicks the active wing:
+    its href opens normally.
+*/
 
 layeredWings.forEach(
   (wing, index) => {
 
-
     wing.addEventListener(
       "click",
       (event) => {
-
-        /*
-          Side item:
-          first bring it to centre.
-        */
 
         if (
           index !== activeWing
@@ -874,17 +880,12 @@ layeredWings.forEach(
 
         }
 
-        /*
-          Active item:
-          normal href works.
-        */
-
       }
     );
 
 
     /*
-      Hover pauses rotation.
+      Desktop hover pauses animation.
     */
 
     wing.addEventListener(
@@ -945,7 +946,9 @@ function startRotation(){
 
 function stopRotation(){
 
-  if (rotationTimer){
+  if (
+    rotationTimer
+  ){
 
     clearInterval(
       rotationTimer
@@ -976,7 +979,7 @@ function restartRotation(){
 
 
 /* =========================================================
-   TOUCH / MOBILE SWIPE
+   TOUCH SWIPE
 ========================================================= */
 
 layeredOrbit?.addEventListener(
@@ -984,10 +987,8 @@ layeredOrbit?.addEventListener(
   (event) => {
 
     touchStartX =
-      event
-        .changedTouches[0]
+      event.changedTouches[0]
         .screenX;
-
 
     isTouching = true;
 
@@ -1005,8 +1006,7 @@ layeredOrbit?.addEventListener(
   (event) => {
 
     const touchEndX =
-      event
-        .changedTouches[0]
+      event.changedTouches[0]
         .screenX;
 
 
@@ -1054,20 +1054,14 @@ document.addEventListener(
   "keydown",
   (event) => {
 
-    const activeTag =
+    const tag =
       document.activeElement?.tagName;
 
 
-    /*
-      Don't interfere with inputs.
-    */
-
     if (
-
-      activeTag === "INPUT" ||
-      activeTag === "TEXTAREA" ||
-      activeTag === "SELECT"
-
+      tag === "INPUT" ||
+      tag === "TEXTAREA" ||
+      tag === "SELECT"
     ){
 
       return;
@@ -1101,7 +1095,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   INITIALISE
+   INITIALISE LAYERED HERO
 ========================================================= */
 
 if (
@@ -1109,51 +1103,10 @@ if (
   WING_COUNT === 5
 ){
 
-  createDots();
+  createLayeredDots();
 
   setWing(0);
 
   startRotation();
 
 }
-
-
-/* =========================================================
-   FORM DEMO
-========================================================= */
-
-document
-  .querySelectorAll(
-    ".requirement-form"
-  )
-  .forEach(
-    (form) => {
-
-      form.addEventListener(
-        "submit",
-        (event) => {
-
-          event.preventDefault();
-
-
-          const success =
-            form.querySelector(
-              ".success"
-            );
-
-
-          if (success){
-
-            success.style.display =
-              "block";
-
-          }
-
-
-          form.reset();
-
-        }
-      );
-
-    }
-  );
