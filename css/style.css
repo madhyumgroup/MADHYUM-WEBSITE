@@ -307,6 +307,8 @@ button{
 
   cursor:pointer;
 
+  transition:.25s ease;
+
 }
 
 
@@ -443,7 +445,7 @@ button{
 
 
 /* =========================================================
-   HERO
+   MADHYUM LAYERED HERO
 ========================================================= */
 
 .layered-hero{
@@ -491,6 +493,8 @@ button{
 }
 
 
+/* Very light overlay */
+
 .layered-hero::after{
 
   content:"";
@@ -507,8 +511,8 @@ button{
     linear-gradient(
       90deg,
       rgba(3,9,15,.08) 0%,
-      rgba(3,9,15,.01) 52%,
-      rgba(3,9,15,.10) 100%
+      rgba(3,9,15,.015) 50%,
+      rgba(3,9,15,.08) 100%
     );
 
 }
@@ -524,15 +528,15 @@ button{
 
   left:5vw;
 
-  top:50%;
+  top:43%;
 
   transform:
     translateY(-50%);
 
   width:
-    min(390px,31vw);
+    min(360px,29vw);
 
-  z-index:25;
+  z-index:30;
 
   pointer-events:none;
 
@@ -577,7 +581,7 @@ button{
   margin:0;
 
   font-size:
-    clamp(2.8rem,4.8vw,5.6rem);
+    clamp(2.7rem,4.7vw,5.4rem);
 
   line-height:.94;
 
@@ -605,26 +609,26 @@ button{
 
 
 /* =========================================================
-   C-SHAPED ORBIT CONTAINER
+   C-SHAPED ORBIT
 ========================================================= */
 
 .layered-orbit{
 
   position:absolute;
 
-  left:61%;
+  left:63%;
 
   top:57%;
 
   width:
-    min(800px,67vw);
+    min(850px,70vw);
 
-  height:530px;
+  height:540px;
 
   transform:
     translate(-50%,-50%);
 
-  z-index:30;
+  z-index:25;
 
   pointer-events:none;
 
@@ -632,7 +636,7 @@ button{
 
 
 /* =========================================================
-   ALL FIVE WINGS
+   WING
 ========================================================= */
 
 .layered-wing{
@@ -653,7 +657,7 @@ button{
 
   top:50%;
 
-  width:245px;
+  width:235px;
 
   display:flex;
 
@@ -691,14 +695,14 @@ button{
   transition:
 
     transform
-    1.2s
+    1.15s
     cubic-bezier(.22,.61,.36,1),
 
     opacity
-    .8s ease,
+    .75s ease,
 
     filter
-    .8s ease;
+    .75s ease;
 
   will-change:
     transform,
@@ -715,7 +719,7 @@ button{
 
   width:100%;
 
-  height:235px;
+  height:205px;
 
   display:flex;
 
@@ -728,31 +732,49 @@ button{
 
 .layered-wing-visual img{
 
-  display:block;
-
   width:auto;
 
   height:auto;
 
   max-width:100%;
 
-  max-height:235px;
+  max-height:205px;
 
   object-fit:contain;
 
   background:transparent;
 
+  user-select:none;
+
+  -webkit-user-drag:none;
+
   filter:
     drop-shadow(
-      0 25px 32px
+      0 24px 31px
       rgba(0,0,0,.40)
     );
 
   transition:
 
-    transform .45s ease,
+    transform .4s ease,
 
-    filter .45s ease;
+    filter .4s ease;
+
+}
+
+
+.layered-wing:hover
+.layered-wing-visual img{
+
+  transform:
+    translateY(-6px)
+    scale(1.025);
+
+  filter:
+    drop-shadow(
+      0 30px 38px
+      rgba(0,0,0,.48)
+    );
 
 }
 
@@ -763,24 +785,24 @@ button{
 
 .layered-wing-title{
 
-  margin-top:10px;
+  margin-top:9px;
 
   padding:
-    7px 13px;
+    7px 12px;
 
   max-width:100%;
 
-  font-size:.74rem;
+  text-align:center;
+
+  font-size:.70rem;
 
   font-weight:600;
 
   line-height:1.3;
 
-  letter-spacing:.12em;
+  letter-spacing:.105em;
 
   text-transform:uppercase;
-
-  text-align:center;
 
   color:#fff;
 
@@ -796,10 +818,14 @@ button{
 
 
 /* =========================================================
-   ACTIVE WING
+   ACTIVE = BOTTOM-CENTER SLOT
 ========================================================= */
 
 .layered-wing.is-active{
+
+  --x:0px;
+
+  --y:160px;
 
   --scale:1.08;
 
@@ -825,153 +851,53 @@ button{
 .layered-wing-visual img{
 
   transform:
-    translateY(-8px);
+    translateY(-7px);
 
   filter:
     drop-shadow(
-      0 32px 42px
-      rgba(0,0,0,.50)
+      0 31px 42px
+      rgba(0,0,0,.52)
     );
 
 }
 
 
 /* =========================================================
-   C SHAPE — FIVE POSITIONS
-========================================================= */
+   C-SHAPE POSITIONS
 
-/*
-   LEFT END
-   Real Estate
-*/
+   These mappings are intentionally tied
+   to the JS relative slot:
 
-.layered-wing.position-left{
+   relative 0 = bottom-center
+   relative 1 = lower-right
+   relative 2 = right
+   relative 3 = left
+   relative 4 = lower-left
 
-  --x:-285px;
+   Rotation direction is handled in JS
+   so the motion becomes:
 
-  --y:-80px;
-
-  --scale:.82;
-
-  --opacity:.92;
-
-  --depth:12;
-
-}
-
-
-/*
+   LEFT
+     ↓
    LOWER LEFT
-   Travel
-*/
-
-.layered-wing.position-right{
-
-  /*
-    NOTE:
-    In the existing JS, "position-right"
-    is the next slot after active.
-
-    We override it below according to
-    the C-track.
-  */
-
-  --x:-145px;
-
-  --y:55px;
-
-  --scale:.90;
-
-  --opacity:.96;
-
-  --depth:18;
-
-}
-
-
-/*
-   LOWER CENTER
-   Education
-*/
-
-.layered-wing.position-far-right{
-
-  --x:0px;
-
-  --y:165px;
-
-  --scale:1.03;
-
-  --opacity:1;
-
-  --depth:25;
-
-}
-
-
-/*
+     ↓
+   BOTTOM
+     ↓
    LOWER RIGHT
-   Consultancy
-*/
-
-.layered-wing.position-far-left{
-
-  --x:145px;
-
-  --y:55px;
-
-  --scale:.90;
-
-  --opacity:.96;
-
-  --depth:18;
-
-}
-
-
-/*
-   RIGHT END
-   Events
-*/
-
-.layered-wing.position-left{
-
-  /*
-    This class is also used by the
-    original JS for one slot.
-
-    The more specific rule below
-    keeps the left endpoint correct.
-  */
-
-}
-
-
-/* =========================================================
-   IMPORTANT POSITION CORRECTION
-
-   Because the EXISTING JS cycles:
-
-   0 = is-active
-   1 = position-right
-   2 = position-far-right
-   3 = position-far-left
-   4 = position-left
-
-   We use an inner positioning trick
-   to map the five slots visually.
+     ↓
+   RIGHT
+     ↓
+   LEFT
 ========================================================= */
 
 
-/*
-   JS slot 4 should be LEFT END.
-*/
+/* LEFT END */
 
 .layered-wing.position-left{
 
   --x:-285px;
 
-  --y:-80px;
+  --y:-78px;
 
   --scale:.82;
 
@@ -982,75 +908,47 @@ button{
 }
 
 
-/*
-   JS slot 1 = LOWER LEFT
-*/
-
-.layered-wing.position-right{
-
-  --x:-145px;
-
-  --y:55px;
-
-  --scale:.90;
-
-  --opacity:.96;
-
-  --depth:18;
-
-}
-
-
-/*
-   JS slot 0 = ACTIVE / BOTTOM CENTER
-
-   Important: "active" follows the
-   currently selected wing.
-*/
-
-.layered-wing.is-active{
-
-  --x:0px;
-
-  --y:165px;
-
-  --scale:1.05;
-
-  --opacity:1;
-
-  --depth:30;
-
-}
-
-
-/*
-   JS slot 3 = LOWER RIGHT
-*/
+/* LOWER LEFT */
 
 .layered-wing.position-far-left{
 
-  --x:145px;
+  --x:-145px;
 
-  --y:55px;
+  --y:52px;
 
-  --scale:.90;
+  --scale:.91;
 
-  --opacity:.96;
+  --opacity:.97;
 
   --depth:18;
 
 }
 
 
-/*
-   JS slot 2 = RIGHT END
-*/
+/* LOWER RIGHT */
+
+.layered-wing.position-right{
+
+  --x:145px;
+
+  --y:52px;
+
+  --scale:.91;
+
+  --opacity:.97;
+
+  --depth:18;
+
+}
+
+
+/* RIGHT END */
 
 .layered-wing.position-far-right{
 
   --x:285px;
 
-  --y:-80px;
+  --y:-78px;
 
   --scale:.82;
 
@@ -1069,9 +967,9 @@ button{
 
   position:absolute;
 
-  left:61%;
+  left:63%;
 
-  bottom:24px;
+  bottom:22px;
 
   transform:
     translateX(-50%);
@@ -1181,7 +1079,7 @@ button{
 
 
 /* =========================================================
-   SCROLL
+   SCROLL INDICATOR
 ========================================================= */
 
 .layered-scroll{
@@ -1242,7 +1140,8 @@ button{
 
 .section.tight{
 
-  padding:84px 0;
+  padding:
+    84px 0;
 
 }
 
@@ -1480,6 +1379,17 @@ button{
   object-fit:cover;
 
   z-index:-2;
+
+  transition:
+    transform .65s ease;
+
+}
+
+
+.business-card:hover img{
+
+  transform:
+    scale(1.04);
 
 }
 
@@ -1826,7 +1736,7 @@ button{
 
 
 /* =========================================================
-   SEARCH
+   SEARCH DRAWER
 ========================================================= */
 
 .drawer{
@@ -1849,9 +1759,7 @@ button{
 
 
 .drawer.open{
-
   display:block;
-
 }
 
 
@@ -1881,9 +1789,7 @@ button{
 
 
 .drawer-close{
-
   float:right;
-
 }
 
 
@@ -1981,9 +1887,7 @@ button{
 
 
 .result small{
-
   color:#aeb8c0;
-
 }
 
 
@@ -2132,58 +2036,58 @@ textarea{
 
   .layered-branding{
 
-    width:320px;
+    width:300px;
 
   }
 
 
   .layered-orbit{
 
-    left:62%;
+    left:63%;
 
-    width:680px;
+    width:700px;
 
   }
 
 
   .layered-wing{
 
-    width:220px;
+    width:210px;
 
   }
 
 
   .layered-wing.position-left{
 
-    --x:-245px;
-
-  }
-
-
-  .layered-wing.position-right{
-
-    --x:-125px;
+    --x:-240px;
 
   }
 
 
   .layered-wing.position-far-left{
 
-    --x:125px;
+    --x:-120px;
+
+  }
+
+
+  .layered-wing.position-right{
+
+    --x:120px;
 
   }
 
 
   .layered-wing.position-far-right{
 
-    --x:245px;
+    --x:240px;
 
   }
 
 
-  .layered-wing.is-active{
+  .layered-controls{
 
-    --x:0px;
+    left:63%;
 
   }
 
@@ -2191,7 +2095,7 @@ textarea{
 
 
 /* =========================================================
-   960
+   960px
 ========================================================= */
 
 @media(max-width:960px){
@@ -2262,7 +2166,7 @@ textarea{
 
     left:50%;
 
-    top:14%;
+    top:12%;
 
     transform:
       translateX(-50%);
@@ -2277,14 +2181,14 @@ textarea{
   .layered-branding h1{
 
     font-size:
-      clamp(2.6rem,8vw,4.3rem);
+      clamp(2.5rem,8vw,4.2rem);
 
   }
 
 
   .layered-orbit{
 
-    top:69%;
+    top:68%;
 
     left:50%;
 
@@ -2312,38 +2216,57 @@ textarea{
   }
 
 
-  .layered-wing.position-left{
+  .layered-wing{
 
-    --x:-205px;
-
-    --y:-25px;
+    width:190px;
 
   }
 
 
-  .layered-wing.position-right{
+  .layered-wing-visual{
 
-    --x:-100px;
+    height:180px;
 
-    --y:35px;
+  }
+
+
+  .layered-wing-visual img{
+
+    max-height:180px;
 
   }
 
 
   .layered-wing.is-active{
 
-    --x:0px;
+    --y:112px;
 
-    --y:105px;
+  }
+
+
+  .layered-wing.position-left{
+
+    --x:-205px;
+
+    --y:-24px;
 
   }
 
 
   .layered-wing.position-far-left{
 
+    --x:-100px;
+
+    --y:36px;
+
+  }
+
+
+  .layered-wing.position-right{
+
     --x:100px;
 
-    --y:35px;
+    --y:36px;
 
   }
 
@@ -2352,7 +2275,7 @@ textarea{
 
     --x:205px;
 
-    --y:-25px;
+    --y:-24px;
 
   }
 
@@ -2406,7 +2329,7 @@ textarea{
 
   .layered-branding{
 
-    top:9%;
+    top:8%;
 
     width:90%;
 
@@ -2422,7 +2345,7 @@ textarea{
 
   .layered-brand-tagline{
 
-    font-size:.86rem;
+    font-size:.84rem;
 
   }
 
@@ -2430,116 +2353,112 @@ textarea{
   .layered-branding h1{
 
     font-size:
-      clamp(2.25rem,11vw,3.6rem);
+      clamp(2.15rem,11vw,3.45rem);
 
   }
 
 
   .layered-orbit{
 
-    top:69%;
+    top:68%;
 
-    left:50%;
+    width:360px;
 
-    width:350px;
-
-    height:300px;
+    height:310px;
 
   }
 
 
   .layered-wing{
 
-    width:155px;
+    width:150px;
 
   }
 
 
   .layered-wing-visual{
 
-    height:160px;
+    height:150px;
 
   }
 
 
   .layered-wing-visual img{
 
-    max-height:160px;
+    max-height:150px;
 
   }
 
 
   .layered-wing-title{
 
-    max-width:155px;
+    max-width:150px;
 
     white-space:normal;
 
-    font-size:.59rem;
+    font-size:.57rem;
 
-    letter-spacing:.07em;
-
-  }
-
-
-  .layered-wing.position-left{
-
-    --x:-110px;
-
-    --y:-20px;
-
-    --scale:.54;
-
-  }
-
-
-  .layered-wing.position-right{
-
-    --x:-55px;
-
-    --y:27px;
-
-    --scale:.63;
+    letter-spacing:.065em;
 
   }
 
 
   .layered-wing.is-active{
 
-    --x:0px;
-
     --y:82px;
 
-    --scale:.76;
+    --scale:.77;
+
+  }
+
+
+  .layered-wing.position-left{
+
+    --x:-112px;
+
+    --y:-22px;
+
+    --scale:.55;
 
   }
 
 
   .layered-wing.position-far-left{
 
-    --x:55px;
+    --x:-57px;
 
     --y:27px;
 
-    --scale:.63;
+    --scale:.64;
+
+  }
+
+
+  .layered-wing.position-right{
+
+    --x:57px;
+
+    --y:27px;
+
+    --scale:.64;
 
   }
 
 
   .layered-wing.position-far-right{
 
-    --x:110px;
+    --x:112px;
 
-    --y:-20px;
+    --y:-22px;
 
-    --scale:.54;
+    --scale:.55;
 
   }
 
 
   .layered-controls{
 
-    bottom:15px;
+    bottom:14px;
 
   }
 
@@ -2567,6 +2486,31 @@ textarea{
   }
 
 
+  .final-inner{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    align-items:start;
+
+  }
+
+
+  .drawer-panel{
+
+    padding:26px;
+
+  }
+
+
+  .drawer-panel h2{
+
+    font-size:2.5rem;
+
+  }
+
+
   .mobile-menu a{
 
     font-size:1.8rem;
@@ -2587,6 +2531,8 @@ textarea{
   *::after{
 
     scroll-behavior:auto !important;
+
+    animation:none !important;
 
     transition:none !important;
 
