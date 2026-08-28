@@ -1,5 +1,5 @@
 /* =========================================================
-   MADHYUM WEBSITE — CLEAN C-ORBIT JAVASCRIPT
+   MADHYUM WEBSITE — FINAL C-ORBIT JAVASCRIPT
 ========================================================= */
 
 
@@ -17,7 +17,7 @@ window.addEventListener(
   'scroll',
   () => {
 
-    if (!header) {
+    if (!header){
       return;
     }
 
@@ -31,7 +31,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   REVEAL
+   REVEAL ANIMATION
 ========================================================= */
 
 const revealElements =
@@ -217,7 +217,7 @@ document
 
 
 /* =========================================================
-   SEARCH
+   SEARCH DRAWER
 ========================================================= */
 
 const drawer =
@@ -536,14 +536,8 @@ renderSearch();
 
 
 /* =========================================================
-   C-SHAPED HERO ORBIT
+   C-SHAPED HERO
 ========================================================= */
-
-const hero =
-  document.querySelector(
-    '.layered-hero'
-  );
-
 
 const layeredOrbit =
   document.getElementById(
@@ -581,26 +575,15 @@ const WING_COUNT =
   layeredWings.length;
 
 
-/*
-  ==========================================================
-  IMPORTANT C-PATH
+/* =========================================================
+   C ORBIT SLOT ORDER
 
-  slot 0 = LEFT
-  slot 1 = LOWER LEFT
-  slot 2 = BOTTOM CENTER
-  slot 3 = LOWER RIGHT
-  slot 4 = RIGHT
-
-  Initial arrangement:
-
-  Real Estate  = LEFT
-  Travel       = LOWER LEFT
-  Education    = BOTTOM
-  Consultancy  = LOWER RIGHT
-  Events       = RIGHT
-  ==========================================================
-*/
-
+   0 = LEFT
+   1 = LOWER LEFT
+   2 = BOTTOM CENTER
+   3 = LOWER RIGHT
+   4 = RIGHT
+========================================================= */
 
 const SLOT_CLASSES = [
 
@@ -617,9 +600,28 @@ const SLOT_CLASSES = [
 ];
 
 
+/*
+  currentSlot describes which wing
+  index is currently sitting at slot 0.
+
+  Initially:
+
+  index 0 Real Estate = LEFT
+  index 1 Travel      = LOWER LEFT
+  index 2 Education   = BOTTOM
+  index 3 Consultancy = LOWER RIGHT
+  index 4 Events      = RIGHT
+
+  Therefore:
+*/
+
 let currentSlot =
   0;
 
+
+/* =========================================================
+   ROTATION
+========================================================= */
 
 let rotationTimer =
   null;
@@ -653,7 +655,8 @@ function createDots(){
   }
 
 
-  layeredDots.innerHTML = '';
+  layeredDots.innerHTML =
+    '';
 
 
   layeredWings.forEach(
@@ -694,19 +697,25 @@ function createDots(){
         () => {
 
           /*
-            The selected business becomes
-            the bottom-center business.
+            Put clicked wing at
+            BOTTOM CENTER.
+
+            Bottom-center is slot 2.
+
+            currentSlot =
+              index - 2
           */
 
           currentSlot =
             (
-              index - 2 + WING_COUNT
+              index -
+              2 +
+              WING_COUNT
             ) %
             WING_COUNT;
 
 
           updateOrbit();
-
 
           restartRotation();
 
@@ -746,11 +755,6 @@ function updateDots(){
   dots.forEach(
     (dot, index) => {
 
-      /*
-        The item occupying the
-        bottom-center slot is active.
-      */
-
       const relative =
         (
           index -
@@ -772,7 +776,7 @@ function updateDots(){
 
 
 /* =========================================================
-   UPDATE ORBIT
+   APPLY ORBIT POSITIONS
 ========================================================= */
 
 function updateOrbit(){
@@ -789,10 +793,6 @@ function updateOrbit(){
   layeredWings.forEach(
     (wing, index) => {
 
-      /*
-        Remove all possible position classes.
-      */
-
       SLOT_CLASSES.forEach(
         (className) => {
 
@@ -803,17 +803,6 @@ function updateOrbit(){
         }
       );
 
-
-      /*
-        Calculate the slot occupied
-        by this wing.
-
-        0 = left
-        1 = lower-left
-        2 = bottom
-        3 = lower-right
-        4 = right
-      */
 
       const relative =
         (
@@ -856,9 +845,9 @@ function updateOrbit(){
 
 
 /* =========================================================
-   MOVE ONE STEP FORWARD
+   NEXT C-ORBIT STEP
 
-   C direction:
+   Movement:
 
    LEFT
       ↓
@@ -878,9 +867,8 @@ function nextWing(){
   /*
     Decrease currentSlot by one.
 
-    This makes every individual wing
-    move one position forward along
-    the C curve.
+    This causes every wing to move
+    one position along the C path.
   */
 
   currentSlot =
@@ -898,7 +886,7 @@ function nextWing(){
 
 
 /* =========================================================
-   MOVE ONE STEP BACK
+   PREVIOUS C-ORBIT STEP
 ========================================================= */
 
 function previousWing(){
@@ -919,6 +907,25 @@ function previousWing(){
 /* =========================================================
    AUTO ROTATION
 ========================================================= */
+
+function stopRotation(){
+
+  if (
+    rotationTimer
+  ){
+
+    clearInterval(
+      rotationTimer
+    );
+
+  }
+
+
+  rotationTimer =
+    null;
+
+}
+
 
 function startRotation(){
 
@@ -952,23 +959,6 @@ function startRotation(){
       },
       4300
     );
-
-}
-
-
-function stopRotation(){
-
-  if (
-    rotationTimer
-  ){
-
-    clearInterval(
-      rotationTimer
-    );
-
-    rotationTimer = null;
-
-  }
 
 }
 
@@ -1019,21 +1009,23 @@ layeredPrev?.addEventListener(
 
 
 /* =========================================================
-   CLICKABLE WINGS
+   WING INTERACTION
 ========================================================= */
 
 layeredWings.forEach(
   (wing, index) => {
 
-    /*
-      Hover pauses the rotation.
-    */
+
+    /* -----------------------------------------------
+       HOVER PAUSE
+    ------------------------------------------------ */
 
     wing.addEventListener(
       'mouseenter',
       () => {
 
-        hoverPaused = true;
+        hoverPaused =
+          true;
 
         stopRotation();
 
@@ -1045,7 +1037,8 @@ layeredWings.forEach(
       'mouseleave',
       () => {
 
-        hoverPaused = false;
+        hoverPaused =
+          false;
 
         startRotation();
 
@@ -1053,14 +1046,9 @@ layeredWings.forEach(
     );
 
 
-    /*
-      Side wing:
-      clicking it brings that wing
-      to BOTTOM CENTER.
-
-      Bottom-center wing:
-      normal href opens.
-    */
+    /* -----------------------------------------------
+       CLICK
+    ------------------------------------------------ */
 
     wing.addEventListener(
       'click',
@@ -1075,23 +1063,17 @@ layeredWings.forEach(
           WING_COUNT;
 
 
+        /*
+          If not already at bottom-center,
+          first move the wing there.
+        */
+
         if (
           relative !== 2
         ){
 
           event.preventDefault();
 
-
-          /*
-            For this wing to become
-            bottom-center:
-
-            index - currentSlot = 2
-
-            therefore:
-
-            currentSlot = index - 2
-          */
 
           currentSlot =
             (
@@ -1108,6 +1090,34 @@ layeredWings.forEach(
           restartRotation();
 
         }
+
+        /*
+          If relative === 2,
+          normal <a href> works.
+        */
+
+      }
+    );
+
+
+    /* -----------------------------------------------
+       IMAGE LOAD ERROR
+    ------------------------------------------------ */
+
+    const image =
+      wing.querySelector(
+        'img'
+      );
+
+
+    image?.addEventListener(
+      'error',
+      () => {
+
+        console.warn(
+          'MADHYUM image failed to load:',
+          image.src
+        );
 
       }
     );
@@ -1130,7 +1140,8 @@ layeredOrbit?.addEventListener(
         .screenX;
 
 
-    touchPaused = true;
+    touchPaused =
+      true;
 
     stopRotation();
 
@@ -1176,7 +1187,8 @@ layeredOrbit?.addEventListener(
     }
 
 
-    touchPaused = false;
+    touchPaused =
+      false;
 
     startRotation();
 
@@ -1238,48 +1250,6 @@ document.addEventListener(
 
 
 /* =========================================================
-   PAUSE WHEN HERO IS OFF SCREEN
-========================================================= */
-
-if (
-  hero &&
-  'IntersectionObserver' in window
-){
-
-  const heroObserver =
-    new IntersectionObserver(
-      (entries) => {
-
-        const visible =
-          entries[0]?.isIntersecting;
-
-
-        if (visible){
-
-          startRotation();
-
-        }
-        else{
-
-          stopRotation();
-
-        }
-
-      },
-      {
-        threshold:0.05
-      }
-    );
-
-
-  heroObserver.observe(
-    hero
-  );
-
-}
-
-
-/* =========================================================
    INITIALISE
 ========================================================= */
 
@@ -1289,7 +1259,7 @@ if (
 ){
 
   /*
-    currentSlot = 0 gives:
+    Exact initial layout:
 
     Real Estate  → LEFT
     Travel       → LOWER LEFT
@@ -1298,7 +1268,8 @@ if (
     Events       → RIGHT
   */
 
-  currentSlot = 0;
+  currentSlot =
+    0;
 
 
   createDots();
