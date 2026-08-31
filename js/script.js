@@ -1,1232 +1,242 @@
-/* =========================================================
-   MADHYUM WEBSITE — FINAL C-ORBIT JAVASCRIPT
-========================================================= */
+(() => {
+  "use strict";
 
+  const header = document.querySelector(".site-header");
+  const updateHeader = () => header?.classList.toggle("scrolled", window.scrollY > 30);
+  window.addEventListener("scroll", updateHeader, { passive: true });
+  updateHeader();
 
-/* =========================================================
-   HEADER
-========================================================= */
+  const revealElements = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    revealElements.forEach((el) => observer.observe(el));
+  } else {
+    revealElements.forEach((el) => el.classList.add("visible"));
+  }
 
-const header =
-  document.querySelector(
-    '.site-header'
-  );
+  const mobileMenu = document.querySelector(".mobile-menu");
+  const menuButton = document.querySelector(".menu-btn");
+  const closeMenu = () => {
+    mobileMenu?.classList.remove("open");
+    mobileMenu?.setAttribute("aria-hidden", "true");
+    menuButton?.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("menu-open");
+  };
+  const openMenu = () => {
+    mobileMenu?.classList.add("open");
+    mobileMenu?.setAttribute("aria-hidden", "false");
+    menuButton?.setAttribute("aria-expanded", "true");
+    document.body.classList.add("menu-open");
+  };
+  menuButton?.addEventListener("click", () => {
+    mobileMenu?.classList.contains("open") ? closeMenu() : openMenu();
+  });
+  document.querySelectorAll("[data-close-mobile]").forEach((btn) => {
+    btn.addEventListener("click", closeMenu);
+  });
 
+  const drawer = document.querySelector(".drawer");
+  const searchInput = document.querySelector("#searchInput");
+  const searchResults = document.querySelector("#searchResults");
+  const closeSearch = () => {
+    drawer?.classList.remove("open");
+    drawer?.setAttribute("aria-hidden", "true");
+  };
 
-window.addEventListener(
-  'scroll',
-  () => {
+  document.querySelectorAll("[data-search]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      drawer?.classList.add("open");
+      drawer?.setAttribute("aria-hidden", "false");
+      window.setTimeout(() => searchInput?.focus(), 80);
+    });
+  });
+  document.querySelectorAll("[data-close-search]").forEach((btn) => btn.addEventListener("click", closeSearch));
+  drawer?.addEventListener("click", (e) => { if (e.target === drawer) closeSearch(); });
 
-    if (!header){
+  const SEARCH_DATA = [
+    ["3 BHK Bhopal", "Real Estate", "real-estate.html#property-requirement"],
+    ["Plots & Land", "Real Estate", "real-estate.html#property-solutions"],
+    ["Dubai", "Travel", "travel.html#travel-offer"],
+    ["Honeymoon", "Travel", "travel.html#honeymoon"],
+    ["Hajj", "Travel", "travel.html#spiritual"],
+    ["Umrah", "Travel", "travel.html#spiritual"],
+    ["Karbala", "Travel", "travel.html#spiritual"],
+    ["Char Dham", "Travel", "travel.html#spiritual"],
+    ["MBBS", "Education & Admissions", "education.html#courses"],
+    ["Engineering", "Education & Admissions", "education.html#courses"],
+    ["Study Abroad", "Education & Admissions", "education.html#abroad-education"],
+    ["GST", "Consultancy & Business Services", "consultancy.html#business-services"],
+    ["MSME Udyam", "Consultancy & Business Services", "consultancy.html#business-services"],
+    ["Wedding Venue", "Events & Weddings", "events.html#event-services"],
+    ["Corporate Event", "Events & Weddings", "events.html#occasion-types"],
+    ["Membership", "MADHYUM Membership", "membership.html"]
+  ];
+
+  const renderSearch = (query = "") => {
+    if (!searchResults) return;
+    const term = query.trim().toLowerCase();
+    if (!term) {
+      searchResults.innerHTML = `<div class="result"><strong>Start typing a requirement</strong><small>Try “3 BHK Bhopal”, “Dubai”, “MBBS”, “GST” or “Hajj”.</small></div>`;
       return;
     }
-
-
-    header.classList.toggle(
-      'scrolled',
-      window.scrollY > 30
+    const matches = SEARCH_DATA.filter((item) =>
+      item[0].toLowerCase().includes(term) || item[1].toLowerCase().includes(term)
     );
-
-  }
-);
-
-
-/* =========================================================
-   REVEAL ANIMATIONS
-========================================================= */
-
-const revealElements =
-  document.querySelectorAll(
-    '.reveal'
-  );
-
-
-if (
-  'IntersectionObserver' in window
-){
-
-  const revealObserver =
-    new IntersectionObserver(
-      (entries) => {
-
-        entries.forEach(
-          (entry) => {
-
-            if (
-              entry.isIntersecting
-            ){
-
-              entry.target.classList.add(
-                'visible'
-              );
-
-            }
-
-          }
-        );
-
-      },
-      {
-        threshold:0.1
-      }
-    );
-
-
-  revealElements.forEach(
-    (element) => {
-
-      revealObserver.observe(
-        element
-      );
-
+    if (!matches.length) {
+      searchResults.innerHTML = `<div class="result"><strong>No exact match found</strong><small>Try a different requirement or open a broader category.</small></div>`;
+      return;
     }
-  );
-
-}
-else{
-
-  revealElements.forEach(
-    (element) => {
-
-      element.classList.add(
-        'visible'
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-const mobileMenu =
-  document.querySelector(
-    '.mobile-menu'
-  );
-
-
-const menuButton =
-  document.querySelector(
-    '.menu-btn'
-  );
-
-
-const mobileCloseButtons =
-  document.querySelectorAll(
-    '[data-close-mobile]'
-  );
-
-
-menuButton?.addEventListener(
-  'click',
-  () => {
-
-    mobileMenu?.classList.add(
-      'open'
-    );
-
-  }
-);
-
-
-mobileCloseButtons.forEach(
-  (button) => {
-
-    button.addEventListener(
-      'click',
-      () => {
-
-        mobileMenu?.classList.remove(
-          'open'
-        );
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================================================
-   SMOOTH SCROLL
-========================================================= */
-
-document
-  .querySelectorAll(
-    '[data-scroll]'
-  )
-  .forEach(
-    (link) => {
-
-      link.addEventListener(
-        'click',
-        (event) => {
-
-          const target =
-            link.getAttribute(
-              'href'
-            );
-
-
-          if (
-            !target ||
-            !target.startsWith('#')
-          ){
-
-            return;
-
-          }
-
-
-          const element =
-            document.querySelector(
-              target
-            );
-
-
-          if (!element){
-
-            return;
-
-          }
-
-
-          event.preventDefault();
-
-
-          element.scrollIntoView({
-
-            behavior:'smooth',
-
-            block:'start'
-
-          });
-
-
-          mobileMenu?.classList.remove(
-            'open'
-          );
-
-        }
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-const drawer =
-  document.querySelector(
-    '.drawer'
-  );
-
-
-const searchButtons =
-  document.querySelectorAll(
-    '[data-search]'
-  );
-
-
-const closeSearchButtons =
-  document.querySelectorAll(
-    '[data-close-search]'
-  );
-
-
-const searchInput =
-  document.querySelector(
-    '#searchInput'
-  );
-
-
-const searchResults =
-  document.querySelector(
-    '#searchResults'
-  );
-
-
-searchButtons.forEach(
-  (button) => {
-
-    button.addEventListener(
-      'click',
-      () => {
-
-        drawer?.classList.add(
-          'open'
-        );
-
-
-        drawer?.setAttribute(
-          'aria-hidden',
-          'false'
-        );
-
-
-        setTimeout(
-          () => {
-
-            searchInput?.focus();
-
-          },
-          100
-        );
-
-      }
-    );
-
-  }
-);
-
-
-closeSearchButtons.forEach(
-  (button) => {
-
-    button.addEventListener(
-      'click',
-      () => {
-
-        drawer?.classList.remove(
-          'open'
-        );
-
-
-        drawer?.setAttribute(
-          'aria-hidden',
-          'true'
-        );
-
-      }
-    );
-
-  }
-);
-
-
-drawer?.addEventListener(
-  'click',
-  (event) => {
-
-    if (
-      event.target === drawer
-    ){
-
-      drawer.classList.remove(
-        'open'
-      );
-
-
-      drawer.setAttribute(
-        'aria-hidden',
-        'true'
-      );
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   SEARCH DATA
-========================================================= */
-
-const SEARCH_DATA = [
-
-  [
-    '3 BHK Bhopal',
-    'Real Estate',
-    'real-estate.html'
-  ],
-
-  [
-    'Plots & Land',
-    'Real Estate',
-    'real-estate.html'
-  ],
-
-  [
-    'Dubai',
-    'Travel',
-    'travel.html'
-  ],
-
-  [
-    'Honeymoon',
-    'Travel',
-    'travel.html'
-  ],
-
-  [
-    'MBBS',
-    'Education & Admissions',
-    'education.html'
-  ],
-
-  [
-    'Engineering',
-    'Education & Admissions',
-    'education.html'
-  ],
-
-  [
-    'Study Abroad',
-    'Education & Admissions',
-    'education.html'
-  ],
-
-  [
-    'GST',
-    'Consultancy & Business Services',
-    'consultancy.html'
-  ],
-
-  [
-    'MSME Udyam',
-    'Consultancy & Business Services',
-    'consultancy.html'
-  ],
-
-  [
-    'Wedding Venue',
-    'Events & Weddings',
-    'events.html'
-  ],
-
-  [
-    'Corporate Event',
-    'Events & Weddings',
-    'events.html'
-  ]
-
-];
-
-
-/* =========================================================
-   SEARCH RENDER
-========================================================= */
-
-function renderSearch(
-  query = ''
-){
-
-  if (!searchResults){
-
-    return;
-
-  }
-
-
-  const term =
-    query
-      .trim()
-      .toLowerCase();
-
-
-  if (!term){
-
-    searchResults.innerHTML = `
-
-      <div class="result">
-
-        <strong>
-          Start typing a requirement
-        </strong>
-
-        <small>
-          Try “3 BHK Bhopal”,
-          “Dubai”, “MBBS” or “GST”.
-        </small>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  const matches =
-    SEARCH_DATA.filter(
-      (item) => (
-
-        item[0]
-          .toLowerCase()
-          .includes(term)
-
-        ||
-
-        item[1]
-          .toLowerCase()
-          .includes(term)
-
-      )
-    );
-
-
-  if (!matches.length){
-
-    searchResults.innerHTML = `
-
-      <div class="result">
-
-        <strong>
-          No exact match found
-        </strong>
-
-        <small>
-          Try a different requirement.
-        </small>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  searchResults.innerHTML =
-    matches
-      .map(
-        (item) => `
-
-          <a
-            class="result"
-            href="${item[2]}"
-          >
-
-            <strong>
-              ${item[0]}
-            </strong>
-
-            <small>
-              → ${item[1]}
-            </small>
-
-          </a>
-
-        `
-      )
-      .join('');
-
-}
-
-
-searchInput?.addEventListener(
-  'input',
-  (event) => {
-
-    renderSearch(
-      event.target.value
-    );
-
-  }
-);
-
-
-renderSearch();
-
-
-/* =========================================================
-   C-SHAPED HERO ORBIT
-========================================================= */
-
-const layeredOrbit =
-  document.getElementById(
-    'layeredOrbit'
-  );
-
-
-const layeredWings =
-  Array.from(
-    document.querySelectorAll(
-      '.layered-wing'
-    )
-  );
-
-
-const layeredPrev =
-  document.getElementById(
-    'layeredPrev'
-  );
-
-
-const layeredNext =
-  document.getElementById(
-    'layeredNext'
-  );
-
-
-const layeredDots =
-  document.getElementById(
-    'layeredDots'
-  );
-
-
-const WING_COUNT =
-  layeredWings.length;
-
-
-/* =========================================================
-   FIVE FIXED C-ORBIT SLOTS
-
-   0 = LEFT
-   1 = LOWER LEFT
-   2 = BOTTOM CENTER
-   3 = LOWER RIGHT
-   4 = RIGHT
-
-   Initial:
-
-   REAL ESTATE  → LEFT
-   TRAVEL       → LOWER LEFT
-   EDUCATION    → BOTTOM
-   CONSULTANCY  → LOWER RIGHT
-   EVENTS       → RIGHT
-========================================================= */
-
-const SLOT_CLASSES = [
-
-  'position-left',
-
-  'position-far-left',
-
-  'is-active',
-
-  'position-right',
-
-  'position-far-right'
-
-];
-
-
-let currentSlot = 0;
-
-
-/* =========================================================
-   ROTATION STATE
-========================================================= */
-
-let rotationTimer = null;
-
-let hoverPaused = false;
-
-let touchPaused = false;
-
-let touchStartX = 0;
-
-
-/* =========================================================
-   CREATE DOTS
-========================================================= */
-
-function createDots(){
-
-  if (
-    !layeredDots ||
-    WING_COUNT !== 5
-  ){
-
-    return;
-
-  }
-
-
-  layeredDots.innerHTML = '';
-
-
-  layeredWings.forEach(
-    (wing, index) => {
-
-      const dot =
-        document.createElement(
-          'button'
-        );
-
-
-      dot.type =
-        'button';
-
-
-      dot.className =
-        'layered-dot';
-
-
-      const name =
-        wing
-          .innerText
-          .replace(
-            /\s+/g,
-            ' '
-          )
-          .trim();
-
-
-      dot.setAttribute(
-        'aria-label',
-        `Select ${name}`
-      );
-
-
-      dot.addEventListener(
-        'click',
-        () => {
-
-          /*
-            Put selected wing
-            at bottom-center.
-
-            Bottom slot = 2.
-          */
-
-          currentSlot =
-            (
-              index -
-              2 +
-              WING_COUNT
-            ) %
-            WING_COUNT;
-
-
-          updateOrbit();
-
-          restartRotation();
-
-        }
-      );
-
-
-      layeredDots.appendChild(
-        dot
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   UPDATE DOTS
-========================================================= */
-
-function updateDots(){
-
-  if (!layeredDots){
-
-    return;
-
-  }
-
-
-  const dots =
-    layeredDots.querySelectorAll(
-      '.layered-dot'
-    );
-
-
-  dots.forEach(
-    (dot, index) => {
-
-      const relative =
-        (
-          index -
-          currentSlot +
-          WING_COUNT
-        ) %
-        WING_COUNT;
-
-
-      dot.classList.toggle(
-        'active',
-        relative === 2
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   UPDATE ORBIT
-========================================================= */
-
-function updateOrbit(){
-
-  if (
-    WING_COUNT !== 5
-  ){
-
-    return;
-
-  }
-
-
-  layeredWings.forEach(
-    (wing, index) => {
-
-      SLOT_CLASSES.forEach(
-        (className) => {
-
-          wing.classList.remove(
-            className
-          );
-
-        }
-      );
-
-
-      const relative =
-        (
-          index -
-          currentSlot +
-          WING_COUNT
-        ) %
-        WING_COUNT;
-
-
-      const slotClass =
-        SLOT_CLASSES[
-          relative
-        ];
-
-
-      if (slotClass){
-
-        wing.classList.add(
-          slotClass
-        );
-
-      }
-
-
-      wing.setAttribute(
-        'aria-current',
-        relative === 2
-          ? 'true'
-          : 'false'
-      );
-
-    }
-  );
-
-
-  updateDots();
-
-}
-
-
-/* =========================================================
-   NEXT
-
-   C PATH:
-
-   LEFT
-      ↓
-   LOWER LEFT
-      ↓
-   BOTTOM
-      ↓
-   LOWER RIGHT
-      ↓
-   RIGHT
-      ↓
-   LEFT
-========================================================= */
-
-function nextWing(){
-
-  currentSlot =
-    (
-      currentSlot -
-      1 +
-      WING_COUNT
-    ) %
-    WING_COUNT;
-
-
-  updateOrbit();
-
-}
-
-
-/* =========================================================
-   PREVIOUS
-========================================================= */
-
-function previousWing(){
-
-  currentSlot =
-    (
-      currentSlot +
-      1
-    ) %
-    WING_COUNT;
-
-
-  updateOrbit();
-
-}
-
-
-/* =========================================================
-   AUTO ROTATION
-========================================================= */
-
-function stopRotation(){
-
-  if (
-    rotationTimer
-  ){
-
-    clearInterval(
-      rotationTimer
-    );
-
-    rotationTimer =
-      null;
-
-  }
-
-}
-
-
-function startRotation(){
-
-  stopRotation();
-
-
-  if (
-    WING_COUNT !== 5 ||
-    hoverPaused ||
-    touchPaused
-  ){
-
-    return;
-
-  }
-
-
-  rotationTimer =
-    setInterval(
-      () => {
-
-        if (
-          !hoverPaused &&
-          !touchPaused
-        ){
-
-          nextWing();
-
-        }
-
-      },
-      4300
-    );
-
-}
-
-
-function restartRotation(){
-
-  stopRotation();
-
-
-  setTimeout(
-    () => {
-
-      startRotation();
-
-    },
-    700
-  );
-
-}
-
-
-/* =========================================================
-   ARROWS
-========================================================= */
-
-layeredNext?.addEventListener(
-  'click',
-  () => {
-
-    nextWing();
-
-    restartRotation();
-
-  }
-);
-
-
-layeredPrev?.addEventListener(
-  'click',
-  () => {
-
-    previousWing();
-
-    restartRotation();
-
-  }
-);
-
-
-/* =========================================================
-   WING INTERACTION
-========================================================= */
-
-layeredWings.forEach(
-  (wing, index) => {
-
-
-    /* -----------------------------------------------
-       PAUSE ON HOVER
-    ------------------------------------------------ */
-
-    wing.addEventListener(
-      'mouseenter',
-      () => {
-
-        hoverPaused = true;
-
-        stopRotation();
-
-      }
-    );
-
-
-    wing.addEventListener(
-      'mouseleave',
-      () => {
-
-        hoverPaused = false;
-
-        startRotation();
-
-      }
-    );
-
-
-    /* -----------------------------------------------
-       CLICK
-    ------------------------------------------------ */
-
-    wing.addEventListener(
-      'click',
-      (event) => {
-
-        const relative =
-          (
-            index -
-            currentSlot +
-            WING_COUNT
-          ) %
-          WING_COUNT;
-
-
-        /*
-          Side wing:
-
-          Bring it to the
-          bottom-center position.
-        */
-
-        if (
-          relative !== 2
-        ){
-
-          event.preventDefault();
-
-
-          currentSlot =
-            (
-              index -
-              2 +
-              WING_COUNT
-            ) %
-            WING_COUNT;
-
-
-          updateOrbit();
-
-
-          restartRotation();
-
-        }
-
-        /*
-          Bottom-center wing:
-
-          Normal href works.
-        */
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================================================
-   TOUCH SWIPE
-========================================================= */
-
-layeredOrbit?.addEventListener(
-  'touchstart',
-  (event) => {
-
-    touchStartX =
-      event
-        .changedTouches[0]
-        .screenX;
-
-
-    touchPaused = true;
-
+    searchResults.innerHTML = matches.map((item) =>
+      `<a class="result" href="${item[2]}"><strong>${item[0]}</strong><small>→ ${item[1]}</small></a>`
+    ).join("");
+  };
+  searchInput?.addEventListener("input", (e) => renderSearch(e.target.value));
+  renderSearch();
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const target = link.getAttribute("href");
+      if (!target || target === "#") return;
+      const element = document.querySelector(target);
+      if (!element) return;
+      event.preventDefault();
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      closeMenu();
+    });
+  });
+
+  document.querySelectorAll(".requirement-form").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const success = form.querySelector(".form-success");
+      if (!success) return;
+      const name = form.dataset.formName || "Requirement";
+      success.textContent = `${name} received. Your requirement has been captured on this page.`;
+      success.classList.add("show");
+      form.reset();
+    });
+  });
+
+  const layeredOrbit = document.getElementById("layeredOrbit");
+  const wings = Array.from(document.querySelectorAll(".layered-wing"));
+  const prev = document.getElementById("layeredPrev");
+  const next = document.getElementById("layeredNext");
+  const dotsWrap = document.getElementById("layeredDots");
+  const count = wings.length;
+  const slots = ["position-left","position-far-left","is-active","position-right","position-far-right"];
+  let currentSlot = 0;
+  let timer = null;
+  let hoverPaused = false;
+  let touchPaused = false;
+  let touchStartX = 0;
+
+  const updateDots = () => {
+    dotsWrap?.querySelectorAll(".layered-dot").forEach((dot, index) => {
+      const relative = (index - currentSlot + count) % count;
+      dot.classList.toggle("active", relative === 2);
+    });
+  };
+
+  const updateOrbit = () => {
+    if (count !== 5) return;
+    wings.forEach((wing, index) => {
+      slots.forEach((slot) => wing.classList.remove(slot));
+      const relative = (index - currentSlot + count) % count;
+      wing.classList.add(slots[relative]);
+      wing.setAttribute("aria-current", relative === 2 ? "true" : "false");
+    });
+    updateDots();
+  };
+
+  const stopRotation = () => {
+    if (timer) window.clearInterval(timer);
+    timer = null;
+  };
+  const startRotation = () => {
     stopRotation();
+    if (count !== 5 || hoverPaused || touchPaused) return;
+    timer = window.setInterval(() => { if (!hoverPaused && !touchPaused) nextWing(); }, 4300);
+  };
+  const restartRotation = () => {
+    stopRotation();
+    window.setTimeout(startRotation, 700);
+  };
+  const nextWing = () => {
+    if (count !== 5) return;
+    currentSlot = (currentSlot - 1 + count) % count;
+    updateOrbit();
+  };
+  const previousWing = () => {
+    if (count !== 5) return;
+    currentSlot = (currentSlot + 1) % count;
+    updateOrbit();
+  };
 
-  },
-  {
-    passive:true
+  if (dotsWrap && count === 5) {
+    wings.forEach((wing, index) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "layered-dot";
+      dot.setAttribute("aria-label", `Select ${wing.innerText.replace(/\s+/g, " ").trim()}`);
+      dot.addEventListener("click", () => {
+        currentSlot = (index - 2 + count) % count;
+        updateOrbit();
+        restartRotation();
+      });
+      dotsWrap.appendChild(dot);
+    });
   }
-);
 
+  next?.addEventListener("click", () => { nextWing(); restartRotation(); });
+  prev?.addEventListener("click", () => { previousWing(); restartRotation(); });
 
-layeredOrbit?.addEventListener(
-  'touchend',
-  (event) => {
-
-    const touchEndX =
-      event
-        .changedTouches[0]
-        .screenX;
-
-
-    const distance =
-      touchEndX -
-      touchStartX;
-
-
-    if (
-      Math.abs(distance) > 45
-    ){
-
-      if (
-        distance < 0
-      ){
-
-        nextWing();
-
+  wings.forEach((wing, index) => {
+    wing.addEventListener("mouseenter", () => { hoverPaused = true; stopRotation(); });
+    wing.addEventListener("mouseleave", () => { hoverPaused = false; startRotation(); });
+    wing.addEventListener("click", (event) => {
+      const relative = (index - currentSlot + count) % count;
+      if (relative !== 2) {
+        event.preventDefault();
+        currentSlot = (index - 2 + count) % count;
+        updateOrbit();
+        restartRotation();
       }
-      else{
+    });
+  });
 
-        previousWing();
+  layeredOrbit?.addEventListener("touchstart", (event) => {
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+    touchStartX = touch.screenX;
+    touchPaused = true;
+    stopRotation();
+  }, { passive: true });
 
-      }
-
-    }
-
-
+  layeredOrbit?.addEventListener("touchend", (event) => {
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+    const distance = touch.screenX - touchStartX;
+    if (Math.abs(distance) > 45) distance < 0 ? nextWing() : previousWing();
     touchPaused = false;
-
     startRotation();
+  }, { passive: true });
 
-  },
-  {
-    passive:true
+  document.addEventListener("keydown", (event) => {
+    if (["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName)) return;
+    if (event.key === "ArrowRight") { nextWing(); restartRotation(); }
+    if (event.key === "ArrowLeft") { previousWing(); restartRotation(); }
+    if (event.key === "Escape") { closeMenu(); closeSearch(); }
+  });
+
+  if (layeredOrbit && count === 5) {
+    updateOrbit();
+    startRotation();
   }
-);
-
-
-/* =========================================================
-   KEYBOARD
-========================================================= */
-
-document.addEventListener(
-  'keydown',
-  (event) => {
-
-    const tag =
-      document.activeElement?.tagName;
-
-
-    if (
-
-      tag === 'INPUT' ||
-      tag === 'TEXTAREA' ||
-      tag === 'SELECT'
-
-    ){
-
-      return;
-
-    }
-
-
-    if (
-      event.key === 'ArrowRight'
-    ){
-
-      nextWing();
-
-      restartRotation();
-
-    }
-
-
-    if (
-      event.key === 'ArrowLeft'
-    ){
-
-      previousWing();
-
-      restartRotation();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   INITIALISE
-========================================================= */
-
-if (
-  layeredOrbit &&
-  WING_COUNT === 5
-){
-
-  /*
-    Initial layout:
-
-    Real Estate  = LEFT
-    Travel       = LOWER LEFT
-    Education    = BOTTOM CENTER
-    Consultancy  = LOWER RIGHT
-    Events       = RIGHT
-  */
-
-  currentSlot = 0;
-
-
-  createDots();
-
-
-  updateOrbit();
-
-
-  startRotation();
-
-}
+})();
