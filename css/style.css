@@ -3604,3 +3604,164 @@ body>.menu-contact{display:none!important}
   .home-page .solution-panels,.home-page .relationship-grid,.category-page .benefit-grid,.category-page .service-grid,.category-page .service-grid-five,.category-page .service-grid-six,.category-page .course-grid,.category-page .category-columns,.category-page .location-grid,.category-page .occasion-grid,.category-page .signature-grid,.category-page .region-grid,.travel-page .package-list,.network-boxes{grid-template-columns:1fr!important}
   .home-page .solution-panel-wide,.home-page .relationship-card-wide{grid-column:auto!important}
 }
+
+
+/* ============================================================
+   FINAL LAYOUT PASS — COMPACT, PHOTO-FIRST, NO DEAD SPACE
+   ============================================================ */
+html{scroll-behavior:smooth}
+body{overflow-x:hidden}
+.container{width:min(1180px,92vw)!important}
+
+/* HOME HERO: real image + five visible wings at the bottom */
+.home-page .layered-hero{position:relative!important;display:block!important;min-height:clamp(560px,78vh,740px)!important;height:auto!important;padding:0!important;overflow:hidden!important;background:#101c29!important}
+.home-page .layered-hero-background{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;z-index:0!important}
+.home-page .layered-hero::after{z-index:1!important;background:linear-gradient(180deg,rgba(4,12,20,.12) 0%,rgba(4,12,20,.15) 48%,rgba(4,12,20,.86) 100%)!important}
+.home-page .layered-orbit{position:absolute!important;left:50%!important;bottom:72px!important;top:auto!important;width:min(1100px,94vw)!important;height:150px!important;transform:translateX(-50%)!important;z-index:5!important;display:block!important}
+.home-page .layered-wing{position:absolute!important;left:50%!important;top:50%!important;width:190px!important;height:126px!important;margin:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;background:rgba(7,17,27,.78)!important;border:1px solid rgba(255,255,255,.20)!important;border-radius:14px!important;box-shadow:0 12px 30px rgba(0,0,0,.25)!important;backdrop-filter:blur(5px)!important;transition:transform .55s ease,opacity .55s ease!important}
+.home-page .layered-wing-visual{width:158px!important;height:76px!important;border-radius:10px!important;background:#172738!important;overflow:hidden!important}
+.home-page .layered-wing-visual img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;visibility:visible!important;opacity:1!important}
+.home-page .layered-wing-title{font-size:1rem!important;color:#fff!important;font-weight:800!important;margin:0!important}
+.home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-470px) scale(.76)!important;opacity:.78!important}
+.home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-235px) scale(.88)!important;opacity:.94!important}
+.home-page .layered-wing.is-active{transform:translate(-50%,-50%) scale(1)!important;opacity:1!important}
+.home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(235px) scale(.88)!important;opacity:.94!important}
+.home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(470px) scale(.76)!important;opacity:.78!important}
+.home-page .layered-controls{position:absolute!important;z-index:7!important;left:50%!important;bottom:20px!important;transform:translateX(-50%)!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:18px!important}
+
+/* Photo slots are usable placeholders, never broken-image icons */
+.section-photo-slot{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;background:#ece7dc!important;border:1px solid rgba(32,43,53,.16)!important;border-radius:14px!important;min-height:170px!important;width:320px!important;margin:0!important;float:none!important}
+.section-photo-slot.has-photo{background-size:cover!important;background-position:center!important}
+.section-photo-slot.photo-pending{background:#e9e4d9!important}
+.section-photo-slot.photo-pending::before{content:'PHOTO SPACE'!important;font-weight:800!important;letter-spacing:.14em!important;color:#6e665b!important}
+.section-photo-slot.photo-pending::after{content:attr(data-photo)!important;position:absolute!important;bottom:10px!important;left:50%!important;transform:translateX(-50%)!important;background:rgba(255,255,255,.88)!important;padding:5px 8px!important;border-radius:6px!important;font-size:.68rem!important;font-weight:700!important;color:#5e574f!important;white-space:nowrap!important}
+
+/* HOME WHY: text left, one large photo right */
+.home-page .why-section .container{display:grid!important;grid-template-columns:minmax(0,1.15fr) 360px!important;gap:22px 44px!important;align-items:start!important}
+.home-page .why-section .section-photo-slot{grid-column:2!important;grid-row:1 / span 3!important;width:100%!important;height:260px!important;margin-top:2px!important}
+.home-page .why-section .why-intro{grid-column:1!important;grid-row:1!important;margin:0!important}
+.home-page .why-section .why-grid{grid-column:1!important;grid-row:2!important;margin:0!important}
+.home-page .why-section .why-close{grid-column:1!important;grid-row:3!important;margin:0!important}
+.home-page .why-message{display:none!important}
+.home-page .why-points{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:12px!important}
+.home-page .why-points article{padding:14px!important;border:1px solid var(--line)!important;border-radius:12px!important;background:rgba(255,255,255,.55)!important}
+.home-page .why-close p{display:none!important}
+.home-page .why-close .trust-line{font-size:1.12rem!important;font-style:italic!important;margin-top:8px!important}
+
+/* HOME SOLUTIONS: five compact cards, each with a small circular photo */
+.home-page .solutions-section .container{display:block!important}
+.home-page .solutions-section .section-photo-slot{width:100%!important;height:110px!important;max-width:none!important;margin:0 0 14px!important;display:none!important}
+.home-page .solution-panels{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+.home-page .solution-panel{display:grid!important;grid-template-columns:56px 1fr!important;grid-template-rows:auto 1fr!important;column-gap:12px!important;align-items:center!important;min-height:128px!important;padding:16px!important}
+.solution-photo-circle{grid-row:1 / span 2!important;width:52px!important;height:52px!important;border-radius:50%!important;overflow:hidden!important;border:2px solid rgba(255,255,255,.35)!important;background:#243546!important;position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.solution-photo-circle.has-photo{background-size:cover!important;background-position:center!important}
+.solution-photo-circle::before{content:'PHOTO'!important;font-size:.54rem!important;letter-spacing:.1em!important;color:#fff!important;font-weight:800!important;opacity:.75!important}
+.solution-photo-circle.has-photo::before{display:none!important}
+.home-page .solution-copy{grid-column:2!important}
+.home-page .solution-panel-wide{grid-column:1/-1!important}
+
+/* HOME NETWORK: heading left + photo right, then compact relationship cards */
+.home-page .network-section .container{display:grid!important;grid-template-columns:minmax(0,1fr) 340px!important;gap:18px 42px!important;align-items:start!important}
+.home-page .network-section .section-head{grid-column:1!important;grid-row:1!important;margin:0!important}
+.home-page .network-section>.container>.section-photo-slot{grid-column:2!important;grid-row:1 / span 2!important;width:100%!important;height:220px!important}
+.home-page .relationship-grid{grid-column:1/-1!important;grid-row:2!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;margin:0!important}
+.home-page .relationship-card-wide{grid-column:1/-1!important}
+.home-page .relationship-card{min-height:92px!important}
+.home-page .network-statement{grid-column:1/-1!important;grid-row:3!important;margin:0!important;padding:18px 20px!important}
+.home-page .network-statement .lead{font-size:1.28rem!important;line-height:1.35!important;font-weight:700!important}
+.home-page .network-statement .trust-line{font-size:1.12rem!important;font-style:italic!important;margin:10px 0!important}
+.home-page .network-statement p:last-child{font-size:1rem!important;margin:0!important}
+
+/* MEMBERSHIP: photo and copy side-by-side */
+.home-page .membership-preview-grid{display:grid!important;grid-template-columns:320px minmax(0,1fr)!important;gap:22px 40px!important;align-items:center!important}
+.home-page .membership-preview-grid .section-photo-slot{width:100%!important;height:180px!important}
+.home-page .membership-preview-grid>div:nth-of-type(2),.home-page .membership-preview-grid>div:nth-of-type(3){max-width:none!important}
+
+/* INNER HERO: never hidden under nav */
+.category-page main,.membership-page main,.contact-page main,.about-page main{padding-top:76px!important}
+.category-page .inner-hero,.membership-page .inner-hero,.contact-page .inner-hero,.about-page .inner-hero{min-height:calc(66vh - 0px)!important;margin:0!important;display:flex!important;align-items:center!important}
+.category-page .inner-hero-inner,.membership-page .inner-hero-inner,.contact-page .inner-hero-inner,.about-page .inner-hero-inner{padding:48px 0!important}
+
+/* ALL INNER SECTIONS: heading/content left, photo right */
+.category-page .section-head,.membership-page .section-head,.about-page .section-head{display:grid!important;grid-template-columns:minmax(0,1fr) 320px!important;gap:18px 40px!important;align-items:center!important;margin-bottom:16px!important}
+.category-page .section-head>.section-photo-slot,.membership-page .section-head>.section-photo-slot,.about-page .section-head>.section-photo-slot{grid-column:2!important;width:100%!important;height:165px!important}
+.category-page .section-head>div:first-child,.membership-page .section-head>div:first-child,.about-page .section-head>div:first-child{grid-column:1!important;grid-row:1!important}
+.category-page .section-head>p,.membership-page .section-head>p,.about-page .section-head>p{grid-column:1!important;grid-row:2!important;margin:0!important}
+.category-page .section-head + .section-photo-slot,.membership-page .section-head + .section-photo-slot,.about-page .section-head + .section-photo-slot{display:none!important}
+
+/* Sections where the slot is a sibling after the head: move it visually beside the head */
+.category-page section>.container:has(>.section-head) .section-photo-slot:not(.section-head .section-photo-slot){max-width:320px!important;float:right!important;margin:-6px 0 14px 28px!important}
+
+/* REAL ESTATE compact flow */
+.category-real-estate .inner-hero{background:#0b1622!important}
+.category-real-estate .inner-hero::before{background-image:url('../images/real-estate-hero.jpg')!important;opacity:.50!important}
+.category-real-estate .inner-hero h1{max-width:760px!important}
+.category-real-estate section>.container{display:block!important;overflow:hidden!important}
+.category-real-estate .service-grid,.category-real-estate .category-columns,.category-real-estate .location-grid{clear:both!important}
+.category-real-estate .network-stage{clear:both!important;max-width:860px!important;margin:18px auto 0!important;display:grid!important;grid-template-columns:1fr 170px 1fr!important;grid-template-rows:auto auto auto!important;gap:14px!important;align-items:center!important}
+.category-real-estate .network-center{grid-column:2!important;grid-row:2!important;width:170px!important;min-height:72px!important;display:grid!important;place-items:center!important;border-radius:12px!important;font-weight:900!important}
+.category-real-estate .network-stage::before{content:'BUYER  →  MADHYUM  →  SELLER';grid-column:1/-1!important;grid-row:1!important;text-align:center!important;font-weight:800!important;letter-spacing:.08em!important;font-size:.8rem!important;opacity:.78!important}
+.category-real-estate .network-pill:nth-child(1){grid-column:1!important;grid-row:2!important}
+.category-real-estate .network-pill:nth-child(3){grid-column:3!important;grid-row:2!important}
+.category-real-estate .network-pill:nth-child(4){grid-column:1!important;grid-row:3!important}
+.category-real-estate .network-pill:nth-child(5){grid-column:2!important;grid-row:3!important}
+.category-real-estate .network-pill:nth-child(6){grid-column:3!important;grid-row:3!important}
+
+/* Inquiry label everywhere */
+.service-more summary,.view-more summary{font-size:1rem!important;font-weight:850!important;cursor:pointer!important}
+
+/* Compact spacing globally */
+.section{padding-top:46px!important;padding-bottom:46px!important}
+.section+.section{padding-top:42px!important}
+.section-head{margin-bottom:14px!important}
+.benefit-grid,.service-grid,.service-grid-five,.service-grid-six,.course-grid,.category-columns,.location-grid,.occasion-grid,.signature-grid,.region-grid,.package-list,.relationship-grid{gap:12px!important}
+.benefit-card,.service-card,.course-card,.category-column,.location-card,.occasion-card,.signature-card,.region-card,.package-item{padding:16px!important}
+
+/* Requirement/contact: image behind heading, limited opacity */
+.contact-page .inner-hero::before{background-image:url('../images/hero-madhyam.jpg')!important;opacity:.32!important}
+.contact-page .contact-photo-section{margin-top:0!important}
+.contact-page .contact-photo-feature{position:relative!important;min-height:0!important}
+.contact-page .contact-photo-feature .section-photo-slot{display:none!important}
+.contact-page .contact-photo-section{background-image:linear-gradient(rgba(5,15,24,.90),rgba(5,15,24,.90)),url('../images/hero-madhyam.jpg')!important;background-size:cover!important;background-position:center!important}
+
+@media(max-width:800px){
+ .home-page .layered-hero{min-height:560px!important}
+ .home-page .layered-orbit{bottom:68px!important;height:122px!important;width:100%!important}
+ .home-page .layered-wing{width:150px!important;height:100px!important}
+ .home-page .layered-wing.position-far-left,.home-page .layered-wing.position-far-right{opacity:.25!important}
+ .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-105px) scale(.72)!important}
+ .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(105px) scale(.72)!important}
+ .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-200px) scale(.52)!important}
+ .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(200px) scale(.52)!important}
+ .home-page .layered-wing-visual{width:112px!important;height:52px!important}
+ .home-page .layered-wing-title{font-size:.66rem!important}
+ .home-page .why-section .container,.home-page .network-section .container,.home-page .membership-preview-grid{display:block!important}
+ .home-page .why-section .section-photo-slot,.home-page .network-section>.container>.section-photo-slot{width:100%!important;height:180px!important;margin:0 0 16px!important}
+ .home-page .why-section .why-points{grid-template-columns:1fr!important}
+ .home-page .solution-panels,.home-page .relationship-grid{grid-template-columns:1fr!important}
+ .home-page .solution-panel-wide,.home-page .relationship-card-wide{grid-column:auto!important}
+ .home-page .membership-preview-grid .section-photo-slot{width:100%!important;margin-bottom:16px!important}
+ .category-page .section-head,.membership-page .section-head,.about-page .section-head{display:block!important}
+ .category-page .section-head>.section-photo-slot,.membership-page .section-head>.section-photo-slot,.about-page .section-head>.section-photo-slot{display:none!important}
+ .category-page section>.container:has(>.section-head) .section-photo-slot:not(.section-head .section-photo-slot){float:none!important;width:100%!important;max-width:none!important;height:170px!important;margin:0 0 16px!important}
+ .category-real-estate .network-stage{grid-template-columns:1fr!important}
+ .category-real-estate .network-center,.category-real-estate .network-pill:nth-child(1),.category-real-estate .network-pill:nth-child(3),.category-real-estate .network-pill:nth-child(4),.category-real-estate .network-pill:nth-child(5),.category-real-estate .network-pill:nth-child(6){grid-column:1!important;grid-row:auto!important}
+}
+
+/* Final photo-circle loading state */
+.solution-photo-circle.photo-pending{background:#253646!important}
+.solution-photo-circle.photo-pending::before{content:'PHOTO'!important;display:block!important}
+.solution-photo-circle.photo-pending::after{content:attr(data-photo)!important;position:absolute!important;left:50%!important;bottom:-1px!important;transform:translateX(-50%)!important;background:rgba(5,12,18,.82)!important;color:#fff!important;font-size:.42rem!important;padding:2px 4px!important;white-space:nowrap!important;border-radius:4px!important}
+.solution-photo-circle.has-photo::before,.solution-photo-circle.has-photo::after{display:none!important}
+
+/* Real-estate network: clear meaning, not a random pile of boxes */
+.category-real-estate #property-network .center-copy{max-width:760px!important;margin:16px auto 0!important;text-align:center!important;font-size:.95rem!important;line-height:1.5!important}
+.category-real-estate #property-network .section-close{text-align:center!important;margin-top:10px!important}
+.category-real-estate #property-network .network-stage .network-pill{position:relative!important}
+.category-real-estate #property-network .network-stage .network-pill::after{content:'→'!important;position:absolute!important;font-size:1.2rem!important;opacity:.55!important}
+.category-real-estate #property-network .network-stage .network-pill:nth-child(1)::after{right:-20px!important;top:50%!important;transform:translateY(-50%)!important}
+.category-real-estate #property-network .network-stage .network-pill:nth-child(3)::after{left:-20px!important;top:50%!important;transform:translateY(-50%) rotate(180deg)!important}
+.category-real-estate #property-network .network-stage .network-pill:nth-child(4)::after,.category-real-estate #property-network .network-stage .network-pill:nth-child(5)::after{right:-18px!important;top:50%!important;transform:translateY(-50%)!important}
+@media(max-width:800px){
+ .category-real-estate #property-network .network-stage .network-pill::after{display:none!important}
+}
