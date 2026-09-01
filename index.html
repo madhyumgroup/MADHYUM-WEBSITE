@@ -3,280 +3,1302 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MADHYUM GROUP</title>
-  <meta name="description" content="MADHYUM is a premium multi-service network across Real Estate, Travel, Education & Admissions, Consultancy & Business Services, and Events & Weddings.">
+
+  <title>MADHYUM GROUP | One Connected Network</title>
+
+  <meta
+    name="description"
+    content="MADHYUM is a trusted multi-service network connecting people with relevant opportunities, professionals and service partners across Real Estate, Travel, Education & Admissions, Consultancy & Business Services, and Events & Weddings."
+  >
+
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="home-page">
 
-<header class="site-header">
-  <div class="container nav">
-    <a href="index.html" class="brand" aria-label="MADHYUM home">MADHYUM</a>
+  <!-- =========================================================
+       HEADER / NAVIGATION
+  ========================================================== -->
 
-    <nav class="navlinks" aria-label="Primary navigation">
-      <a href="index.html#why-madhyum">Why MADHYUM</a>
-      <a href="index.html#solutions">Solutions</a>
-      <a href="index.html#network">Network</a>
-      <a href="membership.html">Membership</a>
-    </nav>
+  <header class="site-header" id="siteHeader">
 
-    <div class="actions">
-      <button class="iconbtn" type="button" aria-label="Search" data-search>⌕</button>
-      <a class="contact-pill" href="contact.html">Contact Us</a>
-      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
-    </div>
-  </div>
-</header>
+    <div class="container nav">
 
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="MADHYUM Home"
+      >
+        MADHYUM
+      </a>
 
-<div class="mobile-menu" aria-hidden="true">
-  <div class="mobile-menu-inner">
-    <button class="mobile-close" type="button" data-close-mobile aria-label="Close menu">×</button>
-    <div class="menu-brand">MADHYUM</div>
-    <p class="menu-question">What are you looking for?</p>
+      <nav
+        class="navlinks"
+        aria-label="Primary Navigation"
+      >
+        <a href="#why-madhyum">Why MADHYUM</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#network">Network</a>
+        <a href="membership.html">Membership</a>
+      </nav>
 
-    <div class="menu-group">
-      <div class="menu-label">BUSINESS</div>
-      <div class="menu-business-grid">
-        <a href="real-estate.html" data-close-mobile>Real Estate</a>
-        <a href="travel.html" data-close-mobile>Travel</a>
-        <a href="education.html" data-close-mobile>Education &amp; Admissions</a>
-        <a href="consultancy.html" data-close-mobile>Consultancy &amp; Business Services</a>
-        <a href="events.html" data-close-mobile>Events &amp; Weddings</a>
+      <div class="actions">
+
+        <button
+          class="iconbtn"
+          type="button"
+          aria-label="Search"
+          data-search
+        >
+          ⌕
+        </button>
+
+        <a
+          class="contact-pill"
+          href="contact.html"
+        >
+          Contact Us
+        </a>
+
+        <button
+          class="menu-btn"
+          type="button"
+          aria-label="Open Menu"
+          aria-expanded="false"
+          data-menu-toggle
+        >
+          ☰
+        </button>
+
       </div>
+
     </div>
 
-    <div class="menu-secondary">
-      <a href="index.html#why-madhyum" data-close-mobile>Why MADHYUM</a>
-      <a href="index.html#network" data-close-mobile>Network</a>
-      <a href="membership.html" data-close-mobile>Membership</a>
-      <a href="contact.html" data-close-mobile>Contact Us</a>
-    </div>
-  </div>
-</div>
+  </header>
 
-<main>
-  <section class="layered-hero" id="hero" aria-label="MADHYUM business network">
-    <div class="layered-hero-background" aria-hidden="true"></div>
 
-    <div class="layered-orbit" id="layeredOrbit">
-      <a class="layered-wing" href="real-estate.html" data-wing="0" aria-label="Real Estate">
-        <div class="layered-wing-visual"><img src="real-estate.png" alt="Real Estate" draggable="false"></div>
-        <div class="layered-wing-title">REAL ESTATE</div>
-      </a>
+  <!-- =========================================================
+       MOBILE MENU
+  ========================================================== -->
 
-      <a class="layered-wing" href="travel.html" data-wing="1" aria-label="Travel">
-        <div class="layered-wing-visual"><img src="travel.png" alt="Travel" draggable="false"></div>
-        <div class="layered-wing-title">TRAVEL</div>
-      </a>
+  <aside
+    class="mobile-menu"
+    id="mobileMenu"
+    aria-hidden="true"
+  >
 
-      <a class="layered-wing" href="education.html" data-wing="2" aria-label="Education and Admissions">
-        <div class="layered-wing-visual"><img src="education.png" alt="Education and Admissions" draggable="false"></div>
-        <div class="layered-wing-title">EDUCATION &amp; ADMISSIONS</div>
-      </a>
+    <div class="mobile-menu-inner">
 
-      <a class="layered-wing" href="consultancy.html" data-wing="3" aria-label="Consultancy and Business Services">
-        <div class="layered-wing-visual"><img src="consultancy.png" alt="Consultancy and Business Services" draggable="false"></div>
-        <div class="layered-wing-title">CONSULTANCY &amp; BUSINESS SERVICES</div>
-      </a>
+      <div class="mobile-menu-top">
 
-      <a class="layered-wing" href="events.html" data-wing="4" aria-label="Events and Weddings">
-        <div class="layered-wing-visual"><img src="events.png" alt="Events and Weddings" draggable="false"></div>
-        <div class="layered-wing-title">EVENTS &amp; WEDDINGS</div>
-      </a>
-    </div>
+        <span class="mobile-menu-label">
+          MENU
+        </span>
 
-    <div class="layered-controls" aria-label="Business navigation">
-      <button id="layeredPrev" class="layered-control" type="button" aria-label="Previous business">←</button>
-      <div id="layeredDots" class="layered-dots" aria-label="Business progress"></div>
-      <button id="layeredNext" class="layered-control" type="button" aria-label="Next business">→</button>
-    </div>
-  </section>
+        <button
+          type="button"
+          class="mobile-close"
+          aria-label="Close Menu"
+          data-menu-close
+        >
+          ×
+        </button>
 
-  <section class="section why-section" id="why-madhyum">
-  <div class="container">
-    <div class="why-intro reveal">
-      <div>
-        <div class="eyebrow">01 / WHY MADHYUM</div>
-        <h2>We all need something.<br><span class="serif">The real question is — who can help?</span></h2>
       </div>
-      <p>A requirement may be clear. Finding the right person, expertise or opportunity often isn't. MADHYUM comes in as the connection point.</p>
+
+      <nav
+        class="mobile-nav"
+        aria-label="Mobile Navigation"
+      >
+
+        <a href="#why-madhyum">
+          Why MADHYUM
+        </a>
+
+        <a href="#solutions">
+          Solutions
+        </a>
+
+        <a href="#network">
+          Network
+        </a>
+
+        <a href="membership.html">
+          Membership
+        </a>
+
+        <a href="contact.html">
+          Contact Us
+        </a>
+
+      </nav>
+
     </div>
 
-    <div class="why-grid">
-      <div class="why-message reveal">
-        <p class="lead">When you know what you need but not exactly whom to approach, the search can become the hardest part.</p>
+  </aside>
+
+
+  <!-- =========================================================
+       SEARCH DRAWER
+  ========================================================== -->
+
+  <aside
+    class="search-drawer"
+    id="searchDrawer"
+    aria-hidden="true"
+  >
+
+    <div class="search-drawer-inner">
+
+      <div class="search-top">
+
+        <span>
+          SEARCH MADHYUM
+        </span>
+
+        <button
+          type="button"
+          class="search-close"
+          aria-label="Close Search"
+          data-search-close
+        >
+          ×
+        </button>
+
       </div>
-      <div class="why-points reveal">
-        <article><strong>RIGHT EXPERTS</strong><span>Experienced professionals.</span></article>
-        <article><strong>MORE POSSIBILITIES</strong><span>Relevant directions beyond the obvious.</span></article>
-        <article><strong>LESS SEARCH</strong><span>More clarity. Better choices.</span></article>
+
+      <div class="search-field-wrap">
+
+        <input
+          type="search"
+          id="siteSearch"
+          class="search-field"
+          placeholder="Search Real Estate, Travel, Education..."
+          autocomplete="off"
+        >
+
+        <button
+          type="button"
+          class="search-submit"
+          data-search-submit
+        >
+          Search
+        </button>
+
       </div>
+
+      <div
+        class="search-results"
+        id="searchResults"
+        aria-live="polite"
+      ></div>
+
     </div>
 
-    <div class="why-diagram-clean reveal" aria-label="MADHYUM connection diagram">
-      <div class="why-node">RIGHT EXPERTS<span>Experienced professionals</span></div>
-      <div class="why-connector"></div>
-      <div class="why-core"><small>TRUSTED</small><strong>MADHYUM</strong><small>MORE POSSIBILITIES</small></div>
-      <div class="why-connector"></div>
-      <div class="why-node">LESS SEARCH<span>More clarity. Better choices.</span></div>
-    </div>
+  </aside>
 
-    <div class="why-close reveal">
-      <div class="trust-line">SABSE BHAROSEMAND ZARIYA.</div>
-      <p>Need something? Start with MADHYUM. We're here to connect you to the right people.</p>
-    </div>
-  </div>
-</section>
-  <section class="section dark solutions-section" id="solutions">
-  <div class="container">
-    <div class="section-head compact-head reveal">
-      <div><div class="eyebrow light">02 / SOLUTIONS</div><h2>Five worlds. <span class="serif">One connected network.</span></h2></div>
-      <p>Five focused service wings, each leading you towards relevant possibilities through the MADHYUM ecosystem.</p>
-    </div>
-    <div class="solution-panels">
-      <a class="solution-panel reveal" href="real-estate.html"><span class="solution-index">01</span><div class="solution-copy"><h3>Real Estate</h3><p>Buy. Sell. Invest. Build. Renovate.</p><span class="solution-link">Explore →</span></div></a>
-      <a class="solution-panel reveal" href="travel.html"><span class="solution-index">02</span><div class="solution-copy"><h3>Travel</h3><p>Plan. Discover. Experience.</p><span class="solution-link">Explore →</span></div></a>
-      <a class="solution-panel reveal" href="education.html"><span class="solution-index">03</span><div class="solution-copy"><h3>Education &amp; Admissions</h3><p>Choose. Prepare. Move Forward.</p><span class="solution-link">Explore →</span></div></a>
-      <a class="solution-panel reveal" href="consultancy.html"><span class="solution-index">04</span><div class="solution-copy"><h3>Consultancy &amp; Business Services</h3><p>Start. Build. Support. Grow.</p><span class="solution-link">Explore →</span></div></a>
-      <a class="solution-panel solution-panel-wide reveal" href="events.html"><span class="solution-index">05</span><div class="solution-copy"><h3>Events &amp; Weddings</h3><p>Plan. Create. Celebrate.</p><span class="solution-link">Explore →</span></div></a>
-    </div>
-  </div>
-</section>
-  <section class="section network-section" id="network">
-    <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <div class="eyebrow">03 / NETWORK</div>
-          <h2>What starts as a requirement<br><span class="serif">can become a relationship.</span></h2>
+
+  <!-- =========================================================
+       HERO
+  ========================================================== -->
+
+  <main>
+
+    <section
+      class="hero"
+      id="hero"
+      aria-label="MADHYUM Introduction"
+    >
+
+      <div class="hero-background">
+
+        <img
+          src="hero-madhyum.jpg"
+          alt="MADHYUM"
+          class="hero-image"
+        >
+
+        <div class="hero-overlay"></div>
+
+      </div>
+
+
+      <div class="container hero-content">
+
+        <div class="hero-copy">
+
+          <p class="eyebrow hero-eyebrow">
+            ONE CONNECTED NETWORK
+          </p>
+
+          <h1>
+            One requirement.
+            <span>One right connection.</span>
+          </h1>
+
+          <p class="hero-description">
+            MADHYUM connects people with the right professionals,
+            opportunities and service partners across multiple
+            everyday needs.
+          </p>
+
+          <div class="hero-actions">
+
+            <a
+              href="#solutions"
+              class="btn btn-primary"
+            >
+              Explore MADHYUM
+            </a>
+
+            <a
+              href="contact.html"
+              class="btn btn-outline"
+            >
+              Submit Your Requirement
+            </a>
+
+          </div>
+
         </div>
-        <p>Your requirement brings you to MADHYUM. Our network helps take it further.</p>
+
       </div>
 
-      <div class="relationship-grid">
-        <article class="relationship-card reveal">
-          <div class="relationship-card-content">
-            <div class="eyebrow">REAL ESTATE</div>
-            <h3>Invest → Sell → Reinvest</h3>
+
+      <!-- =====================================================
+           HERO FIVE-WING SLIDER
+           IMPORTANT:
+           Slider is positioned at the BOTTOM of hero image.
+      ====================================================== -->
+
+      <div
+        class="hero-wings"
+        id="heroWings"
+      >
+
+        <div class="container">
+
+          <div class="hero-wing-window">
+
+            <div
+              class="hero-wing-track"
+              id="heroWingTrack"
+            >
+
+              <a
+                class="hero-wing"
+                href="real-estate.html"
+                data-wing="real-estate"
+              >
+                <span class="wing-number">
+                  01
+                </span>
+
+                <span class="wing-name">
+                  REAL ESTATE
+                </span>
+
+                <span class="wing-description">
+                  Buy · Sell · Invest · Build
+                </span>
+              </a>
+
+
+              <a
+                class="hero-wing"
+                href="travel.html"
+                data-wing="travel"
+              >
+                <span class="wing-number">
+                  02
+                </span>
+
+                <span class="wing-name">
+                  TRAVEL
+                </span>
+
+                <span class="wing-description">
+                  Plan · Discover · Experience
+                </span>
+              </a>
+
+
+              <a
+                class="hero-wing"
+                href="education.html"
+                data-wing="education"
+              >
+                <span class="wing-number">
+                  03
+                </span>
+
+                <span class="wing-name">
+                  EDUCATION & ADMISSIONS
+                </span>
+
+                <span class="wing-description">
+                  Choose · Prepare · Move Forward
+                </span>
+              </a>
+
+
+              <a
+                class="hero-wing"
+                href="consultancy.html"
+                data-wing="consultancy"
+              >
+                <span class="wing-number">
+                  04
+                </span>
+
+                <span class="wing-name">
+                  CONSULTANCY & BUSINESS
+                </span>
+
+                <span class="wing-description">
+                  Start · Build · Grow
+                </span>
+              </a>
+
+
+              <a
+                class="hero-wing"
+                href="events.html"
+                data-wing="events"
+              >
+                <span class="wing-number">
+                  05
+                </span>
+
+                <span class="wing-name">
+                  EVENTS & WEDDINGS
+                </span>
+
+                <span class="wing-description">
+                  Plan · Connect · Celebrate
+                </span>
+              </a>
+
+            </div>
+
           </div>
-          <div class="network-photo-slot" style="--slot-image:url('network-real-estate.jpg')" aria-label="Optional Real Estate network photograph"></div>
-        </article>
-        <article class="relationship-card reveal">
-          <div class="relationship-card-content">
-            <div class="eyebrow">TRAVEL</div>
-            <h3>Trusted DMCs → Better Journeys</h3>
+
+
+          <div class="hero-slider-controls">
+
+            <button
+              type="button"
+              class="slider-arrow"
+              id="heroPrev"
+              aria-label="Previous"
+            >
+              ←
+            </button>
+
+            <div
+              class="slider-dots"
+              id="heroDots"
+              aria-label="Hero Slider"
+            >
+
+              <button
+                type="button"
+                class="slider-dot is-active"
+                data-slide="0"
+                aria-label="Real Estate"
+              ></button>
+
+              <button
+                type="button"
+                class="slider-dot"
+                data-slide="1"
+                aria-label="Travel"
+              ></button>
+
+              <button
+                type="button"
+                class="slider-dot"
+                data-slide="2"
+                aria-label="Education"
+              ></button>
+
+              <button
+                type="button"
+                class="slider-dot"
+                data-slide="3"
+                aria-label="Consultancy"
+              ></button>
+
+              <button
+                type="button"
+                class="slider-dot"
+                data-slide="4"
+                aria-label="Events"
+              ></button>
+
+            </div>
+
+            <button
+              type="button"
+              class="slider-arrow"
+              id="heroNext"
+              aria-label="Next"
+            >
+              →
+            </button>
+
           </div>
-          <div class="network-photo-slot" style="--slot-image:url('network-travel.jpg')" aria-label="Optional Travel network photograph"></div>
-        </article>
-        <article class="relationship-card reveal">
-          <div class="relationship-card-content">
-            <div class="eyebrow">EDUCATION &amp; ADMISSIONS</div>
-            <h3>Guidance → Admission → Next Step</h3>
-          </div>
-          <div class="network-photo-slot" style="--slot-image:url('network-education.jpg')" aria-label="Optional Education network photograph"></div>
-        </article>
-        <article class="relationship-card reveal">
-          <div class="relationship-card-content">
-            <div class="eyebrow">CONSULTANCY &amp; BUSINESS SERVICES</div>
-            <h3>Start → Build → Grow</h3>
-          </div>
-          <div class="network-photo-slot" style="--slot-image:url('network-consultancy.jpg')" aria-label="Optional Consultancy network photograph"></div>
-        </article>
-        <article class="relationship-card relationship-card-wide reveal">
-          <div class="relationship-card-content">
-            <div class="eyebrow">EVENTS &amp; WEDDINGS</div>
-            <h3>Plan → Connect → Celebrate</h3>
-          </div>
-          <div class="network-photo-slot" style="--slot-image:url('network-events.jpg')" aria-label="Optional Events network photograph"></div>
-        </article>
+
+        </div>
+
       </div>
-<div class="network-statement reveal">
-        <p class="lead">Your requirement brings you in.<br><strong>The relationship keeps the value growing.</strong></p>
-        <div class="trust-line">SABSE BHAROSEMAND ZARIYA.</div>
-        <p>One connection can solve today's requirement — and become the starting point for what you need tomorrow.</p>
+
+    </section>
+
+
+    <!-- =========================================================
+         WHY MADHYUM
+    ========================================================== -->
+
+    <section
+      class="section why-section"
+      id="why-madhyum"
+    >
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <p class="eyebrow">
+            01 / WHY MADHYUM
+          </p>
+
+          <h2>
+            We all need something.
+            <span>The real question is — who can help?</span>
+          </h2>
+
+          <p class="section-intro">
+            A requirement may be clear. Finding the right person,
+            expertise or opportunity often isn't. MADHYUM comes in
+            as the connection point.
+          </p>
+
+        </div>
+
+
+        <div class="why-layout">
+
+          <div class="why-story">
+
+            <p>
+              When you know what you need but not exactly whom
+              to approach, the search can become the hardest part.
+            </p>
+
+            <div class="why-brand-card">
+
+              <span class="why-brand-small">
+                TRUSTED
+              </span>
+
+              <strong>
+                MADHYUM
+              </strong>
+
+              <span class="why-brand-tagline">
+                SABSE BHAROSEMAND ZARIYA.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="why-points">
+
+            <article class="info-card">
+
+              <span class="card-number">
+                01
+              </span>
+
+              <h3>
+                RIGHT EXPERTS
+              </h3>
+
+              <p>
+                Experienced professionals.
+              </p>
+
+            </article>
+
+
+            <article class="info-card">
+
+              <span class="card-number">
+                02
+              </span>
+
+              <h3>
+                MORE POSSIBILITIES
+              </h3>
+
+              <p>
+                Relevant directions beyond the obvious.
+              </p>
+
+            </article>
+
+
+            <article class="info-card">
+
+              <span class="card-number">
+                03
+              </span>
+
+              <h3>
+                LESS SEARCH
+              </h3>
+
+              <p>
+                More clarity. Better choices.
+              </p>
+
+            </article>
+
+          </div>
+
+        </div>
+
+
+        <div class="why-closing">
+
+          <div class="why-closing-copy">
+
+            <p class="eyebrow">
+              SABSE BHAROSEMAND ZARIYA.
+            </p>
+
+            <h3>
+              Need something?
+              <span>Start with MADHYUM.</span>
+            </h3>
+
+            <p>
+              We're here to connect you to the right people.
+            </p>
+
+          </div>
+
+          <div class="photo-slot photo-slot-small">
+
+            <img
+              src="images/home-why-madhyum.jpg"
+              alt="People connecting through MADHYUM"
+              loading="lazy"
+            >
+
+          </div>
+
+        </div>
+
       </div>
-    </div>
-  </section>
 
-  <section class="section dark membership-preview">
-    <div class="container membership-preview-grid reveal">
-      <div>
-        <div class="eyebrow light">MEMBERSHIP</div>
-        <h2>More Than a Membership.<br><span class="serif">Your Access to the MADHYUM Network.</span></h2>
+    </section>
+
+
+    <!-- =========================================================
+         SOLUTIONS
+    ========================================================== -->
+
+    <section
+      class="section solutions-section"
+      id="solutions"
+    >
+
+      <div class="container">
+
+        <div class="section-heading section-heading-row">
+
+          <div>
+
+            <p class="eyebrow">
+              02 / SOLUTIONS
+            </p>
+
+            <h2>
+              Five worlds.
+              <span>One connected network.</span>
+            </h2>
+
+          </div>
+
+          <p class="section-intro">
+            Five focused service wings, each leading you towards
+            relevant possibilities through the MADHYUM ecosystem.
+          </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             3 UP / 2 DOWN STYLE GRID
+        ====================================================== -->
+
+        <div class="solution-grid">
+
+
+          <!-- REAL ESTATE -->
+
+          <article class="solution-card">
+
+            <div class="solution-card-top">
+
+              <span class="card-number">
+                01
+              </span>
+
+              <span class="solution-label">
+                PROPERTY
+              </span>
+
+            </div>
+
+            <div class="solution-card-content">
+
+              <h3>
+                Real Estate
+              </h3>
+
+              <p>
+                Property opportunities connected around your
+                location, purpose and requirement.
+              </p>
+
+              <div class="solution-keywords">
+                Buy · Sell · Invest · Build · Renovate
+              </div>
+
+              <a
+                href="real-estate.html"
+                class="card-link"
+              >
+                Explore Real Estate →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <!-- TRAVEL -->
+
+          <article class="solution-card">
+
+            <div class="solution-card-top">
+
+              <span class="card-number">
+                02
+              </span>
+
+              <span class="solution-label">
+                JOURNEYS
+              </span>
+
+            </div>
+
+            <div class="solution-card-content">
+
+              <h3>
+                Travel
+              </h3>
+
+              <p>
+                Travel options shaped around your destination,
+                purpose, preferences and budget.
+              </p>
+
+              <div class="solution-keywords">
+                Holidays · Honeymoon · Adventure · Corporate
+              </div>
+
+              <a
+                href="travel.html"
+                class="card-link"
+              >
+                Explore Travel →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <!-- EDUCATION -->
+
+          <article class="solution-card">
+
+            <div class="solution-card-top">
+
+              <span class="card-number">
+                03
+              </span>
+
+              <span class="solution-label">
+                EDUCATION
+              </span>
+
+            </div>
+
+            <div class="solution-card-content">
+
+              <h3>
+                Education & Admissions
+              </h3>
+
+              <p>
+                Course and institution opportunities across
+                India and international destinations.
+              </p>
+
+              <div class="solution-keywords">
+                UG · PG · Professional · India · Abroad
+              </div>
+
+              <a
+                href="education.html"
+                class="card-link"
+              >
+                Explore Education →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <!-- CONSULTANCY -->
+
+          <article class="solution-card">
+
+            <div class="solution-card-top">
+
+              <span class="card-number">
+                04
+              </span>
+
+              <span class="solution-label">
+                BUSINESS
+              </span>
+
+            </div>
+
+            <div class="solution-card-content">
+
+              <h3>
+                Consultancy & Business Services
+              </h3>
+
+              <p>
+                Business setup, documentation, compliance,
+                professional support and growth connections.
+              </p>
+
+              <div class="solution-keywords">
+                Start · Support · Comply · Consult · Grow
+              </div>
+
+              <a
+                href="consultancy.html"
+                class="card-link"
+              >
+                Explore Business →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <!-- EVENTS -->
+
+          <article class="solution-card solution-card-wide">
+
+            <div class="solution-card-top">
+
+              <span class="card-number">
+                05
+              </span>
+
+              <span class="solution-label">
+                CELEBRATIONS
+              </span>
+
+            </div>
+
+            <div class="solution-card-content">
+
+              <h3>
+                Events & Weddings
+              </h3>
+
+              <p>
+                Connect with venues, planners, decorators,
+                caterers, photographers, artists and service
+                partners for your celebration.
+              </p>
+
+              <div class="solution-keywords">
+                Plan · Connect · Create · Celebrate
+              </div>
+
+              <a
+                href="events.html"
+                class="card-link"
+              >
+                Explore Events & Weddings →
+              </a>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =====================================================
+             SOLUTION PHOTO STRIP
+        ====================================================== -->
+
+        <div class="solution-photo-strip">
+
+          <div class="photo-slot photo-slot-medium">
+
+            <img
+              src="images/home-solutions-network.jpg"
+              alt="MADHYUM connected service network"
+              loading="lazy"
+            >
+
+          </div>
+
+          <div class="solution-photo-copy">
+
+            <p class="eyebrow">
+              CONNECTED POSSIBILITIES
+            </p>
+
+            <h3>
+              Different requirements.
+              <span>One place to begin.</span>
+            </h3>
+
+          </div>
+
+        </div>
+
       </div>
-      <div>
-        <p class="lead light-text">Preferred access, exclusive privileges and trusted connections across five business wings — with curated lifestyle benefits throughout the year.</p>
-        <a href="membership.html" class="btn">Explore Membership →</a></div>
-    </div>
-  </section>
 
-  <section class="final-cta">
-    <div class="container final-inner reveal">
-      <div>
-        <div class="eyebrow light">START WITH MADHYUM</div>
-        <h2>Whatever you're looking for,<br><span class="serif">start somewhere you trust.</span></h2>
-        <p>When you're ready to take the next step, MADHYUM is here.</p>
+    </section>
+
+
+    <!-- =========================================================
+         NETWORK
+    ========================================================== -->
+
+    <section
+      class="section network-section"
+      id="network"
+    >
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <p class="eyebrow">
+            03 / NETWORK
+          </p>
+
+          <h2>
+            What starts as a requirement
+            <span>can become a relationship.</span>
+          </h2>
+
+          <p class="section-intro">
+            Your requirement brings you to MADHYUM.
+            Our network helps take it further.
+          </p>
+
+        </div>
+
+
+        <!-- COLUMN ARRANGEMENT -->
+
+        <div class="network-grid">
+
+          <article class="network-card">
+
+            <span class="card-number">
+              01
+            </span>
+
+            <h3>
+              REAL ESTATE
+            </h3>
+
+            <p>
+              Invest → Sell → Reinvest
+            </p>
+
+          </article>
+
+
+          <article class="network-card">
+
+            <span class="card-number">
+              02
+            </span>
+
+            <h3>
+              TRAVEL
+            </h3>
+
+            <p>
+              Trusted DMCs → Better Journeys
+            </p>
+
+          </article>
+
+
+          <article class="network-card">
+
+            <span class="card-number">
+              03
+            </span>
+
+            <h3>
+              EDUCATION & ADMISSIONS
+            </h3>
+
+            <p>
+              Guidance → Admission → Next Step
+            </p>
+
+          </article>
+
+
+          <article class="network-card">
+
+            <span class="card-number">
+              04
+            </span>
+
+            <h3>
+              CONSULTANCY & BUSINESS SERVICES
+            </h3>
+
+            <p>
+              Start → Build → Grow
+            </p>
+
+          </article>
+
+
+          <article class="network-card network-card-wide">
+
+            <span class="card-number">
+              05
+            </span>
+
+            <h3>
+              EVENTS & WEDDINGS
+            </h3>
+
+            <p>
+              Plan → Connect → Celebrate
+            </p>
+
+          </article>
+
+        </div>
+
+
+        <div class="network-closing">
+
+          <div class="network-message">
+
+            <p class="eyebrow">
+              SABSE BHAROSEMAND ZARIYA.
+            </p>
+
+            <h3>
+              Your requirement brings you in.
+              <span>The relationship keeps the value growing.</span>
+            </h3>
+
+            <p>
+              One connection can solve today's requirement —
+              and become the starting point for what you need tomorrow.
+            </p>
+
+          </div>
+
+          <div class="photo-slot photo-slot-small">
+
+            <img
+              src="images/home-network-connection.jpg"
+              alt="People connected through a trusted network"
+              loading="lazy"
+            >
+
+          </div>
+
+        </div>
+
       </div>
-      <a href="contact.html" class="btn primary">Start With MADHYUM →</a>
+
+    </section>
+
+
+    <!-- =========================================================
+         MEMBERSHIP PREVIEW
+    ========================================================== -->
+
+    <section class="section membership-preview">
+
+      <div class="container">
+
+        <div class="membership-card">
+
+          <div class="membership-copy">
+
+            <p class="eyebrow">
+              MEMBERSHIP
+            </p>
+
+            <h2>
+              One membership.
+              <span>Access across the MADHYUM network.</span>
+            </h2>
+
+            <p>
+              Discover applicable privileges and partner benefits
+              across Real Estate, Travel, Education, Consultancy,
+              Dining and Events & Weddings.
+            </p>
+
+            <a
+              href="membership.html"
+              class="btn btn-primary"
+            >
+              Explore Membership
+            </a>
+
+          </div>
+
+          <div class="photo-slot photo-slot-large">
+
+            <img
+              src="images/home-membership.jpg"
+              alt="MADHYUM membership experience"
+              loading="lazy"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         FINAL CTA
+    ========================================================== -->
+
+    <section class="final-cta">
+
+      <div class="container">
+
+        <div class="final-cta-inner">
+
+          <p class="eyebrow">
+            START WITH MADHYUM
+          </p>
+
+          <h2>
+            Whatever you're looking for,
+            <span>start somewhere you trust.</span>
+          </h2>
+
+          <p>
+            One requirement can be the beginning of
+            one valuable connection.
+          </p>
+
+          <div class="final-cta-actions">
+
+            <a
+              href="contact.html"
+              class="btn btn-primary"
+            >
+              Start with MADHYUM →
+            </a>
+
+            <a
+              href="contact.html"
+              class="btn btn-outline"
+            >
+              Contact Us
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer class="site-footer">
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+
+          <a
+            href="index.html"
+            class="footer-logo"
+          >
+            MADHYUM
+          </a>
+
+          <p>
+            A trusted, connected, multi-service network
+            built around people's requirements.
+          </p>
+
+          <span class="footer-tagline">
+            SABSE BHAROSEMAND ZARIYA.
+          </span>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h3>
+            Business
+          </h3>
+
+          <a href="real-estate.html">
+            Real Estate
+          </a>
+
+          <a href="travel.html">
+            Travel
+          </a>
+
+          <a href="education.html">
+            Education & Admissions
+          </a>
+
+          <a href="consultancy.html">
+            Consultancy & Business Services
+          </a>
+
+          <a href="events.html">
+            Events & Weddings
+          </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h3>
+            MADHYUM
+          </h3>
+
+          <a href="#why-madhyum">
+            Why MADHYUM
+          </a>
+
+          <a href="#network">
+            Network
+          </a>
+
+          <a href="membership.html">
+            Membership
+          </a>
+
+          <a href="contact.html">
+            Contact Us
+          </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h3>
+            Network
+          </h3>
+
+          <a href="#network">
+            Members
+          </a>
+
+          <a href="#network">
+            Partners
+          </a>
+
+          <a href="#network">
+            Professionals
+          </a>
+
+          <a href="#network">
+            Service Network
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <span>
+          © MADHYUM GROUP
+        </span>
+
+        <span>
+          MADHYUM
+        </span>
+
+      </div>
+
     </div>
-  </section>
-</main>
+
+  </footer>
 
 
-<footer class="footer">
-  <div class="container footer-grid">
-    <div>
-      <div class="brand">MADHYUM</div>
-      <p class="footer-description">
-        A trusted, connected, multi-service network built around people's requirements.
-      </p>
-    </div>
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
 
-    <div>
-      <h4>Business</h4>
-      <a href="real-estate.html">Real Estate</a>
-      <a href="travel.html">Travel</a>
-      <a href="education.html">Education &amp; Admissions</a>
-      <a href="consultancy.html">Consultancy &amp; Business Services</a>
-      <a href="events.html">Events &amp; Weddings</a>
-    </div>
+  <script src="js/script.js"></script>
 
-    <div>
-      <h4>MADHYUM</h4>
-      <a href="index.html#why-madhyum">Why MADHYUM</a>
-      <a href="index.html#network">Network</a>
-      <a href="membership.html">Membership</a>
-      <a href="contact.html">Contact Us</a>
-    </div>
-
-    <div>
-      <h4>Network</h4>
-      <a href="index.html#network">Members</a>
-      <a href="index.html#network">Partners</a>
-      <a href="index.html#network">Professionals</a>
-      <a href="index.html#network">Service Network</a>
-    </div>
-  </div>
-
-  <div class="container footer-bottom">
-    <span>© MADHYUM GROUP</span>
-    <span>MADHYUM</span>
-  </div>
-</footer>
-
-
-<div class="drawer" aria-hidden="true">
-  <div class="drawer-panel">
-    <button class="iconbtn drawer-close" type="button" data-close-search aria-label="Close search">×</button>
-    <div class="eyebrow light">SEARCH</div>
-    <h2>What are you looking for?</h2>
-    <div class="search-box">
-      <input id="searchInput" type="search" placeholder="Try “3 BHK Bhopal”, “Dubai”, “MBBS”, “GST”..." autocomplete="off">
-    </div>
-    <div id="searchResults" class="search-results"></div>
-  </div>
-</div>
-
-<script src="js/script.js"></script>
 </body>
 </html>
