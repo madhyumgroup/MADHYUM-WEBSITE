@@ -69,6 +69,17 @@
   searchInput?.addEventListener('input',e=>renderSearch(e.target.value));
   renderSearch();
 
+
+  // Photo slots: use the named image when it exists. Missing uploads stay as clean boxes (no broken-image icon).
+  document.querySelectorAll('.section-photo-slot[data-photo]').forEach(slot=>{
+    const file=slot.getAttribute('data-photo');
+    if(!file) return;
+    const img=new Image();
+    img.onload=()=>{slot.classList.add('has-photo');slot.style.backgroundImage=`url("images/${file}")`;};
+    img.onerror=()=>slot.classList.add('photo-pending');
+    img.src=`images/${file}`;
+  });
+
   // Smooth internal links.
   document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',e=>{
     const id=link.getAttribute('href'); if(!id||id==='#')return; const el=document.querySelector(id); if(!el)return; e.preventDefault(); closeMenu(); el.scrollIntoView({behavior:'smooth',block:'start'});
@@ -111,6 +122,6 @@
 
   // Basic inquiry form feedback.
   document.querySelectorAll('[data-form-name]').forEach(form=>form.addEventListener('submit',e=>{
-    e.preventDefault();const success=form.querySelector('.form-success');if(success)success.textContent='Thank you. Your requirement has been recorded. Our team will connect with you shortly.';form.reset();
+    e.preventDefault();const success=form.querySelector('.form-success');if(success)success.textContent='Thank you. We received your request. We will contact you soon.';form.reset();
   }));
 })();
