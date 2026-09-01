@@ -2041,625 +2041,352 @@ textarea{
 
 }
 
-
 /* =========================================================
-   V2 POLISH / COMPONENTS
+   V5 — MADHYUM DISCOVERY / ALIGNMENT POLISH
 ========================================================= */
 
-body.menu-open{overflow:hidden}
-
-/* Section label scale: +2 visual steps. On dark surfaces,
-   contrast is intentionally preserved. */
-.eyebrow{
-  font-size:.90rem;
-  letter-spacing:.16em;
-  font-weight:600;
-  color:#30363b;
-}
-.eyebrow.light{
-  color:#c3cbd1;
-}
-
-/* Homepage Why MADHYUM: align the right-hand explanation
-   with the heading instead of bottom-aligning it. */
-.why-section .section-head{
-  align-items:start;
-}
-.why-section .section-head > p{
-  padding-top:3px;
-}
-.why-section .section-head h2{
-  max-width:860px;
-}
-
-/* Relationship cards: stronger business/category typography. */
-.relationship-card h3{
-  font-size:clamp(1.75rem,2.8vw,3.05rem);
-  line-height:1.02;
-}
-
-/* Homepage final CTA: slightly smaller and more elegant,
-   encouraging a clean two-line composition. */
-.final-cta h2{
-  font-size:clamp(2.45rem,5vw,5.35rem);
-  max-width:1050px;
-}
-
-/* Membership privilege labels: darker and larger. */
-.privilege-card span{
-  display:block;
-  font-size:.92rem;
-  letter-spacing:.14em;
-  color:#30363b;
-  font-weight:700;
-}
-
-/* Editorial photos placed into content sections. */
-.section-media{
-  margin-top:44px;
-  display:grid;
-  grid-template-columns:1.45fr .85fr;
-  gap:18px;
-}
-.section-media figure{
-  margin:0;
-  min-height:320px;
-  overflow:hidden;
-  border-radius:24px;
-  background:#121a22;
-  box-shadow:var(--shadow);
-}
-.section-media figure:first-child{min-height:440px}
-.section-media img{
-  width:100%;
-  height:100%;
-  min-height:inherit;
-  object-fit:cover;
-}
-.section-media.single{
-  grid-template-columns:1fr;
-}
-.section-media.single figure{
-  min-height:360px;
-}
-.section-media + .section-close{margin-top:32px}
-
-/* Generic cards with expandable "View More". */
-.service-more{
-  margin-top:18px;
-}
-.service-more summary{
-  list-style:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  cursor:pointer;
-  color:#f0d9a7;
-  font-size:.88rem;
-  font-weight:600;
-  border-bottom:1px solid rgba(201,161,91,.45);
-  padding-bottom:4px;
-}
-.service-more summary::-webkit-details-marker{display:none}
-.service-more summary::after{content:"↓";transition:transform .2s ease}
-.service-more[open] summary::after{transform:rotate(180deg)}
-.service-more .more-copy{
-  margin-top:14px;
-  padding-top:14px;
-  border-top:1px solid rgba(255,255,255,.10);
-  color:var(--muted-light);
-  font-size:.92rem;
-  line-height:1.65;
-}
-
-/* Travel package View More on light/dark surfaces. */
-.package-item .service-more summary{
-  color:#f0d9a7;
-}
-.package-item .package-examples .service-more{
-  margin-top:15px;
-}
-.package-item .package-examples .more-copy{
-  color:#cbd3d8;
-}
-
-/* Light-surface "View More". */
-.section:not(.dark) .service-more summary{
-  color:#8b6730;
-}
-
-/* Make package examples feel editorial, not like tags. */
-.package-examples span{
-  line-height:1.6;
-}
-
-/* Homepage solution panel typography slightly stronger. */
-.solution-panel h3{
-  font-size:clamp(2.15rem,3.5vw,4.15rem);
-}
-
-/* Form fidelity. */
-.requirement-form{
-  scroll-margin-top:110px;
-}
-.form-grid label{
-  min-width:0;
-}
-
-/* Inner-page section headings: dark labels and stronger scale. */
-.category-page .section-head .eyebrow:not(.light){
-  color:#30363b;
-  font-size:.90rem;
-}
-
-/* Institute placeholders removed: use only if real records are inserted later. */
-.institute-grid{
-  display:none;
-}
-
-/* More editorial, less "boxed" location/region lists. */
-.region-item,
-.location-card{
-  min-height:120px;
-}
-
-/* Keep navigation one line until mobile breakpoint. */
-@media(min-width:961px){
-  .site-header .nav{
-    flex-wrap:nowrap;
-  }
-  .site-header .navlinks{
-    flex-shrink:1;
-  }
-}
-
-/* Responsive media */
-@media(max-width:850px){
-  .section-media,
-  .section-media.single{
-    grid-template-columns:1fr;
-  }
-  .section-media figure,
-  .section-media figure:first-child{
-    min-height:260px;
-  }
-}
-
-@media(max-width:700px){
-  .eyebrow,
-  .category-page .section-head .eyebrow:not(.light){
-    font-size:.82rem;
-  }
-  .relationship-card h3{
-    font-size:1.75rem;
-  }
-}
-
-.institute-inquiry{margin-top:24px}
-
-
-/* =========================================================
-   V3 — VISUAL HIERARCHY / ALIGNMENT RESET
-========================================================= */
-
+html{scroll-padding-top:92px}
 body{overflow-x:hidden}
-body.menu-open{overflow:hidden}
 
+/* Header: visible at top, hides while scrolling down,
+   appears again while scrolling up. */
+.site-header{
+  transform:translateY(0);
+  transition:
+    transform .3s ease,
+    background .35s ease,
+    padding .35s ease,
+    box-shadow .35s ease;
+}
+.site-header.nav-hidden{transform:translateY(-110%)}
 .site-header .menu-btn{
-  display:grid !important;
+  display:grid;
   place-items:center;
 }
-.site-header .nav{
-  min-height:44px;
-}
-.navlinks{
-  margin-left:auto;
-  margin-right:30px;
-}
 
-/* Section labels: consistently stronger and darker. */
+/* Consistent section labels: darker and visibly stronger. */
 .eyebrow{
-  font-size:.88rem;
-  font-weight:650;
-  color:#30363b;
+  font-size:.90rem;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#2b3136;
 }
-.eyebrow.light{color:#c4ccd2}
-.section-head{
-  align-items:start;
-}
-.section-head > p{
-  padding-top:2px;
-}
+.eyebrow.light{color:#c8d0d5}
 
-/* Homepage WHY section: no artificial empty side space. */
-.why-section .section-head{
-  grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
+/* ---------- HOME: WHY MADHYUM ---------- */
+.home-page .why-section .section-head{
+  grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);
   align-items:start;
+  gap:58px;
+  margin-bottom:28px;
 }
-.why-section .section-head h2{
-  max-width:840px;
+.home-page .why-section .section-head h2{
+  max-width:900px;
+  margin-top:10px;
+  font-size:clamp(2.45rem,4.2vw,4.4rem);
 }
-.why-section .section-head > p{
-  max-width:470px;
-  font-size:1.05rem;
-  line-height:1.55;
+.home-page .why-section .section-head>p{
+  margin:10px 0 0;
+  max-width:510px;
+  font-size:1.02rem;
+  line-height:1.65;
 }
-.why-layout{
+.home-page .why-layout{
   grid-template-columns:1fr;
-  gap:36px;
+  gap:24px;
 }
-.why-copy{
-  max-width:none;
+.home-page .why-copy{max-width:none}
+.home-page .why-copy>.lead{
+  max-width:860px;
+  margin:0 0 16px;
 }
-.why-copy > .lead{
-  max-width:780px;
-  margin:0;
+.home-page .why-points{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  margin-top:0;
+  border-top:1px solid #dad6ce;
 }
-.why-points{
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-  margin-top:26px;
+.home-page .why-points>div{
+  min-height:124px;
+  padding:21px 20px 17px 0;
+  border-top:0;
+  border-bottom:1px solid #dad6ce;
 }
-.why-diagram{
-  display:grid;
-  grid-template-columns:1fr auto 1fr auto 1fr;
-  align-items:center;
-  gap:14px;
+.home-page .why-points>div+div{
+  padding-left:20px;
+  border-left:1px solid #dad6ce;
 }
-.diagram-node,.diagram-core{
+.home-page .why-diagram{
+  grid-template-columns:minmax(0,1fr) 52px minmax(0,1.05fr) 52px minmax(0,1fr);
+  gap:10px;
+  margin-top:2px;
+}
+.home-page .diagram-node,
+.home-page .diagram-core{
   width:100%;
   max-width:none;
+  min-height:105px;
+  display:grid;
+  place-items:center;
+  align-content:center;
 }
-.diagram-line{
+.home-page .diagram-line{
   width:100%;
   height:1px;
-  background:var(--gold);
-}
-.diagram-core{
-  padding:24px 18px;
 }
 
-/* Section imagery: one controlled editorial band, never arbitrary duplicate
-   photos under a section. */
-.section-media{
-  margin-top:40px;
-  display:grid;
-  grid-template-columns:1.6fr .8fr;
-  gap:16px;
-}
-.section-media figure,
-.section-media figure:first-child{
-  min-height:300px;
-}
-.section-media img{
-  min-height:300px;
-  object-fit:cover;
-}
-
-/* Solutions: restore clean 2-column hierarchy with compact visuals. */
-.solution-panels{
+/* ---------- HOME: SOLUTIONS ---------- */
+.home-page .solution-panels{
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
+  gap:14px;
 }
-.solution-panel,
-.solution-panel-wide{
-  min-height:325px;
-  height:325px;
-  padding:24px;
+.home-page .solution-panel,
+.home-page .solution-panel-wide{
+  min-height:230px;
+  height:230px;
+  padding:22px;
+  border-radius:18px;
 }
-.solution-panel-wide{
-  grid-column:1/-1;
+.home-page .solution-panel-wide{grid-column:1/-1}
+.home-page .solution-panel img{
+  width:82px;
+  height:82px;
+  top:18px;
+  right:18px;
 }
-.solution-panel img{
-  width:120px;
-  height:120px;
-  top:22px;
-  right:22px;
-  left:auto;
-  bottom:auto;
-  object-fit:contain;
-  z-index:0;
-  opacity:.98;
-  filter:drop-shadow(0 16px 24px rgba(0,0,0,.22));
-}
-.solution-panel::after{
-  z-index:-1;
-  background:linear-gradient(180deg,rgba(4,9,14,.02) 15%,rgba(4,9,14,.90) 100%);
-}
-.solution-panel > div{
-  position:relative;
-  z-index:2;
-  max-width:78%;
-}
-.solution-panel h3{
-  font-size:clamp(1.9rem,3vw,3.5rem);
+.home-page .solution-panel>div{max-width:68%}
+.home-page .solution-panel h3{
+  font-size:clamp(1.7rem,2.5vw,2.9rem);
 }
 
-/* Network: compact half-height presentation with equal columns. */
-.network-section{
-  padding-top:88px;
-  padding-bottom:82px;
+/* ---------- HOME: NETWORK ---------- */
+.home-page .network-section{
+  padding:66px 0 58px;
 }
-.relationship-grid{
+.home-page .network-section .section-head{
+  margin-bottom:24px;
+}
+.home-page .relationship-grid{
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:0;
-  border-top:1px solid var(--line);
+  border-top:1px solid #dad6ce;
 }
-.relationship-card{
-  padding:24px 24px 22px 0;
-  min-height:124px;
+.home-page .relationship-card{
+  min-height:94px;
+  padding:18px 20px 16px 0;
   border-top:0;
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid #dad6ce;
 }
-.relationship-card:nth-child(even){
-  padding-left:24px;
-  border-left:1px solid var(--line);
+.home-page .relationship-card+.relationship-card{
+  padding-left:20px;
+  border-left:1px solid #dad6ce;
 }
-.relationship-card-wide{
+.home-page .relationship-card-wide{
   grid-column:1/-1;
-  padding-left:0 !important;
-  border-left:0 !important;
-  min-height:110px;
+  padding-left:0!important;
+  border-left:0!important;
 }
-.relationship-card h3{
-  font-size:clamp(1.55rem,2.4vw,2.45rem);
+.home-page .relationship-card h3{
+  font-size:clamp(1.25rem,2vw,2rem);
 }
-.network-statement{
-  margin-top:28px;
-  max-width:760px;
-}
-
-/* Remove accidental decorative photo clutter from Network section. */
-.network-section .section-media{display:none}
-
-/* Membership: clear 2-column privilege hierarchy. */
-.privilege-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
-}
-.privilege-card{
-  min-height:205px;
-}
-.privilege-card span{
-  font-size:.92rem;
-  font-weight:700;
-  color:#2f353a;
+.home-page .network-section .section-media{display:none}
+.home-page .network-statement{
+  margin-top:20px;
 }
 
-/* Final CTA stays compact enough for a graceful two-line heading. */
-.final-cta{
-  padding:92px 0;
+/* ---------- HOME: MEMBERSHIP / FINAL ---------- */
+.home-page .membership-preview{padding:72px 0}
+.home-page .membership-preview-grid{
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
 }
-.final-cta h2{
-  font-size:clamp(2.3rem,4.6vw,5.1rem);
-  max-width:980px;
+.home-page .membership-preview-grid h2{
+  font-size:clamp(2.15rem,3.8vw,4.1rem);
+}
+.home-page .final-cta{padding:72px 0}
+.home-page .final-cta h2{
+  font-size:clamp(2.2rem,4.4vw,4.9rem);
 }
 
-/* Dedicated-page cards / grids — consistent column hierarchy. */
-.benefit-grid{
+/* ---------- DEDICATED PAGES: COLUMN HIERARCHY ---------- */
+.category-page .benefit-grid{
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:0;
   border-top:1px solid var(--line);
 }
-.benefit-card{
-  padding:26px 22px 20px 0;
+.category-page .benefit-card{
+  min-height:205px;
+  padding:24px 20px 18px 0;
   border-top:0;
   border-bottom:1px solid var(--line);
-  min-height:200px;
 }
-.benefit-card + .benefit-card{
-  padding-left:22px;
+.category-page .benefit-card+.benefit-card{
+  padding-left:20px;
   border-left:1px solid var(--line);
 }
-.benefit-card p{
-  max-width:280px;
-}
 
-/* Service cards */
-.service-grid-six,
-.service-grid-five{
+.category-page .service-grid-five,
+.category-page .service-grid-six{
   grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
 }
-.service-card{
+.category-page .service-card{
   min-height:270px;
   display:flex;
   flex-direction:column;
+  padding:26px;
 }
-.service-card h3{max-width:570px}
-.service-card p{max-width:620px}
+.category-page .service-card h3{
+  font-size:1.6rem;
+}
+
+/* Prominent View More */
 .service-more{
   margin-top:auto;
-  padding-top:18px;
 }
 .service-more summary{
-  font-size:.94rem;
-  font-weight:700;
-  color:#f1d8a5;
-  letter-spacing:.01em;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:40px;
+  padding:7px 0 6px;
+  color:#f0d9a7;
+  font:700 .98rem/1 var(--sans);
+  border-bottom:1px solid rgba(201,161,91,.6);
+  cursor:pointer;
 }
+.service-more summary::after{
+  content:"↓";
+  font-size:1rem;
+  transition:transform .2s ease;
+}
+.service-more[open] summary::after{transform:rotate(180deg)}
 .more-copy{
   margin-top:14px;
   padding-top:14px;
-  border-top:1px solid rgba(255,255,255,.10);
+  border-top:1px solid rgba(255,255,255,.11);
   font-size:.96rem;
-  line-height:1.7;
+  line-height:1.72;
+  color:var(--muted-light);
 }
 
-/* Real-estate / location columns */
-.location-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
-.location-card{
-  min-height:190px;
-  padding:26px;
-}
-.category-columns{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
-.category-list{
-  min-height:160px;
-  padding:24px;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:rgba(255,255,255,.45);
-}
-
-/* Travel packages: readable two-column editorial rows. */
-.package-list{
-  border-top:1px solid rgba(255,255,255,.13);
-}
-.package-item{
-  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
-  gap:36px;
+/* Travel package rows */
+.travel-page .package-item{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:40px;
   padding:28px 0;
-  border-top:0;
-  border-bottom:1px solid rgba(255,255,255,.13);
 }
-.package-examples{
-  align-content:start;
-  padding-top:3px;
+.travel-page .package-item h3{
+  font-size:clamp(1.75rem,2.6vw,2.65rem);
 }
-.package-examples strong{
-  font-size:.8rem;
-}
-.package-examples span{
+.travel-page .package-examples span{
   font-size:1rem;
   line-height:1.7;
 }
 
-/* Education courses: 3 columns, visible View More per card. */
-.course-grid{
+/* Category/location/occasion grids */
+.category-page .category-columns,
+.category-page .location-grid,
+.category-page .occasion-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.category-page .category-list{
+  min-height:150px;
+}
+.category-page .location-card{
+  min-height:180px;
+}
+
+/* Education: 3-column discovery */
+.education-page .course-grid{
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:14px;
 }
-.course-card{
+.education-page .course-card{
   min-height:250px;
   display:flex;
   flex-direction:column;
 }
-.course-card .service-more{
-  margin-top:auto;
-}
-.course-card .service-more summary{
-  color:#f0d9a7;
-}
-.institute-grid{display:none}
-.institute-inquiry{margin-top:10px}
+.education-page .course-card .service-more{margin-top:auto}
+.education-page .institute-grid{display:none}
+.education-page .institute-inquiry{margin-top:14px}
 
-/* Academic path: two equal columns; third is not artificially full-width. */
-.split-panels{
+/* Events: balanced grids */
+.events-page .occasion-grid{
   grid-template-columns:repeat(2,minmax(0,1fr));
 }
-.split-panel:nth-child(3){
-  grid-column:1/-1;
-}
-
-/* Events: equal 2-column services + equal 2-column occasion/signature rows. */
-.occasion-grid{
+.events-page .signature-grid{
   grid-template-columns:repeat(2,minmax(0,1fr));
 }
-.signature-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
-.signature-column{
-  min-height:165px;
+.events-page .signature-column{
+  min-height:155px;
 }
 
-/* Forms: readable desktop hierarchy */
-.form-section{max-width:1080px}
-.requirement-form{
-  padding:34px;
-}
-.form-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  column-gap:22px;
-  row-gap:3px;
+/* Forms */
+.requirement-form{border-radius:20px}
+.form-submit{
+  min-height:46px;
+  padding-inline:22px;
 }
 
-/* Category hero imagery keeps the original visual concept, but content
-   is aligned on a stable left column. */
-.inner-hero-inner{
-  max-width:1200px;
-  width:100%;
-}
-.inner-hero p{
-  max-width:700px;
-}
-.hero-actions{
-  gap:12px;
-}
-
-/* The editorial image bands on dedicated pages should support the content,
-   not dominate it. */
-.category-page .section-media{
-  margin-top:36px;
-}
-
-/* Mobile adaptations */
+/* Mobile */
 @media(max-width:1100px){
-  .benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .benefit-card:nth-child(3){border-left:0;padding-left:0}
-  .why-section .section-head{
+  .home-page .why-section .section-head{
     grid-template-columns:1fr;
+    gap:18px;
+  }
+  .category-page .benefit-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
 @media(max-width:960px){
-  .site-header .menu-btn{display:grid!important}
-  .navlinks{display:none}
-  .section-head{grid-template-columns:1fr}
-  .why-points{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .why-diagram{
+  .home-page .solution-panels{
     grid-template-columns:1fr;
   }
-  .diagram-line{
-    width:100%;
-    height:1px;
-  }
-  .solution-panels{grid-template-columns:1fr}
-  .solution-panel-wide{grid-column:auto}
-  .relationship-grid{grid-template-columns:1fr}
-  .relationship-card,
-  .relationship-card + .relationship-card{
-    padding:22px 0;
-    border-left:0;
-  }
-  .relationship-card-wide{grid-column:auto}
-  .benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .benefit-card + .benefit-card{
-    padding-left:22px;
-    border-left:1px solid var(--line);
-  }
-  .service-grid-six,.service-grid-five,
-  .category-columns,.location-grid,
-  .occasion-grid,.signature-grid,
-  .package-item,.privilege-grid,
-  .split-panels{
+  .home-page .solution-panel-wide{grid-column:auto}
+  .home-page .network-section .relationship-grid{
     grid-template-columns:1fr;
   }
-  .split-panel:nth-child(3){grid-column:auto}
-  .course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .section-media{grid-template-columns:1fr}
-  .section-media figure,.section-media figure:first-child{min-height:260px}
-}
-@media(max-width:700px){
-  .container{width:min(94vw,1200px)}
-  .benefit-grid,.why-points,.course-grid{grid-template-columns:1fr}
-  .benefit-card + .benefit-card{
+  .home-page .network-section .relationship-card,
+  .home-page .network-section .relationship-card+.relationship-card{
     padding-left:0;
     border-left:0;
   }
-  .footer-grid{grid-template-columns:1fr 1fr}
-  .final-cta{padding:78px 0}
-  .final-inner{display:grid;grid-template-columns:1fr}
-  .relationship-card{min-height:105px}
-  .solution-panel,.solution-panel-wide{height:290px;min-height:290px}
-  .solution-panel img{width:90px;height:90px}
-  .package-item{gap:18px;padding:24px 0}
+  .home-page .network-section .relationship-card-wide{
+    grid-column:auto;
+  }
+  .home-page .membership-preview-grid{
+    grid-template-columns:1fr;
+  }
+  .category-page .service-grid-five,
+  .category-page .service-grid-six,
+  .category-page .category-columns,
+  .category-page .location-grid,
+  .category-page .occasion-grid,
+  .category-page .signature-grid,
+  .travel-page .package-item{
+    grid-template-columns:1fr;
+  }
+  .education-page .course-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
 }
-@media(max-width:520px){
-  .brand{font-size:.78rem;letter-spacing:.18em}
-  .contact-pill{display:none}
-  .actions{gap:7px}
-  .iconbtn,.menu-btn{width:38px;height:38px}
-  .final-cta h2{font-size:clamp(2rem,11vw,3.4rem)}
+@media(max-width:700px){
+  .home-page .why-points{
+    grid-template-columns:1fr;
+  }
+  .home-page .why-points>div,
+  .home-page .why-points>div+div{
+    padding-left:0;
+    border-left:0;
+  }
+  .home-page .why-diagram{
+    grid-template-columns:1fr;
+  }
+  .category-page .benefit-grid{
+    grid-template-columns:1fr;
+  }
+  .education-page .course-grid{
+    grid-template-columns:1fr;
+  }
 }
