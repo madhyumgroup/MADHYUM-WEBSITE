@@ -2485,3 +2485,399 @@ body{overflow-x:hidden}
 .layered-wing.position-left{transform:translate(calc(-50% - 300px),-50%) scale(.84)!important}.layered-wing.position-far-left{transform:translate(calc(-50% - 570px),-50%) scale(.70)!important}.layered-wing.is-active{transform:translate(-50%,-50%) scale(1)!important;opacity:1!important;filter:none!important;z-index:5}.layered-wing.position-right{transform:translate(calc(-50% + 300px),-50%) scale(.84)!important}.layered-wing.position-far-right{transform:translate(calc(-50% + 570px),-50%) scale(.70)!important}.layered-controls{z-index:10}
 @media(max-width:960px){.layered-orbit{height:380px}.layered-wing{width:205px!important}.layered-wing.position-left{transform:translate(calc(-50% - 235px),-50%) scale(.78)!important}.layered-wing.position-far-left{transform:translate(calc(-50% - 430px),-50%) scale(.62)!important}.layered-wing.position-right{transform:translate(calc(-50% + 235px),-50%) scale(.78)!important}.layered-wing.position-far-right{transform:translate(calc(-50% + 430px),-50%) scale(.62)!important}}
 @media(max-width:600px){.layered-orbit{height:350px}.layered-wing{width:190px!important}.layered-wing.position-left{transform:translate(calc(-50% - 145px),-50%) scale(.70)!important}.layered-wing.position-far-left,.layered-wing.position-far-right{opacity:0!important;pointer-events:none}.layered-wing.position-right{transform:translate(calc(-50% + 145px),-50%) scale(.70)!important}.layered-wing.is-active{transform:translate(-50%,-50%) scale(.9)!important}}
+
+
+/* =========================================================
+   V8 — LOCKED STRUCTURE / REQUESTED VISUAL REFINEMENT
+   Only visual/layout changes requested after V7.
+========================================================= */
+
+/* The right-side Contact Us pill remains. Any accidental loose
+   menu-contact element is hidden as a defensive safeguard. */
+body > .menu-contact{display:none!important}
+
+/* ---------------------------------------------------------
+   HOMEPAGE HERO — bottom horizontal news/ticker carousel
+--------------------------------------------------------- */
+.home-page .layered-hero{
+  min-height:100svh;
+}
+.home-page .layered-orbit{
+  top:auto!important;
+  bottom:74px!important;
+  left:0!important;
+  width:100%!important;
+  height:154px!important;
+  transform:none!important;
+  display:block!important;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:30;
+}
+.home-page .layered-wing{
+  top:50%!important;
+  left:50%!important;
+  width:min(220px,19vw)!important;
+  height:126px!important;
+  transform:translate(-50%,-50%) translateX(0) scale(.86)!important;
+  opacity:0!important;
+  filter:none!important;
+  transition:transform .62s cubic-bezier(.22,.7,.18,1),opacity .35s ease!important;
+  pointer-events:none!important;
+}
+.home-page .layered-wing .layered-wing-visual{
+  width:100%!important;
+  height:78px!important;
+  align-items:center!important;
+}
+.home-page .layered-wing .layered-wing-visual img{
+  max-height:72px!important;
+  max-width:110px!important;
+  object-fit:contain!important;
+}
+.home-page .layered-wing-title{
+  margin-top:3px!important;
+  padding:5px 8px!important;
+  max-width:100%!important;
+  font-size:.78rem!important;
+  font-weight:700!important;
+  letter-spacing:.095em!important;
+  white-space:nowrap;
+}
+.home-page .layered-wing.is-active{
+  transform:translate(-50%,-50%) translateX(0) scale(1)!important;
+  opacity:1!important;
+  z-index:5!important;
+}
+.home-page .layered-wing.position-left{
+  transform:translate(-50%,-50%) translateX(-235px) scale(.84)!important;
+  opacity:.58!important;
+  z-index:4!important;
+}
+.home-page .layered-wing.position-far-left{
+  transform:translate(-50%,-50%) translateX(-465px) scale(.72)!important;
+  opacity:.28!important;
+  z-index:3!important;
+}
+.home-page .layered-wing.position-right{
+  transform:translate(-50%,-50%) translateX(235px) scale(.84)!important;
+  opacity:.58!important;
+  z-index:4!important;
+}
+.home-page .layered-wing.position-far-right{
+  transform:translate(-50%,-50%) translateX(465px) scale(.72)!important;
+  opacity:.28!important;
+  z-index:3!important;
+}
+.home-page .layered-controls{
+  bottom:18px!important;
+  z-index:70!important;
+  background:rgba(4,12,20,.48);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  padding:5px 8px;
+  backdrop-filter:blur(12px);
+}
+.home-page .layered-control{width:34px;height:34px}
+.home-page .layered-dot{height:3px}
+.home-page .layered-dot.active{width:30px}
+
+/* Slightly larger hero wing names, as requested. */
+.home-page .layered-wing-title{font-size:.85rem!important}
+
+/* ---------------------------------------------------------
+   HOMEPAGE — compact Sulekha-inspired service presentation
+--------------------------------------------------------- */
+.home-page .solutions-section .solution-panel{
+  background:#fff;
+  color:#10151a;
+  border:1px solid #d8d4cc;
+  box-shadow:0 8px 24px rgba(0,0,0,.045);
+}
+.home-page .solutions-section .solution-panel:hover{
+  border-color:#b9a06d;
+  background:#fbfaf7;
+  transform:translateY(-3px);
+}
+.home-page .solution-index{color:#8a7b62}
+.home-page .solution-copy h3{color:#11161b}
+.home-page .solution-copy p{color:#697178}
+.home-page .solution-link{color:#7b5d27}
+
+.home-page .relationship-grid{
+  gap:12px;
+  border-top:0;
+}
+.home-page .relationship-card,
+.home-page .relationship-card+.relationship-card,
+.home-page .relationship-card-wide{
+  border:1px solid var(--line)!important;
+  border-radius:12px;
+  background:#fff;
+  padding:18px 20px!important;
+  min-height:108px;
+}
+.home-page .relationship-card h3{color:#11161b}
+.home-page .relationship-card .eyebrow{color:#5e6670}
+.home-page .network-section .section-head{margin-bottom:20px}
+.home-page .network-statement{
+  padding:18px 22px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#faf9f5;
+}
+
+/* ---------------------------------------------------------
+   REAL ESTATE — four category boxes
+--------------------------------------------------------- */
+.category-page .category-columns,
+.category-page .location-grid,
+.category-page .occasion-grid,
+.category-page .signature-grid,
+.category-page .region-grid,
+.category-page .category-grid{
+  gap:12px!important;
+}
+.category-page .category-list,
+.category-page .location-card,
+.category-page .occasion-card,
+.category-page .signature-column,
+.category-page .region-item{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  padding:20px;
+  box-shadow:0 7px 22px rgba(0,0,0,.035);
+}
+.category-page .category-list{
+  min-height:132px!important;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.category-page .category-list h3,
+.category-page .location-card h3,
+.category-page .occasion-card h3,
+.category-page .signature-column h3,
+.category-page .region-item h3{
+  margin:0 0 10px;
+  color:#11161b;
+}
+.category-page .category-list p,
+.category-page .location-card p,
+.category-page .occasion-card p,
+.category-page .signature-column p,
+.category-page .region-item p{
+  margin:0;
+  color:#697178;
+  line-height:1.65;
+}
+
+/* All major service cards: clean bordered cards, concise hierarchy. */
+.category-page .service-card,
+.category-page .course-card,
+.category-page .split-panel,
+.category-page .benefit-card,
+.category-page .privilege-card,
+.travel-page .package-item{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 7px 22px rgba(0,0,0,.035);
+}
+.category-page .benefit-card{
+  padding:20px!important;
+  min-height:165px!important;
+}
+.category-page .benefit-card+.benefit-card{border-left:1px solid var(--line)!important}
+.category-page .service-card{min-height:225px!important}
+.category-page .service-card span,
+.category-page .service-kicker,
+.category-page .package-no{
+  color:#7b6849;
+}
+
+/* Dark sections keep strong contrast while cards stay readable. */
+.category-page .dark .service-card,
+.category-page .dark .location-card,
+.category-page .dark .signature-column,
+.category-page .dark .region-item,
+.category-page .dark .travel-network-visual .network-top,
+.category-page .dark .network-pill{
+  background:#101d2a;
+  border-color:rgba(255,255,255,.15);
+  color:#fff;
+}
+.category-page .dark .service-card h3,
+.category-page .dark .location-card h3,
+.category-page .dark .signature-column h3,
+.category-page .dark .region-item h3{color:#fff}
+.category-page .dark .service-card p,
+.category-page .dark .location-card p,
+.category-page .dark .signature-column p,
+.category-page .dark .region-item p{color:#c2cbd1}
+
+/* ---------------------------------------------------------
+   TRAVEL — turn long rows into compact readable boxes
+--------------------------------------------------------- */
+.travel-page .package-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.travel-page .package-item{
+  display:flex!important;
+  flex-direction:column;
+  gap:15px!important;
+  padding:21px!important;
+  min-height:260px;
+}
+.travel-page .package-item h3{font-size:1.45rem!important;line-height:1.2}
+.travel-page .package-item p{font-size:.92rem;line-height:1.55}
+.travel-page .package-examples{
+  padding-top:12px;
+  border-top:1px solid #e0ddd6;
+}
+.travel-page .package-examples strong{
+  display:block;
+  margin-bottom:5px;
+  font-size:.7rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#7b6849;
+}
+.travel-page .package-examples span{font-size:.88rem;line-height:1.55}
+.travel-page .service-more{margin-top:auto}
+
+/* ---------------------------------------------------------
+   NETWORK DIAGRAMS — clean hierarchy across pages
+--------------------------------------------------------- */
+.clean-network,
+.network-stage{
+  max-width:940px!important;
+  margin:28px auto 0!important;
+}
+.clean-network .network-top,
+.network-stage .network-pill:first-child{
+  width:min(100%,520px);
+  margin:0 auto;
+  text-align:center;
+}
+.network-center.large,
+.network-stage .network-center{
+  min-width:190px;
+  min-height:74px;
+  border-radius:10px;
+  box-shadow:0 8px 22px rgba(0,0,0,.10);
+}
+.clean-network .partner-row,
+.network-stage .network-pill:not(:first-child){
+  margin-top:10px;
+}
+.network-stage{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px!important;
+  align-items:stretch;
+}
+.network-stage .network-center{
+  grid-column:1/-1;
+  grid-row:2;
+  justify-self:center;
+  width:min(240px,100%);
+}
+.network-stage .network-pill:first-child{
+  grid-column:1/-1;
+  grid-row:1;
+}
+.network-stage .network-pill:not(:first-child){
+  min-height:58px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.08em;
+}
+
+/* ---------------------------------------------------------
+   BUTTON / CTA CONTRAST — especially Submit Requirement
+--------------------------------------------------------- */
+.category-page .hero-actions .btn,
+.category-page .submit-btn,
+.category-page .final-cta .btn{
+  min-height:46px;
+  padding:12px 20px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  letter-spacing:.01em;
+}
+.category-page .hero-actions .btn:not(.primary){
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.65)!important;
+  background:rgba(5,15,24,.72)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.22);
+}
+.category-page .hero-actions .btn.primary,
+.category-page .final-cta .btn.primary{
+  background:#d7b36e!important;
+  color:#10151a!important;
+  border-color:#d7b36e!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.20);
+}
+
+/* ---------------------------------------------------------
+   MEMBERSHIP — privileges as clean boxes
+--------------------------------------------------------- */
+.privilege-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px!important;
+}
+.privilege-card{
+  padding:20px!important;
+  min-height:150px;
+}
+.privilege-card span{font-weight:700;letter-spacing:.10em;font-size:.78rem;color:#7b6849}
+.privilege-card p{margin:10px 0 0;color:#697178;line-height:1.6}
+
+/* Keep the existing right Contact Us pill visible on desktop. */
+@media(min-width:961px){
+  .site-header .contact-pill{display:inline-flex!important}
+}
+
+@media(max-width:960px){
+  .home-page .layered-orbit{bottom:68px!important;height:138px!important}
+  .home-page .layered-wing{width:190px!important}
+  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-175px) scale(.80)!important}
+  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-330px) scale(.68)!important}
+  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(175px) scale(.80)!important}
+  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(330px) scale(.68)!important}
+  .travel-page .package-list{grid-template-columns:1fr}
+  .privilege-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .network-stage{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .network-stage .network-pill:first-child,.network-stage .network-center{grid-column:1/-1}
+}
+@media(max-width:600px){
+  .home-page .layered-orbit{bottom:68px!important;height:124px!important}
+  .home-page .layered-wing{width:155px!important}
+  .home-page .layered-wing .layered-wing-visual{height:66px!important}
+  .home-page .layered-wing .layered-wing-visual img{max-height:60px!important;max-width:90px!important}
+  .home-page .layered-wing-title{font-size:.68rem!important}
+  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-125px) scale(.72)!important}
+  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-240px) scale(.58)!important;opacity:.16!important}
+  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(125px) scale(.72)!important}
+  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(240px) scale(.58)!important;opacity:.16!important}
+  .home-page .layered-controls{bottom:18px!important}
+  .privilege-grid,.network-stage{grid-template-columns:1fr!important}
+  .network-stage .network-pill:first-child,.network-stage .network-center{grid-column:auto}
+  .network-stage .network-center{grid-row:auto}
+  .network-stage .network-pill:not(:first-child){grid-column:auto!important}
+}
