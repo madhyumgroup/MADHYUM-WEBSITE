@@ -1,33 +1,33 @@
-# MADHYUM-WEBSITE
+# MADHYUM WEBSITE
 
-MADHYUM GROUP V1 — GitHub-ready multi-page website.
+Package structure:
 
-## Structure
-- index.html
-- about.html
-- real-estate.html
-- travel.html
-- education.html
-- consultancy.html
-- events.html
-- membership.html
-- contact.html
-- css/style.css
-- js/script.js
-- images/
+```text
+MADHYUM-WEBSITE/
+├── index.html
+├── about.html
+├── real-estate.html
+├── travel.html
+├── education.html
+├── consultancy.html
+├── events.html
+├── membership.html
+├── contact.html
+├── css/
+│   └── style.css
+├── js/
+│   └── script.js
+└── images/
+    ├── hero-madhyam.jpg
+    ├── real-estate.png
+    ├── travel.png
+    ├── education.png
+    ├── consultancy.png
+    └── events.png
+```
 
-## Hero
-The home hero uses one fixed cinematic background and five independent business visuals. Each visual and its live HTML name move together in a smooth orbital carousel. Background stays fixed. Desktop supports automatic rotation, hover pause and click controls; mobile supports swipe/tap.
-
-## Images
-Place final images in `images/` using the filenames referenced by the HTML/CSS. The five hero foreground assets are:
-- real-estate.png
-- travel.png
-- education.png
-- consultancy.png
-- events.png
-
-Hero background: `hero-background.jpg`.
-
-## Forms
-Requirement forms are front-end demo forms only. Connect them to Formspree, Netlify Forms or a backend before production.
+## Notes
+- Open `index.html` to start the website.
+- CSS and JavaScript are already wired to `css/style.css` and `js/script.js`.
+- The supplied image files are lightweight placeholders so the package is self-contained. Replace them with the final MADHYUM photographs/graphics using the same filenames.
+- The website uses the MADHYUM five-wing structure: Real Estate, Travel, Education & Admissions, Consultancy & Business Services, and Events & Weddings.
