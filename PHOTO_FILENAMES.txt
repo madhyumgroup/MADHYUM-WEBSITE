@@ -1,0 +1,32 @@
+MADHYUM V7 PHOTO SLOTS
+
+Replace/add these photographs in the website root using these exact filenames:
+
+HOME / HERO
+- hero.jpg (optional if you later replace the hero background)
+
+REAL ESTATE
+- real-estate-property.jpg
+- real-estate-network.jpg
+
+TRAVEL
+- travel-destination.jpg
+- travel-planning.jpg
+
+EDUCATION & ADMISSIONS
+- education-campus.jpg
+- education-student.jpg
+
+CONSULTANCY & BUSINESS SERVICES
+- consultancy-business.jpg
+- consultancy-professional.jpg
+
+EVENTS & WEDDINGS
+- events-wedding.jpg
+- events-celebration.jpg
+
+MEMBERSHIP
+- membership-lifestyle.jpg
+- membership-network.jpg
+
+The HTML is already wired to these names. Until the JPG files are added, the photo areas show a neutral fallback instead of breaking the layout.
