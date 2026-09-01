@@ -2343,6 +2343,7 @@ body{overflow-x:hidden}
   .home-page .solution-panels{
     grid-template-columns:1fr;
   }
+  .home-page .solution-panel,.home-page .solution-panel-wide{grid-column:auto}
   .home-page .solution-panel-wide{grid-column:auto}
   .home-page .network-section .relationship-grid{
     grid-template-columns:1fr;
@@ -2434,9 +2435,9 @@ body{overflow-x:hidden}
 /* Home solutions: Sulekha-like compact horizontal cards */
 .home-page .solutions-section{padding:68px 0}
 .home-page .compact-head{margin-bottom:26px}
-.home-page .solution-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.home-page .solution-panel,.home-page .solution-panel-wide{position:relative;min-height:190px;height:auto;padding:22px 24px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.035);overflow:hidden}
-.home-page .solution-panel-wide{grid-column:1/-1;min-height:165px}
+.home-page .solution-panels{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.home-page .solution-panel,.home-page .solution-panel-wide{grid-column:span 2;position:relative;min-height:190px;height:auto;padding:22px 24px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.035);overflow:hidden}
+.home-page .solution-panel-wide{grid-column:span 3;min-height:165px}
 .home-page .solution-panel img{display:none}
 .solution-copy{position:relative;z-index:2;max-width:80%}.solution-copy h3{margin:28px 0 4px}.solution-copy p{margin:0;color:var(--muted-light)}.solution-link{display:inline-block;margin-top:18px;font-size:.82rem;font-weight:700;letter-spacing:.08em;color:#f0d9a7}
 .solution-index{position:absolute;top:20px;left:24px;color:#aeb8c0;font-size:.72rem;letter-spacing:.16em}
@@ -2510,7 +2511,7 @@ body > .menu-contact{display:none!important}
   height:154px!important;
   transform:none!important;
   display:block!important;
-  pointer-events:none;
+  pointer-events:auto;
   overflow:hidden;
   z-index:30;
 }
@@ -2949,3 +2950,101 @@ body > .menu-contact{display:none!important}
 .contact-page .category-membership{background-position:center}
 .contact-page .inner-hero-inner{max-width:920px}
 .optional{font-size:.72em;opacity:.65;margin-left:5px}
+
+
+/* =========================================================
+   V10 — COMPACT ALIGNMENT, HERO NAV CLEARANCE & PHOTO SLOTS
+========================================================= */
+html{scroll-behavior:smooth}
+[id]{scroll-margin-top:96px}
+
+/* Inner pages: keep the fixed navigation visually separate from the hero. */
+.category-page .site-header,
+.contact-page .site-header{
+  background:rgba(5,12,19,.96);
+  backdrop-filter:blur(16px);
+  box-shadow:0 6px 24px rgba(0,0,0,.18);
+}
+.category-page .inner-hero,
+.contact-page .inner-hero{
+  position:relative;
+  min-height:590px;
+  padding:145px 0 72px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+}
+.category-page .inner-hero::before,
+.contact-page .inner-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(4,12,20,.82),rgba(4,12,20,.42) 55%,rgba(4,12,20,.55));
+  z-index:0;
+}
+.category-page .inner-hero-inner,
+.contact-page .inner-hero-inner{position:relative;z-index:1}
+.category-page .inner-hero h1,
+.contact-page .inner-hero h1{max-width:900px}
+.category-page .inner-hero p,
+.contact-page .inner-hero p{max-width:760px}
+
+/* Homepage hero slider: the slider itself lives at the bottom of the hero. */
+.home-page .layered-orbit{
+  top:auto!important;
+  bottom:62px!important;
+}
+.home-page .layered-controls{
+  top:auto!important;
+  bottom:14px!important;
+}
+.home-page .layered-wing-title{font-size:.9rem!important}
+
+/* Homepage network: compact 2-column Sulekha-style rows. */
+.home-page .relationship-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+.home-page .relationship-card,
+.home-page .relationship-card-wide{
+  min-height:88px!important;
+  padding:14px 16px!important;
+  border:1px solid var(--line)!important;
+  border-radius:12px;
+  background:rgba(255,255,255,.52);
+}
+.home-page .relationship-card-wide{grid-column:1/-1!important}
+.home-page .network-photo-slot{width:82px;height:58px;flex-basis:82px}
+.home-page .network-statement{padding-top:10px}
+
+/* Small visual anchor available for every content-heavy section. */
+.section-photo-slot{
+  width:100%;
+  height:112px;
+  margin:0 0 24px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background-color:#ece9e2;
+  background-image:var(--section-photo);
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
+  position:relative;
+}
+.section.dark .section-photo-slot{border-color:rgba(255,255,255,.14);background-color:#15222d}
+.section-photo-slot::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(5,12,19,.08),rgba(5,12,19,0));
+  pointer-events:none;
+}
+@media(min-width:900px){
+  .section-photo-slot{height:126px}
+}
+@media(max-width:700px){
+  .home-page .relationship-grid{grid-template-columns:1fr!important}
+  .home-page .relationship-card-wide{grid-column:auto!important}
+  .category-page .inner-hero,.contact-page .inner-hero{min-height:540px;padding:126px 0 58px}
+  .section-photo-slot{height:96px;margin-bottom:18px}
+}
