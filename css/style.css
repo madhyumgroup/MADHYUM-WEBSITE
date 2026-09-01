@@ -420,7 +420,7 @@ button{
   z-index:-10;
 
   background-image:
-    url("../hero-background.png");
+    url("../images/hero-madhyam.jpg");
 
   background-repeat:no-repeat;
 
@@ -3021,11 +3021,11 @@ body{overflow-x:hidden}
   z-index:-1;
   background:linear-gradient(90deg,rgba(3,10,17,.88) 0%,rgba(3,10,17,.62) 42%,rgba(3,10,17,.28) 100%),linear-gradient(0deg,rgba(3,10,17,.72),transparent 55%);
 }
-.category-real-estate::before{background-image:url("../real-estate-property.jpg")}
-.category-travel::before{background-image:url("../travel-destination.jpg")}
-.category-education::before{background-image:url("../education-campus.jpg")}
-.category-consultancy::before{background-image:url("../consultancy-business.jpg")}
-.category-events::before{background-image:url("../events-wedding.jpg")}
+.category-real-estate::before{background-image:url("../images/real-estate-hero.jpg")}
+.category-travel::before{background-image:url("../images/travel-hero.jpg")}
+.category-education::before{background-image:url("../images/education-hero.jpg")}
+.category-consultancy::before{background-image:url("../images/consultancy-hero.jpg")}
+.category-events::before{background-image:url("../images/events-hero.jpg")}
 .category-page .inner-hero-inner{width:min(1180px,92vw);padding:88px 0 74px;position:relative;z-index:1}
 .category-page .inner-hero h1{max-width:980px;margin:10px 0 18px;font-size:clamp(2.8rem,5.2vw,5.9rem);line-height:.98;letter-spacing:-.035em}
 .category-page .inner-hero p{max-width:760px;margin:0 0 26px;font-size:1.03rem;line-height:1.7;color:#e4e9ec}
@@ -3312,3 +3312,97 @@ body > .menu-contact{display:none!important}
   .category-page .hero-actions .btn{width:100%!important}
   .single-photo-card img{height:230px!important}
 }
+
+
+/* =========================================================
+   MADHYUM FINAL CHECKPOINT LAYER — 02 SEP 2026
+   Simple language, real photo slots, compact layouts, fixed nav.
+========================================================= */
+
+/* PHOTO SLOTS: every content section gets one dignified place for a real photo.
+   Replace the named file later; the box itself never shows a broken-image icon. */
+.section-photo-slot{
+  width:100%; min-height:170px; margin:20px 0 22px; border-radius:14px;
+  border:1px solid rgba(16,21,26,.13); background:#f4f1ea;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  overflow:hidden; position:relative;
+}
+.section-photo-slot::before{content:"PHOTO SPACE"; font-size:.68rem; font-weight:800; letter-spacing:.16em; color:#8a7a60}
+.section-photo-slot::after{content:attr(data-photo); position:absolute; bottom:12px; left:50%; transform:translateX(-50%); font-size:.72rem; font-weight:700; letter-spacing:.04em; color:#6e675d; white-space:nowrap}
+.section-photo-slot.has-photo{background-size:cover;background-position:center}
+.section-photo-slot.has-photo::before,.section-photo-slot.has-photo::after{display:none}
+
+/* Home hero: definitely bottom ticker, never top of hero photo. */
+.home-page .layered-hero{position:relative!important;overflow:hidden!important}
+.home-page .layered-hero-background{position:absolute!important;inset:0!important;z-index:0!important;background-position:center!important;background-size:cover!important}
+.home-page .layered-orbit{position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:70px!important;width:100%!important;height:126px!important;margin:0!important;transform:none!important;overflow:visible!important;z-index:4!important}
+.home-page .layered-wing{position:absolute!important;left:50%!important;top:50%!important;width:260px!important;height:112px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;margin:0!important;transform-origin:center!important;transition:transform .45s ease,opacity .45s ease!important}
+.home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-310px) scale(.78)!important;opacity:.7!important}
+.home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-585px) scale(.60)!important;opacity:.25!important}
+.home-page .layered-wing.is-active{transform:translate(-50%,-50%) scale(1)!important;opacity:1!important;z-index:5!important}
+.home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(310px) scale(.78)!important;opacity:.7!important}
+.home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(585px) scale(.60)!important;opacity:.25!important}
+.home-page .layered-wing-visual{height:70px!important;width:150px!important;display:grid!important;place-items:center!important;overflow:hidden!important;border-radius:10px!important}
+.home-page .layered-wing-visual img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+.home-page .layered-wing-title{font-size:.98rem!important;font-weight:800!important;line-height:1.15!important;letter-spacing:.06em!important;text-align:center!important;margin-top:6px!important;white-space:nowrap!important}
+.home-page .layered-controls{position:absolute!important;left:50%!important;bottom:14px!important;transform:translateX(-50%)!important;z-index:8!important}
+
+/* Compact network/solutions: no unnecessary vertical gaps. */
+.home-page .solution-panels,.home-page .relationship-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+.home-page .solution-panel,.home-page .relationship-card{min-height:120px!important}
+.home-page .solution-panel-wide,.home-page .relationship-card-wide{grid-column:1/-1!important}
+.home-page .relationship-card{display:flex!important;align-items:center!important;gap:16px!important}
+.home-page .network-photo-slot{background:#f4f1ea!important;background-image:none!important;border:1px solid rgba(16,21,26,.12)!important}
+
+/* Simple language: readable at one glance. */
+.section-head h2,.inner-hero h1{letter-spacing:-.025em}
+.home-page .why-section .why-intro h2{font-size:clamp(2rem,3.6vw,3.6rem)!important}
+.home-page .why-message .lead{font-size:1rem!important;line-height:1.55!important}
+.home-page .why-close p{font-size:.92rem!important;line-height:1.55!important}
+
+/* Inner-page hero always starts below the dark navigation bar. */
+.category-page main{padding-top:74px!important}
+.category-page .inner-hero{min-height:calc(100svh - 74px)!important;margin-top:0!important}
+.category-page .inner-hero-inner{padding-top:78px!important}
+.category-page .inner-hero h1{max-width:850px!important}
+.category-page .inner-hero p{max-width:700px!important;line-height:1.55!important}
+.category-page .site-header{background:#07111b!important;color:#fff!important}
+
+/* All page grids stay compact and easy to scan. */
+.category-page .section{padding:52px 0!important}
+.category-page .section-head{margin-bottom:20px!important}
+.category-page .benefit-grid,.category-page .service-grid,.category-page .course-grid,.category-page .category-columns,.category-page .location-grid,.category-page .occasion-grid,.category-page .signature-grid,.category-page .region-grid,.category-page .privilege-grid{gap:12px!important}
+.category-page .service-card,.category-page .course-card,.category-page .benefit-card,.category-page .category-list,.category-page .location-card,.category-page .occasion-card,.category-page .signature-column,.category-page .region-item,.category-page .privilege-card{padding:17px!important}
+.category-page .service-more summary{font-size:.98rem!important;font-weight:800!important;min-height:40px!important}
+
+@media(max-width:960px){
+  .home-page .layered-orbit{bottom:64px!important;height:122px!important}
+  .home-page .layered-wing{width:210px!important}
+  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-220px) scale(.72)!important}
+  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-420px) scale(.55)!important}
+  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(220px) scale(.72)!important}
+  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(420px) scale(.55)!important}
+  .section-photo-slot{min-height:150px}
+}
+@media(max-width:600px){
+  .home-page .layered-orbit{bottom:58px!important;height:110px!important}
+  .home-page .layered-wing{width:170px!important;height:94px!important}
+  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-128px) scale(.66)!important}
+  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-230px) scale(.50)!important;opacity:.12!important}
+  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(128px) scale(.66)!important}
+  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(230px) scale(.50)!important;opacity:.12!important}
+  .home-page .layered-wing-visual{width:120px!important;height:54px!important}
+  .home-page .layered-wing-title{font-size:.66rem!important}
+  .home-page .layered-controls{bottom:6px!important}
+  .home-page .solution-panels,.home-page .relationship-grid{grid-template-columns:1fr!important}
+  .home-page .solution-panel-wide,.home-page .relationship-card-wide{grid-column:auto!important}
+  .category-page .section-photo-slot{min-height:135px}
+}
+\n\n/* =========================================================\n   FINAL SIMPLICITY + PHOTO SLOT LAYER\n========================================================= */\n.section-photo-slot{\n  position:relative;\n  width:100%;\n  min-height:190px;\n  margin:0 0 26px;\n  border:1px dashed rgba(16,21,26,.25);\n  border-radius:16px;\n  background:#f3f0e9;\n  background-size:cover;\n  background-position:center;\n  display:flex;\n  align-items:center;\n  justify-content:center;\n  overflow:hidden;\n}\n.section-photo-slot::before{\n  content:'PHOTO SPACE';\n  font-size:.72rem;\n  font-weight:800;\n  letter-spacing:.16em;\n  color:#766f64;\n}\n.section-photo-slot::after{\n  content:attr(data-photo);\n  position:absolute;\n  left:50%; bottom:12px;\n  transform:translateX(-50%);\n  font-size:.72rem; font-weight:700; color:#6f675c;\n  white-space:nowrap;\n  background:rgba(255,255,255,.86);\n  padding:4px 8px; border-radius:5px;\n}\n.section-photo-slot.has-photo::before,.section-photo-slot.has-photo::after{display:none}\n.section-photo-slot.photo-pending{background:#f3f0e9}\n.home-page .layered-hero-background{background-image:url("../images/hero-madhyam.jpg")!important}\n.home-page .layered-wing-visual{overflow:hidden;border-radius:10px;width:150px;height:70px}\n.home-page .layered-wing-visual img{display:block;width:100%;height:100%;object-fit:cover}\n.home-page .layered-orbit{top:auto!important;bottom:70px!important}\n.category-page .inner-hero{margin-top:0!important;min-height:calc(100svh - 76px)!important}\n.category-page .inner-hero-inner{padding-top:88px!important}\n.category-page .inner-hero::after{background:linear-gradient(90deg,rgba(3,10,17,.96),rgba(3,10,17,.70) 55%,rgba(3,10,17,.45))!important}\n.category-page .inner-hero h1{margin-top:10px!important}\n.section-head h2{line-height:1.08!important}\n.section p,.benefit-card p,.service-card p,.course-card p,.package-item p,.region-item p{line-height:1.55}\n.service-more summary,.view-more summary{font-size:.98rem!important;font-weight:800!important;padding:9px 0!important}\n@media(max-width:760px){\n  .section-photo-slot{min-height:145px;margin-bottom:20px}\n  .home-page .layered-wing-visual{width:118px;height:56px}\n  .home-page .layered-wing-title{font-size:.72rem!important}\n}\n
+/* Simple hero photos for non-business pages */
+body.about-page .inner-hero::before{background-image:url("../images/about-why-madhyum.jpg")!important}
+body.membership-page .inner-hero::before{background-image:url("../images/membership-privileges.jpg")!important}
+body.contact-page .inner-hero::before{background-image:url("../images/contact-section.jpg")!important}
+/* Keep photo spaces useful but compact. */
+.section-photo-slot{max-width:360px!important;min-height:150px!important;margin:0 0 22px auto!important}
+@media(max-width:760px){.section-photo-slot{max-width:100%!important;min-height:145px!important}}
