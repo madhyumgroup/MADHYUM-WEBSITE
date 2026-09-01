@@ -1,49 +1,32 @@
-MADHYUM V10 — PHOTO FILENAMES
-Upload these optional photographs to the website root using these exact filenames.
-The website reserves compact visual space for them; missing photos do not create broken-image icons.
+MADHYUM V7 PHOTO SLOTS
 
-HOMEPAGE
-why-madhyum.jpg
-solutions.jpg
-membership-preview.jpg
-network-real-estate.jpg
-network-travel.jpg
-network-education.jpg
-network-consultancy.jpg
-network-events.jpg
+Replace/add these photographs in the website root using these exact filenames:
+
+HOME / HERO
+- hero.jpg (optional if you later replace the hero background)
 
 REAL ESTATE
-why-real-estate.jpg
-property-solutions.jpg
-property-categories.jpg
-property-location.jpg
-property-network.jpg
+- real-estate-property.jpg
+- real-estate-network.jpg
 
 TRAVEL
-why-travel.jpg
-travel-solutions.jpg
-travel-network.jpg
+- travel-destination.jpg
+- travel-planning.jpg
 
 EDUCATION & ADMISSIONS
-why-admission.jpg
-education-courses.jpg
-academic-path.jpg
-education-india.jpg
-education-abroad.jpg
-admission-network.jpg
+- education-campus.jpg
+- education-student.jpg
 
 CONSULTANCY & BUSINESS SERVICES
-why-business.jpg
-business-services.jpg
-business-stage.jpg
-business-network.jpg
+- consultancy-business.jpg
+- consultancy-professional.jpg
 
 EVENTS & WEDDINGS
-why-events.jpg
-event-services.jpg
-event-occasions.jpg
-signature-experiences.jpg
-event-network.jpg
+- events-wedding.jpg
+- events-celebration.jpg
 
 MEMBERSHIP
-membership-privileges.jpg
+- membership-lifestyle.jpg
+- membership-network.jpg
+
+The HTML is already wired to these names. Until the JPG files are added, the photo areas show a neutral fallback instead of breaking the layout.
