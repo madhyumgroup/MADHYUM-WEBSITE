@@ -2881,3 +2881,71 @@ body > .menu-contact{display:none!important}
   .network-stage .network-center{grid-row:auto}
   .network-stage .network-pill:not(:first-child){grid-column:auto!important}
 }
+
+/* =========================================================
+   HOMEPAGE NETWORK — compact single-column relationship rows
+   Optional image slots are intentionally subtle; if no image file
+   exists, the space remains dignified and can be populated later.
+========================================================= */
+.home-page .relationship-grid{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:10px!important;
+  margin-top:20px;
+}
+.home-page .relationship-card,
+.home-page .relationship-card-wide{
+  width:100%;
+  min-height:92px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px;
+  padding:16px 18px!important;
+  box-sizing:border-box;
+}
+.home-page .relationship-card-content{
+  min-width:0;
+  flex:1 1 auto;
+}
+.home-page .relationship-card .eyebrow{
+  margin-bottom:6px;
+  font-size:.68rem;
+}
+.home-page .relationship-card h3{
+  margin:0!important;
+  font-size:clamp(1rem,1.5vw,1.28rem)!important;
+  line-height:1.25!important;
+}
+.home-page .network-photo-slot{
+  width:88px;
+  height:62px;
+  flex:0 0 88px;
+  border-radius:8px;
+  border:1px solid rgba(16,21,26,.12);
+  background-color:#f1eee7;
+  background-image:var(--slot-image);
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
+}
+.home-page .network-statement{
+  margin-top:14px!important;
+}
+@media(max-width:600px){
+  .home-page .relationship-card,
+  .home-page .relationship-card-wide{
+    min-height:84px!important;
+    gap:14px;
+    padding:14px!important;
+  }
+  .home-page .network-photo-slot{
+    width:70px;
+    height:52px;
+    flex-basis:70px;
+  }
+}
+
+.contact-page .category-membership{background-position:center}
+.contact-page .inner-hero-inner{max-width:920px}
+.optional{font-size:.72em;opacity:.65;margin-left:5px}
