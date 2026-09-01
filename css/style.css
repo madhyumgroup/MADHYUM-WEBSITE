@@ -3398,7 +3398,6 @@ body > .menu-contact{display:none!important}
   .home-page .solution-panel-wide,.home-page .relationship-card-wide{grid-column:auto!important}
   .category-page .section-photo-slot{min-height:135px}
 }
-\n\n/* =========================================================\n   FINAL SIMPLICITY + PHOTO SLOT LAYER\n========================================================= */\n.section-photo-slot{\n  position:relative;\n  width:100%;\n  min-height:190px;\n  margin:0 0 26px;\n  border:1px dashed rgba(16,21,26,.25);\n  border-radius:16px;\n  background:#f3f0e9;\n  background-size:cover;\n  background-position:center;\n  display:flex;\n  align-items:center;\n  justify-content:center;\n  overflow:hidden;\n}\n.section-photo-slot::before{\n  content:'PHOTO SPACE';\n  font-size:.72rem;\n  font-weight:800;\n  letter-spacing:.16em;\n  color:#766f64;\n}\n.section-photo-slot::after{\n  content:attr(data-photo);\n  position:absolute;\n  left:50%; bottom:12px;\n  transform:translateX(-50%);\n  font-size:.72rem; font-weight:700; color:#6f675c;\n  white-space:nowrap;\n  background:rgba(255,255,255,.86);\n  padding:4px 8px; border-radius:5px;\n}\n.section-photo-slot.has-photo::before,.section-photo-slot.has-photo::after{display:none}\n.section-photo-slot.photo-pending{background:#f3f0e9}\n.home-page .layered-hero-background{background-image:url("../images/hero-madhyam.jpg")!important}\n.home-page .layered-wing-visual{overflow:hidden;border-radius:10px;width:150px;height:70px}\n.home-page .layered-wing-visual img{display:block;width:100%;height:100%;object-fit:cover}\n.home-page .layered-orbit{top:auto!important;bottom:70px!important}\n.category-page .inner-hero{margin-top:0!important;min-height:calc(100svh - 76px)!important}\n.category-page .inner-hero-inner{padding-top:88px!important}\n.category-page .inner-hero::after{background:linear-gradient(90deg,rgba(3,10,17,.96),rgba(3,10,17,.70) 55%,rgba(3,10,17,.45))!important}\n.category-page .inner-hero h1{margin-top:10px!important}\n.section-head h2{line-height:1.08!important}\n.section p,.benefit-card p,.service-card p,.course-card p,.package-item p,.region-item p{line-height:1.55}\n.service-more summary,.view-more summary{font-size:.98rem!important;font-weight:800!important;padding:9px 0!important}\n@media(max-width:760px){\n  .section-photo-slot{min-height:145px;margin-bottom:20px}\n  .home-page .layered-wing-visual{width:118px;height:56px}\n  .home-page .layered-wing-title{font-size:.72rem!important}\n}\n
 /* Simple hero photos for non-business pages */
 body.about-page .inner-hero::before{background-image:url("../images/about-why-madhyum.jpg")!important}
 body.membership-page .inner-hero::before{background-image:url("../images/membership-privileges.jpg")!important}
@@ -3406,3 +3405,202 @@ body.contact-page .inner-hero::before{background-image:url("../images/contact-se
 /* Keep photo spaces useful but compact. */
 .section-photo-slot{max-width:360px!important;min-height:150px!important;margin:0 0 22px auto!important}
 @media(max-width:760px){.section-photo-slot{max-width:100%!important;min-height:145px!important}}
+
+
+/* ================================================================
+   MADHYUM FINAL POLISH — 02 SEP 2026
+   Goals: simple language, compact rhythm, real photo areas,
+   bottom hero slider, strong inner-page navigation contrast.
+================================================================ */
+
+/* ---------- GLOBAL RHYTHM ---------- */
+html{scroll-padding-top:78px}
+body{overflow-x:hidden}
+.container{width:min(1180px,92vw)}
+.section{padding:48px 0}
+.section.tight{padding:40px 0}
+.section-head{margin-bottom:18px!important;gap:24px!important}
+.section-head h2{line-height:1.05!important;letter-spacing:-.025em!important}
+.section-head>p{line-height:1.5!important}
+
+/* ---------- NAVIGATION ---------- */
+.site-header{z-index:1000!important;transition:transform .28s ease,background .2s ease,box-shadow .2s ease!important}
+.site-header .nav{min-height:50px!important}
+.site-header .navlinks{display:flex!important;gap:20px!important;align-items:center!important}
+.site-header .actions{display:flex!important;gap:10px!important;align-items:center!important}
+.site-header .iconbtn,.site-header .menu-btn{display:grid!important;place-items:center!important}
+.site-header .menu-btn{width:42px!important;height:42px!important}
+.site-header .contact-pill{display:inline-flex!important;align-items:center!important;justify-content:center!important}
+.site-header.nav-hidden{transform:translateY(-110%)!important}
+.category-page .site-header,.membership-page .site-header,.contact-page .site-header,.about-page .site-header{
+  background:#07111b!important;border-bottom:1px solid rgba(255,255,255,.14)!important;
+  box-shadow:0 7px 24px rgba(0,0,0,.25)!important;backdrop-filter:blur(14px)!important;
+}
+.category-page main,.membership-page main,.contact-page main,.about-page main{padding-top:74px!important}
+body>.menu-contact{display:none!important}
+
+/* ---------- HOME HERO: REAL PHOTO + FIVE VISIBLE WINGS AT BOTTOM ---------- */
+.home-page .layered-hero{position:relative!important;min-height:clamp(600px,88vh,820px)!important;overflow:hidden!important;background:#07121d!important}
+.home-page .layered-hero-background{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  z-index:0!important;display:block!important;object-fit:cover!important;object-position:center!important;
+}
+.home-page .layered-hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(3,10,17,.10),rgba(3,10,17,.12) 55%,rgba(3,10,17,.72) 100%)}
+.home-page .layered-orbit{
+  position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:62px!important;
+  width:100%!important;height:136px!important;margin:0!important;transform:none!important;
+  overflow:visible!important;z-index:5!important;pointer-events:none!important;
+}
+.home-page .layered-wing{
+  position:absolute!important;left:50%!important;top:50%!important;width:min(250px,18vw)!important;height:116px!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  margin:0!important;transform-origin:center!important;pointer-events:auto!important;
+  transition:transform .5s ease,opacity .5s ease,filter .5s ease!important;
+}
+.home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-600px) scale(.70)!important;opacity:.82!important;z-index:2!important}
+.home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-300px) scale(.84)!important;opacity:.92!important;z-index:3!important}
+.home-page .layered-wing.is-active{transform:translate(-50%,-50%) scale(1)!important;opacity:1!important;z-index:6!important}
+.home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(300px) scale(.84)!important;opacity:.92!important;z-index:3!important}
+.home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(600px) scale(.70)!important;opacity:.82!important;z-index:2!important}
+.home-page .layered-wing-visual{width:150px!important;height:70px!important;display:grid!important;place-items:center!important;overflow:hidden!important;border-radius:10px!important;background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.18)!important}
+.home-page .layered-wing-visual img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+.home-page .layered-wing-title{font-size:.98rem!important;font-weight:800!important;line-height:1.15!important;letter-spacing:.045em!important;text-align:center!important;margin-top:6px!important;color:#fff!important;text-shadow:0 2px 12px rgba(0,0,0,.65)!important;white-space:nowrap!important}
+.home-page .layered-controls{position:absolute!important;left:50%!important;bottom:12px!important;transform:translateX(-50%)!important;z-index:8!important;background:rgba(3,10,17,.82)!important;border:1px solid rgba(255,255,255,.2)!important;padding:4px 7px!important;border-radius:999px!important}
+.home-page .layered-control{width:36px!important;height:36px!important}
+
+/* ---------- PHOTO AREAS: COMPACT + SIDE-ALIGNED ---------- */
+.section-photo-slot{
+  position:relative!important;float:right!important;width:min(36%,390px)!important;height:178px!important;min-height:178px!important;
+  margin:0 0 18px 28px!important;border-radius:14px!important;border:1px solid rgba(16,21,26,.14)!important;
+  background:#f3f0e9!important;background-size:cover!important;background-position:center!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.05)!important;
+}
+.section-photo-slot::before{content:"PHOTO SPACE"!important;font-size:.68rem!important;font-weight:800!important;letter-spacing:.14em!important;color:#817661!important}
+.section-photo-slot::after{content:attr(data-photo)!important;position:absolute!important;left:50%!important;bottom:10px!important;transform:translateX(-50%)!important;font-size:.68rem!important;font-weight:700!important;color:#6c6459!important;background:rgba(255,255,255,.9)!important;padding:4px 7px!important;border-radius:5px!important;white-space:nowrap!important}
+.section-photo-slot.has-photo{background-size:cover!important;background-position:center!important}
+.section-photo-slot.has-photo::before,.section-photo-slot.has-photo::after{display:none!important}
+.section-photo-slot.photo-pending{background:#f3f0e9!important}
+/* Let the main content use the full row once the photo is cleared. */
+.section-photo-slot + .why-grid,.section-photo-slot + .service-grid,.section-photo-slot + .course-grid,.section-photo-slot + .category-columns,.section-photo-slot + .location-grid,.section-photo-slot + .occasion-grid,.section-photo-slot + .signature-grid,.section-photo-slot + .region-grid,.section-photo-slot + .package-list,.section-photo-slot + .benefit-grid,.section-photo-slot + .relationship-grid{clear:both}
+
+/* Hero-adjacent section layouts: text left, photo right. */
+.home-page .why-section .section-photo-slot{width:38%!important;height:245px!important}
+.home-page .why-section .why-intro,.home-page .why-section .why-grid,.home-page .why-section .why-close{max-width:58%}
+.home-page .why-section .why-intro{margin-bottom:12px!important}
+.home-page .why-section .why-grid{display:block!important}
+.home-page .why-section .why-points{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:0!important;margin-top:12px!important}
+.home-page .why-section .why-message{margin:0!important}
+.home-page .why-section .why-close{margin-top:12px!important}
+
+/* ---------- COMPACT HOME SOLUTIONS / NETWORK ---------- */
+.home-page .solutions-section,.home-page .network-section{padding-top:48px!important;padding-bottom:44px!important}
+.home-page .solution-panels,.home-page .relationship-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;clear:both}
+.home-page .solution-panel,.home-page .relationship-card{min-height:112px!important;padding:16px 18px!important;border-radius:12px!important}
+.home-page .solution-panel-wide,.home-page .relationship-card-wide{grid-column:1/-1!important;min-height:104px!important}
+.home-page .relationship-card{display:flex!important;align-items:center!important;gap:14px!important}
+.home-page .relationship-card h3{font-size:1.12rem!important;line-height:1.18!important;margin:5px 0 0!important}
+.home-page .network-statement{margin-top:16px!important;padding:16px 18px!important;display:block!important;border-radius:12px!important}
+.home-page .network-statement .lead{font-size:1.18rem!important;line-height:1.35!important;margin:0 0 7px!important}
+.home-page .network-statement .trust-line{font-size:1rem!important;font-weight:900!important;letter-spacing:.1em!important;font-style:italic!important}
+
+/* Membership: heading and photo sit on the same compact row. */
+.home-page .membership-preview{padding:46px 0!important}
+.home-page .membership-preview .section-photo-slot{width:38%!important;height:180px!important;margin-bottom:0!important}
+.home-page .membership-preview-grid>div:nth-of-type(2){max-width:56%!important}
+.home-page .membership-preview-grid>div:nth-of-type(3){max-width:56%!important}
+
+/* ---------- INNER HEROES ---------- */
+.category-page .inner-hero,.category-page .category-hero,.category-page .category-consultancy{
+  position:relative!important;min-height:calc(100svh - 74px)!important;display:flex!important;align-items:flex-end!important;
+  overflow:hidden!important;color:#fff!important;background:#07111b!important;isolation:isolate!important;
+}
+.category-page .inner-hero::before{content:"";position:absolute;inset:0;z-index:-2;background-position:center!important;background-size:cover!important;background-repeat:no-repeat!important;opacity:.52!important}
+.category-page .inner-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(3,10,17,.90),rgba(3,10,17,.60) 52%,rgba(3,10,17,.36)),linear-gradient(0deg,rgba(3,10,17,.78),rgba(3,10,17,.08) 62%)!important}
+.category-page .inner-hero-inner{position:relative!important;z-index:2!important;width:min(1180px,92vw)!important;padding:72px 0 62px!important}
+.category-page .inner-hero h1{max-width:900px!important;margin:8px 0 14px!important;font-size:clamp(2.8rem,5.1vw,5.7rem)!important;line-height:.98!important}
+.category-page .inner-hero p{max-width:680px!important;margin:0 0 20px!important;font-size:1rem!important;line-height:1.55!important;color:#eef2f4!important}
+.category-page .hero-actions{display:flex!important;gap:10px!important;flex-wrap:wrap!important}
+.category-page .hero-actions .btn{min-height:46px!important;padding:11px 19px!important}
+.category-page .hero-actions .btn.primary{background:#e0bf7b!important;color:#10151a!important;border-color:#e0bf7b!important}
+.category-page .hero-actions .btn:not(.primary){background:rgba(4,13,21,.72)!important;color:#fff!important;border-color:rgba(255,255,255,.7)!important}
+
+/* Real-estate and all other inner heroes: image stays visible behind copy. */
+.category-real-estate::before{background-image:url("../images/real-estate-hero.jpg")!important}
+.category-travel::before{background-image:url("../images/travel-hero.jpg")!important}
+.category-education::before{background-image:url("../images/education-hero.jpg")!important}
+.category-consultancy::before{background-image:url("../images/consultancy-hero.jpg")!important}
+.category-events::before{background-image:url("../images/events-hero.jpg")!important}
+.about-page .inner-hero::before{background-image:url("../images/about-why-madhyum.jpg")!important}
+.membership-page .inner-hero::before{background-image:url("../images/membership-privileges.jpg")!important}
+.contact-page .inner-hero::before{background-image:url("../images/contact-section.jpg")!important}
+
+/* Contact form: reuse the main hero photo as a soft background. */
+.contact-page #contact-requirement{position:relative!important;isolation:isolate!important;overflow:hidden!important}
+.contact-page #contact-requirement::before{content:"";position:absolute;inset:0;z-index:-2;background:url("../images/hero-madhyam.jpg") center/cover no-repeat;opacity:.16}
+.contact-page #contact-requirement::after{content:"";position:absolute;inset:0;z-index:-1;background:rgba(3,10,17,.82)}
+
+/* ---------- INNER PAGE SECTIONS: COMPACT ---------- */
+.category-page .section,.membership-page .section,.contact-page .section,.about-page .section{padding:46px 0!important}
+.category-page .benefit-grid,.category-page .service-grid,.category-page .service-grid-five,.category-page .service-grid-six,.category-page .course-grid,.category-page .category-columns,.category-page .location-grid,.category-page .occasion-grid,.category-page .signature-grid,.category-page .region-grid,.travel-page .package-list,.network-boxes{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;clear:both}
+.category-page .benefit-card,.category-page .service-card,.category-page .course-card,.category-page .category-list,.category-page .location-card,.category-page .occasion-card,.category-page .signature-column,.category-page .region-item,.travel-page .package-item,.network-box{padding:16px!important;min-height:0!important;border-radius:12px!important}
+.category-page .service-card h3,.category-page .course-card h3{font-size:1.08rem!important;line-height:1.2!important}
+.category-page .service-card p,.category-page .course-card p,.category-page .benefit-card p{font-size:.9rem!important;line-height:1.48!important}
+.category-page .service-more{margin-top:7px!important;padding-top:2px!important}
+.category-page .service-more summary,.category-page .view-more summary{font-size:1rem!important;font-weight:800!important;min-height:40px!important;padding:7px 0!important;color:#765a28!important}
+.category-page .dark .service-more summary,.category-page .dark .view-more summary{color:#f0d9a7!important}
+
+/* Network diagrams: clean, balanced and readable. */
+.network-stage{max-width:900px!important;margin:20px auto 0!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:12px!important;align-items:center!important;clear:both}
+.network-stage .network-center{grid-column:2/4!important;grid-row:2!important;justify-self:center!important;width:min(220px,100%)!important;min-height:64px!important;display:grid!important;place-items:center!important}
+.network-stage .network-pill{min-height:56px!important;display:grid!important;place-items:center!important;text-align:center!important;padding:10px!important}
+.network-stage .network-pill:nth-child(1){grid-column:1!important;grid-row:2!important}
+.network-stage .network-pill:nth-child(3){grid-column:4!important;grid-row:2!important}
+.network-stage .network-pill:nth-child(4){grid-column:1/3!important;grid-row:3!important}
+.network-stage .network-pill:nth-child(5){grid-column:3/5!important;grid-row:3!important}
+
+/* ---------- SIMPLE EMPHASIS ---------- */
+.network-statement .lead strong,.section-close strong{font-weight:800}
+.network-statement .trust-line{font-style:italic;font-size:1.02rem;font-weight:900;letter-spacing:.08em}
+
+@media(max-width:960px){
+  .site-header .navlinks{gap:12px!important}
+  .home-page .layered-orbit{bottom:58px!important;height:122px!important}
+  .home-page .layered-wing{width:210px!important}
+  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-430px) scale(.64)!important}
+  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-215px) scale(.78)!important}
+  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(215px) scale(.78)!important}
+  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(430px) scale(.64)!important}
+  .home-page .layered-wing-title{font-size:.84rem!important}
+  .network-stage{grid-template-columns:repeat(2,1fr)!important}
+  .network-stage .network-center{grid-column:1/-1!important;grid-row:auto!important}
+  .network-stage .network-pill:nth-child(1),.network-stage .network-pill:nth-child(3),.network-stage .network-pill:nth-child(4),.network-stage .network-pill:nth-child(5){grid-column:auto!important;grid-row:auto!important}
+}
+@media(max-width:700px){
+  .site-header .navlinks{display:none!important}
+  .site-header .actions .contact-pill{display:inline-flex!important;font-size:.78rem!important;padding:9px 12px!important}
+  .category-page main,.membership-page main,.contact-page main,.about-page main{padding-top:68px!important}
+  .category-page .inner-hero{min-height:calc(78svh - 68px)!important}
+  .category-page .inner-hero-inner{padding:58px 0 48px!important}
+  .category-page .inner-hero h1{font-size:clamp(2.25rem,10vw,3.6rem)!important}
+  .category-page .inner-hero p{font-size:.92rem!important}
+  .section-photo-slot{float:none!important;width:100%!important;height:150px!important;min-height:150px!important;margin:0 0 18px!important}
+  .home-page .why-section .section-photo-slot{width:100%!important;height:190px!important}
+  .home-page .why-section .why-intro,.home-page .why-section .why-grid,.home-page .why-section .why-close{max-width:100%!important}
+  .home-page .why-section .why-points{grid-template-columns:1fr!important}
+  .home-page .why-section .why-points>article{padding:11px 0!important;border-left:0!important;border-bottom:1px solid var(--line)!important}
+  .home-page .membership-preview .section-photo-slot{width:100%!important;height:150px!important;margin-bottom:16px!important}
+  .home-page .membership-preview-grid>div:nth-of-type(2),.home-page .membership-preview-grid>div:nth-of-type(3){max-width:100%!important}
+  .home-page .layered-hero{min-height:620px!important}
+  .home-page .layered-orbit{bottom:55px!important;height:108px!important}
+  .home-page .layered-wing{width:170px!important;height:92px!important}
+  .home-page .layered-wing.position-far-left,.home-page .layered-wing.position-far-right{opacity:.35!important;pointer-events:none!important}
+  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-120px) scale(.68)!important}
+  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(120px) scale(.68)!important}
+  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-235px) scale(.52)!important}
+  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(235px) scale(.52)!important}
+  .home-page .layered-wing-visual{width:118px!important;height:54px!important}
+  .home-page .layered-wing-title{font-size:.66rem!important}
+  .home-page .solution-panels,.home-page .relationship-grid,.category-page .benefit-grid,.category-page .service-grid,.category-page .service-grid-five,.category-page .service-grid-six,.category-page .course-grid,.category-page .category-columns,.category-page .location-grid,.category-page .occasion-grid,.category-page .signature-grid,.category-page .region-grid,.travel-page .package-list,.network-boxes{grid-template-columns:1fr!important}
+  .home-page .solution-panel-wide,.home-page .relationship-card-wide{grid-column:auto!important}
+}
