@@ -1231,34 +1231,104 @@ if (
 
 }
 
-
 /* =========================================================
-   PAGE FORMS / VIEW MORE SUPPORT
+   V5 — NAVIGATION AUTO HIDE / SHOW
 ========================================================= */
 
-document.querySelectorAll('.requirement-form').forEach((form) => {
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
+(() => {
+  const pageHeader = document.querySelector(".site-header");
+  if (!pageHeader) return;
 
-    const success = form.querySelector('.form-success');
-    if (!success) return;
+  let lastY = Math.max(window.scrollY, 0);
+  let ticking = false;
 
-    success.textContent =
-      'Thank you. Your requirement has been captured. Our team will contact you shortly.';
+  const syncHeader = () => {
+    const currentY = Math.max(window.scrollY, 0);
 
-    success.style.display = 'block';
-    form.reset();
+    if (currentY <= 24) {
+      pageHeader.classList.remove("nav-hidden");
+    } else if (currentY > lastY + 4) {
+      pageHeader.classList.add("nav-hidden");
+    } else if (currentY < lastY - 4) {
+      pageHeader.classList.remove("nav-hidden");
+    }
+
+    lastY = currentY;
+    ticking = false;
+  };
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(syncHeader);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  syncHeader();
+})();
+
+/* =========================================================
+   V5 — VIEW MORE DETAILS
+========================================================= */
+
+document.querySelectorAll(".service-more summary").forEach((summary) => {
+  summary.addEventListener("click", () => {
+    const details = summary.closest(".service-more");
+    if (!details) return;
+
+    window.setTimeout(() => {
+      const expanded = details.open;
+      summary.childNodes[0].textContent = expanded ? "View Less " : "View More ";
+    }, 0);
   });
 });
 
-/* Keep native details behaviour accessible and predictable.
-   Nothing is forced open automatically. */
-document.querySelectorAll('.service-more').forEach((details) => {
-  details.addEventListener('toggle', () => {
-    const summary = details.querySelector('summary');
-    if (!summary) return;
-    summary.firstChild.textContent = details.open
-      ? 'View Less'
-      : 'View More';
+/* =========================================================
+   V5 — NAVIGATION AUTO HIDE / SHOW
+========================================================= */
+(() => {
+  const pageHeader = document.querySelector(".site-header");
+  if (!pageHeader) return;
+
+  let lastY = Math.max(window.scrollY, 0);
+  let ticking = false;
+
+  const syncHeader = () => {
+    const currentY = Math.max(window.scrollY, 0);
+
+    if (currentY <= 24) {
+      pageHeader.classList.remove("nav-hidden");
+    } else if (currentY > lastY + 4) {
+      pageHeader.classList.add("nav-hidden");
+    } else if (currentY < lastY - 4) {
+      pageHeader.classList.remove("nav-hidden");
+    }
+
+    lastY = currentY;
+    ticking = false;
+  };
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(syncHeader);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  syncHeader();
+})();
+
+/* =========================================================
+   V5 — VIEW MORE DETAILS
+========================================================= */
+document.querySelectorAll(".service-more summary").forEach((summary) => {
+  summary.addEventListener("click", () => {
+    const details = summary.closest(".service-more");
+    if (!details) return;
+
+    window.setTimeout(() => {
+      const expanded = details.open;
+      summary.childNodes[0].textContent = expanded ? "View Less " : "View More ";
+    }, 0);
   });
 });
