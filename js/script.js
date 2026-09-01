@@ -1,229 +1,96 @@
-(() => {
+/* MADHYUM WEBSITE — CLEAN V7 JAVASCRIPT */
+(function(){
   'use strict';
 
-  const $ = (selector, scope = document) => scope.querySelector(selector);
-  const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
-
-  /* Header: compact on scroll, hide down / reveal up. */
-  const header = $('.site-header');
-  let lastY = Math.max(window.scrollY, 0);
-  let ticking = false;
-
-  const syncHeader = () => {
-    if (!header) return;
-    const y = Math.max(window.scrollY, 0);
-    header.classList.toggle('scrolled', y > 24);
-    if (y <= 24 || y < lastY - 4) header.classList.remove('nav-hidden');
-    else if (y > lastY + 4) header.classList.add('nav-hidden');
-    lastY = y;
-    ticking = false;
-  };
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(syncHeader);
-      ticking = true;
+  const header=document.querySelector('.site-header');
+  let lastY=window.scrollY;
+  let ticking=false;
+  function onScroll(){
+    const y=window.scrollY;
+    if(header){
+      header.classList.toggle('scrolled',y>30);
+      if(y>lastY && y>90) header.classList.add('nav-hidden');
+      else if(y<lastY) header.classList.remove('nav-hidden');
     }
-  }, { passive: true });
-  syncHeader();
+    lastY=y;
+    ticking=false;
+  }
+  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(onScroll);ticking=true;}},{passive:true});
 
-  /* Reveal animation. */
-  const reveal = $$('.reveal');
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    reveal.forEach(el => observer.observe(el));
-  } else reveal.forEach(el => el.classList.add('visible'));
+  const mobileMenu=document.querySelector('.mobile-menu');
+  const menuButton=document.querySelector('.menu-btn');
+  const closeButtons=document.querySelectorAll('[data-close-mobile]');
+  function closeMenu(){if(mobileMenu){mobileMenu.classList.remove('open');mobileMenu.setAttribute('aria-hidden','true');} if(menuButton)menuButton.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');}
+  function openMenu(){if(mobileMenu){mobileMenu.classList.add('open');mobileMenu.setAttribute('aria-hidden','false');} if(menuButton)menuButton.setAttribute('aria-expanded','true');document.body.classList.add('menu-open');}
+  menuButton?.addEventListener('click',()=>mobileMenu?.classList.contains('open')?closeMenu():openMenu());
+  closeButtons.forEach(b=>b.addEventListener('click',closeMenu));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
 
-  /* Mobile menu. */
-  const mobileMenu = $('.mobile-menu');
-  const menuButton = $('.menu-btn');
-  const closeMenu = () => {
-    mobileMenu?.classList.remove('open');
-    mobileMenu?.setAttribute('aria-hidden', 'true');
-    menuButton?.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-  };
-  menuButton?.addEventListener('click', () => {
-    mobileMenu?.classList.add('open');
-    mobileMenu?.setAttribute('aria-hidden', 'false');
-    menuButton?.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-  });
-  $$('[data-close-mobile]').forEach(el => el.addEventListener('click', closeMenu));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-
-  /* Smooth same-page navigation. */
-  $$('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', e => {
-      const id = link.getAttribute('href');
-      if (!id || id === '#') return;
-      const target = $(id);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      closeMenu();
-    });
-  });
-
-  /* Search drawer. */
-  const drawer = $('.drawer');
-  const searchInput = $('#searchInput');
-  const searchResults = $('#searchResults');
-  const searchData = [
-    ['3 BHK Bhopal', 'Real Estate', 'real-estate.html'],
-    ['Plots & Land', 'Real Estate', 'real-estate.html'],
-    ['Dubai', 'Travel', 'travel.html'],
-    ['Honeymoon', 'Travel', 'travel.html'],
-    ['Hajj & Umrah', 'Travel', 'travel.html'],
-    ['MBBS', 'Education & Admissions', 'education.html'],
-    ['Engineering', 'Education & Admissions', 'education.html'],
-    ['Study Abroad', 'Education & Admissions', 'education.html'],
-    ['GST', 'Consultancy & Business Services', 'consultancy.html'],
-    ['MSME UDYAM', 'Consultancy & Business Services', 'consultancy.html'],
-    ['Wedding Venue', 'Events & Weddings', 'events.html'],
-    ['Corporate Event', 'Events & Weddings', 'events.html']
+  // Search: broad keyword index across all locked website categories.
+  const S=(terms,page,label)=>terms.split('|').map(t=>[t,page,label]);
+  const SEARCH_DATA=[
+    ...S('real estate|property|properties|buy property|sell property|invest property|investment property|residential|commercial|plots|plot|land|new projects|projects|development|renovation|rent|rental|lease|apartment|apartments|flat|flats|duplex|villa|villas|bungalow|independent house|shop|office|showroom|property services|3 bhk|2 bhk|1 bhk|bhopal|kolar road|bawadiya kalan|hoshangabad road|jatkhedi|misrod|ayodhya bypass|awadhpuri|katara hills|salaiya|airport road|ratanpur|vidisha road|tintadi kheda|bhauri','real-estate.html','Real Estate'),
+    ...S('travel|holiday|holidays|tour|tours|domestic holidays|international holidays|family holiday|family package|honeymoon|couple|solo|adventure|hiking|trekking|backpacking|group travel|friends trip|religious travel|spiritual travel|hajj|umrah|karbala|char dham|badrinath|gangotri|yamunotri|corporate travel|business travel|custom travel|weekend getaway|beach escape|mountain getaway|heritage journey|maldives|bali|switzerland|mauritius|dubai|kashmir|thailand|goa|manali|kerala|rajasthan|singapore|nepal|bhutan|tibet|flight|flights|hotel|hotels|resort|resorts|villa stay|airport transfer|cab|chauffeur|cruise|sightseeing|visa assistance|travel insurance|itinerary','travel.html','Travel'),
+    ...S('education|admission|admissions|course|courses|study|college|university|institute|ug|undergraduate|pg|postgraduate|professional|mbbs|bds|bams|nursing|physiotherapy|btech|be|bca|mca|mtech|bba|bcom|mba|pgdm|mcom|pilot training|aviation management|cabin crew|airport management|llb|ba llb|llm|bba llb|fashion design|interior design|graphic design|ui ux|hotel management|hospitality|culinary arts|journalism|mass communication|digital media|advertising|bsc|msc|biotechnology|agriculture|barch|march|urban planning|pharmacy|paramedical|education|psychology|india education|study abroad|uk|germany|ireland|usa|canada|australia|new zealand|uae|russia|georgia|kazakhstan|kyrgyzstan|uzbekistan|delhi|noida|dehradun|jaipur|chandigarh|lucknow|mumbai|pune|ahmedabad|vadodara|surat|bengaluru|hyderabad|chennai|coimbatore|kochi|mangalore|bhubaneswar|ranchi|patna|indore|nagpur|raipur|kolkata','education.html','Education & Admissions'),
+    ...S('consultancy|business services|business support|business setup|business registration|proprietorship|partnership|llp|company registration|gst|gst registration|udyam|msme|itr|tax|profit and loss|balance sheet|financial statements|accounting|compliance|legal assistance|documentation|registry|agreements|business consultancy|business planning|project report|project reports|business proposal|financial projection|growth|expansion|business advisory|website development|business website|digital presence|job consultancy|career consultation|recruitment|placement','consultancy.html','Consultancy & Business Services'),
+    ...S('events|weddings|wedding|engagement|sagai|mehendi|haldi|sangeet|baraat|reception|vidai|ceremony|venue|banquet|resort|lawn|mandap|stage design|floral decor|theme decor|lighting|entrance decor|led wall|catering|live counters|food stations|desserts|beverages|guest hospitality|vip hospitality|photography|candid photography|videography|cinematic film|pre wedding|drone photography|album|dj|live band|singer|dhol|dance|choreography|anchor|emcee|artist booking|birthday|anniversary|party|get together|corporate event|conference|seminar|meeting|product launch|award function|concert|live show|cultural event|fog entry|cold spark|custom stage|luxury mandap|ramp walk|special effects','events.html','Events & Weddings'),
+    ...S('membership|member|member privileges|dining|dining privileges|preferred access|brokerage|travel offers|admission assistance|professional expertise|event vendors','membership.html','MADHYUM Membership')
   ];
-
-  const renderSearch = (query = '') => {
-    if (!searchResults) return;
-    const term = query.trim().toLowerCase();
-    if (!term) {
-      searchResults.innerHTML = '<div class="result"><strong>Start typing a requirement</strong><small>Try “3 BHK Bhopal”, “Dubai”, “MBBS” or “GST”.</small></div>';
-      return;
-    }
-    const matches = searchData.filter(item => item[0].toLowerCase().includes(term) || item[1].toLowerCase().includes(term));
-    searchResults.innerHTML = matches.length
-      ? matches.map(item => `<a class="result" href="${item[2]}"><strong>${item[0]}</strong><small>→ ${item[1]}</small></a>`).join('')
-      : '<div class="result"><strong>No exact match found</strong><small>Try a different requirement.</small></div>';
-  };
-
-  $$('[data-search]').forEach(btn => btn.addEventListener('click', () => {
-    drawer?.classList.add('open');
-    drawer?.setAttribute('aria-hidden', 'false');
-    setTimeout(() => searchInput?.focus(), 80);
-  }));
-  $$('[data-close-search]').forEach(btn => btn.addEventListener('click', () => {
-    drawer?.classList.remove('open');
-    drawer?.setAttribute('aria-hidden', 'true');
-  }));
-  drawer?.addEventListener('click', e => {
-    if (e.target === drawer) {
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden', 'true');
-    }
-  });
-  searchInput?.addEventListener('input', e => renderSearch(e.target.value));
+  const drawer=document.querySelector('.drawer');
+  const searchInput=document.querySelector('#searchInput');
+  const searchResults=document.querySelector('#searchResults');
+  function openSearch(){drawer?.classList.add('open');drawer?.setAttribute('aria-hidden','false');setTimeout(()=>searchInput?.focus(),80)}
+  function closeSearch(){drawer?.classList.remove('open');drawer?.setAttribute('aria-hidden','true')}
+  document.querySelectorAll('[data-search]').forEach(b=>b.addEventListener('click',openSearch));
+  document.querySelectorAll('[data-close-search]').forEach(b=>b.addEventListener('click',closeSearch));
+  drawer?.addEventListener('click',e=>{if(e.target===drawer)closeSearch()});
+  function esc(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+  function renderSearch(q=''){
+    if(!searchResults)return;
+    const term=q.trim().toLowerCase();
+    if(!term){searchResults.innerHTML='<div class="result"><strong>Start typing a requirement</strong><small>Try property, Dubai, honeymoon, MBBS, GST, wedding, Hajj, or membership.</small></div>';return;}
+    const seen=new Set();
+    const matches=SEARCH_DATA.filter(([termText])=>termText.toLowerCase().includes(term)).filter(([t,p])=>{const k=p+'|'+t;if(seen.has(k))return false;seen.add(k);return true}).slice(0,24);
+    if(!matches.length){searchResults.innerHTML='<div class="result"><strong>No exact keyword found</strong><small>Try a broader requirement or service name.</small></div>';return;}
+    const pages={};
+    matches.forEach(([t,p,l])=>(pages[p]??={label:l,terms:[]}).terms.push(t));
+    searchResults.innerHTML=Object.entries(pages).map(([p,v])=>`<a class="result" href="${p}"><strong>${esc(v.label)}</strong><small>${esc(v.terms.slice(0,7).join(' • '))}</small></a>`).join('');
+  }
+  searchInput?.addEventListener('input',e=>renderSearch(e.target.value));
   renderSearch();
 
-  /* Service View More. */
-  $$('.service-more').forEach(details => {
-    const summary = $('summary', details);
-    if (!summary) return;
-    details.addEventListener('toggle', () => {
-      const text = details.open ? 'View Less' : 'View More';
-      summary.childNodes[0].textContent = text;
-    });
-  });
+  // Smooth internal links.
+  document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',e=>{
+    const id=link.getAttribute('href'); if(!id||id==='#')return; const el=document.querySelector(id); if(!el)return; e.preventDefault(); closeMenu(); el.scrollIntoView({behavior:'smooth',block:'start'});
+  }));
 
-  /* Requirement forms: frontend confirmation only, ready for backend wiring. */
-  $$('form.requirement-form').forEach(form => {
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-      const success = $('.form-success', form);
-      if (success) success.textContent = 'Thank you. Your requirement has been received. Our team will connect with you shortly.';
-      form.reset();
-    });
-  });
+  // Reveal animations.
+  const reveal=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){const io=new IntersectionObserver(entries=>entries.forEach(x=>x.isIntersecting&&x.target.classList.add('visible')),{threshold:.08});reveal.forEach(x=>io.observe(x));}else reveal.forEach(x=>x.classList.add('visible'));
 
-  /* Five-wing C-orbit on the homepage. */
-  const orbit = $('#layeredOrbit');
-  const wings = $$('.layered-wing');
-  const prev = $('#layeredPrev');
-  const next = $('#layeredNext');
-  const dots = $('#layeredDots');
-  const slots = ['position-left', 'position-far-left', 'is-active', 'position-right', 'position-far-right'];
-  const count = wings.length;
-  let currentSlot = 0;
-  let timer = null;
-  let paused = false;
-
-  const updateDots = () => {
-    $$('.layered-dot', dots).forEach((dot, i) => {
-      const relative = (i - currentSlot + count) % count;
-      dot.classList.toggle('active', relative === 2);
-    });
-  };
-
-  const updateOrbit = () => {
-    if (!orbit || count !== 5) return;
-    wings.forEach((wing, i) => {
-      slots.forEach(cls => wing.classList.remove(cls));
-      const relative = (i - currentSlot + count) % count;
-      wing.classList.add(slots[relative]);
-      wing.setAttribute('aria-current', relative === 2 ? 'true' : 'false');
-    });
-    updateDots();
-  };
-
-  const nextWing = () => { currentSlot = (currentSlot - 1 + count) % count; updateOrbit(); };
-  const previousWing = () => { currentSlot = (currentSlot + 1) % count; updateOrbit(); };
-  const stop = () => { if (timer) clearInterval(timer); timer = null; };
-  const start = () => {
-    stop();
-    if (!orbit || count !== 5 || paused) return;
-    timer = setInterval(() => { if (!paused) nextWing(); }, 4300);
-  };
-
-  if (orbit && count === 5) {
-    wings.forEach((wing, i) => {
-      wing.addEventListener('mouseenter', () => { paused = true; stop(); });
-      wing.addEventListener('mouseleave', () => { paused = false; start(); });
-      wing.addEventListener('click', e => {
-        const relative = (i - currentSlot + count) % count;
-        if (relative !== 2) {
-          e.preventDefault();
-          currentSlot = (i - 2 + count) % count;
-          updateOrbit();
-          start();
-        }
-      });
-    });
-    if (dots) {
-      wings.forEach((wing, i) => {
-        const dot = document.createElement('button');
-        dot.type = 'button';
-        dot.className = 'layered-dot';
-        dot.setAttribute('aria-label', `Select ${wing.innerText.replace(/\s+/g, ' ').trim()}`);
-        dot.addEventListener('click', () => {
-          currentSlot = (i - 2 + count) % count;
-          updateOrbit();
-          start();
-        });
-        dots.appendChild(dot);
-      });
-    }
-    next?.addEventListener('click', () => { nextWing(); start(); });
-    prev?.addEventListener('click', () => { previousWing(); start(); });
-    let touchX = 0;
-    orbit.addEventListener('touchstart', e => { touchX = e.changedTouches[0].screenX; paused = true; stop(); }, { passive: true });
-    orbit.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].screenX - touchX;
-      if (Math.abs(dx) > 45) dx < 0 ? nextWing() : previousWing();
-      paused = false;
-      start();
-    }, { passive: true });
-    updateOrbit();
-    start();
+  // Horizontal hero slider: cards move left-to-right instead of C-orbit rotation.
+  const wings=[...document.querySelectorAll('.layered-wing')];
+  const prev=document.querySelector('#layeredPrev'), next=document.querySelector('#layeredNext'), dots=document.querySelector('#layeredDots');
+  let active=0, timer=null, paused=false;
+  if(wings.length){
+    if(dots){dots.innerHTML='';wings.forEach((w,i)=>{const d=document.createElement('button');d.type='button';d.className='layered-dot';d.setAttribute('aria-label','Show '+(w.getAttribute('aria-label')||'business'));d.addEventListener('click',()=>{active=i;update();restart()});dots.appendChild(d)})}
+    function update(){wings.forEach((w,i)=>{w.classList.remove('position-left','position-far-left','is-active','position-right','position-far-right');let rel=(i-active+wings.length)%wings.length;const cls=['position-left','position-far-left','is-active','position-right','position-far-right'][rel];if(cls)w.classList.add(cls);w.setAttribute('aria-current',rel===2?'true':'false')});dots?.querySelectorAll('.layered-dot').forEach((d,i)=>d.classList.toggle('active',i===active))}
+    function goNext(){active=(active+1)%wings.length;update()}
+    function goPrev(){active=(active-1+wings.length)%wings.length;update()}
+    function stop(){if(timer){clearInterval(timer);timer=null}}
+    function start(){stop();if(!paused)timer=setInterval(goNext,5200)}
+    function restart(){start()}
+    next?.addEventListener('click',()=>{goNext();restart()});prev?.addEventListener('click',()=>{goPrev();restart()});
+    const hero=document.querySelector('.layered-hero'); hero?.addEventListener('mouseenter',()=>{paused=true;stop()});hero?.addEventListener('mouseleave',()=>{paused=false;start()});
+    let sx=0;hero?.addEventListener('touchstart',e=>sx=e.changedTouches[0].clientX,{passive:true});hero?.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>35){dx<0?goNext():goPrev();restart()}},{passive:true});
+    update();start();
   }
+
+  // Accessible View More details remain native <details>; no hidden tiny links.
+  document.querySelectorAll('.service-more summary').forEach(s=>s.setAttribute('role','button'));
+
+  // Basic inquiry form feedback.
+  document.querySelectorAll('[data-form-name]').forEach(form=>form.addEventListener('submit',e=>{
+    e.preventDefault();const success=form.querySelector('.form-success');if(success)success.textContent='Thank you. Your requirement has been recorded. Our team will connect with you shortly.';form.reset();
+  }));
 })();
