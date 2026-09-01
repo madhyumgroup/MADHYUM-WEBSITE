@@ -71,7 +71,7 @@
 
 
   // Photo slots: use the named image when it exists. Missing uploads stay as clean boxes (no broken-image icon).
-  document.querySelectorAll('.section-photo-slot[data-photo]').forEach(slot=>{
+  document.querySelectorAll('.section-photo-slot[data-photo], .solution-photo-circle[data-photo]').forEach(slot=>{
     const file=slot.getAttribute('data-photo');
     if(!file) return;
     const img=new Image();
