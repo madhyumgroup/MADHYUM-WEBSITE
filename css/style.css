@@ -2236,3 +2236,430 @@ body.menu-open{overflow:hidden}
 }
 
 .institute-inquiry{margin-top:24px}
+
+
+/* =========================================================
+   V3 — VISUAL HIERARCHY / ALIGNMENT RESET
+========================================================= */
+
+body{overflow-x:hidden}
+body.menu-open{overflow:hidden}
+
+.site-header .menu-btn{
+  display:grid !important;
+  place-items:center;
+}
+.site-header .nav{
+  min-height:44px;
+}
+.navlinks{
+  margin-left:auto;
+  margin-right:30px;
+}
+
+/* Section labels: consistently stronger and darker. */
+.eyebrow{
+  font-size:.88rem;
+  font-weight:650;
+  color:#30363b;
+}
+.eyebrow.light{color:#c4ccd2}
+.section-head{
+  align-items:start;
+}
+.section-head > p{
+  padding-top:2px;
+}
+
+/* Homepage WHY section: no artificial empty side space. */
+.why-section .section-head{
+  grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
+  align-items:start;
+}
+.why-section .section-head h2{
+  max-width:840px;
+}
+.why-section .section-head > p{
+  max-width:470px;
+  font-size:1.05rem;
+  line-height:1.55;
+}
+.why-layout{
+  grid-template-columns:1fr;
+  gap:36px;
+}
+.why-copy{
+  max-width:none;
+}
+.why-copy > .lead{
+  max-width:780px;
+  margin:0;
+}
+.why-points{
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:26px;
+}
+.why-diagram{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr;
+  align-items:center;
+  gap:14px;
+}
+.diagram-node,.diagram-core{
+  width:100%;
+  max-width:none;
+}
+.diagram-line{
+  width:100%;
+  height:1px;
+  background:var(--gold);
+}
+.diagram-core{
+  padding:24px 18px;
+}
+
+/* Section imagery: one controlled editorial band, never arbitrary duplicate
+   photos under a section. */
+.section-media{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:1.6fr .8fr;
+  gap:16px;
+}
+.section-media figure,
+.section-media figure:first-child{
+  min-height:300px;
+}
+.section-media img{
+  min-height:300px;
+  object-fit:cover;
+}
+
+/* Solutions: restore clean 2-column hierarchy with compact visuals. */
+.solution-panels{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.solution-panel,
+.solution-panel-wide{
+  min-height:325px;
+  height:325px;
+  padding:24px;
+}
+.solution-panel-wide{
+  grid-column:1/-1;
+}
+.solution-panel img{
+  width:120px;
+  height:120px;
+  top:22px;
+  right:22px;
+  left:auto;
+  bottom:auto;
+  object-fit:contain;
+  z-index:0;
+  opacity:.98;
+  filter:drop-shadow(0 16px 24px rgba(0,0,0,.22));
+}
+.solution-panel::after{
+  z-index:-1;
+  background:linear-gradient(180deg,rgba(4,9,14,.02) 15%,rgba(4,9,14,.90) 100%);
+}
+.solution-panel > div{
+  position:relative;
+  z-index:2;
+  max-width:78%;
+}
+.solution-panel h3{
+  font-size:clamp(1.9rem,3vw,3.5rem);
+}
+
+/* Network: compact half-height presentation with equal columns. */
+.network-section{
+  padding-top:88px;
+  padding-bottom:82px;
+}
+.relationship-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0;
+  border-top:1px solid var(--line);
+}
+.relationship-card{
+  padding:24px 24px 22px 0;
+  min-height:124px;
+  border-top:0;
+  border-bottom:1px solid var(--line);
+}
+.relationship-card:nth-child(even){
+  padding-left:24px;
+  border-left:1px solid var(--line);
+}
+.relationship-card-wide{
+  grid-column:1/-1;
+  padding-left:0 !important;
+  border-left:0 !important;
+  min-height:110px;
+}
+.relationship-card h3{
+  font-size:clamp(1.55rem,2.4vw,2.45rem);
+}
+.network-statement{
+  margin-top:28px;
+  max-width:760px;
+}
+
+/* Remove accidental decorative photo clutter from Network section. */
+.network-section .section-media{display:none}
+
+/* Membership: clear 2-column privilege hierarchy. */
+.privilege-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.privilege-card{
+  min-height:205px;
+}
+.privilege-card span{
+  font-size:.92rem;
+  font-weight:700;
+  color:#2f353a;
+}
+
+/* Final CTA stays compact enough for a graceful two-line heading. */
+.final-cta{
+  padding:92px 0;
+}
+.final-cta h2{
+  font-size:clamp(2.3rem,4.6vw,5.1rem);
+  max-width:980px;
+}
+
+/* Dedicated-page cards / grids — consistent column hierarchy. */
+.benefit-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:0;
+  border-top:1px solid var(--line);
+}
+.benefit-card{
+  padding:26px 22px 20px 0;
+  border-top:0;
+  border-bottom:1px solid var(--line);
+  min-height:200px;
+}
+.benefit-card + .benefit-card{
+  padding-left:22px;
+  border-left:1px solid var(--line);
+}
+.benefit-card p{
+  max-width:280px;
+}
+
+/* Service cards */
+.service-grid-six,
+.service-grid-five{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.service-card{
+  min-height:270px;
+  display:flex;
+  flex-direction:column;
+}
+.service-card h3{max-width:570px}
+.service-card p{max-width:620px}
+.service-more{
+  margin-top:auto;
+  padding-top:18px;
+}
+.service-more summary{
+  font-size:.94rem;
+  font-weight:700;
+  color:#f1d8a5;
+  letter-spacing:.01em;
+}
+.more-copy{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.10);
+  font-size:.96rem;
+  line-height:1.7;
+}
+
+/* Real-estate / location columns */
+.location-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.location-card{
+  min-height:190px;
+  padding:26px;
+}
+.category-columns{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.category-list{
+  min-height:160px;
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(255,255,255,.45);
+}
+
+/* Travel packages: readable two-column editorial rows. */
+.package-list{
+  border-top:1px solid rgba(255,255,255,.13);
+}
+.package-item{
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:36px;
+  padding:28px 0;
+  border-top:0;
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+.package-examples{
+  align-content:start;
+  padding-top:3px;
+}
+.package-examples strong{
+  font-size:.8rem;
+}
+.package-examples span{
+  font-size:1rem;
+  line-height:1.7;
+}
+
+/* Education courses: 3 columns, visible View More per card. */
+.course-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.course-card{
+  min-height:250px;
+  display:flex;
+  flex-direction:column;
+}
+.course-card .service-more{
+  margin-top:auto;
+}
+.course-card .service-more summary{
+  color:#f0d9a7;
+}
+.institute-grid{display:none}
+.institute-inquiry{margin-top:10px}
+
+/* Academic path: two equal columns; third is not artificially full-width. */
+.split-panels{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.split-panel:nth-child(3){
+  grid-column:1/-1;
+}
+
+/* Events: equal 2-column services + equal 2-column occasion/signature rows. */
+.occasion-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.signature-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.signature-column{
+  min-height:165px;
+}
+
+/* Forms: readable desktop hierarchy */
+.form-section{max-width:1080px}
+.requirement-form{
+  padding:34px;
+}
+.form-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:22px;
+  row-gap:3px;
+}
+
+/* Category hero imagery keeps the original visual concept, but content
+   is aligned on a stable left column. */
+.inner-hero-inner{
+  max-width:1200px;
+  width:100%;
+}
+.inner-hero p{
+  max-width:700px;
+}
+.hero-actions{
+  gap:12px;
+}
+
+/* The editorial image bands on dedicated pages should support the content,
+   not dominate it. */
+.category-page .section-media{
+  margin-top:36px;
+}
+
+/* Mobile adaptations */
+@media(max-width:1100px){
+  .benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .benefit-card:nth-child(3){border-left:0;padding-left:0}
+  .why-section .section-head{
+    grid-template-columns:1fr;
+  }
+}
+@media(max-width:960px){
+  .site-header .menu-btn{display:grid!important}
+  .navlinks{display:none}
+  .section-head{grid-template-columns:1fr}
+  .why-points{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .why-diagram{
+    grid-template-columns:1fr;
+  }
+  .diagram-line{
+    width:100%;
+    height:1px;
+  }
+  .solution-panels{grid-template-columns:1fr}
+  .solution-panel-wide{grid-column:auto}
+  .relationship-grid{grid-template-columns:1fr}
+  .relationship-card,
+  .relationship-card + .relationship-card{
+    padding:22px 0;
+    border-left:0;
+  }
+  .relationship-card-wide{grid-column:auto}
+  .benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .benefit-card + .benefit-card{
+    padding-left:22px;
+    border-left:1px solid var(--line);
+  }
+  .service-grid-six,.service-grid-five,
+  .category-columns,.location-grid,
+  .occasion-grid,.signature-grid,
+  .package-item,.privilege-grid,
+  .split-panels{
+    grid-template-columns:1fr;
+  }
+  .split-panel:nth-child(3){grid-column:auto}
+  .course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .section-media{grid-template-columns:1fr}
+  .section-media figure,.section-media figure:first-child{min-height:260px}
+}
+@media(max-width:700px){
+  .container{width:min(94vw,1200px)}
+  .benefit-grid,.why-points,.course-grid{grid-template-columns:1fr}
+  .benefit-card + .benefit-card{
+    padding-left:0;
+    border-left:0;
+  }
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .final-cta{padding:78px 0}
+  .final-inner{display:grid;grid-template-columns:1fr}
+  .relationship-card{min-height:105px}
+  .solution-panel,.solution-panel-wide{height:290px;min-height:290px}
+  .solution-panel img{width:90px;height:90px}
+  .package-item{gap:18px;padding:24px 0}
+}
+@media(max-width:520px){
+  .brand{font-size:.78rem;letter-spacing:.18em}
+  .contact-pill{display:none}
+  .actions{gap:7px}
+  .iconbtn,.menu-btn{width:38px;height:38px}
+  .final-cta h2{font-size:clamp(2rem,11vw,3.4rem)}
+}
