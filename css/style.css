@@ -2343,7 +2343,6 @@ body{overflow-x:hidden}
   .home-page .solution-panels{
     grid-template-columns:1fr;
   }
-  .home-page .solution-panel,.home-page .solution-panel-wide{grid-column:auto}
   .home-page .solution-panel-wide{grid-column:auto}
   .home-page .network-section .relationship-grid{
     grid-template-columns:1fr;
@@ -2394,657 +2393,455 @@ body{overflow-x:hidden}
 
 
 /* =========================================================
-   V7 CLEAN OVERRIDES — MADHYUM
+   FINAL MADHYUM VISUAL PATCH — LOCKED STRUCTURE
+   Only presentation/alignment improvements.
 ========================================================= */
-:root{--line:#d8d4cc;--navy:#07111b;--gold:#c9a15b}
+
+html{scroll-padding-top:88px}
 body{overflow-x:hidden}
-.site-header{display:block;transform:translateY(0);transition:transform .28s ease,background .3s ease,padding .3s ease,box-shadow .3s ease}
-.site-header.nav-hidden{transform:translateY(-110%)}
-.site-header .menu-btn{display:grid!important;place-items:center;flex:0 0 auto}
-.mobile-menu{display:block;visibility:hidden;opacity:0;pointer-events:none;transform:translateY(-10px);transition:opacity .22s ease,transform .22s ease,visibility .22s;overflow:auto}
-.mobile-menu.open{visibility:visible;opacity:1;pointer-events:auto;transform:none}
-.mobile-menu-inner{width:min(980px,92vw);margin:0 auto;padding:90px 0 50px;position:relative}
-.mobile-menu .menu-business-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
-.mobile-menu .menu-business-grid a{font-family:var(--sans);font-size:1.25rem;padding:16px 0}
-.menu-secondary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;margin-top:18px;border-top:1px solid rgba(255,255,255,.12)}
-.menu-secondary a{font-family:var(--sans)!important;font-size:1.15rem!important}
-.menu-label{font-size:.72rem;letter-spacing:.18em;color:#aeb8c0;margin-bottom:4px}
 
-/* Home: Why section hierarchy */
-.home-page .why-section{padding:78px 0 70px}
-.why-intro{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:70px;align-items:end;margin-bottom:32px}
-.why-intro h2{margin:12px 0 0;font-size:clamp(2.25rem,4vw,4.25rem);line-height:1.08;letter-spacing:-.035em}
-.why-intro>p{margin:0 0 5px;max-width:500px;color:var(--muted);font-size:1.02rem}
-.why-grid{display:grid;grid-template-columns:minmax(260px,.75fr) minmax(0,1.25fr);gap:50px;align-items:start}
-.why-message .lead{margin:0;max-width:470px;font-size:1.12rem}
-.home-page .why-points{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin:0}
-.home-page .why-points article{padding:18px 20px 18px 0;min-height:108px;border-bottom:1px solid var(--line)}
-.home-page .why-points article+article{padding-left:20px;border-left:1px solid var(--line)}
-.home-page .why-points strong{display:block;font-size:.82rem;letter-spacing:.12em}
-.home-page .why-points span{display:block;margin-top:7px;color:var(--muted);font-size:.92rem}
-.why-diagram-clean{display:grid;grid-template-columns:minmax(0,1fr) 90px minmax(180px,.6fr) 90px minmax(0,1fr);align-items:center;margin:34px 0 18px}
-.why-node,.why-core{border:1px solid var(--line);background:rgba(255,255,255,.35);min-height:82px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:14px 16px}
-.why-node{font-size:.78rem;font-weight:700;letter-spacing:.12em}
-.why-node span{font-size:.78rem;font-weight:400;letter-spacing:0;color:var(--muted);margin-top:5px}
-.why-core{background:var(--navy);color:#fff;border-color:var(--navy);gap:2px}
-.why-core small{font-size:.65rem;letter-spacing:.15em;color:#b8c2ca}.why-core strong{font-size:1.35rem;letter-spacing:.08em}
-.why-connector{height:1px;background:#aeb1b0}
-.why-close{text-align:center;margin-top:12px}.why-close p{margin:8px auto 0;max-width:600px;color:var(--muted)}
-.trust-line{font-weight:700;letter-spacing:.16em;font-size:.78rem}
-
-/* Home solutions: Sulekha-like compact horizontal cards */
-.home-page .solutions-section{padding:68px 0}
-.home-page .compact-head{margin-bottom:26px}
-.home-page .solution-panels{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
-.home-page .solution-panel,.home-page .solution-panel-wide{grid-column:span 2;position:relative;min-height:190px;height:auto;padding:22px 24px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.035);overflow:hidden}
-.home-page .solution-panel-wide{grid-column:span 3;min-height:165px}
-.home-page .solution-panel img{display:none}
-.solution-copy{position:relative;z-index:2;max-width:80%}.solution-copy h3{margin:28px 0 4px}.solution-copy p{margin:0;color:var(--muted-light)}.solution-link{display:inline-block;margin-top:18px;font-size:.82rem;font-weight:700;letter-spacing:.08em;color:#f0d9a7}
-.solution-index{position:absolute;top:20px;left:24px;color:#aeb8c0;font-size:.72rem;letter-spacing:.16em}
-
-/* Dedicated page typography and spacing */
-.category-page .eyebrow{font-weight:700;color:#343a3f;font-size:.9rem}.category-page .eyebrow.light{color:#d3d9dd}
-.category-page .section-head{gap:55px;margin-bottom:30px}.category-page .section-head h2{font-size:clamp(2rem,3.6vw,3.65rem);line-height:1.1}
-.category-page .benefit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
-.category-page .benefit-card{min-height:175px;padding:20px 20px 20px 0}.category-page .benefit-card+.benefit-card{padding-left:20px}
-.category-page .benefit-card h3{font-size:1.2rem;margin:8px 0 7px}.category-page .benefit-card p{font-size:.92rem;line-height:1.6}
-.category-page .service-grid-five,.category-page .service-grid-six{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.category-page .service-card{min-height:235px;padding:23px;border-radius:14px}.category-page .service-card h3{font-size:1.42rem;line-height:1.2}.category-page .service-card p{font-size:.93rem}
-.service-more summary{font-size:1rem;min-height:42px;padding:9px 0;color:#f3ddb0;font-weight:700;letter-spacing:.01em}
-.more-copy{font-size:.9rem;line-height:1.7}
-.travel-page .package-item{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:34px;padding:25px 0}
-.travel-page .package-item h3{font-size:clamp(1.5rem,2.2vw,2.2rem)}
-.travel-page .package-examples span{font-size:.94rem;line-height:1.65}
-
-/* Visible selects */
-.requirement-form select{color:#111827!important;background:#fff!important;border:1px solid #cfd1cf!important}
-.requirement-form select option{color:#111827;background:#fff}
-.requirement-form input,.requirement-form textarea{background:#fff;color:#111}
-
-/* Network diagrams */
-.clean-network{display:flex;flex-direction:column;align-items:center;width:100%;max-width:1000px;margin:34px auto 0}
-.network-top,.event-network-top{font-weight:700;letter-spacing:.12em;text-align:center;font-size:.8rem;padding:14px 20px;border:1px solid var(--line);background:#fff;max-width:680px}
-.network-line.vertical{width:1px;height:28px;background:#aeb1b0}.network-center.large{display:grid;place-items:center;min-width:190px;min-height:82px;padding:18px 30px;background:var(--navy);color:#fff;border:1px solid var(--navy);font-weight:700;letter-spacing:.16em}
-.partner-row{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:4px}.partner-row span{display:grid;place-items:center;min-height:64px;text-align:center;padding:12px;border:1px solid var(--line);background:rgba(255,255,255,.5);font-size:.74rem;line-height:1.3;letter-spacing:.08em;font-weight:700}
-.center-copy{text-align:center;max-width:700px;margin:20px auto 0;color:var(--muted)}
-
-/* Photo slots — user can supply named files */
-.photo-pair{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}.photo-pair figure{margin:0;position:relative;overflow:hidden;border-radius:14px;background:linear-gradient(135deg,#d9d6cf,#a8adb0);min-height:280px}.photo-pair img{width:100%;height:320px;object-fit:cover}.photo-pair figcaption{position:absolute;left:16px;bottom:14px;padding:7px 10px;background:rgba(7,17,27,.75);color:#fff;font-size:.65rem;letter-spacing:.12em}
-
-/* Final CTA tighter */
-.final-cta h2{line-height:1.05}
-
-@media(max-width:960px){
-  .why-intro,.why-grid{grid-template-columns:1fr;gap:22px}.home-page .why-points{grid-template-columns:1fr}.home-page .why-points article+article{padding-left:0;border-left:0}.why-diagram-clean{grid-template-columns:1fr;gap:8px}.why-connector{width:1px;height:28px;margin:auto}.home-page .solution-panels{grid-template-columns:1fr}.home-page .solution-panel-wide{grid-column:auto}.category-page .benefit-grid{grid-template-columns:repeat(2,1fr)}.category-page .benefit-card+.benefit-card{padding-left:20px}.partner-row{grid-template-columns:repeat(2,1fr)}.photo-pair{grid-template-columns:1fr!important}.mobile-menu .menu-business-grid,.menu-secondary{grid-template-columns:1fr}.site-header{padding:14px 0}.navlinks,.actions .contact-pill{display:none}
-}
-@media(max-width:600px){.container{width:min(92vw,560px)}.category-page .benefit-grid,.category-page .service-grid-five,.category-page .service-grid-six{grid-template-columns:1fr}.category-page .benefit-card+.benefit-card{padding-left:0;border-left:0}.partner-row{grid-template-columns:1fr}.why-intro h2{font-size:2.15rem}.home-page .solution-panel{min-height:175px}.photo-pair img{height:240px}.mobile-menu{padding:0 22px}.mobile-menu-inner{width:100%}}
-
-/* Hero horizontal carousel */
-.layered-hero{overflow:hidden}.layered-orbit{position:relative;width:min(1180px,94vw);height:420px;margin:0 auto;display:block}
-.layered-wing{position:absolute!important;top:50%!important;left:50%!important;width:230px!important;height:290px!important;margin:0!important;opacity:.32!important;transform:translate(-50%,-50%) scale(.82)!important;transition:transform .55s cubic-bezier(.2,.75,.2,1),opacity .45s ease,filter .45s ease!important;filter:saturate(.7)!important}
-.layered-wing .layered-wing-visual{height:205px!important}.layered-wing .layered-wing-visual img{max-height:205px!important}.layered-wing-title{font-size:1rem!important;font-weight:700!important;letter-spacing:.1em!important}
-.layered-wing.position-left{transform:translate(calc(-50% - 300px),-50%) scale(.84)!important}.layered-wing.position-far-left{transform:translate(calc(-50% - 570px),-50%) scale(.70)!important}.layered-wing.is-active{transform:translate(-50%,-50%) scale(1)!important;opacity:1!important;filter:none!important;z-index:5}.layered-wing.position-right{transform:translate(calc(-50% + 300px),-50%) scale(.84)!important}.layered-wing.position-far-right{transform:translate(calc(-50% + 570px),-50%) scale(.70)!important}.layered-controls{z-index:10}
-@media(max-width:960px){.layered-orbit{height:380px}.layered-wing{width:205px!important}.layered-wing.position-left{transform:translate(calc(-50% - 235px),-50%) scale(.78)!important}.layered-wing.position-far-left{transform:translate(calc(-50% - 430px),-50%) scale(.62)!important}.layered-wing.position-right{transform:translate(calc(-50% + 235px),-50%) scale(.78)!important}.layered-wing.position-far-right{transform:translate(calc(-50% + 430px),-50%) scale(.62)!important}}
-@media(max-width:600px){.layered-orbit{height:350px}.layered-wing{width:190px!important}.layered-wing.position-left{transform:translate(calc(-50% - 145px),-50%) scale(.70)!important}.layered-wing.position-far-left,.layered-wing.position-far-right{opacity:0!important;pointer-events:none}.layered-wing.position-right{transform:translate(calc(-50% + 145px),-50%) scale(.70)!important}.layered-wing.is-active{transform:translate(-50%,-50%) scale(.9)!important}}
-
-
-/* =========================================================
-   V8 — LOCKED STRUCTURE / REQUESTED VISUAL REFINEMENT
-   Only visual/layout changes requested after V7.
-========================================================= */
-
-/* The right-side Contact Us pill remains. Any accidental loose
-   menu-contact element is hidden as a defensive safeguard. */
-body > .menu-contact{display:none!important}
-
-/* ---------------------------------------------------------
-   HOMEPAGE HERO — bottom horizontal news/ticker carousel
---------------------------------------------------------- */
-.home-page .layered-hero{
-  min-height:100svh;
-}
-.home-page .layered-orbit{
-  top:auto!important;
-  bottom:74px!important;
-  left:0!important;
-  width:100%!important;
-  height:154px!important;
-  transform:none!important;
-  display:block!important;
-  pointer-events:auto;
-  overflow:hidden;
-  z-index:30;
-}
-.home-page .layered-wing{
-  top:50%!important;
-  left:50%!important;
-  width:min(220px,19vw)!important;
-  height:126px!important;
-  transform:translate(-50%,-50%) translateX(0) scale(.86)!important;
-  opacity:0!important;
-  filter:none!important;
-  transition:transform .62s cubic-bezier(.22,.7,.18,1),opacity .35s ease!important;
-  pointer-events:none!important;
-}
-.home-page .layered-wing .layered-wing-visual{
-  width:100%!important;
-  height:78px!important;
-  align-items:center!important;
-}
-.home-page .layered-wing .layered-wing-visual img{
-  max-height:72px!important;
-  max-width:110px!important;
-  object-fit:contain!important;
-}
-.home-page .layered-wing-title{
-  margin-top:3px!important;
-  padding:5px 8px!important;
-  max-width:100%!important;
-  font-size:.78rem!important;
-  font-weight:700!important;
-  letter-spacing:.095em!important;
-  white-space:nowrap;
-}
-.home-page .layered-wing.is-active{
-  transform:translate(-50%,-50%) translateX(0) scale(1)!important;
-  opacity:1!important;
-  z-index:5!important;
-}
-.home-page .layered-wing.position-left{
-  transform:translate(-50%,-50%) translateX(-235px) scale(.84)!important;
-  opacity:.58!important;
-  z-index:4!important;
-}
-.home-page .layered-wing.position-far-left{
-  transform:translate(-50%,-50%) translateX(-465px) scale(.72)!important;
-  opacity:.28!important;
-  z-index:3!important;
-}
-.home-page .layered-wing.position-right{
-  transform:translate(-50%,-50%) translateX(235px) scale(.84)!important;
-  opacity:.58!important;
-  z-index:4!important;
-}
-.home-page .layered-wing.position-far-right{
-  transform:translate(-50%,-50%) translateX(465px) scale(.72)!important;
-  opacity:.28!important;
-  z-index:3!important;
-}
-.home-page .layered-controls{
-  bottom:18px!important;
-  z-index:70!important;
-  background:rgba(4,12,20,.48);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:999px;
-  padding:5px 8px;
-  backdrop-filter:blur(12px);
-}
-.home-page .layered-control{width:34px;height:34px}
-.home-page .layered-dot{height:3px}
-.home-page .layered-dot.active{width:30px}
-
-/* Slightly larger hero wing names, as requested. */
-.home-page .layered-wing-title{font-size:.85rem!important}
-
-/* ---------------------------------------------------------
-   HOMEPAGE — compact Sulekha-inspired service presentation
---------------------------------------------------------- */
-.home-page .solutions-section .solution-panel{
-  background:#fff;
-  color:#10151a;
-  border:1px solid #d8d4cc;
-  box-shadow:0 8px 24px rgba(0,0,0,.045);
-}
-.home-page .solutions-section .solution-panel:hover{
-  border-color:#b9a06d;
-  background:#fbfaf7;
-  transform:translateY(-3px);
-}
-.home-page .solution-index{color:#8a7b62}
-.home-page .solution-copy h3{color:#11161b}
-.home-page .solution-copy p{color:#697178}
-.home-page .solution-link{color:#7b5d27}
-
-.home-page .relationship-grid{
-  gap:12px;
-  border-top:0;
-}
-.home-page .relationship-card,
-.home-page .relationship-card+.relationship-card,
-.home-page .relationship-card-wide{
-  border:1px solid var(--line)!important;
-  border-radius:12px;
-  background:#fff;
-  padding:18px 20px!important;
-  min-height:108px;
-}
-.home-page .relationship-card h3{color:#11161b}
-.home-page .relationship-card .eyebrow{color:#5e6670}
-.home-page .network-section .section-head{margin-bottom:20px}
-.home-page .network-statement{
-  padding:18px 22px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#faf9f5;
+/* ---------- NAVIGATION ---------- */
+.site-header{
+  z-index:1000;
+  min-height:72px;
 }
 
-/* ---------------------------------------------------------
-   REAL ESTATE — four category boxes
---------------------------------------------------------- */
-.category-page .category-columns,
-.category-page .location-grid,
-.category-page .occasion-grid,
-.category-page .signature-grid,
-.category-page .region-grid,
-.category-page .category-grid{
-  gap:12px!important;
-}
-.category-page .category-list,
-.category-page .location-card,
-.category-page .occasion-card,
-.category-page .signature-column,
-.category-page .region-item{
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#fff;
-  padding:20px;
-  box-shadow:0 7px 22px rgba(0,0,0,.035);
-}
-.category-page .category-list{
-  min-height:132px!important;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-.category-page .category-list h3,
-.category-page .location-card h3,
-.category-page .occasion-card h3,
-.category-page .signature-column h3,
-.category-page .region-item h3{
-  margin:0 0 10px;
-  color:#11161b;
-}
-.category-page .category-list p,
-.category-page .location-card p,
-.category-page .occasion-card p,
-.category-page .signature-column p,
-.category-page .region-item p{
-  margin:0;
-  color:#697178;
-  line-height:1.65;
-}
-
-/* All major service cards: clean bordered cards, concise hierarchy. */
-.category-page .service-card,
-.category-page .course-card,
-.category-page .split-panel,
-.category-page .benefit-card,
-.category-page .privilege-card,
-.travel-page .package-item{
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#fff;
-  box-shadow:0 7px 22px rgba(0,0,0,.035);
-}
-.category-page .benefit-card{
-  padding:20px!important;
-  min-height:165px!important;
-}
-.category-page .benefit-card+.benefit-card{border-left:1px solid var(--line)!important}
-.category-page .service-card{min-height:225px!important}
-.category-page .service-card span,
-.category-page .service-kicker,
-.category-page .package-no{
-  color:#7b6849;
-}
-
-/* Dark sections keep strong contrast while cards stay readable. */
-.category-page .dark .service-card,
-.category-page .dark .location-card,
-.category-page .dark .signature-column,
-.category-page .dark .region-item,
-.category-page .dark .travel-network-visual .network-top,
-.category-page .dark .network-pill{
-  background:#101d2a;
-  border-color:rgba(255,255,255,.15);
-  color:#fff;
-}
-.category-page .dark .service-card h3,
-.category-page .dark .location-card h3,
-.category-page .dark .signature-column h3,
-.category-page .dark .region-item h3{color:#fff}
-.category-page .dark .service-card p,
-.category-page .dark .location-card p,
-.category-page .dark .signature-column p,
-.category-page .dark .region-item p{color:#c2cbd1}
-
-/* ---------------------------------------------------------
-   TRAVEL — turn long rows into compact readable boxes
---------------------------------------------------------- */
-.travel-page .package-list{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-.travel-page .package-item{
-  display:flex!important;
-  flex-direction:column;
-  gap:15px!important;
-  padding:21px!important;
-  min-height:260px;
-}
-.travel-page .package-item h3{font-size:1.45rem!important;line-height:1.2}
-.travel-page .package-item p{font-size:.92rem;line-height:1.55}
-.travel-page .package-examples{
-  padding-top:12px;
-  border-top:1px solid #e0ddd6;
-}
-.travel-page .package-examples strong{
-  display:block;
-  margin-bottom:5px;
-  font-size:.7rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:#7b6849;
-}
-.travel-page .package-examples span{font-size:.88rem;line-height:1.55}
-.travel-page .service-more{margin-top:auto}
-
-/* ---------------------------------------------------------
-   NETWORK DIAGRAMS — clean hierarchy across pages
---------------------------------------------------------- */
-.clean-network,
-.network-stage{
-  max-width:940px!important;
-  margin:28px auto 0!important;
-}
-.clean-network .network-top,
-.network-stage .network-pill:first-child{
-  width:min(100%,520px);
-  margin:0 auto;
-  text-align:center;
-}
-.network-center.large,
-.network-stage .network-center{
-  min-width:190px;
-  min-height:74px;
-  border-radius:10px;
-  box-shadow:0 8px 22px rgba(0,0,0,.10);
-}
-.clean-network .partner-row,
-.network-stage .network-pill:not(:first-child){
-  margin-top:10px;
-}
-.network-stage{
-  display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px!important;
-  align-items:stretch;
-}
-.network-stage .network-center{
-  grid-column:1/-1;
-  grid-row:2;
-  justify-self:center;
-  width:min(240px,100%);
-}
-.network-stage .network-pill:first-child{
-  grid-column:1/-1;
-  grid-row:1;
-}
-.network-stage .network-pill:not(:first-child){
-  min-height:58px;
+/* Keep the existing MADHYUM navigation architecture.
+   The Menu control is visible on desktop and mobile. */
+.site-header .menu-btn{
   display:grid;
   place-items:center;
-  text-align:center;
-  padding:12px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:#fff;
-  font-size:.72rem;
-  font-weight:700;
-  letter-spacing:.08em;
+  flex:0 0 auto;
 }
 
-/* ---------------------------------------------------------
-   BUTTON / CTA CONTRAST — especially Submit Requirement
---------------------------------------------------------- */
-.category-page .hero-actions .btn,
-.category-page .submit-btn,
-.category-page .final-cta .btn{
+/* Dedicated pages get a strong contrasting navigation bar so the
+   category title never disappears behind the navigation. */
+.category-page .site-header{
+  background:rgba(7,17,27,.97);
+  backdrop-filter:blur(16px);
+  box-shadow:0 8px 30px rgba(0,0,0,.16);
+}
+
+.category-page main{
+  padding-top:72px;
+}
+
+/* ---------- SECTION LABELS ---------- */
+.eyebrow{
+  color:#252b30;
+  font-size:.90rem;
+  font-weight:700;
+  letter-spacing:.15em;
+}
+.dark .eyebrow,.eyebrow.light{color:#d5dde2}
+
+/* ---------- HOME: WHY MADHYUM ---------- */
+.home-page .why-section{padding:86px 0 78px}
+.home-page .why-section .section-head{
+  grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);
+  gap:42px;
+  align-items:start;
+  margin-bottom:28px;
+}
+.home-page .why-section .section-head h2{
+  max-width:880px;
+  font-size:clamp(2.35rem,4vw,4.15rem);
+  line-height:1.03;
+}
+.home-page .why-section .section-head>p{
+  margin-top:8px;
+  max-width:500px;
+  font-size:1rem;
+}
+.home-page .why-copy>.lead{max-width:850px;margin-bottom:20px}
+.home-page .why-points{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  border-top:1px solid #d8d4cc;
+}
+.home-page .why-points>div{
+  min-height:112px;
+  padding:20px 22px 18px 0;
+  border-bottom:1px solid #d8d4cc;
+}
+.home-page .why-points>div+div{
+  padding-left:22px;
+  border-left:1px solid #d8d4cc;
+}
+.home-page .why-diagram{
+  grid-template-columns:minmax(0,1fr) 42px minmax(150px,.85fr) 42px minmax(0,1fr);
+  gap:8px;
+  margin-top:18px;
+}
+.home-page .diagram-node,.home-page .diagram-core{
+  min-height:96px;
+  width:100%;
+}
+
+/* ---------- HOME: SOLUTIONS — SULEKHA-STYLE COMPACT GRID ---------- */
+.home-page .solutions-section{padding:82px 0}
+.home-page .solution-panels{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.home-page .solution-panel,.home-page .solution-panel-wide{
+  min-height:210px;
+  height:210px;
+  padding:22px;
+  border-radius:18px;
+  overflow:hidden;
+}
+.home-page .solution-panel-wide{grid-column:1/-1}
+.home-page .solution-panel img{
+  width:76px;
+  height:76px;
+  object-fit:contain;
+  top:18px;
+  right:18px;
+  opacity:.94;
+}
+.home-page .solution-panel>div{max-width:72%}
+.home-page .solution-panel h3{
+  margin:5px 0 8px;
+  font-size:clamp(1.55rem,2.25vw,2.55rem);
+  line-height:1.02;
+}
+.home-page .solution-panel p{max-width:560px;margin-bottom:8px}
+
+/* ---------- HOME: NETWORK — 2 UP / 1 WIDE ---------- */
+.home-page .network-section{padding:66px 0 62px}
+.home-page .network-section .section-head{margin-bottom:22px}
+.home-page .relationship-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0;
+  border-top:1px solid #d8d4cc;
+}
+.home-page .relationship-card{
+  min-height:92px;
+  padding:17px 20px 15px 0;
+  border-bottom:1px solid #d8d4cc;
+}
+.home-page .relationship-card+.relationship-card{
+  padding-left:20px;
+  border-left:1px solid #d8d4cc;
+}
+.home-page .relationship-card-wide{
+  grid-column:1/-1;
+  padding-left:0!important;
+  border-left:0!important;
+}
+.home-page .relationship-card h3{
+  margin:5px 0 0;
+  font-size:clamp(1.15rem,1.8vw,1.85rem);
+  line-height:1.12;
+}
+.home-page .network-section .section-media{
+  display:block;
+  margin-top:22px;
+  min-height:120px;
+}
+.home-page .network-statement{margin-top:18px}
+.home-page .network-statement .lead{font-size:clamp(1.2rem,1.8vw,1.6rem)}
+
+/* ---------- ALL DEDICATED PAGE HEROES ---------- */
+.category-page .category-hero,
+.category-page .hero{
+  position:relative;
+  min-height:clamp(430px,58vh,650px);
+}
+.category-page .category-hero-content,
+.category-page .hero-content{
+  position:relative;
+  z-index:2;
+  padding-top:42px;
+}
+.category-page .category-hero h1,
+.category-page .hero h1{
+  max-width:850px;
+  font-size:clamp(2.7rem,5.5vw,5.8rem);
+  line-height:.98;
+}
+.category-page .hero-actions,
+.category-page .category-hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:24px;
+}
+.category-page .hero-actions a,
+.category-page .category-hero-actions a{
   min-height:46px;
-  padding:12px 20px;
-  border-radius:999px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
+  padding:11px 18px;
+  border-radius:999px;
+  background:#0b1724;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.25);
   font-weight:700;
-  letter-spacing:.01em;
 }
-.category-page .hero-actions .btn:not(.primary){
+.category-page .hero-actions a:hover,
+.category-page .category-hero-actions a:hover{
+  background:#172d42;
+  border-color:var(--gold);
+}
+
+/* ---------- DEDICATED PAGE BENEFITS ---------- */
+.category-page .benefit-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:0;
+  border-top:1px solid #d8d4cc;
+}
+.category-page .benefit-card{
+  min-height:175px;
+  padding:22px 20px 18px 0;
+  border-bottom:1px solid #d8d4cc;
+}
+.category-page .benefit-card+.benefit-card{
+  padding-left:20px;
+  border-left:1px solid #d8d4cc;
+}
+
+/* ---------- SERVICE BOXES ---------- */
+.category-page .service-grid-five,
+.category-page .service-grid-six,
+.category-page .service-grid,
+.category-page .category-columns,
+.category-page .location-grid,
+.category-page .occasion-grid,
+.category-page .signature-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.category-page .service-card,
+.category-page .category-list,
+.category-page .location-card,
+.category-page .occasion-card,
+.category-page .signature-column{
+  position:relative;
+  min-height:190px;
+  padding:22px;
+  border:1px solid #d8d4cc;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 10px 28px rgba(10,13,18,.045);
+}
+.category-page .service-card{
+  min-height:250px;
+  display:flex;
+  flex-direction:column;
+}
+.category-page .service-card h3{
+  margin:4px 0 8px;
+  font-size:clamp(1.45rem,2.1vw,2.15rem);
+  line-height:1.05;
+}
+.category-page .service-card p{max-width:650px}
+
+/* View More must be obvious and readable. */
+.category-page .service-more{
+  margin-top:auto;
+  padding-top:16px;
+}
+.category-page .service-more summary,
+.category-page .more-btn,
+.category-page .service-more a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:42px;
+  padding:9px 15px;
+  border-radius:999px;
+  border:1px solid #b18a48;
+  background:#0b1724;
   color:#fff!important;
-  border:1px solid rgba(255,255,255,.65)!important;
-  background:rgba(5,15,24,.72)!important;
-  box-shadow:0 8px 22px rgba(0,0,0,.22);
+  font:700 .94rem/1 var(--sans);
+  cursor:pointer;
+  text-decoration:none;
 }
-.category-page .hero-actions .btn.primary,
-.category-page .final-cta .btn.primary{
-  background:#d7b36e!important;
-  color:#10151a!important;
-  border-color:#d7b36e!important;
-  box-shadow:0 8px 24px rgba(0,0,0,.20);
+.category-page .service-more summary::after{content:"↓";font-size:.95rem}
+.category-page .service-more[open] summary::after{transform:rotate(180deg)}
+.category-page .more-copy{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid #e0ddd6;
+  color:#525b62;
+  font-size:.95rem;
+  line-height:1.65;
 }
 
-/* ---------------------------------------------------------
-   MEMBERSHIP — privileges as clean boxes
---------------------------------------------------------- */
-.privilege-grid{
-  display:grid!important;
+/* ---------- TRAVEL PACKAGE CARDS ---------- */
+.travel-page .package-grid,
+.travel-page .packages-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.travel-page .package-item,
+.travel-page .travel-card{
+  display:flex;
+  flex-direction:column;
+  min-height:250px;
+  padding:22px;
+  border:1px solid #d8d4cc;
+  border-radius:18px;
+  background:#fff;
+}
+.travel-page .package-item h3,
+.travel-page .travel-card h3{
+  font-size:clamp(1.4rem,2vw,2.1rem);
+  line-height:1.08;
+}
+.travel-page .package-examples,.travel-page .option-list{line-height:1.65}
+.travel-page .travel-card .more-btn{margin-top:auto}
+
+/* ---------- EDUCATION ---------- */
+.education-page .course-grid{
+  display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px!important;
+  gap:14px;
 }
-.privilege-card{
-  padding:20px!important;
-  min-height:150px;
+.education-page .course-card{
+  min-height:235px;
+  display:flex;
+  flex-direction:column;
+  padding:22px;
+  border:1px solid #d8d4cc;
+  border-radius:18px;
+  background:#fff;
 }
-.privilege-card span{font-weight:700;letter-spacing:.10em;font-size:.78rem;color:#7b6849}
-.privilege-card p{margin:10px 0 0;color:#697178;line-height:1.6}
+.education-page .course-card h3{font-size:1.55rem;line-height:1.05}
+.education-page .course-card .service-more{margin-top:auto}
+.education-page .institute-grid{display:none!important}
+.education-page .institute-inquiry{margin-top:16px}
+.education-page select{color:#111820;background:#fff}
+.education-page select option{color:#111820;background:#fff}
 
-/* Keep the existing right Contact Us pill visible on desktop. */
-@media(min-width:961px){
-  .site-header .contact-pill{display:inline-flex!important}
+/* ---------- EVENTS ---------- */
+.events-page .occasion-grid,.events-page .signature-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.events-page .occasion-card,.events-page .signature-column{
+  min-height:190px;
+  padding:22px;
+  border:1px solid #d8d4cc;
+  border-radius:18px;
+  background:#fff;
+}
+.events-page .signature-column{min-height:155px}
+
+/* ---------- NETWORK DIAGRAMS: CLEAN COLUMN HIERARCHY ---------- */
+.network-flow,.event-network-flow,.admission-network-flow{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  max-width:900px;
+  margin:26px auto 0;
+  text-align:center;
+}
+.network-flow .network-source,
+.network-flow .network-core,
+.network-flow .network-partners,
+.event-network-flow>* ,
+.admission-network-flow>*{
+  width:100%;
+}
+.network-flow .network-core{
+  padding:18px 22px;
+  border-radius:16px;
+  background:#0b1724;
+  color:#fff;
+}
+.network-flow .network-partners{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.network-flow .network-partners>*{
+  padding:14px 12px;
+  border:1px solid #d8d4cc;
+  border-radius:14px;
+  background:#fff;
+}
+
+/* ---------- FORMS / CONTRAST ---------- */
+.requirement-form{
+  border-radius:20px;
+  background:#fff;
+  border:1px solid #ddd9d1;
+  box-shadow:0 20px 55px rgba(10,13,18,.07);
+}
+.requirement-form input,.requirement-form select,.requirement-form textarea{
+  color:#111820;
+  background:#fff;
+}
+.requirement-form select option{color:#111820;background:#fff}
+.requirement-form input::placeholder,.requirement-form textarea::placeholder{color:#7a8288}
+.form-submit,.submit-btn{
+  min-height:48px;
+  padding:13px 22px;
+  background:#0b1724;
+  color:#fff;
+  border:1px solid #0b1724;
+  font-weight:700;
+}
+.form-submit:hover,.submit-btn:hover{background:#172d42;border-color:var(--gold)}
+
+/* ---------- PHOTO SLOTS — USE ONLY WHEN THE HTML PROVIDES THEM ---------- */
+.section-media,.card-media,.photo-slot,.visual-slot{
+  overflow:hidden;
+  border-radius:18px;
+}
+.section-media img,.card-media img,.photo-slot img,.visual-slot img{
+  width:100%;
+  height:100%;
+  min-height:140px;
+  object-fit:cover;
+}
+
+/* ---------- FOOTER ---------- */
+.footer{padding-top:62px}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:1100px){
+  .home-page .why-section .section-head{grid-template-columns:1fr;gap:18px}
+  .category-page .benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .education-page .course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
 @media(max-width:960px){
-  .home-page .layered-orbit{bottom:68px!important;height:138px!important}
-  .home-page .layered-wing{width:190px!important}
-  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-175px) scale(.80)!important}
-  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-330px) scale(.68)!important}
-  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(175px) scale(.80)!important}
-  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(330px) scale(.68)!important}
-  .travel-page .package-list{grid-template-columns:1fr}
-  .privilege-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .network-stage{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .network-stage .network-pill:first-child,.network-stage .network-center{grid-column:1/-1}
-}
-@media(max-width:600px){
-  .home-page .layered-orbit{bottom:68px!important;height:124px!important}
-  .home-page .layered-wing{width:155px!important}
-  .home-page .layered-wing .layered-wing-visual{height:66px!important}
-  .home-page .layered-wing .layered-wing-visual img{max-height:60px!important;max-width:90px!important}
-  .home-page .layered-wing-title{font-size:.68rem!important}
-  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-125px) scale(.72)!important}
-  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-240px) scale(.58)!important;opacity:.16!important}
-  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(125px) scale(.72)!important}
-  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(240px) scale(.58)!important;opacity:.16!important}
-  .home-page .layered-controls{bottom:18px!important}
-  .privilege-grid,.network-stage{grid-template-columns:1fr!important}
-  .network-stage .network-pill:first-child,.network-stage .network-center{grid-column:auto}
-  .network-stage .network-center{grid-row:auto}
-  .network-stage .network-pill:not(:first-child){grid-column:auto!important}
-}
-
-/* =========================================================
-   HOMEPAGE NETWORK — compact single-column relationship rows
-   Optional image slots are intentionally subtle; if no image file
-   exists, the space remains dignified and can be populated later.
-========================================================= */
-.home-page .relationship-grid{
-  display:grid!important;
-  grid-template-columns:1fr!important;
-  gap:10px!important;
-  margin-top:20px;
-}
-.home-page .relationship-card,
-.home-page .relationship-card-wide{
-  width:100%;
-  min-height:92px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:24px;
-  padding:16px 18px!important;
-  box-sizing:border-box;
-}
-.home-page .relationship-card-content{
-  min-width:0;
-  flex:1 1 auto;
-}
-.home-page .relationship-card .eyebrow{
-  margin-bottom:6px;
-  font-size:.68rem;
-}
-.home-page .relationship-card h3{
-  margin:0!important;
-  font-size:clamp(1rem,1.5vw,1.28rem)!important;
-  line-height:1.25!important;
-}
-.home-page .network-photo-slot{
-  width:88px;
-  height:62px;
-  flex:0 0 88px;
-  border-radius:8px;
-  border:1px solid rgba(16,21,26,.12);
-  background-color:#f1eee7;
-  background-image:var(--slot-image);
-  background-size:cover;
-  background-position:center;
-  overflow:hidden;
-}
-.home-page .network-statement{
-  margin-top:14px!important;
-}
-@media(max-width:600px){
-  .home-page .relationship-card,
-  .home-page .relationship-card-wide{
-    min-height:84px!important;
-    gap:14px;
-    padding:14px!important;
+  .category-page main{padding-top:66px}
+  .home-page .solution-panels,.home-page .relationship-grid,
+  .category-page .service-grid-five,.category-page .service-grid-six,
+  .category-page .service-grid,.category-page .category-columns,
+  .category-page .location-grid,.category-page .occasion-grid,
+  .category-page .signature-grid,.travel-page .package-grid,
+  .travel-page .packages-grid{grid-template-columns:1fr}
+  .home-page .solution-panel-wide,.home-page .relationship-card-wide{grid-column:auto}
+  .home-page .relationship-card,.home-page .relationship-card+.relationship-card{
+    padding-left:0;border-left:0
   }
-  .home-page .network-photo-slot{
-    width:70px;
-    height:52px;
-    flex-basis:70px;
-  }
+  .network-flow .network-partners{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
-.contact-page .category-membership{background-position:center}
-.contact-page .inner-hero-inner{max-width:920px}
-.optional{font-size:.72em;opacity:.65;margin-left:5px}
-
-
-/* =========================================================
-   V10 — COMPACT ALIGNMENT, HERO NAV CLEARANCE & PHOTO SLOTS
-========================================================= */
-html{scroll-behavior:smooth}
-[id]{scroll-margin-top:96px}
-
-/* Inner pages: keep the fixed navigation visually separate from the hero. */
-.category-page .site-header,
-.contact-page .site-header{
-  background:rgba(5,12,19,.96);
-  backdrop-filter:blur(16px);
-  box-shadow:0 6px 24px rgba(0,0,0,.18);
-}
-.category-page .inner-hero,
-.contact-page .inner-hero{
-  position:relative;
-  min-height:590px;
-  padding:145px 0 72px;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-}
-.category-page .inner-hero::before,
-.contact-page .inner-hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(90deg,rgba(4,12,20,.82),rgba(4,12,20,.42) 55%,rgba(4,12,20,.55));
-  z-index:0;
-}
-.category-page .inner-hero-inner,
-.contact-page .inner-hero-inner{position:relative;z-index:1}
-.category-page .inner-hero h1,
-.contact-page .inner-hero h1{max-width:900px}
-.category-page .inner-hero p,
-.contact-page .inner-hero p{max-width:760px}
-
-/* Homepage hero slider: the slider itself lives at the bottom of the hero. */
-.home-page .layered-orbit{
-  top:auto!important;
-  bottom:62px!important;
-}
-.home-page .layered-controls{
-  top:auto!important;
-  bottom:14px!important;
-}
-.home-page .layered-wing-title{font-size:.9rem!important}
-
-/* Homepage network: compact 2-column Sulekha-style rows. */
-.home-page .relationship-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  gap:10px!important;
-}
-.home-page .relationship-card,
-.home-page .relationship-card-wide{
-  min-height:88px!important;
-  padding:14px 16px!important;
-  border:1px solid var(--line)!important;
-  border-radius:12px;
-  background:rgba(255,255,255,.52);
-}
-.home-page .relationship-card-wide{grid-column:1/-1!important}
-.home-page .network-photo-slot{width:82px;height:58px;flex-basis:82px}
-.home-page .network-statement{padding-top:10px}
-
-/* Small visual anchor available for every content-heavy section. */
-.section-photo-slot{
-  width:100%;
-  height:112px;
-  margin:0 0 24px;
-  border-radius:14px;
-  border:1px solid var(--line);
-  background-color:#ece9e2;
-  background-image:var(--section-photo);
-  background-size:cover;
-  background-position:center;
-  overflow:hidden;
-  position:relative;
-}
-.section.dark .section-photo-slot{border-color:rgba(255,255,255,.14);background-color:#15222d}
-.section-photo-slot::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(90deg,rgba(5,12,19,.08),rgba(5,12,19,0));
-  pointer-events:none;
-}
-@media(min-width:900px){
-  .section-photo-slot{height:126px}
-}
 @media(max-width:700px){
-  .home-page .relationship-grid{grid-template-columns:1fr!important}
-  .home-page .relationship-card-wide{grid-column:auto!important}
-  .category-page .inner-hero,.contact-page .inner-hero{min-height:540px;padding:126px 0 58px}
-  .section-photo-slot{height:96px;margin-bottom:18px}
+  .site-header{min-height:64px}
+  .category-page main{padding-top:60px}
+  .home-page .why-points,.category-page .benefit-grid,
+  .education-page .course-grid,.network-flow .network-partners{grid-template-columns:1fr}
+  .home-page .why-points>div,.home-page .why-points>div+div,
+  .category-page .benefit-card,.category-page .benefit-card+.benefit-card{
+    padding-left:0;border-left:0
+  }
+  .home-page .why-diagram{grid-template-columns:1fr}
+  .category-page .hero-actions,.category-page .category-hero-actions{flex-direction:column;align-items:stretch}
+  .category-page .hero-actions a,.category-page .category-hero-actions a{width:100%}
 }
