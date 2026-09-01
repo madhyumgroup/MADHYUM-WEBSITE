@@ -1,23 +1,33 @@
-# MADHYAM GROUP — Website V1
+# MADHYUM-WEBSITE
 
-A GitHub-ready, multi-page website based on the supplied MADHYAM design/development brief, using Tata.com as inspiration for information architecture, business structure, search, visual hierarchy and editorial spacing—not as a literal visual clone.
+MADHYUM GROUP V1 — GitHub-ready multi-page website.
 
-## Pages
-- `index.html`
-- `about.html`
-- `real-estate.html`
-- `travel.html`
-- `education.html`
-- `consultancy.html`
-- `events.html`
-- `membership.html`
-- `contact.html`
+## Structure
+- index.html
+- about.html
+- real-estate.html
+- travel.html
+- education.html
+- consultancy.html
+- events.html
+- membership.html
+- contact.html
+- css/style.css
+- js/script.js
+- images/
 
-## Assets
-Replace the files in `images/` with your final photography while keeping the exact filenames referenced in the brief. `hero-madhyam.jpg` is populated with the latest Madhyam hero image available in the project workspace.
+## Hero
+The home hero uses one fixed cinematic background and five independent business visuals. Each visual and its live HTML name move together in a smooth orbital carousel. Background stays fixed. Desktop supports automatic rotation, hover pause and click controls; mobile supports swipe/tap.
 
-## Run
-Open `index.html` directly for a quick preview, or publish the folder to GitHub Pages.
+## Images
+Place final images in `images/` using the filenames referenced by the HTML/CSS. The five hero foreground assets are:
+- real-estate.png
+- travel.png
+- education.png
+- consultancy.png
+- events.png
 
-## Important V1 note
-The requirement forms are front-end demo forms. They show a success state but do not send data anywhere yet. Connect them to Formspree, Netlify Forms, a custom API, or your preferred backend before production.
+Hero background: `hero-background.jpg`.
+
+## Forms
+Requirement forms are front-end demo forms only. Connect them to Formspree, Netlify Forms or a backend before production.
