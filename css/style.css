@@ -238,3 +238,86 @@ img{max-width:100%;display:block}
   #travel-network .partner-row{grid-template-columns:1fr}
   #travel-network .network-center.large{margin-top:28px}
 }
+
+/* ============================================================
+   V15 LOCKED MICRO-CHANGES — authoritative overrides only
+   ============================================================ */
+
+/* Property / Education / Event network flows: every directional arrow points TO MADHYUM. */
+.property-network-flow,
+.education-network-flow,
+.event-network-flow{display:grid;grid-template-columns:1fr;gap:18px;max-width:980px;margin:26px auto 0}
+.property-network-flow .network-row,
+.education-network-flow .network-row,
+.event-network-flow .network-row{display:grid;align-items:center;gap:24px}
+.property-network-flow .network-row-main,
+.education-network-flow .network-row-main,
+.event-network-flow .network-row-main{grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr)}
+.property-network-flow .network-row-secondary{grid-template-columns:1fr 1fr;max-width:610px;margin:0 auto}
+.education-network-flow .network-row-secondary{grid-template-columns:1fr 1fr;max-width:610px;margin:0 auto}
+.event-network-flow .event-partners{grid-template-columns:repeat(5,minmax(0,1fr));max-width:980px;margin:0 auto}
+.property-network-flow .network-row-main .network-source,
+.education-network-flow .network-row-main .network-source,
+.event-network-flow .network-row-main .network-source{position:relative}
+.property-network-flow .network-row-main .network-source:first-child::after,
+.education-network-flow .network-row-main .network-source:first-child::after,
+.event-network-flow .network-row-main .network-source:first-child::after{content:"→";position:absolute;right:-30px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:800}
+.property-network-flow .network-row-main .network-source:last-child::before,
+.education-network-flow .network-row-main .network-source:last-child::before,
+.event-network-flow .network-row-main .network-source:last-child::before{content:"←";position:absolute;left:-30px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:800}
+.property-network-flow .network-row-secondary .network-source,
+.education-network-flow .network-row-secondary .network-source,
+.event-network-flow .event-partners .network-source{position:relative}
+.property-network-flow .network-row-secondary .network-source::before,
+.education-network-flow .network-row-secondary .network-source::before,
+.event-network-flow .event-partners .network-source::before{content:"↑";position:absolute;left:50%;top:-25px;transform:translateX(-50%);color:var(--gold);font-size:20px;font-weight:800}
+.property-network-flow .network-center,
+.education-network-flow .network-center,
+.event-network-flow .network-center{z-index:2}
+
+/* Travel network: arrows are strictly vertical/downward and never overlap text or cards. */
+#travel-network .travel-network-visual{gap:0}
+#travel-network .network-top::after,
+#travel-network .network-center.large::after{bottom:-34px;font-size:20px;line-height:1}
+#travel-network .network-center.large{margin:34px 0 30px}
+#travel-network .partner-row{margin-top:0}
+#travel-network .partner-row span::before{top:-11px;height:11px}
+
+/* Remove the extra standalone consultancy/event photo spacer; keep existing right-side imagery. */
+.consultancy-photo-section,
+.event-photo-section{display:none!important}
+
+/* Give event network typography enough room without creating oversized vertical gaps. */
+#event-network .network-stage .network-pill{font-size:10px;line-height:1.35;letter-spacing:.06em}
+#event-network .network-stage .network-center{font-size:17px}
+#event-network .center-copy{margin-top:18px;line-height:1.55}
+
+/* Keep hero photo areas ready for the named wing photographs. */
+.inner-hero::before{opacity:.34}
+.category-real-estate::before{background-image:url("../images/real-estate-hero.jpg")}
+.category-travel::before{background-image:url("../images/travel-hero.jpg")}
+.category-education::before{background-image:url("../images/education-hero.jpg")}
+.category-consultancy::before{background-image:url("../images/consultancy-hero.jpg")}
+.category-events::before{background-image:url("../images/events-hero.jpg")}
+.category-membership::before{background-image:url("../images/membership-privileges.jpg")}
+
+@media(max-width:980px){
+  .event-network-flow .event-partners{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  .property-network-flow .network-row-main,
+  .education-network-flow .network-row-main,
+  .event-network-flow .network-row-main{grid-template-columns:1fr;gap:16px}
+  .property-network-flow .network-row-secondary,
+  .education-network-flow .network-row-secondary,
+  .event-network-flow .event-partners{grid-template-columns:1fr}
+  .property-network-flow .network-row-main .network-source:first-child::after,
+  .education-network-flow .network-row-main .network-source:first-child::after,
+  .event-network-flow .network-row-main .network-source:first-child::after,
+  .property-network-flow .network-row-main .network-source:last-child::before,
+  .education-network-flow .network-row-main .network-source:last-child::before,
+  .event-network-flow .network-row-main .network-source:last-child::before{display:none}
+  .property-network-flow .network-row-secondary .network-source::before,
+  .education-network-flow .network-row-secondary .network-source::before,
+  .event-network-flow .event-partners .network-source::before{display:none}
+}
