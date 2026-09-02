@@ -254,3 +254,85 @@ Use these exact filenames inside the `images/` folder when replacing the photo s
 - `consultancy-hero.jpg` — Business Consultancy opening hero
 - `events-hero.jpg` — Events & Weddings opening hero
 - `membership-privileges.jpg` — Membership page visual
+
+
+## PHOTO FILE NAMES — V19
+
+Place your final photographs in the `images/` folder using these exact names. The code is already wired to these slots.
+
+### Homepage
+- `hero-background.png`
+- `why-madhyum.jpg`
+- `solutions.jpg`
+- `network.jpg`
+- `membership-privileges.jpg`
+- `home-final-cta.jpg`
+
+### Real Estate
+- `real-estate-hero.jpg`
+- `real-estate-why-real-estate.jpg`
+- `property-solutions.jpg`
+- `property-categories.jpg`
+- `property-location.jpg`
+- `real-estate-apartments-flats.jpg`
+- `real-estate-duplexes-villas-bungalows.jpg`
+- `real-estate-plots-land-investment.jpg`
+- `real-estate-commercial-property.jpg`
+- `real-estate-residential.jpg`
+- `real-estate-commercial.jpg`
+- `real-estate-plots-land.jpg`
+- `real-estate-other.jpg`
+- `property-network.jpg`
+- `property-requirement.jpg`
+- `real-estate-final-cta.jpg`
+
+### Travel
+- `travel-hero.jpg`
+- `travel-why-travel.jpg`
+- `travel-solutions.jpg`
+- `travel-section.jpg`
+- `travel-network.jpg`
+- `travel-requirement.jpg`
+- `travel-final-cta.jpg`
+
+### Education
+- `education-hero.jpg`
+- `education-why-admission.jpg`
+- `education-courses.jpg`
+- `academic-path.jpg`
+- `education-india-education.jpg`
+- `education-abroad-education.jpg`
+- `education-institutes.jpg`
+- `admission-network.jpg`
+- `admission-requirement.jpg`
+- `education-final-cta.jpg`
+
+### Business Consultancy
+- `consultancy-hero.jpg`
+- `consultancy-why-business.jpg`
+- `business-services.jpg`
+- `business-network.jpg`
+- `business-requirement.jpg`
+- `consultancy-final-cta.jpg`
+
+### Events & Weddings
+- `events-hero.jpg`
+- `events-why-events.jpg`
+- `event-services.jpg`
+- `events-section.jpg`
+- `events-occasion-types.jpg`
+- `signature-experiences.jpg`
+- `event-network.jpg`
+- `event-requirement.jpg`
+- `events-final-cta.jpg`
+
+### Membership / About / Contact
+- `membership-hero.jpg`
+- `membership-privileges.jpg`
+- `membership-final-cta.jpg`
+- `about-hero.jpg`
+- `about-why-madhyum.jpg`
+- `about-network.jpg`
+- `contact-hero.jpg`
+- `contact-section.jpg`
+- `contact-requirement.jpg`
