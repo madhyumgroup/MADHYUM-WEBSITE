@@ -439,3 +439,65 @@ img{max-width:100%;display:block}
   .event-source-grid{grid-template-columns:1fr 1fr}
   .event-service-grid{grid-template-columns:1fr 1fr}
 }
+
+/* V17 — locked V16 base; only requested refinements below. */
+/* Category typography: +2px while preserving the existing hierarchy. */
+.service-card h3{font-size:26px!important}
+.package-item h3{font-size:27px!important}
+.course-card h3,.academic-card h3,.occasion-card h3{font-size:25px!important}
+.location-card h3,.category-list h3{font-size:25px!important}
+.package-no{font-size:13px!important}
+
+/* Property network: MADHYUM stays central; every arrow points inward. */
+#property-network .property-network-flow{grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr);grid-template-rows:auto auto;column-gap:34px;row-gap:22px;max-width:900px}
+#property-network .property-network-flow .network-row{display:contents}
+#property-network .property-network-flow .network-row-main .network-source:first-child{grid-column:1;grid-row:1}
+#property-network .property-network-flow .network-center{grid-column:2;grid-row:1}
+#property-network .property-network-flow .network-row-main .network-source:last-child{grid-column:3;grid-row:1}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child{grid-column:1;grid-row:2}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:3;grid-row:2}
+#property-network .property-network-flow .network-source{position:relative}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{content:"→";position:absolute;right:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{content:"←";position:absolute;left:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{content:"↗";position:absolute;right:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{content:"↖";position:absolute;left:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+
+/* Travel network: clean vertical flow, then each partner visibly connects upward to MADHYUM. */
+#travel-network .travel-network-visual{max-width:980px;margin:18px auto 0;display:flex;flex-direction:column;align-items:center}
+#travel-network .travel-network-source{position:relative}
+#travel-network .travel-arrow{height:28px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+#travel-network .network-center.large{position:relative;margin:0!important}
+#travel-network .partner-row{position:relative;margin-top:0!important;padding-top:20px}
+#travel-network .partner-row::before{content:"";position:absolute;left:8%;right:8%;top:0;border-top:1px solid rgba(212,175,55,.55)}
+#travel-network .partner-row span{position:relative}
+#travel-network .partner-row span::before{content:"↑"!important;display:flex!important;position:absolute;top:-21px!important;left:50%;transform:translateX(-50%);height:auto!important;color:var(--gold);font-size:17px;font-weight:900;background:transparent!important;border:0!important}
+
+/* Education network: all source arrows point directly toward the central MADHYUM. */
+#admission-network .education-network-flow .network-source{position:relative}
+#admission-network .education-network-flow .network-row-main .network-source:first-child::after{content:"→";position:absolute;right:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#admission-network .education-network-flow .network-row-main .network-source:last-child::before{content:"←";position:absolute;left:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#admission-network .education-network-flow .network-row-secondary .network-source:first-child::after{content:"↗";position:absolute;right:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#admission-network .education-network-flow .network-row-secondary .network-source:last-child::before{content:"↖";position:absolute;left:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+
+/* Consultancy network: all four relationships point inward to MADHYUM. */
+.consultancy-network-flow .node-business::after{content:"→"}
+.consultancy-network-flow .node-professionals::after{content:"↗"}
+.consultancy-network-flow .node-consultants::before{content:"←"}
+.consultancy-network-flow .node-partners::before{content:"↖"}
+
+/* Academic path: keep After 12th and After Graduation side-by-side on desktop/tablet. */
+#academic-path .split-panels{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+
+@media(max-width:620px){
+  #property-network .property-network-flow .network-row-secondary .network-source:first-child::after,
+  #property-network .property-network-flow .network-row-secondary .network-source:last-child::before,
+  #admission-network .education-network-flow .network-row-secondary .network-source:first-child::after,
+  #admission-network .education-network-flow .network-row-secondary .network-source:last-child::before{display:none}
+  #travel-network .partner-row::before{display:none}
+  #travel-network .partner-row{padding-top:16px}
+  #travel-network .partner-row span::before{display:none!important}
+  #academic-path .split-panels{grid-template-columns:1fr}
+}
+
+/* V17: requested View More scale +1px. */
+.service-more summary{font-size:13px!important}
