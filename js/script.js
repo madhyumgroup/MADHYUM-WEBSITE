@@ -70,7 +70,7 @@
   renderSearch();
 
 
-  // Photo slots: use the named image when it exists. Missing uploads stay as clean boxes (no broken-image icon).
+  // Photo slots: keep every photograph in its own reserved box so nothing can overlap another section.
   document.querySelectorAll('.section-photo-slot[data-photo]').forEach(slot=>{
     const file=slot.getAttribute('data-photo');
     if(!file) return;
@@ -80,7 +80,29 @@
     img.src=`images/${file}`;
   });
 
-  // Service photo circles: local wing photographs are shown directly in the five solution cards.
+  // Home hero: use the clear repository photograph first, with the packaged image as a local fallback.
+  const heroImage=document.querySelector('.layered-hero-image');
+  if(heroImage){
+    heroImage.addEventListener('error',()=>{
+      if(!heroImage.dataset.fallback){
+        heroImage.dataset.fallback='1';
+        heroImage.src='images/hero-madhyam.jpg';
+      }
+    },{once:false});
+  }
+
+  // Five rotating wing photographs: local package first, repository image as a fallback.
+  document.querySelectorAll('.layered-wing img').forEach(img=>{
+    img.addEventListener('error',()=>{
+      const file=img.getAttribute('src')?.split('/').pop();
+      if(file && !img.dataset.fallback){
+        img.dataset.fallback='1';
+        img.src=`https://raw.githubusercontent.com/madhyumgroup/MADHYUM-WEBSITE/main/${file}`;
+      }
+    });
+  });
+
+  // Service photo circles use the same local wing photographs.
   document.querySelectorAll('.solution-panel[data-photo]').forEach(panel=>{
     const file=panel.getAttribute('data-photo');
     if(file) panel.style.setProperty('--solution-photo', `url("images/${file}")`);
