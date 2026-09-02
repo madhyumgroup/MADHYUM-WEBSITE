@@ -321,3 +321,121 @@ img{max-width:100%;display:block}
   .education-network-flow .network-row-secondary .network-source::before,
   .event-network-flow .event-partners .network-source::before{display:none}
 }
+
+
+/* ============================================================
+   V16 LOCKED BASE — ONLY REQUESTED CHANGES
+   ============================================================ */
+
+/* All section/hero/card headings: +3px from the locked V15 scale. */
+.eyebrow{font-size:14px!important}
+.section-head h2,.why-intro h2{font-size:calc(clamp(34px,4.2vw,58px) + 3px)!important}
+.membership-preview-grid h2{font-size:calc(clamp(34px,4vw,54px) + 3px)!important}
+.final-inner h2{font-size:calc(clamp(33px,3.8vw,53px) + 3px)!important}
+.inner-hero h1{font-size:calc(clamp(42px,6vw,76px) + 3px)!important}
+.benefit-card h3,.course-card h3,.academic-card h3,.occasion-card h3{font-size:23px!important}
+.service-card h3{font-size:24px!important}
+.package-item h3{font-size:25px!important}
+.location-card h3,.category-list h3{font-size:23px!important}
+
+/* Keep subheading copy readable and beautifully separated from headings. */
+.section-head>p,.membership-preview-copy .lead,.inner-hero p{line-height:1.65}
+.section-head>p{max-width:720px}
+
+/* Membership highlight — black/gold, premium but restrained. */
+.membership-preview{background:linear-gradient(115deg,#050505 0%,#11100b 52%,#241b08 100%)!important;color:#f8f1df!important;border-top:1px solid rgba(212,175,55,.42);border-bottom:1px solid rgba(212,175,55,.42)}
+.membership-preview .eyebrow{color:#d8b65a!important}
+.membership-preview h2{color:#f7f0df!important}
+.membership-preview .lead{color:#d8d0bf!important}
+.membership-preview .section-photo-slot{border-color:rgba(212,175,55,.45)!important;box-shadow:0 16px 38px rgba(0,0,0,.38)}
+.membership-preview .btn{border-color:#d8b65a!important;color:#f7f0df!important}
+
+/* Real-estate location blocks: every requested block gets its own photo space. */
+#property-location .location-grid{align-items:stretch}
+#property-location .location-card{overflow:hidden;color:#111827!important;background:#fff!important}
+.location-card-photo{width:100%;height:128px;border-radius:12px;background:linear-gradient(135deg,#e7e1d5,#c9c0b0);background-size:cover;background-position:center;margin-bottom:14px;border:1px solid rgba(17,24,39,.1);position:relative;overflow:hidden}
+.location-card-photo::after,.category-card-photo::after{content:"PHOTO";position:absolute;right:10px;bottom:8px;font-size:8px;letter-spacing:.14em;font-weight:900;color:rgba(17,24,39,.62)}
+.location-card-photo.has-photo::after,.category-card-photo.has-photo::after{display:none}
+#property-location .location-card p{color:#111827!important;opacity:1!important;line-height:1.6}
+
+/* Real-estate category blocks also have individual photo slots. */
+#property-categories .category-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#property-categories .category-list{display:block;padding:16px;border:1px solid var(--line);border-radius:15px;background:#fff}
+.category-card-photo{width:100%;height:120px;border-radius:11px;background:linear-gradient(135deg,#ece7dd,#d6cfc0);background-size:cover;background-position:center;margin-bottom:13px;border:1px solid rgba(17,24,39,.1);position:relative;overflow:hidden}
+#property-categories .category-list p{line-height:1.6;margin:0}
+
+/* Property network: four sources point only toward the single MADHYUM center. */
+#property-network .property-network-flow{display:grid;grid-template-columns:1fr 190px 1fr;grid-template-rows:auto auto;gap:18px 28px;max-width:900px;margin:28px auto 0;position:relative}
+#property-network .property-network-flow .network-row{display:contents}
+#property-network .property-network-flow .network-row-main .network-source:first-child{grid-column:1;grid-row:1}
+#property-network .property-network-flow .network-center{grid-column:2;grid-row:1;display:flex;align-items:center;justify-content:center;min-height:72px}
+#property-network .property-network-flow .network-row-main .network-source:last-child{grid-column:3;grid-row:1}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child{grid-column:1;grid-row:2}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:3;grid-row:2}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{content:"→";position:absolute;right:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{content:"←";position:absolute;left:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{content:"→";position:absolute;right:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{content:"←";position:absolute;left:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+#property-network .property-network-flow::after{display:none!important}
+
+/* Travel network: remove the standalone spacer/photo and keep one clean vertical flow. */
+.travel-photo-section{display:none!important}
+#travel-network{padding-top:34px!important}
+#travel-network .section-heading-layout{margin-bottom:16px}
+#travel-network .travel-network-visual{max-width:980px;margin:18px auto 0;display:flex;flex-direction:column;align-items:center;gap:0}
+#travel-network .travel-network-source{min-width:220px;padding:13px 22px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);font-size:12px;font-weight:900;letter-spacing:.12em;text-align:center}
+#travel-network .travel-arrow{height:30px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:23px;font-weight:900;line-height:1}
+#travel-network .network-center.large{margin:0;min-width:220px;padding:16px 28px;border-radius:18px;background:var(--gold);color:#111;box-shadow:0 12px 26px rgba(15,23,42,.12);font-size:18px;font-weight:950;letter-spacing:.1em;text-align:center}
+#travel-network .network-center.large span{display:block;margin-top:5px;font-size:10px;letter-spacing:.1em;font-weight:800;text-transform:none;opacity:.78}
+#travel-network .partner-row{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0}
+#travel-network .partner-row span{min-height:58px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-size:10px;font-weight:850;letter-spacing:.07em;line-height:1.35}
+#travel-network .partner-row span::before{display:none!important}
+
+/* Consultancy network — clean four-sided relationship around one MADHYUM center. */
+.consultancy-network-flow{max-width:900px;margin:28px auto 0;display:grid;grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr);grid-template-rows:auto auto;gap:18px 28px;align-items:center;position:relative}
+.consultancy-center{grid-column:2;grid-row:1 / span 2;min-height:78px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:var(--gold);color:#111;font-size:18px;font-weight:950;letter-spacing:.1em;box-shadow:0 12px 28px rgba(15,23,42,.12);z-index:2}
+.consultancy-node{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-size:11px;font-weight:900;letter-spacing:.08em;text-align:center;line-height:1.4;position:relative}
+.consultancy-node span{display:block;margin-top:5px;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--muted)}
+.node-business{grid-column:1;grid-row:1}.node-consultants{grid-column:3;grid-row:1}.node-professionals{grid-column:1;grid-row:2}.node-partners{grid-column:3;grid-row:2}
+.node-business::after,.node-professionals::after{content:"→";position:absolute;right:-25px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+.node-consultants::before,.node-partners::before{content:"←";position:absolute;left:-25px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+
+/* Event network — people come to MADHYUM; MADHYUM connects them to event services. */
+.event-network-new{max-width:980px;margin:28px auto 0;text-align:center}
+.event-source-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.event-source-grid .network-pill,.event-service-grid .network-pill{padding:15px 12px;line-height:1.35}
+.event-down-arrow{height:32px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:23px;font-weight:900}
+.event-network-center{width:230px;margin:0 auto;padding:17px 24px;border-radius:18px;background:var(--gold);color:#111;font-size:18px;font-weight:950;letter-spacing:.08em;box-shadow:0 12px 26px rgba(15,23,42,.12)}
+.event-network-center span{display:block;margin-top:5px;font-size:10px;font-weight:700;letter-spacing:.04em;line-height:1.4}
+.event-service-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.event-service-grid .network-pill{min-height:58px;display:flex;align-items:center;justify-content:center}
+
+@media(max-width:980px){
+  #property-network .property-network-flow{grid-template-columns:1fr 170px 1fr;gap:14px 20px}
+  .consultancy-network-flow{grid-template-columns:1fr 170px 1fr;gap:14px 20px}
+  .event-service-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:620px){
+  .section-head h2,.why-intro h2{font-size:calc(35px + 3px)!important}
+  .inner-hero h1{font-size:49px!important}
+  .membership-preview-grid h2{font-size:39px!important}
+  .final-inner h2{font-size:36px!important}
+  #property-categories .category-columns{grid-template-columns:1fr}
+  #property-network .property-network-flow{grid-template-columns:1fr;grid-template-rows:none;gap:12px}
+  #property-network .property-network-flow .network-row-main .network-source:first-child,
+  #property-network .property-network-flow .network-row-main .network-center,
+  #property-network .property-network-flow .network-row-main .network-source:last-child,
+  #property-network .property-network-flow .network-row-secondary .network-source:first-child,
+  #property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:auto;grid-row:auto}
+  #property-network .property-network-flow .network-row-main .network-source:first-child::after,
+  #property-network .property-network-flow .network-row-main .network-source:last-child::before,
+  #property-network .property-network-flow .network-row-secondary .network-source:first-child::after,
+  #property-network .property-network-flow .network-row-secondary .network-source:last-child::before{display:none}
+  #travel-network{padding-top:28px!important}
+  #travel-network .partner-row{grid-template-columns:1fr}
+  .consultancy-network-flow{grid-template-columns:1fr;grid-template-rows:none}
+  .consultancy-center,.node-business,.node-consultants,.node-professionals,.node-partners{grid-column:auto;grid-row:auto}
+  .node-business::after,.node-professionals::after,.node-consultants::before,.node-partners::before{display:none}
+  .event-source-grid{grid-template-columns:1fr 1fr}
+  .event-service-grid{grid-template-columns:1fr 1fr}
+}
