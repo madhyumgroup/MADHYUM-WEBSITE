@@ -606,3 +606,155 @@ img{max-width:100%;display:block}
   #property-location .section-heading-layout .section-photo-slot{width:120px!important;height:120px!important;min-height:120px!important}
   #signature-experiences .signature-grid{grid-template-columns:1fr!important}
 }
+
+
+/* ============================================================
+   V20 — LOCKED V19 BASE. Only explicitly requested changes.
+   ============================================================ */
+
+/* Real Estate: the heading photo spaces use the same compact square treatment
+   as the other service pages. */
+#property-categories .section-heading-layout .section-photo-slot,
+#property-location .section-heading-layout .section-photo-slot{
+  width:120px!important;
+  height:120px!important;
+  min-height:120px!important;
+  aspect-ratio:1/1!important;
+  align-self:center!important;
+}
+
+/* Real Estate network: four sources, and every arrow points inward to MADHYUM. */
+#property-network .property-network-flow{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr)!important;
+  grid-template-rows:auto auto!important;
+  align-items:center!important;
+  gap:24px 42px!important;
+  max-width:900px!important;
+  margin:28px auto 0!important;
+}
+#property-network .property-network-flow .network-row{display:contents!important}
+#property-network .property-network-flow .network-row-main .network-source:first-child{grid-column:1!important;grid-row:1!important}
+#property-network .property-network-flow .network-center{grid-column:2!important;grid-row:1 / span 2!important;align-self:center!important}
+#property-network .property-network-flow .network-row-main .network-source:last-child{grid-column:3!important;grid-row:1!important}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child{grid-column:1!important;grid-row:2!important}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:3!important;grid-row:2!important}
+#property-network .property-network-flow .network-source{position:relative!important}
+#property-network .property-network-flow .network-source::before,
+#property-network .property-network-flow .network-source::after{content:none!important;display:none!important}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{
+  content:"→"!important;display:block!important;position:absolute!important;right:-34px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
+}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{
+  content:"←"!important;display:block!important;position:absolute!important;left:-34px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
+}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{
+  content:"↗"!important;display:block!important;position:absolute!important;right:-34px!important;top:-27px!important;transform:none!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
+}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{
+  content:"↖"!important;display:block!important;position:absolute!important;left:-34px!important;top:-27px!important;transform:none!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
+}
+
+/* Travel offer: no repeated View More controls in this section. */
+#travel-offer .service-more{display:none!important}
+
+/* Travel network: a travel-friendly photographic panel, softly overlaid so the
+   diagram remains the focus. The center pseudo-arrow is disabled because the
+   HTML supplies the single downward arrow. */
+#travel-network .travel-network-visual{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  max-width:980px!important;
+  margin:20px auto 0!important;
+  padding:28px!important;
+  border:1px solid rgba(17,24,39,.10)!important;
+  border-radius:22px!important;
+  background-image:linear-gradient(rgba(255,255,255,.80),rgba(255,255,255,.88)),url("../images/travel-network.jpg")!important;
+  background-size:cover!important;
+  background-position:center!important;
+}
+#travel-network .travel-network-visual::before{content:none!important}
+#travel-network .network-center.large::after{content:none!important;display:none!important}
+#travel-network .travel-network-source{z-index:1}
+#travel-network .travel-arrow{z-index:1;height:32px!important}
+#travel-network .network-center.large{z-index:1}
+#travel-network .partner-row{z-index:1}
+
+/* Academic path: familiar education photograph used as a limited-opacity
+   section background rather than a large standalone photo. */
+#academic-path{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  background-image:linear-gradient(rgba(255,255,255,.88),rgba(255,255,255,.92)),url("../images/academic-path.jpg")!important;
+  background-size:cover!important;
+  background-position:center!important;
+}
+#academic-path::before{content:none!important}
+
+/* Education Abroad: strong navy cards with high-contrast white text. */
+#region-education-abroad .region-item,
+#education-abroad .region-item,
+.region-grid-light .region-item{
+  background:#0b1f3a!important;
+  border-color:#17365f!important;
+  color:#fff!important;
+  box-shadow:0 10px 24px rgba(11,31,58,.12)!important;
+}
+#region-education-abroad .region-item h3,
+#region-education-abroad .region-item p,
+#education-abroad .region-item h3,
+#education-abroad .region-item p,
+.region-grid-light .region-item h3,
+.region-grid-light .region-item p{color:#fff!important}
+
+/* Education admission network: Students/Parents above, Colleges left,
+   Universities right, Education Partners below. Every arrow points to MADHYUM. */
+#admission-network .education-network-flow{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr)!important;
+  grid-template-rows:auto 86px auto!important;
+  gap:0 42px!important;
+  max-width:900px!important;
+  margin:30px auto 0!important;
+  align-items:center!important;
+}
+#admission-network .education-node,
+#admission-network .education-center{position:relative!important}
+#admission-network .education-students{grid-column:2!important;grid-row:1!important}
+#admission-network .education-colleges{grid-column:1!important;grid-row:2!important}
+#admission-network .education-center{grid-column:2!important;grid-row:2!important;min-height:72px;display:flex;align-items:center;justify-content:center}
+#admission-network .education-universities{grid-column:3!important;grid-row:2!important}
+#admission-network .education-partners{grid-column:2!important;grid-row:3!important}
+#admission-network .education-students::after{
+  content:"↓"!important;position:absolute!important;left:50%!important;bottom:-29px!important;transform:translateX(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
+}
+#admission-network .education-colleges::after{
+  content:"→"!important;position:absolute!important;right:-34px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
+}
+#admission-network .education-universities::before{
+  content:"←"!important;position:absolute!important;left:-34px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
+}
+#admission-network .education-partners::before{
+  content:"↑"!important;position:absolute!important;left:50%!important;top:-29px!important;transform:translateX(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
+}
+
+@media(max-width:620px){
+  #property-categories .section-heading-layout .section-photo-slot,
+  #property-location .section-heading-layout .section-photo-slot{width:120px!important;height:120px!important;min-height:120px!important}
+  #admission-network .education-network-flow{
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto auto auto auto!important;
+    gap:14px!important;
+  }
+  #admission-network .education-students,
+  #admission-network .education-colleges,
+  #admission-network .education-center,
+  #admission-network .education-universities,
+  #admission-network .education-partners{grid-column:1!important;grid-row:auto!important}
+  #admission-network .education-students::after,
+  #admission-network .education-colleges::after,
+  #admission-network .education-universities::before,
+  #admission-network .education-partners::before{display:none!important}
+}
