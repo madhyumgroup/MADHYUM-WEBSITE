@@ -501,3 +501,51 @@ img{max-width:100%;display:block}
 
 /* V17: requested View More scale +1px. */
 .service-more summary{font-size:13px!important}
+
+/* V18 — LOCKED V17 BASE. ONLY REQUESTED REFINEMENTS BELOW. */
+/* Explicit black text for light-background location/region content. */
+.location-card h3,.location-card p,.region-item h3,.region-item p{color:#111!important}
+
+/* Network explanations: meaning comes before the visual relationship. */
+.network-explainer{max-width:780px;margin:0 auto 20px;text-align:center;color:var(--muted);font-size:15px;line-height:1.65}
+.dark .network-explainer{color:#cbd3dd}
+
+/* Property network: every relationship terminates at the central MADHYUM. */
+#property-network .property-network-flow{position:relative}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{content:"→"!important;right:-31px!important}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{content:"←"!important;left:-31px!important}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{content:"↗"!important;right:-31px!important}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{content:"↖"!important;left:-31px!important}
+
+/* Education network: all four relationships point inward to MADHYUM. */
+#admission-network .education-network-flow .network-row-main .network-source:first-child::after{content:"→"!important}
+#admission-network .education-network-flow .network-row-main .network-source:last-child::before{content:"←"!important}
+#admission-network .education-network-flow .network-row-secondary .network-source:first-child::after{content:"↗"!important}
+#admission-network .education-network-flow .network-row-secondary .network-source:last-child::before{content:"↖"!important}
+
+/* Travel network: traveller enters at MADHYUM; MADHYUM distributes the connection to each partner. */
+#travel-network .travel-network-visual{position:relative}
+#travel-network .travel-arrow{font-size:24px;line-height:1}
+#travel-network .partner-row{position:relative}
+#travel-network .partner-row span::before{content:"↑"!important;top:-22px!important;z-index:2}
+
+/* Consultancy network: four clean inward relationships, no diagonal overlap. */
+.consultancy-network-flow .node-business::after{content:"→"!important}
+.consultancy-network-flow .node-consultants::before{content:"←"!important}
+.consultancy-network-flow .node-professionals::after{content:"→"!important}
+.consultancy-network-flow .node-partners::before{content:"←"!important}
+
+/* Events network: clean downward flow from people -> MADHYUM -> event-service options. */
+#event-network .event-network-new{position:relative}
+#event-network .event-down-arrow{height:30px;line-height:1}
+#event-network .event-source-grid .network-pill,
+#event-network .event-service-grid .network-pill{color:#111!important;background:#fff!important}
+
+/* Membership emphasis: black + gold treatment remains premium and readable. */
+.membership-preview{background:linear-gradient(115deg,#050505 0%,#11100b 52%,#241b08 100%)!important}
+.membership-preview h2{color:#f7f0df!important}
+.membership-preview .lead{color:#d8d0bf!important}
+
+@media(max-width:620px){
+  .network-explainer{font-size:14px;margin-bottom:16px}
+}
