@@ -144,3 +144,86 @@ Use these exact filenames when replacing the current images. Do not rename them.
 **Contact:**
 - `contact-section.jpg`
 - `contact-requirement.jpg`
+
+## V16 PHOTO FILENAME MAP — USE THESE EXACT NAMES
+
+### Website starting-point / hero photographs
+- `hero-background.png` — homepage hero background (place in website root beside `index.html`)
+- `real-estate-hero.jpg` — Real Estate page opening hero
+- `travel-hero.jpg` — Travel page opening hero
+- `education-hero.jpg` — Education & Admissions page opening hero
+- `consultancy-hero.jpg` — Business Consultancy page opening hero
+- `events-hero.jpg` — Events & Weddings page opening hero
+- `membership-privileges.jpg` — Membership page opening hero / membership imagery
+
+### Homepage section photographs
+- `why-madhyum.jpg` — Why MADHYUM
+- `solutions.jpg` — Solutions
+- `network.jpg` — Network
+- `index-section.jpg` — Membership preview
+- `home-final-cta.jpg` — Start With MADHYUM / final CTA
+
+### Real Estate — requested individual block photographs
+- `real-estate-apartments-flats.jpg` — Apartments & Flats
+- `real-estate-duplexes-villas-bungalows.jpg` — Duplexes, Villas & Bungalows
+- `real-estate-plots-land-investment.jpg` — Plots, Land & Investment
+- `real-estate-commercial-property.jpg` — Commercial Property
+- `real-estate-residential.jpg` — Residential category
+- `real-estate-commercial.jpg` — Commercial category
+- `real-estate-plots-land.jpg` — Plots & Land category
+- `real-estate-other.jpg` — Other property category
+
+### Real Estate other sections
+- `real-estate-why-real-estate.jpg`
+- `property-solutions.jpg`
+- `property-categories.jpg`
+- `property-location.jpg`
+- `property-network.jpg`
+- `property-requirement.jpg`
+- `real-estate-final-cta.jpg`
+
+### Travel
+- `travel-why-travel.jpg`
+- `travel-solutions.jpg`
+- `travel-section.jpg`
+- `travel-network.jpg`
+- `travel-requirement.jpg`
+- `travel-final-cta.jpg`
+
+### Education & Admissions
+- `education-why-admission.jpg`
+- `education-courses.jpg`
+- `academic-path.jpg`
+- `education-india-education.jpg`
+- `education-abroad-education.jpg`
+- `education-institutes.jpg`
+- `admission-network.jpg`
+- `admission-requirement.jpg`
+- `education-final-cta.jpg`
+
+### Business Consultancy
+- `consultancy-why-business.jpg`
+- `business-services.jpg`
+- `business-network.jpg`
+- `business-requirement.jpg`
+- `consultancy-hero.jpg`
+
+### Events & Weddings
+- `events-why-events.jpg`
+- `event-services.jpg`
+- `events-section.jpg`
+- `events-occasion-types.jpg`
+- `signature-experiences.jpg`
+- `event-network.jpg`
+- `event-requirement.jpg`
+- `events-final-cta.jpg`
+
+### Membership / Contact / About
+- `membership-privileges.jpg`
+- `membership-final-cta.jpg`
+- `contact-section.jpg`
+- `contact-requirement.jpg`
+- `about-why-madhyum.jpg`
+- `about-network.jpg`
+
+**Photo rule:** save each photograph with the exact filename above. Missing photos automatically remain as clean photo spaces; no HTML changes are required when the image is later uploaded.
