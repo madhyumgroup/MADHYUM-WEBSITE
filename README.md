@@ -227,3 +227,30 @@ Use these exact filenames when replacing the current images. Do not rename them.
 - `about-network.jpg`
 
 **Photo rule:** save each photograph with the exact filename above. Missing photos automatically remain as clean photo spaces; no HTML changes are required when the image is later uploaded.
+
+
+## NEW PHOTO NAMES / UPLOAD MAP
+Use these exact filenames inside the `images/` folder when replacing the photo spaces:
+
+### Membership
+- `membership-privileges.jpg` — Membership benefits section
+- `membership-final-cta.jpg` — Membership final CTA
+
+### Real Estate — network / categories
+- `real-estate-residential.jpg` — Residential category
+- `real-estate-commercial.jpg` — Commercial category
+- `real-estate-plots-land.jpg` — Plots & Land category
+- `real-estate-other.jpg` — Other property category
+- `real-estate-apartments-flats.jpg` — Apartments & Flats location block
+- `real-estate-duplexes-villas-bungalows.jpg` — Duplexes, Villas & Bungalows location block
+- `real-estate-plots-land-investment.jpg` — Plots, Land & Investment location block
+- `real-estate-commercial-property.jpg` — Commercial Property location block
+
+### Page opening / hero photographs
+- `hero-background.png` — Homepage hero
+- `real-estate-hero.jpg` — Real Estate opening hero
+- `travel-hero.jpg` — Travel opening hero
+- `education-hero.jpg` — Education opening hero
+- `consultancy-hero.jpg` — Business Consultancy opening hero
+- `events-hero.jpg` — Events & Weddings opening hero
+- `membership-privileges.jpg` — Membership page visual
