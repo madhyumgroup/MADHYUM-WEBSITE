@@ -71,13 +71,19 @@
 
 
   // Photo slots: use the named image when it exists. Missing uploads stay as clean boxes (no broken-image icon).
-  document.querySelectorAll('.section-photo-slot[data-photo], .solution-photo-circle[data-photo]').forEach(slot=>{
+  document.querySelectorAll('.section-photo-slot[data-photo]').forEach(slot=>{
     const file=slot.getAttribute('data-photo');
     if(!file) return;
     const img=new Image();
     img.onload=()=>{slot.classList.add('has-photo');slot.style.backgroundImage=`url("images/${file}")`;};
     img.onerror=()=>slot.classList.add('photo-pending');
     img.src=`images/${file}`;
+  });
+
+  // Service photo circles: local wing photographs are shown directly in the five solution cards.
+  document.querySelectorAll('.solution-panel[data-photo]').forEach(panel=>{
+    const file=panel.getAttribute('data-photo');
+    if(file) panel.style.setProperty('--solution-photo', `url("images/${file}")`);
   });
 
   // Smooth internal links.
@@ -117,7 +123,7 @@
     update();start();
   }
 
-  // Accessible View More details remain native <details>; no hidden tiny links.
+  // Accessible Inquire details remain native <details>.
   document.querySelectorAll('.service-more summary').forEach(s=>s.setAttribute('role','button'));
 
   // Basic inquiry form feedback.
