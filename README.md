@@ -1,102 +1,53 @@
-# MADHYUM WEBSITE — PHOTO CHECKLIST
+# MADHYUM GROUP — Clean Layout Build
 
-Upload your photographs into the `images/` folder using the exact names below.
-The home hero uses `hero-madhyam.jpg`. The five home rotating wings use the five PNG files.
-Every non-hero content section has one compact photo space. If a named photo is not uploaded yet, the site shows a clean PHOTO SPACE instead of a broken-image icon.
+This build keeps the existing MADHYUM page structure/content while replacing the accumulated CSS patches with one authoritative responsive stylesheet.
 
-## index.html
+## Main navigation
+MADHYUM | Why MADHYUM | Solutions | Network | Membership | Search | Contact Us | Menu
 
-- `why-madhyum.jpg`
-- `solutions.jpg`
-- `network.jpg`
-- `index-section.jpg`
-- `home-final-cta.jpg`
+## Pages
+- index.html
+- about.html
+- real-estate.html
+- travel.html
+- education.html
+- consultancy.html
+- events.html
+- membership.html
+- contact.html
 
-## about.html
+## Layout decisions in this build
+- Home hero uses the repository-root `hero-background.png` as the primary hero image.
+- The same hero URL on GitHub is included as a fallback so the image can still load when the root asset has not yet been copied locally.
+- Five business wings stay in a horizontal bottom slider with their five named image files.
+- Why MADHYUM keeps a proper two-line heading and a right-side photograph.
+- Solutions keeps five compact cards with small circular image areas.
+- Network keeps the photograph beside the heading and uses meaningful relationship copy.
+- Membership keeps the photograph beside the heading, with the member-benefit sentence directly below the heading.
+- All major inner-page sections use a consistent right-side photograph beside the section heading on desktop and stack cleanly on mobile.
+- Inner heroes use limited-opacity photographs behind their headings.
+- Real Estate network uses BUYER → MADHYUM → SELLER and INVESTOR ↔ MADHYUM ↔ DEVELOPER with an explanatory sentence.
+- Service-card `View More` labels are replaced by `Inquire`.
 
-- `about-why-madhyum.jpg`
-- `about-network.jpg`
-- `about-network.jpg`
+## Hero asset
+The exact file requested by the project is:
 
-## real-estate.html
+`hero-background.png`
 
-- `real-estate-why-real-estate.jpg`
-- `property-solutions.jpg`
-- `property-categories.jpg`
-- `property-location.jpg`
-- `property-network.jpg`
-- `property-requirement.jpg`
-- `real-estate-final-cta.jpg`
+It belongs in the website root, alongside `index.html`. The GitHub repository already contains that file. The CSS first references `../hero-background.png` from `css/style.css`, then the current GitHub raw image as fallback.
 
-## travel.html
+## Wing image names
+Keep these filenames when replacing the current image slots:
+- `images/real-estate.png`
+- `images/travel.png`
+- `images/education.png`
+- `images/consultancy.png`
+- `images/events.png`
 
-- `travel-why-travel.jpg`
-- `travel-solutions.jpg`
-- `travel-section.jpg`
-- `travel-network.jpg`
-- `travel-requirement.jpg`
-- `travel-final-cta.jpg`
+The current five files are image slots/placeholder visuals; replacing them with the final five wing photographs will automatically use the new photographs without changing the HTML.
 
-## education.html
+## Section photo names
+The existing section-specific filenames are preserved in the HTML so final photographs can be replaced without code changes.
 
-- `education-why-admission.jpg`
-- `education-courses.jpg`
-- `academic-path.jpg`
-- `education-india-education.jpg`
-- `education-abroad-education.jpg`
-- `education-institutes.jpg`
-- `admission-network.jpg`
-- `admission-requirement.jpg`
-- `education-final-cta.jpg`
-
-## consultancy.html
-
-- `consultancy-why-business.jpg`
-- `business-services.jpg`
-- `consultancy-why-business.jpg`
-- `consultancy-why-business.jpg`
-- `consultancy-why-business.jpg`
-- `business-requirement.jpg`
-- `consultancy-why-business.jpg`
-
-## events.html
-
-- `events-why-events.jpg`
-- `event-services.jpg`
-- `events-section.jpg`
-- `events-occasion-types.jpg`
-- `signature-experiences.jpg`
-- `event-network.jpg`
-- `event-requirement.jpg`
-- `events-final-cta.jpg`
-
-## membership.html
-
-- `membership-privileges.jpg`
-- `membership-final-cta.jpg`
-
-## contact.html
-
-- `contact-section.jpg`
-- `contact-requirement.jpg`
-
-## Home hero / rotating wings
-
-- `hero-madhyam.jpg` — main home hero
-- `real-estate.png` — Real Estate wing
-- `travel.png` — Travel wing
-- `education.png` — Education wing
-- `consultancy.png` — Consultancy wing
-- `events.png` — Events wing
-
-## Navigation
-
-MADHYUM | Why MADHYUM | Solutions | Network | Membership | ⌕ | Contact Us | ☰
-
-## Final checks
-
-- Home hero is a real image element.
-- All five home wing images use local `images/` paths.
-- Inner pages reserve space below the dark navigation bar.
-- Missing section photos never show a browser broken-image icon.
-- Forms and Contact Us point to real pages/anchors in this package.
+## Forms
+Forms are front-end demo forms. They show a success state but do not send data to a backend yet.
