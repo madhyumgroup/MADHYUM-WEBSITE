@@ -71,7 +71,7 @@
 
 
   // Photo slots: keep every photograph in its own reserved box so nothing can overlap another section.
-  document.querySelectorAll('.section-photo-slot[data-photo], .package-photo[data-photo]').forEach(slot=>{
+  document.querySelectorAll('.section-photo-slot[data-photo], .package-photo[data-photo], .location-card-photo[data-photo], .category-card-photo[data-photo]').forEach(slot=>{
     const file=slot.getAttribute('data-photo');
     if(!file) return;
     const img=new Image();
