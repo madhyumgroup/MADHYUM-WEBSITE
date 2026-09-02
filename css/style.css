@@ -549,3 +549,60 @@ img{max-width:100%;display:block}
 @media(max-width:620px){
   .network-explainer{font-size:14px;margin-bottom:16px}
 }
+
+
+/* V19 — LOCKED V18 BASE. Only requested changes below. */
+/* Real Estate: compact square photo treatment for category/location sections. */
+#property-categories .section-heading-layout .section-photo-slot,
+#property-location .section-heading-layout .section-photo-slot{
+  width:150px!important;height:150px!important;min-height:150px!important;aspect-ratio:1/1!important;align-self:center!important;
+}
+#property-categories .category-card-photo,
+#property-location .location-card-photo{
+  width:100%!important;height:auto!important;aspect-ratio:1/1!important;min-height:0!important;
+}
+#property-categories .category-list,#property-location .location-card{min-width:0}
+
+/* Education abroad region contrast. */
+#region-education-abroad .region-item,
+#education-abroad .region-item,
+.region-grid-light .region-item{background:#fff!important;border-color:rgba(17,24,39,.14)!important;color:#111!important}
+.region-grid-light .region-item h3,.region-grid-light .region-item p{color:#111!important}
+
+/* Real-estate network: MADHYUM is the only destination; no investor-to-buyer arrow. */
+#property-network .property-network-flow{display:grid!important;grid-template-columns:1fr 190px 1fr!important;grid-template-rows:auto auto!important;gap:26px 34px!important;max-width:900px!important}
+#property-network .property-network-flow .network-row-main .network-source:first-child{grid-column:1!important;grid-row:1!important}
+#property-network .property-network-flow .network-center{grid-column:2!important;grid-row:1 / span 2!important;align-self:center!important}
+#property-network .property-network-flow .network-row-main .network-source:last-child{grid-column:3!important;grid-row:1!important}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child{grid-column:1!important;grid-row:2!important}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:3!important;grid-row:2!important}
+#property-network .property-network-flow .network-source::before,
+#property-network .property-network-flow .network-source::after{content:none!important;display:none!important}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after,
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{display:block!important;content:"→"!important;position:absolute;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{right:-31px!important}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{left:-31px!important}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after,
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{display:block!important;position:absolute;top:-31px;transform:none;color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{content:"↑"!important;right:18px!important}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{content:"↑"!important;left:18px!important}
+
+/* Travel network: one downward arrow at each stage; partner cards stay clean. */
+#travel-network .travel-arrow{height:34px!important;overflow:visible!important}
+#travel-network .partner-row{padding-top:0!important;margin-top:0!important}
+#travel-network .partner-row::before,
+#travel-network .partner-row span::before{display:none!important;content:none!important}
+
+/* Events: signature experiences are compact cards with View More bullet lists. */
+#signature-experiences .signature-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px!important}
+#signature-experiences .signature-column{padding:18px!important;border:1px solid var(--line)!important;border-radius:15px!important;background:rgba(255,255,255,.97)!important;color:#111!important}
+#signature-experiences .signature-column h3{color:#111!important;margin:0 0 8px!important;font-size:22px!important}
+#signature-experiences .signature-column p{color:#333!important;margin:0 0 10px!important;line-height:1.55!important}
+#signature-experiences .signature-more summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:#111!important;font-size:13px!important;font-weight:900!important;letter-spacing:.04em}
+#signature-experiences .signature-more ul{margin:10px 0 0 18px;padding:0;color:#333!important;line-height:1.65}
+#signature-experiences .signature-more li{margin:2px 0}
+@media(max-width:620px){
+  #property-categories .section-heading-layout .section-photo-slot,
+  #property-location .section-heading-layout .section-photo-slot{width:120px!important;height:120px!important;min-height:120px!important}
+  #signature-experiences .signature-grid{grid-template-columns:1fr!important}
+}
