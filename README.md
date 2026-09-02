@@ -51,3 +51,96 @@ The existing section-specific filenames are preserved in the HTML so final photo
 
 ## Forms
 Forms are front-end demo forms. They show a success state but do not send data to a backend yet.
+
+
+## Photo slots — locked naming
+
+Replace photos using these exact filenames. The files are already referenced by the website, so only the image file needs to be replaced.
+
+### Homepage
+- `hero-background.png` — main homepage hero
+- `why-madhyum.jpg` — Why MADHYUM
+- `solutions.jpg` — Solutions heading/photo
+- `network.jpg` — Network heading/photo
+- `membership-preview.jpg` — Membership preview
+- `home-final-cta.jpg` — final CTA
+
+### Landing-page hero photographs
+- `real-estate-hero.jpg` — Real Estate hero behind “Find the Right Property. We Can Help.”
+- `travel-hero.jpg` — Travel hero
+- `education-hero.jpg` — Education hero
+- `consultancy-hero.jpg` — Consultancy & Business Services hero
+- `events-hero.jpg` — Events & Weddings hero
+- `membership-privileges.jpg` — Membership hero
+
+### Other section photographs
+All existing section photo filenames in `images/` remain locked; replace the image with the same filename to keep the current layout.
+
+## Complete photo filename list
+
+Use these exact filenames when replacing the current images. Do not rename them.
+
+**Homepage:**
+- `hero-background.png`
+- `why-madhyum.jpg`
+- `solutions.jpg`
+- `network.jpg`
+- `membership-preview.jpg`
+- `home-final-cta.jpg`
+
+**Real Estate:**
+- `real-estate-hero.jpg`
+- `real-estate-why-real-estate.jpg`
+- `property-solutions.jpg`
+- `property-categories.jpg`
+- `property-location.jpg`
+- `property-network.jpg`
+- `property-requirement.jpg`
+- `real-estate-final-cta.jpg`
+
+**Travel:**
+- `travel-hero.jpg`
+- `travel-why-travel.jpg`
+- `travel-solutions.jpg`
+- `travel-section.jpg`
+- `travel-network.jpg`
+- `travel-requirement.jpg`
+- `travel-final-cta.jpg`
+
+**Education & Admissions:**
+- `education-hero.jpg`
+- `education-why-admission.jpg`
+- `education-courses.jpg`
+- `academic-path.jpg`
+- `education-india-education.jpg`
+- `education-abroad-education.jpg`
+- `education-institutes.jpg`
+- `admission-network.jpg`
+- `admission-requirement.jpg`
+- `education-final-cta.jpg`
+
+**Consultancy & Business Services:**
+- `consultancy-hero.jpg`
+- `consultancy-why-business.jpg`
+- `business-services.jpg`
+- `business-network.jpg`
+- `business-requirement.jpg`
+
+**Events & Weddings:**
+- `events-hero.jpg`
+- `events-why-events.jpg`
+- `event-services.jpg`
+- `events-section.jpg`
+- `events-occasion-types.jpg`
+- `signature-experiences.jpg`
+- `event-network.jpg`
+- `event-requirement.jpg`
+- `events-final-cta.jpg`
+
+**Membership:**
+- `membership-privileges.jpg`
+- `membership-final-cta.jpg`
+
+**Contact:**
+- `contact-section.jpg`
+- `contact-requirement.jpg`
