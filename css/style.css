@@ -945,3 +945,48 @@ img{max-width:100%;display:block}
     min-height:82px!important;
   }
 }
+
+
+/* V25 — FINAL LOCK: only requested refinements. */
+/* Five homepage wing photos: slightly larger (+2px height) with a refined outline. */
+.layered-wing-visual{
+  height:98px!important;
+  border:2px solid rgba(255,255,255,.72)!important;
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.30),
+    0 0 0 1px rgba(201,164,91,.30),
+    0 0 18px rgba(201,164,91,.10)!important;
+}
+.layered-wing:hover .layered-wing-visual{
+  border-color:rgba(255,255,255,.90)!important;
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.34),
+    0 0 0 1px rgba(201,164,91,.46),
+    0 0 22px rgba(201,164,91,.14)!important;
+}
+
+/* V25 typography: +2px for the same heading/subheading-style content cards,
+   without changing the main page/section heading hierarchy. */
+.why-points strong{font-size:14px!important}
+.why-points span{font-size:15px!important}
+.solution-copy h3{font-size:24px!important}
+.solution-copy p{font-size:16px!important}
+.relationship-card h3{font-size:23px!important}
+.benefit-card h3{font-size:25px!important}
+.course-card h3,.academic-card h3,.occasion-card h3{font-size:27px!important}
+.benefit-card p,.course-card p,.academic-card p,.occasion-card p,.privilege-card p{font-size:15px!important}
+.service-card h3{font-size:28px!important}
+.service-card p{font-size:15px!important}
+.package-item h3{font-size:29px!important}
+.package-item p{font-size:15px!important}
+.category-list h3,.location-card h3{font-size:27px!important}
+.category-list p,.location-card p{font-size:15px!important}
+#signature-experiences .signature-column h3{font-size:24px!important}
+#signature-experiences .signature-column p{font-size:15px!important}
+.region-item h3{font-size:20px!important}
+.region-item p{font-size:15px!important}
+
+/* Keep the new sizes graceful on small screens. */
+@media(max-width:620px){
+  .layered-wing-visual{height:98px!important}
+}
