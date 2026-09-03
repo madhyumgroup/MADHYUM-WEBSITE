@@ -336,3 +336,24 @@ Place your final photographs in the `images/` folder using these exact names. Th
 - `contact-hero.jpg`
 - `contact-section.jpg`
 - `contact-requirement.jpg`
+
+
+PHOTO NAME CORRECTION — V24
+
+Travel 02 / WHAT DOES MADHYUM OFFER? uses a unique photo for each package card:
+- travel-holiday-packages.jpg
+- travel-family-packages.jpg
+- travel-couple-honeymoon.jpg
+- travel-solo-adventure.jpg
+- travel-group-friends.jpg
+- travel-religious-spiritual.jpg
+- travel-business-corporate.jpg
+- travel-custom-travel.jpg
+
+Do not reuse travel-solutions.jpg, travel-section.jpg, travel-why-travel.jpg, travel-network.jpg, travel-requirement.jpg or travel-hero.jpg inside those eight package cards. Those names belong to their respective sections/roles.
+
+Additional duplicate-photo corrections:
+- about-final-cta.jpg → About final CTA
+- business-stages.jpg → Consultancy Section 03 / For Every Stage of Your Business
+- business-network.jpg → Consultancy Section 04 / The MADHYUM Business Network
+- consultancy-final-cta.jpg → Consultancy final CTA
