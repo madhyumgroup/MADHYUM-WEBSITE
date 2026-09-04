@@ -155,8 +155,81 @@
     if(label) el.setAttribute('title',label);
   });
 
-  // Basic inquiry form feedback.
-  document.querySelectorAll('[data-form-name]').forEach(form=>form.addEventListener('submit',e=>{
-    e.preventDefault();const success=form.querySelector('.form-success');if(success)success.textContent='Thank you. We received your request. We will contact you soon.';form.reset();
+  // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
+  // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
+  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || '';
+  const pageWing = {
+    'real-estate.html':'Real Estate',
+    'travel.html':'Travel',
+    'education.html':'Education & Admissions',
+    'consultancy.html':'Consultancy & Business Services',
+    'events.html':'Events & Weddings',
+    'contact.html':'General / Other'
+  };
+
+  function fieldValue(form,name){
+    const field=form.elements[name];
+    return field ? String(field.value || '').trim() : '';
+  }
+
+  function buildInquiryPayload(form){
+    const page=(window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    const all=[...form.elements].filter(el=>el.name && !el.disabled && el.type!=='submit' && el.type!=='button');
+    const commonNames=new Set(['name','phone','mobile','email','requirement','category']);
+    const details=[];
+    all.forEach(el=>{
+      const value=String(el.value || '').trim();
+      if(!value || commonNames.has(el.name)) return;
+      const label=el.closest('label')?.childNodes?.[0]?.textContent?.trim() || el.name;
+      details.push(`${label}: ${value}`);
+    });
+    const requirement = page==='contact.html' ? fieldValue(form,'category') : (pageWing[page] || form.getAttribute('data-form-name') || 'General / Other');
+    const freeText=fieldValue(form,'requirement');
+    if(freeText) details.push(`Requirement Details: ${freeText}`);
+
+    return {
+      name: fieldValue(form,'name'),
+      mobile: fieldValue(form,'phone') || fieldValue(form,'mobile'),
+      email: fieldValue(form,'email'),
+      requirement,
+      details: details.join('\n'),
+      source: page
+    };
+  }
+
+  document.querySelectorAll('[data-form-name]').forEach(form=>form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const success=form.querySelector('.form-success');
+    const button=form.querySelector('button[type="submit"]');
+    const payload=buildInquiryPayload(form);
+
+    if(!payload.name || !payload.mobile || !payload.requirement){
+      if(success) success.textContent='Please complete the required fields before sending your request.';
+      return;
+    }
+
+    if(!INQUIRY_API_URL){
+      if(success) success.textContent='Your request form is ready. The secure submission connection will be activated after the MADHYUM backend is deployed.';
+      return;
+    }
+
+    if(button){button.disabled=true;button.dataset.originalText=button.textContent;button.textContent='Sending…';}
+    if(success) success.textContent='';
+
+    try{
+      const response=await fetch(INQUIRY_API_URL,{
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify(payload)
+      });
+      const result=await response.json();
+      if(!result.success) throw new Error(result.message || 'Unable to submit the inquiry.');
+      if(success) success.textContent=`Thank you. Your request has been received${result.inquiryId ? ` (${result.inquiryId})` : ''}. We will contact you soon.`;
+      form.reset();
+    }catch(error){
+      if(success) success.textContent='We could not send your request right now. Please try again in a moment.';
+    }finally{
+      if(button){button.disabled=false;button.textContent=button.dataset.originalText || 'Send Your Request →';}
+    }
   }));
 })();
