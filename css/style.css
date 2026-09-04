@@ -1,3068 +1,1037 @@
-@import url(
-  'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap'
-);
-
-
-/* =========================================================
-   ROOT
-========================================================= */
-
 :root{
-
-  --ink:#0a0d12;
-  --navy:#081625;
-  --paper:#f3f0ea;
-
-  --muted:#6f777e;
-  --muted-light:#aeb8c0;
-
-  --gold:#c9a15b;
-
-  --serif:
-    'Playfair Display',
-    Georgia,
-    serif;
-
-  --sans:
-    'DM Sans',
-    Arial,
-    sans-serif;
-
-}
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-
-  margin:0;
-
-  background:var(--paper);
-
-  color:var(--ink);
-
-  font-family:var(--sans);
-
-  line-height:1.6;
-
-}
-
-body,
-button,
-input,
-select,
-textarea{
-  font-family:var(--sans);
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
-}
-
-img{
-  display:block;
-  max-width:100%;
-}
-
-button{
-  font:inherit;
-}
-
-
-/* =========================================================
-   CONTAINER
-========================================================= */
-
-.container{
-
-  width:min(1200px,92vw);
-
-  margin:0 auto;
-
-}
-
-
-/* =========================================================
-   TYPOGRAPHY
-========================================================= */
-
-.eyebrow{
-
-  font-size:.76rem;
-
-  letter-spacing:.18em;
-
-  text-transform:uppercase;
-
-  color:#7d858c;
-
-}
-
-.eyebrow.light{
-  color:#b8c2ca;
-}
-
-.serif{
-  font-family:var(--serif);
-}
-
-.muted{
-  color:var(--muted);
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.site-header{
-
-  position:fixed;
-
-  top:0;
-  left:0;
-  right:0;
-
-  z-index:100;
-
-  padding:22px 0;
-
-  transition:
-    background .35s ease,
-    padding .35s ease,
-    box-shadow .35s ease;
-
-}
-
-.site-header.scrolled{
-
-  padding:12px 0;
-
-  background:
-    rgba(7,14,22,.78);
-
-  backdrop-filter:
-    blur(16px);
-
-  box-shadow:
-    0 8px 30px
-    rgba(0,0,0,.15);
-
-}
-
-.nav{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:24px;
-
-}
-
-.brand{
-
-  color:#fff;
-
-  font-size:.95rem;
-
-  font-weight:700;
-
-  letter-spacing:.28em;
-
-}
-
-.navlinks{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:28px;
-
-  color:
-    rgba(255,255,255,.82);
-
-  font-size:.92rem;
-
-}
-
-.navlinks a{
-
-  position:relative;
-
-}
-
-.navlinks a::after{
-
-  content:"";
-
-  position:absolute;
-
-  left:0;
-
-  right:100%;
-
-  bottom:-7px;
-
-  height:1px;
-
-  background:var(--gold);
-
-  transition:right .25s ease;
-
-}
-
-.navlinks a:hover::after{
-  right:0;
-}
-
-.actions{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-}
-
-.iconbtn{
-
-  width:42px;
-
-  height:42px;
-
-  display:grid;
-
-  place-items:center;
-
-  border-radius:50%;
-
-  border:
-    1px solid
-    rgba(255,255,255,.25);
-
-  background:transparent;
-
-  color:#fff;
-
-  cursor:pointer;
-
-}
-
-.iconbtn:hover{
-  border-color:var(--gold);
-}
-
-.contact-pill{
-
-  padding:11px 16px;
-
-  border-radius:999px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.30);
-
-  color:#fff;
-
-  font-size:.9rem;
-
-}
-
-.contact-pill:hover{
-  border-color:var(--gold);
-}
-
-.menu-btn{
-
-  display:none;
-
-  width:42px;
-
-  height:42px;
-
-  border-radius:50%;
-
-  border:
-    1px solid
-    rgba(255,255,255,.25);
-
-  background:transparent;
-
-  color:#fff;
-
-  cursor:pointer;
-
-}
-
-
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-.mobile-menu{
-
-  display:none;
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:150;
-
-  background:#07111b;
-
-  color:#fff;
-
-  padding:90px 28px 40px;
-
-}
-
-.mobile-menu.open{
-  display:block;
-}
-
-.mobile-menu a{
-
-  display:block;
-
-  padding:15px 0;
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.10);
-
-  font-family:var(--serif);
-
-  font-size:2rem;
-
-}
-
-.mobile-close{
-
-  position:absolute;
-
-  top:28px;
-
-  right:28px;
-
-  width:42px;
-
-  height:42px;
-
-  border-radius:50%;
-
-  border:
-    1px solid
-    rgba(255,255,255,.25);
-
-  background:transparent;
-
-  color:#fff;
-
-  font-size:1.5rem;
-
-  cursor:pointer;
-
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.layered-hero{
-
-  position:relative;
-
-  width:100%;
-
-  min-height:100vh;
-
-  min-height:100svh;
-
-  overflow:hidden;
-
-  background:#07121d;
-
-  color:#fff;
-
-  isolation:isolate;
-
-}
-
-
-/* =========================================================
-   BACKGROUND ONLY
-========================================================= */
-
-.layered-hero-background{
-
-  position:absolute;
-
-  inset:0;
-
-  z-index:-10;
-
-  background-image:
-    url("../hero-background.png");
-
-  background-repeat:no-repeat;
-
-  background-position:center center;
-
-  background-size:cover;
-
-}
-
-
-/* =========================================================
-   NO HERO BRANDING CSS
-========================================================= */
-
-
-/* =========================================================
-   FULL-WIDTH C ORBIT
-========================================================= */
-
-.layered-orbit{
-
-  position:absolute;
-
-  left:50%;
-
-  top:58%;
-
-  width:100vw;
-
-  height:550px;
-
-  transform:
-    translate(-50%,-50%);
-
-  z-index:30;
-
-  pointer-events:none;
-
-}
-
-
-/* =========================================================
-   WINGS
-========================================================= */
-
-.layered-wing{
-
-  --x:0px;
-  --y:0px;
-  --scale:1;
-  --opacity:1;
-  --depth:10;
-
-  position:absolute;
-
-  left:50%;
-  top:50%;
-
-  width:230px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  justify-content:flex-start;
-
-  text-align:center;
-
-  transform:
-    translate(-50%,-50%)
-    translate3d(
-      var(--x),
-      var(--y),
-      0
-    )
-    scale(
-      var(--scale)
-    );
-
-  opacity:
-    var(--opacity);
-
-  z-index:
-    var(--depth);
-
-  pointer-events:auto;
-
-  cursor:pointer;
-
-  color:#fff;
-
-  text-decoration:none;
-
-  transition:
-
-    transform
-    1.15s
-    cubic-bezier(.22,.61,.36,1),
-
-    opacity .8s ease;
-
-  will-change:
-    transform,
-    opacity;
-
-}
-
-
-/* =========================================================
-   WING IMAGE
-========================================================= */
-
-.layered-wing-visual{
-
-  width:100%;
-
-  height:190px;
-
-  display:flex;
-
-  align-items:flex-end;
-
-  justify-content:center;
-
-}
-
-.layered-wing-visual img{
-
-  width:auto;
-
-  height:auto;
-
-  max-width:100%;
-
-  max-height:190px;
-
-  object-fit:contain;
-
-  background:transparent;
-
-  user-select:none;
-
-  -webkit-user-drag:none;
-
-  filter:
-    drop-shadow(
-      0 22px 28px
-      rgba(0,0,0,.42)
-    );
-
-  transition:
-    transform .4s ease,
-    filter .4s ease;
-
-}
-
-.layered-wing:hover
-.layered-wing-visual img{
-
-  transform:
-    translateY(-6px)
-    scale(1.025);
-
-  filter:
-    drop-shadow(
-      0 30px 38px
-      rgba(0,0,0,.50)
-    );
-
-}
-
-
-/* =========================================================
-   WING TITLE
-========================================================= */
-
-.layered-wing-title{
-
-  margin-top:9px;
-
-  padding:
-    7px 12px;
-
-  max-width:230px;
-
-  color:#fff;
-
-  font-size:.70rem;
-
-  font-weight:600;
-
-  line-height:1.3;
-
-  letter-spacing:.10em;
-
-  text-transform:uppercase;
-
-  text-align:center;
-
-  text-shadow:
-    0 2px 12px
-    rgba(0,0,0,.68);
-
-  border-bottom:
-    1px solid
-    rgba(239,216,166,.45);
-
-}
-
-
-/* =========================================================
-   C-SHAPED POSITIONS
-
-   LEFT
-   LOWER LEFT
-   BOTTOM
-   LOWER RIGHT
-   RIGHT
-========================================================= */
-
-
-/* REAL ESTATE — LEFT */
-
-.layered-wing.position-left{
-
-  --x:calc(-50vw + 105px);
-
-  --y:-15px;
-
-  --scale:.90;
-
-  --opacity:1;
-
-  --depth:20;
-
-}
-
-
-/* TRAVEL — LOWER LEFT */
-
-.layered-wing.position-far-left{
-
-  --x:-25vw;
-
-  --y:75px;
-
-  --scale:.94;
-
-  --opacity:1;
-
-  --depth:25;
-
-}
-
-
-/* EDUCATION — BOTTOM CENTER */
-
-.layered-wing.is-active{
-
-  --x:0px;
-
-  --y:185px;
-
-  --scale:1.06;
-
-  --opacity:1;
-
-  --depth:35;
-
-}
-
-
-/* CONSULTANCY — LOWER RIGHT */
-
-.layered-wing.position-right{
-
-  --x:25vw;
-
-  --y:75px;
-
-  --scale:.94;
-
-  --opacity:1;
-
-  --depth:25;
-
-}
-
-
-/* EVENTS — RIGHT */
-
-.layered-wing.position-far-right{
-
-  --x:calc(50vw - 105px);
-
-  --y:-15px;
-
-  --scale:.90;
-
-  --opacity:1;
-
-  --depth:20;
-
-}
-
-
-/* =========================================================
-   CONTROLS
-========================================================= */
-
-.layered-controls{
-
-  position:absolute;
-
-  left:50%;
-
-  bottom:19px;
-
-  transform:
-    translateX(-50%);
-
-  z-index:70;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:13px;
-
-}
-
-.layered-control{
-
-  width:42px;
-
-  height:42px;
-
-  display:grid;
-
-  place-items:center;
-
-  border-radius:50%;
-
-  border:
-    1px solid
-    rgba(255,255,255,.30);
-
-  background:
-    rgba(4,12,20,.35);
-
-  backdrop-filter:
-    blur(10px);
-
-  color:#fff;
-
-  cursor:pointer;
-
-}
-
-.layered-control:hover{
-
-  border-color:
-    var(--gold);
-
-}
-
-
-/* =========================================================
-   DOTS
-========================================================= */
-
-.layered-dots{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:6px;
-
-}
-
-.layered-dot{
-
-  width:20px;
-
-  height:3px;
-
-  padding:0;
-
-  border:0;
-
-  border-radius:20px;
-
-  background:
-    rgba(255,255,255,.25);
-
-  cursor:pointer;
-
-  transition:
-    width .35s ease,
-    background .35s ease;
-
-}
-
-.layered-dot.active{
-
-  width:42px;
-
-  background:
-    var(--gold);
-
-}
-
-
-/* =========================================================
-   GENERAL SECTIONS
-========================================================= */
-
-.section{
-
-  padding:110px 0;
-
-}
-
-.section.dark{
-
-  background:var(--navy);
-
-  color:#fff;
-
-}
-
-.section.tight{
-
-  padding:84px 0;
-
-}
-
-.section-head{
-
-  display:grid;
-
-  grid-template-columns:
-    1fr 1.2fr;
-
-  gap:40px;
-
-  align-items:end;
-
-  margin-bottom:50px;
-
-}
-
-.section h2{
-
-  margin:
-    8px 0 0;
-
-  font-size:
-    clamp(2.3rem,4.5vw,4.7rem);
-
-  line-height:1.02;
-
-  font-weight:500;
-
-}
-
-.section-head p{
-
-  max-width:560px;
-
-  margin:0;
-
-  color:var(--muted);
-
-}
-
-.section.dark .section-head p{
-
-  color:var(--muted-light);
-
-}
-
-
-/* =========================================================
-   INTRO
-========================================================= */
-
-.intro-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    1fr 1.2fr;
-
-  gap:70px;
-
-}
-
-.lead{
-
-  margin-top:0;
-
-  font-size:
-    clamp(1.3rem,2vw,1.8rem);
-
-  line-height:1.35;
-
-}
-
-
-/* =========================================================
-   LINKS
-========================================================= */
-
-.smalllink{
-
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  margin-top:12px;
-
-  padding-bottom:4px;
-
-  border-bottom:
-    1px solid
-    rgba(201,161,91,.45);
-
-  color:#b58f4c;
-
-}
-
-.dark .smalllink{
-
-  color:#f0d9a7;
-
-}
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.btn{
-
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  padding:13px 18px;
-
-  border-radius:999px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.3);
-
-  background:
-    rgba(255,255,255,.03);
-
-  color:#fff;
-
-  transition:.25s ease;
-
-}
-
-.btn:hover{
-
-  transform:
-    translateY(-1px);
-
-  border-color:
-    var(--gold);
-
-}
-
-.btn.primary{
-
-  background:#f0e8da;
-
-  color:#0a0d12;
-
-  border-color:#f0e8da;
-
-}
-
-
-/* =========================================================
-   BUSINESS GRID
-========================================================= */
-
-.business-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:18px;
-
-}
-
-.business-card{
-
-  position:relative;
-
-  min-height:520px;
-
-  overflow:hidden;
-
-  display:flex;
-
-  align-items:flex-end;
-
-  border-radius:28px;
-
-  background:#111;
-
-  isolation:isolate;
-
-  box-shadow:
-    0 30px 80px
-    rgba(0,0,0,.25);
-
-}
-
-.business-card:nth-child(3),
-.business-card:nth-child(4){
-
-  min-height:440px;
-
-}
-
-.business-card:nth-child(5){
-
-  grid-column:1/-1;
-
-  min-height:520px;
-
-}
-
-.business-card img{
-
-  position:absolute;
-
-  inset:0;
-
-  width:100%;
-
-  height:100%;
-
-  object-fit:cover;
-
-  z-index:-2;
-
-  transition:
-    transform .65s ease;
-
-}
-
-.business-card:hover img{
-
-  transform:scale(1.04);
-
-}
-
-.business-card::after{
-
-  content:"";
-
-  position:absolute;
-
-  inset:0;
-
-  z-index:-1;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(4,9,14,.02) 30%,
-      rgba(4,9,14,.84) 100%
-    );
-
-}
-
-.business-card .content{
-
-  max-width:650px;
-
-  padding:30px;
-
-  color:#fff;
-
-}
-
-.business-card h3{
-
-  margin:
-    6px 0 12px;
-
-  font-size:
-    clamp(2rem,3.5vw,4rem);
-
-  line-height:.98;
-
-}
-
-.business-card p{
-
-  max-width:520px;
-
-  color:
-    rgba(255,255,255,.78);
-
-}
-
-
-/* =========================================================
-   BRIEF
-========================================================= */
-
-.brief{
-
-  display:grid;
-
-  grid-template-columns:
-    1fr 1.4fr;
-
-  gap:70px;
-
-}
-
-.brief-content h3{
-
-  margin:
-    8px 0 16px;
-
-  font-size:
-    clamp(2rem,4vw,4rem);
-
-  line-height:1.02;
-
-}
-
-.brief-content p{
-
-  max-width:560px;
-
-}
-
-.dark .brief-content p{
-
-  color:var(--muted-light);
-
-}
-
-
-/* =========================================================
-   CATEGORY GRID
-========================================================= */
-
-.category-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:12px;
-
-}
-
-.chip-card{
-
-  min-height:100px;
-
-  padding:18px;
-
-  display:flex;
-
-  align-items:flex-end;
-
-  border:
-    1px solid
-    #d7d7d2;
-
-  border-radius:16px;
-
-  background:#fff;
-
-  transition:.25s ease;
-
-}
-
-.dark .chip-card{
-
-  border-color:
-    rgba(255,255,255,.12);
-
-  background:
-    rgba(255,255,255,.02);
-
-}
-
-.chip-card:hover{
-
-  transform:
-    translateY(-2px);
-
-  border-color:
-    rgba(201,161,91,.55);
-
-}
-
-
-/* =========================================================
-   COMMUNITY
-========================================================= */
-
-.flow{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:10px;
-
-  margin-top:36px;
-
-}
-
-.flow-item{
-
-  padding:26px;
-
-  border-top:
-    1px solid
-    rgba(15,25,35,.15);
-
-}
-
-.flow-item strong{
-
-  display:block;
-
-  margin-bottom:8px;
-
-  font-size:1.3rem;
-
-}
-
-
-/* =========================================================
-   FINAL CTA
-========================================================= */
-
-.final-cta{
-
-  padding:120px 0;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0a1827,
-      #132f47
-    );
-
-  color:#fff;
-
-}
-
-.final-inner{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:flex-end;
-
-  gap:40px;
-
-}
-
-.final-cta h2{
-
-  margin:
-    8px 0 0;
-
-  font-size:
-    clamp(3rem,7vw,7rem);
-
-  line-height:.95;
-
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer{
-
-  padding:
-    70px 0 30px;
-
-  background:#050b11;
-
-  color:#d5dbe0;
-
-}
-
-.footer-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    2fr repeat(3,1fr);
-
-  gap:30px;
-
-}
-
-.footer-description{
-
-  max-width:360px;
-
-  color:#8b969e;
-
-}
-
-.footer h4{
-
-  margin:
-    0 0 14px;
-
-  color:#fff;
-
-  font-size:.85rem;
-
-  letter-spacing:.12em;
-
-  text-transform:uppercase;
-
-}
-
-.footer a{
-
-  display:block;
-
-  margin:8px 0;
-
-  color:#97a2aa;
-
-  font-size:.92rem;
-
-}
-
-.footer a:hover{
-  color:#fff;
-}
-
-.footer-bottom{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  gap:20px;
-
-  padding-top:34px;
-
-  margin-top:34px;
-
-  border-top:
-    1px solid
-    rgba(255,255,255,.1);
-
-  color:#77818a;
-
-  font-size:.86rem;
-
-}
-
-
-/* =========================================================
-   SEARCH DRAWER
-========================================================= */
-
-.drawer{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:300;
-
-  display:none;
-
-  background:
-    rgba(3,8,13,.68);
-
-  backdrop-filter:
-    blur(8px);
-
-}
-
-.drawer.open{
-  display:block;
-}
-
-.drawer-panel{
-
-  position:absolute;
-
-  top:0;
-
-  right:0;
-
-  width:min(560px,94vw);
-
-  height:100%;
-
-  padding:36px;
-
-  background:#0b1724;
-
-  color:#fff;
-
-  box-shadow:
-    -30px 0 80px
-    rgba(0,0,0,.25);
-
-}
-
-.drawer-close{
-  float:right;
-}
-
-.drawer-panel h2{
-
-  margin:
-    60px 0 10px;
-
-  font-family:var(--serif);
-
-  font-size:3rem;
-
-  line-height:1;
-
-}
-
-.search-box{
-
-  margin-top:30px;
-
-}
-
-.search-box input{
-
-  width:100%;
-
-  padding:15px 16px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.2);
-
-  border-radius:12px;
-
-  outline:none;
-
-  background:
-    rgba(255,255,255,.05);
-
-  color:#fff;
-
-}
-
-.search-box input::placeholder{
-
-  color:
-    rgba(255,255,255,.45);
-
-}
-
-.search-results{
-
-  display:grid;
-
-  gap:10px;
-
-  margin-top:18px;
-
-}
-
-.result{
-
-  display:block;
-
-  padding:16px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.12);
-
-  border-radius:14px;
-
-  color:#fff;
-
-}
-
-.result:hover{
-
-  border-color:
-    rgba(201,161,91,.5);
-
-}
-
-.result strong{
-  display:block;
-}
-
-.result small{
-  color:#aeb8c0;
-}
-
-
-/* =========================================================
-   FORMS
-========================================================= */
-
-.form-wrap{
-
-  padding:30px;
-
-  border-radius:24px;
-
-  background:#fff;
-
-  box-shadow:
-    0 25px 60px
-    rgba(0,0,0,.08);
-
-}
-
-label{
-
-  display:block;
-
-  margin-bottom:8px;
-
-  font-size:.86rem;
-
-  color:#51585e;
-
-}
-
-input,
-select,
-textarea{
-
-  width:100%;
-
-  margin-bottom:16px;
-
-  padding:13px 14px;
-
-  border:
-    1px solid
-    #d7dadc;
-
-  border-radius:12px;
-
-  outline:none;
-
-  background:#fff;
-
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-
-  border-color:
-    var(--gold);
-
-}
-
-textarea{
-
-  min-height:140px;
-
-  resize:vertical;
-
-}
-
-.submit-btn{
-
-  width:100%;
-
-  padding:14px 18px;
-
-  border:0;
-
-  border-radius:999px;
-
-  background:#0b1a28;
-
-  color:#fff;
-
-  cursor:pointer;
-
-}
-
-.success{
-
-  display:none;
-
-  margin-top:14px;
-
-  padding:12px;
-
-  border-radius:12px;
-
-  background:#ecf7ef;
-
-  color:#245a37;
-
-}
-
-
-/* =========================================================
-   REVEAL
-========================================================= */
-
-.reveal{
-
-  opacity:0;
-
-  transform:
-    translateY(28px);
-
-  transition:
-    opacity .7s ease,
-    transform .7s ease;
-
-}
-
-.reveal.visible{
-
-  opacity:1;
-
-  transform:none;
-
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media(max-width:1100px){
-
-  .layered-wing{
-
-    width:195px;
-
-  }
-
-  .layered-wing-visual{
-
-    height:175px;
-
-  }
-
-  .layered-wing-visual img{
-
-    max-height:175px;
-
-  }
-
-  .layered-wing.position-left{
-
-    --x:
-      calc(-50vw + 92px);
-
-  }
-
-  .layered-wing.position-far-left{
-
-    --x:-25vw;
-
-  }
-
-  .layered-wing.position-right{
-
-    --x:25vw;
-
-  }
-
-  .layered-wing.position-far-right{
-
-    --x:
-      calc(50vw - 92px);
-
-  }
-
-}
-
-
-/* =========================================================
-   960PX
-========================================================= */
-
-@media(max-width:960px){
-
-  .navlinks,
-  .actions .contact-pill{
-
-    display:none;
-
-  }
-
-  .menu-btn{
-
-    display:grid;
-
-    place-items:center;
-
-  }
-
-  .intro-grid,
-  .brief,
-  .section-head{
-
-    grid-template-columns:1fr;
-
-  }
-
-  .business-grid{
-
-    grid-template-columns:1fr;
-
-  }
-
-  .business-card,
-  .business-card:nth-child(3),
-  .business-card:nth-child(4),
-  .business-card:nth-child(5){
-
-    min-height:430px;
-
-    grid-column:auto;
-
-  }
-
-  .category-grid,
-  .footer-grid{
-
-    grid-template-columns:
-      1fr 1fr;
-
-  }
-
-  .flow{
-
-    grid-template-columns:
-      1fr 1fr;
-
-  }
-
-  .layered-orbit{
-
-    top:67%;
-
-    height:430px;
-
-  }
-
-  .layered-wing{
-
-    width:170px;
-
-  }
-
-  .layered-wing-visual{
-
-    height:165px;
-
-  }
-
-  .layered-wing-visual img{
-
-    max-height:165px;
-
-  }
-
-  .layered-wing.is-active{
-
-    --y:125px;
-
-  }
-
-  .layered-wing.position-left{
-
-    --x:
-      calc(-50vw + 82px);
-
-    --y:-20px;
-
-  }
-
-  .layered-wing.position-far-left{
-
-    --x:-25vw;
-
-    --y:38px;
-
-  }
-
-  .layered-wing.position-right{
-
-    --x:25vw;
-
-    --y:38px;
-
-  }
-
-  .layered-wing.position-far-right{
-
-    --x:
-      calc(50vw - 82px);
-
-    --y:-20px;
-
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
+  --ink:#111827;
+  --muted:#667085;
+  --line:#e6e9ee;
+  --paper:#f7f8fa;
+  --white:#fff;
+  --dark:#0d1726;
+  --dark-2:#132236;
+  --gold:#c9a45b;
+  --gold-soft:#ead8b4;
+  --serif:Georgia,"Times New Roman",serif;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --nav-h:76px;
+  --radius:18px;
+  --shadow:0 18px 50px rgba(15,23,42,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+body.no-scroll{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+img{max-width:100%;display:block}
+.container{width:min(1180px,calc(100% - 44px));margin-inline:auto}
+.serif{font-family:var(--serif);font-weight:400}
+.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:800;color:#7b8492;text-transform:uppercase}
+.eyebrow.light{color:#d5dbe4}
+.light-text{color:#dbe2ea!important}
+.lead{font-size:18px;line-height:1.65}
+.trust-line{font-size:14px;letter-spacing:.14em;font-style:italic;font-weight:800;color:var(--gold)}
+
+/* NAV */
+.site-header{position:fixed;z-index:1000;top:0;left:0;width:100%;height:var(--nav-h);background:rgba(255,255,255,.94);border-bottom:1px solid rgba(17,24,39,.08);backdrop-filter:blur(16px);transition:transform .28s ease,background .28s ease}
+.site-header.nav-hidden{transform:translateY(-100%)}
+.category-page .site-header,.home-page .site-header{background:rgba(10,20,33,.96);border-color:rgba(255,255,255,.1);color:#fff}
+.nav{height:100%;display:flex;align-items:center;gap:30px}
+.brand{font-weight:900;letter-spacing:.12em;font-size:18px;white-space:nowrap}
+.navlinks{display:flex;gap:26px;margin-left:auto}
+.navlinks a{font-size:13px;font-weight:700;color:inherit;opacity:.84}
+.navlinks a:hover{opacity:1}
+.actions{display:flex;align-items:center;gap:10px;margin-left:4px}
+.iconbtn,.menu-btn{border:0;background:transparent;color:inherit;cursor:pointer;font-size:23px;width:38px;height:38px;border-radius:50%}
+.iconbtn:hover,.menu-btn:hover{background:rgba(127,127,127,.12)}
+.contact-pill{padding:11px 17px;border-radius:999px;background:var(--gold);color:#151515;font-size:12px;font-weight:850}
+.menu-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 8px;width:auto;min-width:68px}.menu-btn-label{font-size:12px;font-weight:800;letter-spacing:.02em}
+.mobile-menu{position:fixed;inset:0;z-index:1200;background:rgba(8,15,25,.92);opacity:0;pointer-events:none;transition:.25s ease}
+.mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-menu-inner{width:min(620px,calc(100% - 32px));margin:16px auto;background:#fff;color:var(--ink);min-height:calc(100% - 32px);padding:28px;border-radius:22px;position:relative;overflow:auto}
+.mobile-close{position:absolute;right:18px;top:12px;border:0;background:transparent;font-size:30px;cursor:pointer}
+.menu-brand{font-size:20px;font-weight:900;letter-spacing:.12em;margin-bottom:8px}.menu-question{color:var(--muted)}
+.menu-label{font-size:11px;letter-spacing:.14em;font-weight:800;color:#89909b;margin:28px 0 10px}
+.menu-business-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.menu-business-grid a,.menu-secondary a{padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-weight:750}
+.menu-secondary{display:grid;gap:10px;margin-top:20px}
+
+/* COMMON */
+.section{padding:76px 0;position:relative;background:var(--paper)}
+.section.dark{background:var(--dark);color:#fff}
+.section-head{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:42px;align-items:end;margin-bottom:30px}
+.section-head h2,.why-intro h2{font-size:clamp(34px,4.2vw,58px);line-height:1.04;letter-spacing:-.035em;margin:10px 0 0;max-width:760px}
+.section-head>p{margin:0;color:var(--muted);font-size:16px}.dark .section-head>p{color:#c7d0db}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border:1px solid currentColor;border-radius:999px;font-weight:800;font-size:13px;transition:.2s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:#111}
+.reveal{opacity:1;transform:none}
+
+/* PHOTO SYSTEM — clean, non-overlapping layout */
+.section .container{position:relative}
+.section-heading-layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:34px;align-items:center;margin-bottom:28px}
+.section-heading-layout .section-head{margin:0;min-height:0;padding:0!important;display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:28px;align-items:center}
+.section-heading-layout .section-head>p{margin:0}
+.section-photo-slot{position:relative!important;inset:auto!important;float:none!important;width:330px;height:190px;margin:0;border-radius:16px;border:1px solid var(--line);background:linear-gradient(135deg,#eef1f4,#dfe4ea);background-size:cover;background-position:center;overflow:hidden;box-shadow:var(--shadow);flex:none}
+.section-photo-slot::after{content:"PHOTO";position:absolute;inset:auto 12px 10px auto;font-size:9px;letter-spacing:.14em;font-weight:800;color:rgba(255,255,255,.75);text-shadow:0 1px 8px #000}
+.section-photo-slot.has-photo::after{display:none}
+.why-heading-layout{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:42px;align-items:center;margin-bottom:24px}
+.why-heading-layout .why-intro{padding:0;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.why-heading-layout .why-intro>p{font-size:18px;color:var(--muted);max-width:600px;margin:20px 0 0}
+.why-heading-layout .section-photo-slot{width:390px;height:260px}
+.final-cta .section-photo-slot{width:300px;height:180px;box-shadow:none}
+
+/* HOME HERO — full-clear photograph + five-wing strip */
+.layered-hero{height:100vh;min-height:650px;position:relative;overflow:hidden;background:#08111e;color:#fff;padding-top:var(--nav-h)}
+.layered-hero-background{position:absolute;inset:0;z-index:0;overflow:hidden;background:#08111e}
+.layered-hero-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;opacity:1;filter:none}
+.layered-hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.02) 0%,rgba(0,0,0,.02) 54%,rgba(0,0,0,.16) 100%);pointer-events:none}
+.layered-orbit{position:absolute;z-index:3;left:0;right:0;bottom:82px;height:150px;display:flex;align-items:flex-end;justify-content:center;gap:16px;padding:0 24px;pointer-events:none}
+.layered-wing{width:calc((100% - 64px)/5);max-width:225px;min-width:130px;color:#fff;pointer-events:auto;transition:transform .35s ease,opacity .35s ease,filter .35s ease;transform-origin:center bottom}
+.layered-wing-visual{height:96px;border-radius:13px;overflow:hidden;background:rgba(7,15,26,.45);border:1px solid rgba(255,255,255,.32);box-shadow:0 10px 28px rgba(0,0,0,.3)}
+.layered-wing img{width:100%;height:100%;object-fit:cover;display:block;opacity:1;filter:none}
+.layered-wing:nth-child(1) .layered-wing-visual{background-image:url("images/real-estate.png")} .layered-wing:nth-child(2) .layered-wing-visual{background-image:url("images/travel.png")} .layered-wing:nth-child(3) .layered-wing-visual{background-image:url("images/education.png")} .layered-wing:nth-child(4) .layered-wing-visual{background-image:url("images/consultancy.png")} .layered-wing:nth-child(5) .layered-wing-visual{background-image:url("images/events.png")}
+.layered-wing-title{font-size:10px;letter-spacing:.12em;font-weight:850;text-align:center;margin-top:8px;white-space:nowrap;text-shadow:0 2px 12px #000}
+.layered-wing:not(.is-active){opacity:.94;transform:scale(.94)}
+.layered-wing.is-active{transform:translateY(-8px) scale(1.05);filter:none}
+.layered-wing.position-far-left,.layered-wing.position-far-right{opacity:.88;transform:scale(.9)}
+.layered-controls{position:absolute;z-index:5;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:18px}
+.layered-control{width:40px;height:40px;border:1px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(8,17,30,.5);color:#fff;font-size:18px;cursor:pointer}.layered-control:hover{background:rgba(8,17,30,.82)}
+.layered-dots{display:flex;gap:7px}.layered-dot{width:7px;height:7px;border-radius:50%;border:0;background:rgba(255,255,255,.55);padding:0;cursor:pointer}.layered-dot.active{background:var(--gold);transform:scale(1.25)}
+
+/* WHY — clear hierarchy + presentation boxes */
+.why-grid{display:block;margin-top:0;padding:0}
+.why-message{display:none}
+.why-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.why-points article{border:1px solid var(--line);border-radius:15px;background:#fff;padding:18px 18px 16px;min-height:104px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+.why-points strong{display:block;font-size:12px;letter-spacing:.1em;font-weight:900;color:var(--ink)}
+.why-points span{display:block;color:var(--muted);font-size:13px;line-height:1.5;margin-top:7px}
+.why-close{margin-top:22px;padding:0}
+
+/* SOLUTIONS — heading/photo row stays above all five service cards */
+.solutions-section .section-heading-layout{grid-template-columns:minmax(0,1fr) 300px}
+.solutions-section .section-heading-layout .section-head{display:block}
+.solutions-section .section-heading-layout .section-photo-slot{width:300px;height:165px}
+.solution-panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;clear:both}
+.solution-panel{min-height:154px;border:1px solid rgba(255,255,255,.14);border-radius:17px;background:#121f31;padding:18px;display:grid;grid-template-columns:42px 1fr 78px;gap:14px;align-items:center;transition:.2s ease;position:relative;overflow:hidden}
+.solution-panel:hover{transform:translateY(-2px);border-color:rgba(201,164,91,.65)}
+.solution-panel-wide{grid-column:1/-1}
+.solution-index{font-size:11px;color:var(--gold);font-weight:850;align-self:start}
+.solution-copy{grid-column:2;min-width:0}.solution-copy h3{font-size:20px;margin:0 0 7px}.solution-copy p{margin:0;color:#c5ced9;font-size:14px}.solution-link{grid-column:2;justify-self:start;font-size:12px;font-weight:850;color:var(--gold);white-space:nowrap;margin-top:9px}
+.solution-panel::before{content:"";width:66px;height:66px;border-radius:50%;grid-column:3;grid-row:1/3;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,.32);box-shadow:0 6px 16px rgba(0,0,0,.22)}
+.solution-panel:nth-child(1)::before{background-image:url("../images/real-estate.png")}.solution-panel:nth-child(2)::before{background-image:url("../images/travel.png")}.solution-panel:nth-child(3)::before{background-image:url("../images/education.png")}.solution-panel:nth-child(4)::before{background-image:url("../images/consultancy.png")}.solution-panel:nth-child(5)::before{background-image:url("../images/events.png")}
+
+/* NETWORK HOME */
+.relationship-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.relationship-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:20px;min-height:115px}.relationship-card-wide{grid-column:1/-1}.relationship-card h3{font-size:19px;margin:8px 0 0}.network-statement{margin-top:28px;display:grid;grid-template-columns:1fr 250px;gap:10px 30px;align-items:end}.network-statement .lead{margin:0}.network-statement .trust-line{grid-column:2;grid-row:1;text-align:right}.network-statement>p:last-child{grid-column:1/-1;margin:0;color:var(--muted)}
+
+/* MEMBERSHIP HOME */
+.membership-preview-grid{display:grid;grid-template-columns:320px 1fr;gap:38px;align-items:center}.membership-preview-grid .section-photo-slot{position:relative;inset:auto;width:320px;height:190px}.membership-preview-grid h2{font-size:clamp(34px,4vw,54px);line-height:1.05;margin:10px 0 15px}.membership-preview-grid .lead{max-width:720px}
+.final-cta{padding:62px 0;background:#101b2a;color:#fff}.final-inner{display:grid;grid-template-columns:300px 1fr auto;gap:34px;align-items:center}.final-inner h2{font-size:clamp(32px,3.8vw,52px);line-height:1.05;margin:9px 0}.final-inner p{color:#c9d2dc}.final-inner .section-photo-slot{grid-column:1}
+
+/* INNER HERO */
+.inner-hero{position:relative;min-height:590px;padding:calc(var(--nav-h) + 80px) 0 75px;display:flex;align-items:center;overflow:hidden;background:#0b1624;color:#fff}
+.inner-hero::before{content:"";position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;opacity:.34;transform:scale(1.01)}
+.category-real-estate::before{background-image:url("../images/real-estate-hero.jpg")}.category-travel::before{background-image:url("../images/travel-hero.jpg")}.category-education::before{background-image:url("../images/education-hero.jpg")}.category-consultancy::before{background-image:url("../images/consultancy-hero.jpg")}.category-events::before{background-image:url("../images/events-hero.jpg")}.category-membership::before{background-image:url("../images/membership-privileges.jpg")}
+.contact-page .inner-hero::before{background-image:url("../hero-background.png"),url("https://github.com/madhyumgroup/MADHYUM-WEBSITE/raw/refs/heads/main/hero-background.png");opacity:.28}
+.inner-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,11,18,.9),rgba(5,11,18,.62) 48%,rgba(5,11,18,.3));z-index:0}.inner-hero-inner{position:relative;z-index:1;max-width:820px}.inner-hero h1{font-size:clamp(42px,6vw,76px);line-height:.98;letter-spacing:-.045em;margin:12px 0 18px}.inner-hero p{max-width:680px;color:#d9e0e8;font-size:18px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+
+/* INNER SECTIONS */
+.benefit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.benefit-card,.privilege-card,.course-card,.academic-card,.occasion-card,.location-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:20px}.dark .benefit-card,.dark .course-card,.dark .academic-card,.dark .occasion-card{background:#122035;border-color:rgba(255,255,255,.1)}.benefit-card>span,.service-card>span,.privilege-card>span{font-size:10px;letter-spacing:.12em;font-weight:850;color:var(--gold)}.benefit-card h3,.course-card h3,.academic-card h3,.occasion-card h3{font-size:18px;margin:9px 0 6px}.benefit-card p,.course-card p,.academic-card p,.occasion-card p,.privilege-card p{margin:0;color:var(--muted);font-size:13px}.dark .benefit-card p,.dark .course-card p,.dark .academic-card p,.dark .occasion-card p{color:#c5ced8}
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.service-grid-six{grid-template-columns:repeat(3,1fr)}.service-grid-five{grid-template-columns:repeat(5,1fr)}.columns-2{grid-template-columns:repeat(2,1fr)}
+.service-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:21px;min-height:190px}.dark .service-card{background:#122035;border-color:rgba(255,255,255,.1)}.service-card h3{font-size:19px;line-height:1.2;margin:10px 0 7px}.service-card p{color:var(--muted);font-size:13px}.dark .service-card p{color:#c5ced8}
+.service-more{margin-top:16px}.service-more summary{display:inline-flex;list-style:none;cursor:pointer;color:var(--gold);font-size:12px;font-weight:850}.service-more summary::-webkit-details-marker{display:none}.more-copy{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}.dark .more-copy{color:#bdc8d5}
+/* Inquire */
+.service-more summary::after{content:" →"}.service-more[open] summary::after{content:""}
+.package-list{display:grid;gap:10px}.package-item{display:grid;grid-template-columns:1.05fr 1.35fr auto;gap:22px;align-items:center;padding:20px;border:1px solid var(--line);background:#fff;border-radius:16px}.dark .package-item{background:#122035;border-color:rgba(255,255,255,.1)}.package-no{font-size:11px;color:var(--gold);font-weight:850}.package-item h3{margin:5px 0;font-size:20px}.package-item p{margin:0;color:var(--muted);font-size:13px}.dark .package-item p{color:#c5ced8}.package-examples{display:grid;gap:5px;font-size:12px}.package-examples strong{font-size:10px;letter-spacing:.1em;color:var(--gold)}.package-examples span{color:var(--muted)}.dark .package-examples span{color:#c5ced8}.smalllink{color:var(--gold);font-weight:850;font-size:11px}
+.category-list,.category-columns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.category-list a,.category-columns>div{padding:14px;border:1px solid var(--line);border-radius:13px;background:#fff;font-size:13px}.dark .category-list a,.dark .category-columns>div{background:#122035;border-color:rgba(255,255,255,.1)}
+.region-grid,.region-grid-light,.academic-grid,.course-grid,.occasion-grid,.privilege-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.region-item,.academic-card,.course-card,.occasion-card,.privilege-card{min-height:110px}.region-grid-light .region-item{background:#122035;color:#fff;border:1px solid rgba(255,255,255,.1);padding:16px;border-radius:14px}.region-item{background:#fff;border:1px solid var(--line);padding:16px;border-radius:14px}
+.network-stage{display:grid;grid-template-columns:1fr 180px 1fr;gap:14px;align-items:center;margin-top:24px}.network-pill{padding:17px 14px;border:1px solid var(--line);background:#fff;border-radius:14px;text-align:center;font-size:11px;font-weight:850;letter-spacing:.08em;position:relative}.dark .network-pill{background:#122035;border-color:rgba(255,255,255,.12)}.network-center{padding:22px 14px;border-radius:50%;background:var(--gold);color:#111;text-align:center;font-weight:900;letter-spacing:.08em;position:relative}.network-stage .network-pill:nth-child(1)::after{content:"→";position:absolute;right:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:20px}.network-stage .network-pill:nth-child(3)::before{content:"←";position:absolute;left:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:20px}.network-stage .network-pill:nth-child(4)::before{content:"↔";position:absolute;left:-28px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:18px}.network-stage .network-pill:nth-child(5)::before{content:"↔";position:absolute;left:-28px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:18px}.center-copy{text-align:center;color:var(--muted);max-width:760px;margin:20px auto 0}
+/* Specific property network */
+.property-page #property-network .network-stage{grid-template-columns:1fr 190px 1fr;grid-template-rows:auto auto;max-width:860px;margin:28px auto 0}.property-page #property-network .network-stage .network-pill:nth-child(1){grid-column:1;grid-row:1}.property-page #property-network .network-stage .network-center{grid-column:2;grid-row:1}.property-page #property-network .network-stage .network-pill:nth-child(3){grid-column:3;grid-row:1}.property-page #property-network .network-stage .network-pill:nth-child(4){grid-column:1;grid-row:2}.property-page #property-network .network-stage .network-pill:nth-child(5){grid-column:3;grid-row:2}.property-page #property-network .network-stage .network-pill:nth-child(4)::before,.property-page #property-network .network-stage .network-pill:nth-child(5)::before{content:"↔"}.property-page #property-network .network-stage::after{content:"One property need can connect you to the right buyer, seller, investor or developer.";grid-column:1/-1;grid-row:3;text-align:center;max-width:700px;margin:10px auto 0;color:var(--muted);font-size:14px}
+
+/* MEMBERSHIP */
+.privilege-grid{grid-template-columns:repeat(3,1fr)}
+
+/* CONTACT */
+.contact-photo-section{padding-top:48px;padding-bottom:40px}.single-photo-card .section-photo-slot{position:relative;inset:auto;width:100%;height:260px}.contact-page .contact-photo-section .section-photo-slot{background-image:url("../images/contact-section.jpg")}.contact-page .form-section .section-photo-slot{width:300px;height:175px;top:0}
+.form-section .section-head{padding-right:350px}.requirement-form{position:relative;z-index:2;background:#fff;border-radius:18px;padding:24px;color:var(--ink)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.requirement-form label{display:grid;gap:7px;font-size:12px;font-weight:800}.requirement-form input,.requirement-form select,.requirement-form textarea{width:100%;border:1px solid #d9dee5;border-radius:10px;padding:11px 12px;background:#fff}.requirement-form textarea{min-height:120px;resize:vertical}.form-grid label:last-child{grid-column:1/-1}.form-submit{margin-top:16px}.submit-btn{border:0;background:var(--gold);padding:12px 18px;border-radius:999px;font-weight:850;cursor:pointer}.form-success{margin-top:12px;color:#227044;font-weight:750}
+
+/* FOOTER */
+.footer{background:#09111d;color:#d8e0e8;padding:58px 0 22px}.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:38px}.footer .brand{color:#fff}.footer h4{margin:0 0 12px;color:#fff;font-size:12px;letter-spacing:.12em;text-transform:uppercase}.footer a{display:block;color:#aeb8c5;font-size:12px;margin:8px 0}.footer-description{color:#9eabb9;max-width:320px;font-size:13px}.footer-bottom{margin-top:38px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;color:#778392;font-size:11px}
+
+/* SEARCH */
+.drawer{position:fixed;inset:0;z-index:1300;background:rgba(3,8,14,.72);opacity:0;pointer-events:none;transition:.2s}.drawer.open{opacity:1;pointer-events:auto}.drawer-panel{width:min(720px,calc(100% - 32px));margin:10vh auto 0;background:#fff;border-radius:20px;padding:24px}.drawer-close{float:right;border:0;background:transparent;font-size:26px;cursor:pointer}.search-box{padding-top:15px}.search-box input{width:100%;padding:15px;border:1px solid var(--line);border-radius:12px;font-size:18px}.search-results{display:grid;gap:8px;margin-top:14px;max-height:55vh;overflow:auto}.result{display:block;padding:14px;border:1px solid var(--line);border-radius:12px}.result strong{display:block}.result small{display:block;color:var(--muted);margin-top:4px}
+
+/* RESPONSIVE */
+@media(max-width:980px){
+  .navlinks{display:none}.menu-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 8px;width:auto;min-width:68px}.menu-btn-label{font-size:12px;font-weight:800;letter-spacing:.02em}.contact-pill{padding:10px 14px}.container{width:min(100% - 30px,720px)}
+  .section{padding:58px 0}.section-heading-layout{grid-template-columns:1fr;gap:18px;margin-bottom:22px}.section-heading-layout .section-head{display:block}.section-heading-layout .section-head>p{margin-top:15px}.section-heading-layout .section-photo-slot{width:100%;height:220px}
+  .why-heading-layout{grid-template-columns:1fr;gap:22px}.why-heading-layout .section-photo-slot{width:100%;height:240px}.why-heading-layout .why-intro{min-height:0}.why-heading-layout .why-intro>p{margin-top:16px}
+  .why-points{grid-template-columns:1fr 1fr}.relationship-grid{grid-template-columns:1fr}.relationship-card-wide{grid-column:auto}.network-statement{display:block}.network-statement .trust-line{text-align:left;margin-top:15px}
+  .solution-panels{grid-template-columns:1fr}.solution-panel-wide{grid-column:auto}
+  .benefit-grid,.service-grid,.service-grid-six,.service-grid-five,.columns-2,.region-grid,.region-grid-light,.academic-grid,.course-grid,.occasion-grid,.privilege-grid,.category-list,.category-columns{grid-template-columns:1fr 1fr}.package-item{grid-template-columns:1fr}.membership-preview-grid{grid-template-columns:1fr}.membership-preview-grid .section-photo-slot{width:100%;height:230px}.final-inner{grid-template-columns:1fr}.final-inner .section-photo-slot{width:100%;height:220px}.network-stage,.property-page #property-network .network-stage{grid-template-columns:1fr;grid-template-rows:none}.network-stage .network-pill,.network-stage .network-center{grid-column:auto!important;grid-row:auto!important}.network-stage .network-pill::before,.network-stage .network-pill::after{display:none}.form-section .section-photo-slot{position:relative!important;width:100%;height:220px}.form-section .section-head{padding-right:0}.form-grid{grid-template-columns:1fr}.form-grid label:last-child{grid-column:auto}.footer-grid{grid-template-columns:1fr 1fr}
+  .layered-hero{min-height:650px}.layered-orbit{gap:8px;bottom:82px}.layered-wing{min-width:0;width:19%}.layered-wing-visual{height:82px}.layered-wing-title{font-size:8px;white-space:normal;line-height:1.15}.layered-wing.is-active{transform:translateY(-5px) scale(1.03)}
+}
+@media(max-width:620px){
+  :root{--nav-h:68px}.container{width:calc(100% - 24px)}.site-header{height:var(--nav-h)}.brand{font-size:16px}.actions{margin-left:auto}.iconbtn{font-size:21px}.contact-pill{font-size:11px;padding:9px 12px}.menu-btn{font-size:21px}.menu-btn-label{font-size:10px}.section{padding:48px 0}.section-head h2,.why-intro h2{font-size:34px}.lead{font-size:16px}.why-points,.benefit-grid,.service-grid,.service-grid-six,.service-grid-five,.columns-2,.region-grid,.region-grid-light,.academic-grid,.course-grid,.occasion-grid,.privilege-grid,.category-list,.category-columns{grid-template-columns:1fr}
+  .inner-hero{min-height:610px;padding-top:calc(var(--nav-h) + 62px)}.inner-hero h1{font-size:45px}.inner-hero p{font-size:16px}.hero-actions{display:grid}.hero-actions .btn{width:100%}
+  .layered-hero{min-height:610px}.layered-orbit{bottom:78px;padding:0 12px}.layered-wing{width:31%}.layered-wing:nth-child(4),.layered-wing:nth-child(5){display:none}.layered-wing:nth-child(3){display:none}.layered-wing-visual{height:76px}.layered-wing-title{font-size:7px}.layered-controls{bottom:16px}.layered-control{width:36px;height:36px}.membership-preview-grid h2{font-size:36px}.footer-grid{grid-template-columns:1fr}.footer-bottom{display:block}.footer-bottom span{display:block;margin-top:5px}.mobile-business-grid{grid-template-columns:1fr}
+}
+
+/* FINAL LOCKED REFINEMENTS — only requested changes */
+
+/* Headings: requested +1px; subheadings/card headings: requested +2px. */
+.section-head h2,
+.why-intro h2{font-size:clamp(35px,4.2vw,59px)!important}
+.inner-hero h1{font-size:clamp(43px,6vw,77px)!important}
+.membership-preview-grid h2{font-size:clamp(35px,4vw,55px)!important}
+.final-inner h2{font-size:clamp(33px,3.8vw,53px)!important}
+.solution-copy h3{font-size:22px!important}
+.relationship-card h3{font-size:21px!important}
+.benefit-card h3,
+.course-card h3,
+.academic-card h3,
+.occasion-card h3{font-size:20px!important}
+.service-card h3{font-size:21px!important}
+.package-item h3{font-size:22px!important}
+.location-card h3,
+.category-list h3{font-size:20px!important}
+
+/* Requested black type on the light location cards, including matching light-contrast cases. */
+.property-page #property-location .location-card,
+.property-page #property-location .location-card h3,
+.property-page #property-location .location-card p{color:#111827!important}
+.property-page #property-location .location-card p{opacity:1!important}
+
+/* Travel packages: photograph sits between the package description and Examples/Includes/Options. */
+.package-item{grid-template-columns:minmax(0,1.05fr) 112px minmax(0,1.35fr) auto;gap:18px;align-items:center}
+.package-photo{width:112px;height:76px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:linear-gradient(135deg,#26364a,#172638);background-size:cover;background-position:center;position:relative;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.2)}
+.package-photo::after{content:"PHOTO";position:absolute;right:9px;bottom:7px;font-size:8px;letter-spacing:.14em;font-weight:800;color:rgba(255,255,255,.8);text-shadow:0 1px 7px #000}
+.package-photo.has-photo::after{display:none}
+
+/* Travel network: compact, clear flow with a refined MADHYUM backing shape. */
+#travel-network{padding-top:58px;padding-bottom:58px}
+#travel-network .section-heading-layout{margin-bottom:18px}
+#travel-network .travel-network-visual{max-width:980px;margin:18px auto 0;display:grid;grid-template-columns:1fr;justify-items:center;gap:0}
+#travel-network .network-top{display:inline-flex;align-items:center;justify-content:center;min-width:170px;padding:11px 22px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-size:11px;font-weight:900;letter-spacing:.12em;position:relative}
+#travel-network .network-top::after{content:"↓";position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);font-size:22px;color:var(--gold);font-weight:700}
+#travel-network .network-line{display:none}
+#travel-network .network-center.large{margin:28px 0 24px;padding:15px 28px;border-radius:18px;background:var(--gold);color:#111;box-shadow:0 10px 24px rgba(15,23,42,.12);font-size:18px;font-weight:950;letter-spacing:.1em;position:relative;min-width:190px;text-align:center}
+#travel-network .network-center.large span{display:block;margin-top:4px;font-size:9px;letter-spacing:.12em;font-weight:800;text-transform:uppercase;opacity:.72}
+#travel-network .network-center.large::after{content:"↓";position:absolute;left:50%;bottom:-29px;transform:translateX(-50%);font-size:22px;color:var(--gold);font-weight:700}
+#travel-network .partner-row{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+#travel-network .partner-row span{min-height:54px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-size:10px;font-weight:850;letter-spacing:.07em;line-height:1.35;position:relative}
+#travel-network .partner-row span::before{content:"";position:absolute;top:-10px;left:50%;width:1px;height:10px;background:var(--gold)}
+#travel-network .center-copy{margin-top:18px;font-size:14px;color:var(--ink)}
+
+/* Keep the same photo/heading separation model across all pages; no photo can overlap following content. */
+.section-heading-layout,.why-heading-layout,.membership-preview-grid,.final-inner{isolation:isolate}
+.section-photo-slot,.package-photo{z-index:0}
+.solution-panels,.relationship-grid,.package-list,.benefit-grid,.service-grid,.course-grid,.occasion-grid,.privilege-grid,.location-grid,.category-columns,.region-grid,.academic-grid{position:relative;z-index:1}
+
+@media(max-width:980px){
+  .package-item{grid-template-columns:1fr 100px 1.35fr auto;gap:14px}
+  #travel-network .partner-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:620px){
+  .section-head h2,.why-intro h2{font-size:35px!important}
+  .inner-hero h1{font-size:46px!important}
+  .package-item{grid-template-columns:1fr;gap:12px}
+  .package-photo{width:100%;height:120px}
+  #travel-network{padding-top:48px;padding-bottom:48px}
+  #travel-network .partner-row{grid-template-columns:1fr}
+  #travel-network .network-center.large{margin-top:28px}
+}
+
+/* ============================================================
+   V15 LOCKED MICRO-CHANGES — authoritative overrides only
+   ============================================================ */
+
+/* Property / Education / Event network flows: every directional arrow points TO MADHYUM. */
+.property-network-flow,
+.education-network-flow,
+.event-network-flow{display:grid;grid-template-columns:1fr;gap:18px;max-width:980px;margin:26px auto 0}
+.property-network-flow .network-row,
+.education-network-flow .network-row,
+.event-network-flow .network-row{display:grid;align-items:center;gap:24px}
+.property-network-flow .network-row-main,
+.education-network-flow .network-row-main,
+.event-network-flow .network-row-main{grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr)}
+.property-network-flow .network-row-secondary{grid-template-columns:1fr 1fr;max-width:610px;margin:0 auto}
+.education-network-flow .network-row-secondary{grid-template-columns:1fr 1fr;max-width:610px;margin:0 auto}
+.event-network-flow .event-partners{grid-template-columns:repeat(5,minmax(0,1fr));max-width:980px;margin:0 auto}
+.property-network-flow .network-row-main .network-source,
+.education-network-flow .network-row-main .network-source,
+.event-network-flow .network-row-main .network-source{position:relative}
+.property-network-flow .network-row-main .network-source:first-child::after,
+.education-network-flow .network-row-main .network-source:first-child::after,
+.event-network-flow .network-row-main .network-source:first-child::after{content:"→";position:absolute;right:-30px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:800}
+.property-network-flow .network-row-main .network-source:last-child::before,
+.education-network-flow .network-row-main .network-source:last-child::before,
+.event-network-flow .network-row-main .network-source:last-child::before{content:"←";position:absolute;left:-30px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:800}
+.property-network-flow .network-row-secondary .network-source,
+.education-network-flow .network-row-secondary .network-source,
+.event-network-flow .event-partners .network-source{position:relative}
+.property-network-flow .network-row-secondary .network-source::before,
+.education-network-flow .network-row-secondary .network-source::before,
+.event-network-flow .event-partners .network-source::before{content:"↑";position:absolute;left:50%;top:-25px;transform:translateX(-50%);color:var(--gold);font-size:20px;font-weight:800}
+.property-network-flow .network-center,
+.education-network-flow .network-center,
+.event-network-flow .network-center{z-index:2}
+
+/* Travel network: arrows are strictly vertical/downward and never overlap text or cards. */
+#travel-network .travel-network-visual{gap:0}
+#travel-network .network-top::after,
+#travel-network .network-center.large::after{bottom:-34px;font-size:20px;line-height:1}
+#travel-network .network-center.large{margin:34px 0 30px}
+#travel-network .partner-row{margin-top:0}
+#travel-network .partner-row span::before{top:-11px;height:11px}
+
+/* Remove the extra standalone consultancy/event photo spacer; keep existing right-side imagery. */
+.consultancy-photo-section,
+.event-photo-section{display:none!important}
+
+/* Give event network typography enough room without creating oversized vertical gaps. */
+#event-network .network-stage .network-pill{font-size:10px;line-height:1.35;letter-spacing:.06em}
+#event-network .network-stage .network-center{font-size:17px}
+#event-network .center-copy{margin-top:18px;line-height:1.55}
+
+/* Keep hero photo areas ready for the named wing photographs. */
+.inner-hero::before{opacity:.34}
+.category-real-estate::before{background-image:url("../images/real-estate-hero.jpg")}
+.category-travel::before{background-image:url("../images/travel-hero.jpg")}
+.category-education::before{background-image:url("../images/education-hero.jpg")}
+.category-consultancy::before{background-image:url("../images/consultancy-hero.jpg")}
+.category-events::before{background-image:url("../images/events-hero.jpg")}
+.category-membership::before{background-image:url("../images/membership-privileges.jpg")}
+
+@media(max-width:980px){
+  .event-network-flow .event-partners{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  .property-network-flow .network-row-main,
+  .education-network-flow .network-row-main,
+  .event-network-flow .network-row-main{grid-template-columns:1fr;gap:16px}
+  .property-network-flow .network-row-secondary,
+  .education-network-flow .network-row-secondary,
+  .event-network-flow .event-partners{grid-template-columns:1fr}
+  .property-network-flow .network-row-main .network-source:first-child::after,
+  .education-network-flow .network-row-main .network-source:first-child::after,
+  .event-network-flow .network-row-main .network-source:first-child::after,
+  .property-network-flow .network-row-main .network-source:last-child::before,
+  .education-network-flow .network-row-main .network-source:last-child::before,
+  .event-network-flow .network-row-main .network-source:last-child::before{display:none}
+  .property-network-flow .network-row-secondary .network-source::before,
+  .education-network-flow .network-row-secondary .network-source::before,
+  .event-network-flow .event-partners .network-source::before{display:none}
+}
+
+
+/* ============================================================
+   V16 LOCKED BASE — ONLY REQUESTED CHANGES
+   ============================================================ */
+
+/* All section/hero/card headings: +3px from the locked V15 scale. */
+.eyebrow{font-size:14px!important}
+.section-head h2,.why-intro h2{font-size:calc(clamp(34px,4.2vw,58px) + 3px)!important}
+.membership-preview-grid h2{font-size:calc(clamp(34px,4vw,54px) + 3px)!important}
+.final-inner h2{font-size:calc(clamp(33px,3.8vw,53px) + 3px)!important}
+.inner-hero h1{font-size:calc(clamp(42px,6vw,76px) + 3px)!important}
+.benefit-card h3,.course-card h3,.academic-card h3,.occasion-card h3{font-size:23px!important}
+.service-card h3{font-size:24px!important}
+.package-item h3{font-size:25px!important}
+.location-card h3,.category-list h3{font-size:23px!important}
+
+/* Keep subheading copy readable and beautifully separated from headings. */
+.section-head>p,.membership-preview-copy .lead,.inner-hero p{line-height:1.65}
+.section-head>p{max-width:720px}
+
+/* Membership highlight — black/gold, premium but restrained. */
+.membership-preview{background:linear-gradient(115deg,#050505 0%,#11100b 52%,#241b08 100%)!important;color:#f8f1df!important;border-top:1px solid rgba(212,175,55,.42);border-bottom:1px solid rgba(212,175,55,.42)}
+.membership-preview .eyebrow{color:#d8b65a!important}
+.membership-preview h2{color:#f7f0df!important}
+.membership-preview .lead{color:#d8d0bf!important}
+.membership-preview .section-photo-slot{border-color:rgba(212,175,55,.45)!important;box-shadow:0 16px 38px rgba(0,0,0,.38)}
+.membership-preview .btn{border-color:#d8b65a!important;color:#f7f0df!important}
+
+/* Real-estate location blocks: every requested block gets its own photo space. */
+#property-location .location-grid{align-items:stretch}
+#property-location .location-card{overflow:hidden;color:#111827!important;background:#fff!important}
+.location-card-photo{width:100%;height:128px;border-radius:12px;background:linear-gradient(135deg,#e7e1d5,#c9c0b0);background-size:cover;background-position:center;margin-bottom:14px;border:1px solid rgba(17,24,39,.1);position:relative;overflow:hidden}
+.location-card-photo::after,.category-card-photo::after{content:"PHOTO";position:absolute;right:10px;bottom:8px;font-size:8px;letter-spacing:.14em;font-weight:900;color:rgba(17,24,39,.62)}
+.location-card-photo.has-photo::after,.category-card-photo.has-photo::after{display:none}
+#property-location .location-card p{color:#111827!important;opacity:1!important;line-height:1.6}
+
+/* Real-estate category blocks also have individual photo slots. */
+#property-categories .category-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#property-categories .category-list{display:block;padding:16px;border:1px solid var(--line);border-radius:15px;background:#fff}
+.category-card-photo{width:100%;height:120px;border-radius:11px;background:linear-gradient(135deg,#ece7dd,#d6cfc0);background-size:cover;background-position:center;margin-bottom:13px;border:1px solid rgba(17,24,39,.1);position:relative;overflow:hidden}
+#property-categories .category-list p{line-height:1.6;margin:0}
+
+/* Property network: four sources point only toward the single MADHYUM center. */
+#property-network .property-network-flow{display:grid;grid-template-columns:1fr 190px 1fr;grid-template-rows:auto auto;gap:18px 28px;max-width:900px;margin:28px auto 0;position:relative}
+#property-network .property-network-flow .network-row{display:contents}
+#property-network .property-network-flow .network-row-main .network-source:first-child{grid-column:1;grid-row:1}
+#property-network .property-network-flow .network-center{grid-column:2;grid-row:1;display:flex;align-items:center;justify-content:center;min-height:72px}
+#property-network .property-network-flow .network-row-main .network-source:last-child{grid-column:3;grid-row:1}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child{grid-column:1;grid-row:2}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:3;grid-row:2}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{content:"→";position:absolute;right:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{content:"←";position:absolute;left:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{content:"→";position:absolute;right:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{content:"←";position:absolute;left:-24px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+#property-network .property-network-flow::after{display:none!important}
+
+/* Travel network: remove the standalone spacer/photo and keep one clean vertical flow. */
+.travel-photo-section{display:none!important}
+#travel-network{padding-top:34px!important}
+#travel-network .section-heading-layout{margin-bottom:16px}
+#travel-network .travel-network-visual{max-width:980px;margin:18px auto 0;display:flex;flex-direction:column;align-items:center;gap:0}
+#travel-network .travel-network-source{min-width:220px;padding:13px 22px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);font-size:12px;font-weight:900;letter-spacing:.12em;text-align:center}
+#travel-network .travel-arrow{height:30px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:23px;font-weight:900;line-height:1}
+#travel-network .network-center.large{margin:0;min-width:220px;padding:16px 28px;border-radius:18px;background:var(--gold);color:#111;box-shadow:0 12px 26px rgba(15,23,42,.12);font-size:18px;font-weight:950;letter-spacing:.1em;text-align:center}
+#travel-network .network-center.large span{display:block;margin-top:5px;font-size:10px;letter-spacing:.1em;font-weight:800;text-transform:none;opacity:.78}
+#travel-network .partner-row{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0}
+#travel-network .partner-row span{min-height:58px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-size:10px;font-weight:850;letter-spacing:.07em;line-height:1.35}
+#travel-network .partner-row span::before{display:none!important}
+
+/* Consultancy network — clean four-sided relationship around one MADHYUM center. */
+.consultancy-network-flow{max-width:900px;margin:28px auto 0;display:grid;grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr);grid-template-rows:auto auto;gap:18px 28px;align-items:center;position:relative}
+.consultancy-center{grid-column:2;grid-row:1 / span 2;min-height:78px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:var(--gold);color:#111;font-size:18px;font-weight:950;letter-spacing:.1em;box-shadow:0 12px 28px rgba(15,23,42,.12);z-index:2}
+.consultancy-node{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-size:11px;font-weight:900;letter-spacing:.08em;text-align:center;line-height:1.4;position:relative}
+.consultancy-node span{display:block;margin-top:5px;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--muted)}
+.node-business{grid-column:1;grid-row:1}.node-consultants{grid-column:3;grid-row:1}.node-professionals{grid-column:1;grid-row:2}.node-partners{grid-column:3;grid-row:2}
+.node-business::after,.node-professionals::after{content:"→";position:absolute;right:-25px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+.node-consultants::before,.node-partners::before{content:"←";position:absolute;left:-25px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:22px;font-weight:900}
+
+/* Event network — people come to MADHYUM; MADHYUM connects them to event services. */
+.event-network-new{max-width:980px;margin:28px auto 0;text-align:center}
+.event-source-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.event-source-grid .network-pill,.event-service-grid .network-pill{padding:15px 12px;line-height:1.35}
+.event-down-arrow{height:32px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:23px;font-weight:900}
+.event-network-center{width:230px;margin:0 auto;padding:17px 24px;border-radius:18px;background:var(--gold);color:#111;font-size:18px;font-weight:950;letter-spacing:.08em;box-shadow:0 12px 26px rgba(15,23,42,.12)}
+.event-network-center span{display:block;margin-top:5px;font-size:10px;font-weight:700;letter-spacing:.04em;line-height:1.4}
+.event-service-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.event-service-grid .network-pill{min-height:58px;display:flex;align-items:center;justify-content:center}
+
+@media(max-width:980px){
+  #property-network .property-network-flow{grid-template-columns:1fr 170px 1fr;gap:14px 20px}
+  .consultancy-network-flow{grid-template-columns:1fr 170px 1fr;gap:14px 20px}
+  .event-service-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:620px){
+  .section-head h2,.why-intro h2{font-size:calc(35px + 3px)!important}
+  .inner-hero h1{font-size:49px!important}
+  .membership-preview-grid h2{font-size:39px!important}
+  .final-inner h2{font-size:36px!important}
+  #property-categories .category-columns{grid-template-columns:1fr}
+  #property-network .property-network-flow{grid-template-columns:1fr;grid-template-rows:none;gap:12px}
+  #property-network .property-network-flow .network-row-main .network-source:first-child,
+  #property-network .property-network-flow .network-row-main .network-center,
+  #property-network .property-network-flow .network-row-main .network-source:last-child,
+  #property-network .property-network-flow .network-row-secondary .network-source:first-child,
+  #property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:auto;grid-row:auto}
+  #property-network .property-network-flow .network-row-main .network-source:first-child::after,
+  #property-network .property-network-flow .network-row-main .network-source:last-child::before,
+  #property-network .property-network-flow .network-row-secondary .network-source:first-child::after,
+  #property-network .property-network-flow .network-row-secondary .network-source:last-child::before{display:none}
+  #travel-network{padding-top:28px!important}
+  #travel-network .partner-row{grid-template-columns:1fr}
+  .consultancy-network-flow{grid-template-columns:1fr;grid-template-rows:none}
+  .consultancy-center,.node-business,.node-consultants,.node-professionals,.node-partners{grid-column:auto;grid-row:auto}
+  .node-business::after,.node-professionals::after,.node-consultants::before,.node-partners::before{display:none}
+  .event-source-grid{grid-template-columns:1fr 1fr}
+  .event-service-grid{grid-template-columns:1fr 1fr}
+}
+
+/* V17 — locked V16 base; only requested refinements below. */
+/* Category typography: +2px while preserving the existing hierarchy. */
+.service-card h3{font-size:26px!important}
+.package-item h3{font-size:27px!important}
+.course-card h3,.academic-card h3,.occasion-card h3{font-size:25px!important}
+.location-card h3,.category-list h3{font-size:25px!important}
+.package-no{font-size:13px!important}
+
+/* Property network: MADHYUM stays central; every arrow points inward. */
+#property-network .property-network-flow{grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr);grid-template-rows:auto auto;column-gap:34px;row-gap:22px;max-width:900px}
+#property-network .property-network-flow .network-row{display:contents}
+#property-network .property-network-flow .network-row-main .network-source:first-child{grid-column:1;grid-row:1}
+#property-network .property-network-flow .network-center{grid-column:2;grid-row:1}
+#property-network .property-network-flow .network-row-main .network-source:last-child{grid-column:3;grid-row:1}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child{grid-column:1;grid-row:2}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:3;grid-row:2}
+#property-network .property-network-flow .network-source{position:relative}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{content:"→";position:absolute;right:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{content:"←";position:absolute;left:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{content:"↗";position:absolute;right:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{content:"↖";position:absolute;left:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+
+/* Travel network: clean vertical flow, then each partner visibly connects upward to MADHYUM. */
+#travel-network .travel-network-visual{max-width:980px;margin:18px auto 0;display:flex;flex-direction:column;align-items:center}
+#travel-network .travel-network-source{position:relative}
+#travel-network .travel-arrow{height:28px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+#travel-network .network-center.large{position:relative;margin:0!important}
+#travel-network .partner-row{position:relative;margin-top:0!important;padding-top:20px}
+#travel-network .partner-row::before{content:"";position:absolute;left:8%;right:8%;top:0;border-top:1px solid rgba(212,175,55,.55)}
+#travel-network .partner-row span{position:relative}
+#travel-network .partner-row span::before{content:"↑"!important;display:flex!important;position:absolute;top:-21px!important;left:50%;transform:translateX(-50%);height:auto!important;color:var(--gold);font-size:17px;font-weight:900;background:transparent!important;border:0!important}
+
+/* Education network: all source arrows point directly toward the central MADHYUM. */
+#admission-network .education-network-flow .network-source{position:relative}
+#admission-network .education-network-flow .network-row-main .network-source:first-child::after{content:"→";position:absolute;right:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#admission-network .education-network-flow .network-row-main .network-source:last-child::before{content:"←";position:absolute;left:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#admission-network .education-network-flow .network-row-secondary .network-source:first-child::after{content:"↗";position:absolute;right:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#admission-network .education-network-flow .network-row-secondary .network-source:last-child::before{content:"↖";position:absolute;left:-31px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+
+/* Consultancy network: all four relationships point inward to MADHYUM. */
+.consultancy-network-flow .node-business::after{content:"→"}
+.consultancy-network-flow .node-professionals::after{content:"↗"}
+.consultancy-network-flow .node-consultants::before{content:"←"}
+.consultancy-network-flow .node-partners::before{content:"↖"}
+
+/* Academic path: keep After 12th and After Graduation side-by-side on desktop/tablet. */
+#academic-path .split-panels{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 
 @media(max-width:620px){
-
-  .section{
-
-    padding:82px 0;
-
-  }
-
-  .section.tight{
-
-    padding:70px 0;
-
-  }
-
-  .category-grid,
-  .footer-grid,
-  .flow{
-
-    grid-template-columns:1fr;
-
-  }
-
-  .layered-orbit{
-
-    top:68%;
-
-    width:100vw;
-
-    height:310px;
-
-  }
-
-  .layered-wing{
-
-    width:135px;
-
-  }
-
-  .layered-wing-visual{
-
-    height:135px;
-
-  }
-
-  .layered-wing-visual img{
-
-    max-height:135px;
-
-  }
-
-  .layered-wing-title{
-
-    max-width:135px;
-
-    font-size:.53rem;
-
-    letter-spacing:.055em;
-
-  }
-
-  .layered-wing.position-left{
-
-    --x:
-      calc(-50vw + 72px);
-
-    --y:-14px;
-
-    --scale:.55;
-
-  }
-
-  .layered-wing.position-far-left{
-
-    --x:-28vw;
-
-    --y:25px;
-
-    --scale:.63;
-
-  }
-
-  .layered-wing.is-active{
-
-    --x:0px;
-
-    --y:82px;
-
-    --scale:.75;
-
-  }
-
-  .layered-wing.position-right{
-
-    --x:28vw;
-
-    --y:25px;
-
-    --scale:.63;
-
-  }
-
-  .layered-wing.position-far-right{
-
-    --x:
-      calc(50vw - 72px);
-
-    --y:-14px;
-
-    --scale:.55;
-
-  }
-
-  .layered-controls{
-
-    bottom:12px;
-
-  }
-
-  .layered-control{
-
-    width:36px;
-
-    height:36px;
-
-  }
-
-  .layered-dot{
-
-    width:16px;
-
-  }
-
-  .layered-dot.active{
-
-    width:31px;
-
-  }
-
-  .final-inner{
-
-    display:grid;
-
-    grid-template-columns:1fr;
-
-    align-items:start;
-
-  }
-
-  .drawer-panel{
-
-    padding:26px;
-
-  }
-
-  .drawer-panel h2{
-
-    font-size:2.5rem;
-
-  }
-
-  .mobile-menu a{
-
-    font-size:1.8rem;
-
-  }
-
+  #property-network .property-network-flow .network-row-secondary .network-source:first-child::after,
+  #property-network .property-network-flow .network-row-secondary .network-source:last-child::before,
+  #admission-network .education-network-flow .network-row-secondary .network-source:first-child::after,
+  #admission-network .education-network-flow .network-row-secondary .network-source:last-child::before{display:none}
+  #travel-network .partner-row::before{display:none}
+  #travel-network .partner-row{padding-top:16px}
+  #travel-network .partner-row span::before{display:none!important}
+  #academic-path .split-panels{grid-template-columns:1fr}
 }
 
-/* =========================================================
-   V5 — MADHYUM DISCOVERY / ALIGNMENT POLISH
-========================================================= */
+/* V17: requested View More scale +1px. */
+.service-more summary{font-size:13px!important}
 
-html{scroll-padding-top:92px}
-body{overflow-x:hidden}
+/* V18 — LOCKED V17 BASE. ONLY REQUESTED REFINEMENTS BELOW. */
+/* Explicit black text for light-background location/region content. */
+.location-card h3,.location-card p,.region-item h3,.region-item p{color:#111!important}
 
-/* Header: visible at top, hides while scrolling down,
-   appears again while scrolling up. */
-.site-header{
-  transform:translateY(0);
-  transition:
-    transform .3s ease,
-    background .35s ease,
-    padding .35s ease,
-    box-shadow .35s ease;
-}
-.site-header.nav-hidden{transform:translateY(-110%)}
-.site-header .menu-btn{
-  display:grid;
-  place-items:center;
-}
+/* Network explanations: meaning comes before the visual relationship. */
+.network-explainer{max-width:780px;margin:0 auto 20px;text-align:center;color:var(--muted);font-size:15px;line-height:1.65}
+.dark .network-explainer{color:#cbd3dd}
 
-/* Consistent section labels: darker and visibly stronger. */
-.eyebrow{
-  font-size:.90rem;
-  font-weight:700;
-  letter-spacing:.15em;
-  color:#2b3136;
-}
-.eyebrow.light{color:#c8d0d5}
+/* Property network: every relationship terminates at the central MADHYUM. */
+#property-network .property-network-flow{position:relative}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{content:"→"!important;right:-31px!important}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{content:"←"!important;left:-31px!important}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{content:"↗"!important;right:-31px!important}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{content:"↖"!important;left:-31px!important}
 
-/* ---------- HOME: WHY MADHYUM ---------- */
-.home-page .why-section .section-head{
-  grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);
-  align-items:start;
-  gap:58px;
-  margin-bottom:28px;
-}
-.home-page .why-section .section-head h2{
-  max-width:900px;
-  margin-top:10px;
-  font-size:clamp(2.45rem,4.2vw,4.4rem);
-}
-.home-page .why-section .section-head>p{
-  margin:10px 0 0;
-  max-width:510px;
-  font-size:1.02rem;
-  line-height:1.65;
-}
-.home-page .why-layout{
-  grid-template-columns:1fr;
-  gap:24px;
-}
-.home-page .why-copy{max-width:none}
-.home-page .why-copy>.lead{
-  max-width:860px;
-  margin:0 0 16px;
-}
-.home-page .why-points{
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:0;
-  margin-top:0;
-  border-top:1px solid #dad6ce;
-}
-.home-page .why-points>div{
-  min-height:124px;
-  padding:21px 20px 17px 0;
-  border-top:0;
-  border-bottom:1px solid #dad6ce;
-}
-.home-page .why-points>div+div{
-  padding-left:20px;
-  border-left:1px solid #dad6ce;
-}
-.home-page .why-diagram{
-  grid-template-columns:minmax(0,1fr) 52px minmax(0,1.05fr) 52px minmax(0,1fr);
-  gap:10px;
-  margin-top:2px;
-}
-.home-page .diagram-node,
-.home-page .diagram-core{
-  width:100%;
-  max-width:none;
-  min-height:105px;
-  display:grid;
-  place-items:center;
-  align-content:center;
-}
-.home-page .diagram-line{
-  width:100%;
-  height:1px;
-}
+/* Education network: all four relationships point inward to MADHYUM. */
+#admission-network .education-network-flow .network-row-main .network-source:first-child::after{content:"→"!important}
+#admission-network .education-network-flow .network-row-main .network-source:last-child::before{content:"←"!important}
+#admission-network .education-network-flow .network-row-secondary .network-source:first-child::after{content:"↗"!important}
+#admission-network .education-network-flow .network-row-secondary .network-source:last-child::before{content:"↖"!important}
 
-/* ---------- HOME: SOLUTIONS ---------- */
-.home-page .solution-panels{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-.home-page .solution-panel,
-.home-page .solution-panel-wide{
-  min-height:230px;
-  height:230px;
-  padding:22px;
-  border-radius:18px;
-}
-.home-page .solution-panel-wide{grid-column:1/-1}
-.home-page .solution-panel img{
-  width:82px;
-  height:82px;
-  top:18px;
-  right:18px;
-}
-.home-page .solution-panel>div{max-width:68%}
-.home-page .solution-panel h3{
-  font-size:clamp(1.7rem,2.5vw,2.9rem);
-}
+/* Travel network: traveller enters at MADHYUM; MADHYUM distributes the connection to each partner. */
+#travel-network .travel-network-visual{position:relative}
+#travel-network .travel-arrow{font-size:24px;line-height:1}
+#travel-network .partner-row{position:relative}
+#travel-network .partner-row span::before{content:"↑"!important;top:-22px!important;z-index:2}
 
-/* ---------- HOME: NETWORK ---------- */
-.home-page .network-section{
-  padding:66px 0 58px;
-}
-.home-page .network-section .section-head{
-  margin-bottom:24px;
-}
-.home-page .relationship-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:0;
-  border-top:1px solid #dad6ce;
-}
-.home-page .relationship-card{
-  min-height:94px;
-  padding:18px 20px 16px 0;
-  border-top:0;
-  border-bottom:1px solid #dad6ce;
-}
-.home-page .relationship-card+.relationship-card{
-  padding-left:20px;
-  border-left:1px solid #dad6ce;
-}
-.home-page .relationship-card-wide{
-  grid-column:1/-1;
-  padding-left:0!important;
-  border-left:0!important;
-}
-.home-page .relationship-card h3{
-  font-size:clamp(1.25rem,2vw,2rem);
-}
-.home-page .network-section .section-media{display:none}
-.home-page .network-statement{
-  margin-top:20px;
-}
+/* Consultancy network: four clean inward relationships, no diagonal overlap. */
+.consultancy-network-flow .node-business::after{content:"→"!important}
+.consultancy-network-flow .node-consultants::before{content:"←"!important}
+.consultancy-network-flow .node-professionals::after{content:"→"!important}
+.consultancy-network-flow .node-partners::before{content:"←"!important}
 
-/* ---------- HOME: MEMBERSHIP / FINAL ---------- */
-.home-page .membership-preview{padding:72px 0}
-.home-page .membership-preview-grid{
-  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
-}
-.home-page .membership-preview-grid h2{
-  font-size:clamp(2.15rem,3.8vw,4.1rem);
-}
-.home-page .final-cta{padding:72px 0}
-.home-page .final-cta h2{
-  font-size:clamp(2.2rem,4.4vw,4.9rem);
-}
+/* Events network: clean downward flow from people -> MADHYUM -> event-service options. */
+#event-network .event-network-new{position:relative}
+#event-network .event-down-arrow{height:30px;line-height:1}
+#event-network .event-source-grid .network-pill,
+#event-network .event-service-grid .network-pill{color:#111!important;background:#fff!important}
 
-/* ---------- DEDICATED PAGES: COLUMN HIERARCHY ---------- */
-.category-page .benefit-grid{
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:0;
-  border-top:1px solid var(--line);
-}
-.category-page .benefit-card{
-  min-height:205px;
-  padding:24px 20px 18px 0;
-  border-top:0;
-  border-bottom:1px solid var(--line);
-}
-.category-page .benefit-card+.benefit-card{
-  padding-left:20px;
-  border-left:1px solid var(--line);
-}
+/* Membership emphasis: black + gold treatment remains premium and readable. */
+.membership-preview{background:linear-gradient(115deg,#050505 0%,#11100b 52%,#241b08 100%)!important}
+.membership-preview h2{color:#f7f0df!important}
+.membership-preview .lead{color:#d8d0bf!important}
 
-.category-page .service-grid-five,
-.category-page .service-grid-six{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-.category-page .service-card{
-  min-height:270px;
-  display:flex;
-  flex-direction:column;
-  padding:26px;
-}
-.category-page .service-card h3{
-  font-size:1.6rem;
-}
-
-/* Prominent View More */
-.service-more{
-  margin-top:auto;
-}
-.service-more summary{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  min-height:40px;
-  padding:7px 0 6px;
-  color:#f0d9a7;
-  font:700 .98rem/1 var(--sans);
-  border-bottom:1px solid rgba(201,161,91,.6);
-  cursor:pointer;
-}
-.service-more summary::after{
-  content:"↓";
-  font-size:1rem;
-  transition:transform .2s ease;
-}
-.service-more[open] summary::after{transform:rotate(180deg)}
-.more-copy{
-  margin-top:14px;
-  padding-top:14px;
-  border-top:1px solid rgba(255,255,255,.11);
-  font-size:.96rem;
-  line-height:1.72;
-  color:var(--muted-light);
-}
-
-/* Travel package rows */
-.travel-page .package-item{
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:40px;
-  padding:28px 0;
-}
-.travel-page .package-item h3{
-  font-size:clamp(1.75rem,2.6vw,2.65rem);
-}
-.travel-page .package-examples span{
-  font-size:1rem;
-  line-height:1.7;
-}
-
-/* Category/location/occasion grids */
-.category-page .category-columns,
-.category-page .location-grid,
-.category-page .occasion-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-.category-page .category-list{
-  min-height:150px;
-}
-.category-page .location-card{
-  min-height:180px;
-}
-
-/* Education: 3-column discovery */
-.education-page .course-grid{
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
-}
-.education-page .course-card{
-  min-height:250px;
-  display:flex;
-  flex-direction:column;
-}
-.education-page .course-card .service-more{margin-top:auto}
-.education-page .institute-grid{display:none}
-.education-page .institute-inquiry{margin-top:14px}
-
-/* Events: balanced grids */
-.events-page .occasion-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
-.events-page .signature-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
-.events-page .signature-column{
-  min-height:155px;
-}
-
-/* Forms */
-.requirement-form{border-radius:20px}
-.form-submit{
-  min-height:46px;
-  padding-inline:22px;
-}
-
-/* Mobile */
-@media(max-width:1100px){
-  .home-page .why-section .section-head{
-    grid-template-columns:1fr;
-    gap:18px;
-  }
-  .category-page .benefit-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-}
-@media(max-width:960px){
-  .home-page .solution-panels{
-    grid-template-columns:1fr;
-  }
-  .home-page .solution-panel-wide{grid-column:auto}
-  .home-page .network-section .relationship-grid{
-    grid-template-columns:1fr;
-  }
-  .home-page .network-section .relationship-card,
-  .home-page .network-section .relationship-card+.relationship-card{
-    padding-left:0;
-    border-left:0;
-  }
-  .home-page .network-section .relationship-card-wide{
-    grid-column:auto;
-  }
-  .home-page .membership-preview-grid{
-    grid-template-columns:1fr;
-  }
-  .category-page .service-grid-five,
-  .category-page .service-grid-six,
-  .category-page .category-columns,
-  .category-page .location-grid,
-  .category-page .occasion-grid,
-  .category-page .signature-grid,
-  .travel-page .package-item{
-    grid-template-columns:1fr;
-  }
-  .education-page .course-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-}
-@media(max-width:700px){
-  .home-page .why-points{
-    grid-template-columns:1fr;
-  }
-  .home-page .why-points>div,
-  .home-page .why-points>div+div{
-    padding-left:0;
-    border-left:0;
-  }
-  .home-page .why-diagram{
-    grid-template-columns:1fr;
-  }
-  .category-page .benefit-grid{
-    grid-template-columns:1fr;
-  }
-  .education-page .course-grid{
-    grid-template-columns:1fr;
-  }
+@media(max-width:620px){
+  .network-explainer{font-size:14px;margin-bottom:16px}
 }
 
 
-/* =========================================================
-   V7 CLEAN OVERRIDES — MADHYUM
-========================================================= */
-:root{--line:#d8d4cc;--navy:#07111b;--gold:#c9a15b}
-body{overflow-x:hidden}
-.site-header{display:block;transform:translateY(0);transition:transform .28s ease,background .3s ease,padding .3s ease,box-shadow .3s ease}
-.site-header.nav-hidden{transform:translateY(-110%)}
-.site-header .menu-btn{display:grid!important;place-items:center;flex:0 0 auto}
-.mobile-menu{display:block;visibility:hidden;opacity:0;pointer-events:none;transform:translateY(-10px);transition:opacity .22s ease,transform .22s ease,visibility .22s;overflow:auto}
-.mobile-menu.open{visibility:visible;opacity:1;pointer-events:auto;transform:none}
-.mobile-menu-inner{width:min(980px,92vw);margin:0 auto;padding:90px 0 50px;position:relative}
-.mobile-menu .menu-business-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
-.mobile-menu .menu-business-grid a{font-family:var(--sans);font-size:1.25rem;padding:16px 0}
-.menu-secondary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;margin-top:18px;border-top:1px solid rgba(255,255,255,.12)}
-.menu-secondary a{font-family:var(--sans)!important;font-size:1.15rem!important}
-.menu-label{font-size:.72rem;letter-spacing:.18em;color:#aeb8c0;margin-bottom:4px}
-
-/* Home: Why section hierarchy */
-.home-page .why-section{padding:78px 0 70px}
-.why-intro{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:70px;align-items:end;margin-bottom:32px}
-.why-intro h2{margin:12px 0 0;font-size:clamp(2.25rem,4vw,4.25rem);line-height:1.08;letter-spacing:-.035em}
-.why-intro>p{margin:0 0 5px;max-width:500px;color:var(--muted);font-size:1.02rem}
-.why-grid{display:grid;grid-template-columns:minmax(260px,.75fr) minmax(0,1.25fr);gap:50px;align-items:start}
-.why-message .lead{margin:0;max-width:470px;font-size:1.12rem}
-.home-page .why-points{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin:0}
-.home-page .why-points article{padding:18px 20px 18px 0;min-height:108px;border-bottom:1px solid var(--line)}
-.home-page .why-points article+article{padding-left:20px;border-left:1px solid var(--line)}
-.home-page .why-points strong{display:block;font-size:.82rem;letter-spacing:.12em}
-.home-page .why-points span{display:block;margin-top:7px;color:var(--muted);font-size:.92rem}
-.why-diagram-clean{display:grid;grid-template-columns:minmax(0,1fr) 90px minmax(180px,.6fr) 90px minmax(0,1fr);align-items:center;margin:34px 0 18px}
-.why-node,.why-core{border:1px solid var(--line);background:rgba(255,255,255,.35);min-height:82px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:14px 16px}
-.why-node{font-size:.78rem;font-weight:700;letter-spacing:.12em}
-.why-node span{font-size:.78rem;font-weight:400;letter-spacing:0;color:var(--muted);margin-top:5px}
-.why-core{background:var(--navy);color:#fff;border-color:var(--navy);gap:2px}
-.why-core small{font-size:.65rem;letter-spacing:.15em;color:#b8c2ca}.why-core strong{font-size:1.35rem;letter-spacing:.08em}
-.why-connector{height:1px;background:#aeb1b0}
-.why-close{text-align:center;margin-top:12px}.why-close p{margin:8px auto 0;max-width:600px;color:var(--muted)}
-.trust-line{font-weight:700;letter-spacing:.16em;font-size:.78rem}
-
-/* Home solutions: Sulekha-like compact horizontal cards */
-.home-page .solutions-section{padding:68px 0}
-.home-page .compact-head{margin-bottom:26px}
-.home-page .solution-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.home-page .solution-panel,.home-page .solution-panel-wide{position:relative;min-height:190px;height:auto;padding:22px 24px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.035);overflow:hidden}
-.home-page .solution-panel-wide{grid-column:1/-1;min-height:165px}
-.home-page .solution-panel img{display:none}
-.solution-copy{position:relative;z-index:2;max-width:80%}.solution-copy h3{margin:28px 0 4px}.solution-copy p{margin:0;color:var(--muted-light)}.solution-link{display:inline-block;margin-top:18px;font-size:.82rem;font-weight:700;letter-spacing:.08em;color:#f0d9a7}
-.solution-index{position:absolute;top:20px;left:24px;color:#aeb8c0;font-size:.72rem;letter-spacing:.16em}
-
-/* Dedicated page typography and spacing */
-.category-page .eyebrow{font-weight:700;color:#343a3f;font-size:.9rem}.category-page .eyebrow.light{color:#d3d9dd}
-.category-page .section-head{gap:55px;margin-bottom:30px}.category-page .section-head h2{font-size:clamp(2rem,3.6vw,3.65rem);line-height:1.1}
-.category-page .benefit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
-.category-page .benefit-card{min-height:175px;padding:20px 20px 20px 0}.category-page .benefit-card+.benefit-card{padding-left:20px}
-.category-page .benefit-card h3{font-size:1.2rem;margin:8px 0 7px}.category-page .benefit-card p{font-size:.92rem;line-height:1.6}
-.category-page .service-grid-five,.category-page .service-grid-six{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.category-page .service-card{min-height:235px;padding:23px;border-radius:14px}.category-page .service-card h3{font-size:1.42rem;line-height:1.2}.category-page .service-card p{font-size:.93rem}
-.service-more summary{font-size:1rem;min-height:42px;padding:9px 0;color:#f3ddb0;font-weight:700;letter-spacing:.01em}
-.more-copy{font-size:.9rem;line-height:1.7}
-.travel-page .package-item{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:34px;padding:25px 0}
-.travel-page .package-item h3{font-size:clamp(1.5rem,2.2vw,2.2rem)}
-.travel-page .package-examples span{font-size:.94rem;line-height:1.65}
-
-/* Visible selects */
-.requirement-form select{color:#111827!important;background:#fff!important;border:1px solid #cfd1cf!important}
-.requirement-form select option{color:#111827;background:#fff}
-.requirement-form input,.requirement-form textarea{background:#fff;color:#111}
-
-/* Network diagrams */
-.clean-network{display:flex;flex-direction:column;align-items:center;width:100%;max-width:1000px;margin:34px auto 0}
-.network-top,.event-network-top{font-weight:700;letter-spacing:.12em;text-align:center;font-size:.8rem;padding:14px 20px;border:1px solid var(--line);background:#fff;max-width:680px}
-.network-line.vertical{width:1px;height:28px;background:#aeb1b0}.network-center.large{display:grid;place-items:center;min-width:190px;min-height:82px;padding:18px 30px;background:var(--navy);color:#fff;border:1px solid var(--navy);font-weight:700;letter-spacing:.16em}
-.partner-row{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:4px}.partner-row span{display:grid;place-items:center;min-height:64px;text-align:center;padding:12px;border:1px solid var(--line);background:rgba(255,255,255,.5);font-size:.74rem;line-height:1.3;letter-spacing:.08em;font-weight:700}
-.center-copy{text-align:center;max-width:700px;margin:20px auto 0;color:var(--muted)}
-
-/* Photo slots — user can supply named files */
-.photo-pair{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}.photo-pair figure{margin:0;position:relative;overflow:hidden;border-radius:14px;background:linear-gradient(135deg,#d9d6cf,#a8adb0);min-height:280px}.photo-pair img{width:100%;height:320px;object-fit:cover}.photo-pair figcaption{position:absolute;left:16px;bottom:14px;padding:7px 10px;background:rgba(7,17,27,.75);color:#fff;font-size:.65rem;letter-spacing:.12em}
-
-/* Final CTA tighter */
-.final-cta h2{line-height:1.05}
-
-@media(max-width:960px){
-  .why-intro,.why-grid{grid-template-columns:1fr;gap:22px}.home-page .why-points{grid-template-columns:1fr}.home-page .why-points article+article{padding-left:0;border-left:0}.why-diagram-clean{grid-template-columns:1fr;gap:8px}.why-connector{width:1px;height:28px;margin:auto}.home-page .solution-panels{grid-template-columns:1fr}.home-page .solution-panel-wide{grid-column:auto}.category-page .benefit-grid{grid-template-columns:repeat(2,1fr)}.category-page .benefit-card+.benefit-card{padding-left:20px}.partner-row{grid-template-columns:repeat(2,1fr)}.photo-pair{grid-template-columns:1fr!important}.mobile-menu .menu-business-grid,.menu-secondary{grid-template-columns:1fr}.site-header{padding:14px 0}.navlinks,.actions .contact-pill{display:none}
+/* V19 — LOCKED V18 BASE. Only requested changes below. */
+/* Real Estate: compact square photo treatment for category/location sections. */
+#property-categories .section-heading-layout .section-photo-slot,
+#property-location .section-heading-layout .section-photo-slot{
+  width:150px!important;height:150px!important;min-height:150px!important;aspect-ratio:1/1!important;align-self:center!important;
 }
-@media(max-width:600px){.container{width:min(92vw,560px)}.category-page .benefit-grid,.category-page .service-grid-five,.category-page .service-grid-six{grid-template-columns:1fr}.category-page .benefit-card+.benefit-card{padding-left:0;border-left:0}.partner-row{grid-template-columns:1fr}.why-intro h2{font-size:2.15rem}.home-page .solution-panel{min-height:175px}.photo-pair img{height:240px}.mobile-menu{padding:0 22px}.mobile-menu-inner{width:100%}}
-
-/* Hero horizontal carousel */
-.layered-hero{overflow:hidden}.layered-orbit{position:relative;width:min(1180px,94vw);height:420px;margin:0 auto;display:block}
-.layered-wing{position:absolute!important;top:50%!important;left:50%!important;width:230px!important;height:290px!important;margin:0!important;opacity:.32!important;transform:translate(-50%,-50%) scale(.82)!important;transition:transform .55s cubic-bezier(.2,.75,.2,1),opacity .45s ease,filter .45s ease!important;filter:saturate(.7)!important}
-.layered-wing .layered-wing-visual{height:205px!important}.layered-wing .layered-wing-visual img{max-height:205px!important}.layered-wing-title{font-size:1rem!important;font-weight:700!important;letter-spacing:.1em!important}
-.layered-wing.position-left{transform:translate(calc(-50% - 300px),-50%) scale(.84)!important}.layered-wing.position-far-left{transform:translate(calc(-50% - 570px),-50%) scale(.70)!important}.layered-wing.is-active{transform:translate(-50%,-50%) scale(1)!important;opacity:1!important;filter:none!important;z-index:5}.layered-wing.position-right{transform:translate(calc(-50% + 300px),-50%) scale(.84)!important}.layered-wing.position-far-right{transform:translate(calc(-50% + 570px),-50%) scale(.70)!important}.layered-controls{z-index:10}
-@media(max-width:960px){.layered-orbit{height:380px}.layered-wing{width:205px!important}.layered-wing.position-left{transform:translate(calc(-50% - 235px),-50%) scale(.78)!important}.layered-wing.position-far-left{transform:translate(calc(-50% - 430px),-50%) scale(.62)!important}.layered-wing.position-right{transform:translate(calc(-50% + 235px),-50%) scale(.78)!important}.layered-wing.position-far-right{transform:translate(calc(-50% + 430px),-50%) scale(.62)!important}}
-@media(max-width:600px){.layered-orbit{height:350px}.layered-wing{width:190px!important}.layered-wing.position-left{transform:translate(calc(-50% - 145px),-50%) scale(.70)!important}.layered-wing.position-far-left,.layered-wing.position-far-right{opacity:0!important;pointer-events:none}.layered-wing.position-right{transform:translate(calc(-50% + 145px),-50%) scale(.70)!important}.layered-wing.is-active{transform:translate(-50%,-50%) scale(.9)!important}}
-
-
-/* =========================================================
-   V8 — LOCKED STRUCTURE / REQUESTED VISUAL REFINEMENT
-   Only visual/layout changes requested after V7.
-========================================================= */
-
-/* The right-side Contact Us pill remains. Any accidental loose
-   menu-contact element is hidden as a defensive safeguard. */
-body > .menu-contact{display:none!important}
-
-/* ---------------------------------------------------------
-   HOMEPAGE HERO — bottom horizontal news/ticker carousel
---------------------------------------------------------- */
-.home-page .layered-hero{
-  min-height:100svh;
+#property-categories .category-card-photo,
+#property-location .location-card-photo{
+  width:100%!important;height:auto!important;aspect-ratio:1/1!important;min-height:0!important;
 }
-.home-page .layered-orbit{
-  top:auto!important;
-  bottom:74px!important;
-  left:0!important;
-  width:100%!important;
-  height:154px!important;
-  transform:none!important;
-  display:block!important;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:30;
+#property-categories .category-list,#property-location .location-card{min-width:0}
+
+/* Education abroad region contrast. */
+#region-education-abroad .region-item,
+#education-abroad .region-item,
+.region-grid-light .region-item{background:#fff!important;border-color:rgba(17,24,39,.14)!important;color:#111!important}
+.region-grid-light .region-item h3,.region-grid-light .region-item p{color:#111!important}
+
+/* Real-estate network: MADHYUM is the only destination; no investor-to-buyer arrow. */
+#property-network .property-network-flow{display:grid!important;grid-template-columns:1fr 190px 1fr!important;grid-template-rows:auto auto!important;gap:26px 34px!important;max-width:900px!important}
+#property-network .property-network-flow .network-row-main .network-source:first-child{grid-column:1!important;grid-row:1!important}
+#property-network .property-network-flow .network-center{grid-column:2!important;grid-row:1 / span 2!important;align-self:center!important}
+#property-network .property-network-flow .network-row-main .network-source:last-child{grid-column:3!important;grid-row:1!important}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child{grid-column:1!important;grid-row:2!important}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:3!important;grid-row:2!important}
+#property-network .property-network-flow .network-source::before,
+#property-network .property-network-flow .network-source::after{content:none!important;display:none!important}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after,
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{display:block!important;content:"→"!important;position:absolute;top:50%;transform:translateY(-50%);color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{right:-31px!important}
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{left:-31px!important}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after,
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{display:block!important;position:absolute;top:-31px;transform:none;color:var(--gold);font-size:23px;font-weight:900}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{content:"↑"!important;right:18px!important}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{content:"↑"!important;left:18px!important}
+
+/* Travel network: one downward arrow at each stage; partner cards stay clean. */
+#travel-network .travel-arrow{height:34px!important;overflow:visible!important}
+#travel-network .partner-row{padding-top:0!important;margin-top:0!important}
+#travel-network .partner-row::before,
+#travel-network .partner-row span::before{display:none!important;content:none!important}
+
+/* Events: signature experiences are compact cards with View More bullet lists. */
+#signature-experiences .signature-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px!important}
+#signature-experiences .signature-column{padding:18px!important;border:1px solid var(--line)!important;border-radius:15px!important;background:rgba(255,255,255,.97)!important;color:#111!important}
+#signature-experiences .signature-column h3{color:#111!important;margin:0 0 8px!important;font-size:22px!important}
+#signature-experiences .signature-column p{color:#333!important;margin:0 0 10px!important;line-height:1.55!important}
+#signature-experiences .signature-more summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:#111!important;font-size:13px!important;font-weight:900!important;letter-spacing:.04em}
+#signature-experiences .signature-more ul{margin:10px 0 0 18px;padding:0;color:#333!important;line-height:1.65}
+#signature-experiences .signature-more li{margin:2px 0}
+@media(max-width:620px){
+  #property-categories .section-heading-layout .section-photo-slot,
+  #property-location .section-heading-layout .section-photo-slot{width:120px!important;height:120px!important;min-height:120px!important}
+  #signature-experiences .signature-grid{grid-template-columns:1fr!important}
 }
-.home-page .layered-wing{
-  top:50%!important;
-  left:50%!important;
-  width:min(220px,19vw)!important;
-  height:126px!important;
-  transform:translate(-50%,-50%) translateX(0) scale(.86)!important;
-  opacity:0!important;
-  filter:none!important;
-  transition:transform .62s cubic-bezier(.22,.7,.18,1),opacity .35s ease!important;
-  pointer-events:none!important;
+
+
+/* ============================================================
+   V20 — LOCKED V19 BASE. Only explicitly requested changes.
+   ============================================================ */
+
+/* Real Estate: the heading photo spaces use the same compact square treatment
+   as the other service pages. */
+#property-categories .section-heading-layout .section-photo-slot,
+#property-location .section-heading-layout .section-photo-slot{
+  width:120px!important;
+  height:120px!important;
+  min-height:120px!important;
+  aspect-ratio:1/1!important;
+  align-self:center!important;
 }
-.home-page .layered-wing .layered-wing-visual{
-  width:100%!important;
-  height:78px!important;
+
+/* Real Estate network: four sources, and every arrow points inward to MADHYUM. */
+#property-network .property-network-flow{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr)!important;
+  grid-template-rows:auto auto!important;
   align-items:center!important;
-}
-.home-page .layered-wing .layered-wing-visual img{
-  max-height:72px!important;
-  max-width:110px!important;
-  object-fit:contain!important;
-}
-.home-page .layered-wing-title{
-  margin-top:3px!important;
-  padding:5px 8px!important;
-  max-width:100%!important;
-  font-size:.78rem!important;
-  font-weight:700!important;
-  letter-spacing:.095em!important;
-  white-space:nowrap;
-}
-.home-page .layered-wing.is-active{
-  transform:translate(-50%,-50%) translateX(0) scale(1)!important;
-  opacity:1!important;
-  z-index:5!important;
-}
-.home-page .layered-wing.position-left{
-  transform:translate(-50%,-50%) translateX(-235px) scale(.84)!important;
-  opacity:.58!important;
-  z-index:4!important;
-}
-.home-page .layered-wing.position-far-left{
-  transform:translate(-50%,-50%) translateX(-465px) scale(.72)!important;
-  opacity:.28!important;
-  z-index:3!important;
-}
-.home-page .layered-wing.position-right{
-  transform:translate(-50%,-50%) translateX(235px) scale(.84)!important;
-  opacity:.58!important;
-  z-index:4!important;
-}
-.home-page .layered-wing.position-far-right{
-  transform:translate(-50%,-50%) translateX(465px) scale(.72)!important;
-  opacity:.28!important;
-  z-index:3!important;
-}
-.home-page .layered-controls{
-  bottom:18px!important;
-  z-index:70!important;
-  background:rgba(4,12,20,.48);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:999px;
-  padding:5px 8px;
-  backdrop-filter:blur(12px);
-}
-.home-page .layered-control{width:34px;height:34px}
-.home-page .layered-dot{height:3px}
-.home-page .layered-dot.active{width:30px}
-
-/* Slightly larger hero wing names, as requested. */
-.home-page .layered-wing-title{font-size:.85rem!important}
-
-/* ---------------------------------------------------------
-   HOMEPAGE — compact Sulekha-inspired service presentation
---------------------------------------------------------- */
-.home-page .solutions-section .solution-panel{
-  background:#fff;
-  color:#10151a;
-  border:1px solid #d8d4cc;
-  box-shadow:0 8px 24px rgba(0,0,0,.045);
-}
-.home-page .solutions-section .solution-panel:hover{
-  border-color:#b9a06d;
-  background:#fbfaf7;
-  transform:translateY(-3px);
-}
-.home-page .solution-index{color:#8a7b62}
-.home-page .solution-copy h3{color:#11161b}
-.home-page .solution-copy p{color:#697178}
-.home-page .solution-link{color:#7b5d27}
-
-.home-page .relationship-grid{
-  gap:12px;
-  border-top:0;
-}
-.home-page .relationship-card,
-.home-page .relationship-card+.relationship-card,
-.home-page .relationship-card-wide{
-  border:1px solid var(--line)!important;
-  border-radius:12px;
-  background:#fff;
-  padding:18px 20px!important;
-  min-height:108px;
-}
-.home-page .relationship-card h3{color:#11161b}
-.home-page .relationship-card .eyebrow{color:#5e6670}
-.home-page .network-section .section-head{margin-bottom:20px}
-.home-page .network-statement{
-  padding:18px 22px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#faf9f5;
-}
-
-/* ---------------------------------------------------------
-   REAL ESTATE — four category boxes
---------------------------------------------------------- */
-.category-page .category-columns,
-.category-page .location-grid,
-.category-page .occasion-grid,
-.category-page .signature-grid,
-.category-page .region-grid,
-.category-page .category-grid{
-  gap:12px!important;
-}
-.category-page .category-list,
-.category-page .location-card,
-.category-page .occasion-card,
-.category-page .signature-column,
-.category-page .region-item{
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#fff;
-  padding:20px;
-  box-shadow:0 7px 22px rgba(0,0,0,.035);
-}
-.category-page .category-list{
-  min-height:132px!important;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-.category-page .category-list h3,
-.category-page .location-card h3,
-.category-page .occasion-card h3,
-.category-page .signature-column h3,
-.category-page .region-item h3{
-  margin:0 0 10px;
-  color:#11161b;
-}
-.category-page .category-list p,
-.category-page .location-card p,
-.category-page .occasion-card p,
-.category-page .signature-column p,
-.category-page .region-item p{
-  margin:0;
-  color:#697178;
-  line-height:1.65;
-}
-
-/* All major service cards: clean bordered cards, concise hierarchy. */
-.category-page .service-card,
-.category-page .course-card,
-.category-page .split-panel,
-.category-page .benefit-card,
-.category-page .privilege-card,
-.travel-page .package-item{
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#fff;
-  box-shadow:0 7px 22px rgba(0,0,0,.035);
-}
-.category-page .benefit-card{
-  padding:20px!important;
-  min-height:165px!important;
-}
-.category-page .benefit-card+.benefit-card{border-left:1px solid var(--line)!important}
-.category-page .service-card{min-height:225px!important}
-.category-page .service-card span,
-.category-page .service-kicker,
-.category-page .package-no{
-  color:#7b6849;
-}
-
-/* Dark sections keep strong contrast while cards stay readable. */
-.category-page .dark .service-card,
-.category-page .dark .location-card,
-.category-page .dark .signature-column,
-.category-page .dark .region-item,
-.category-page .dark .travel-network-visual .network-top,
-.category-page .dark .network-pill{
-  background:#101d2a;
-  border-color:rgba(255,255,255,.15);
-  color:#fff;
-}
-.category-page .dark .service-card h3,
-.category-page .dark .location-card h3,
-.category-page .dark .signature-column h3,
-.category-page .dark .region-item h3{color:#fff}
-.category-page .dark .service-card p,
-.category-page .dark .location-card p,
-.category-page .dark .signature-column p,
-.category-page .dark .region-item p{color:#c2cbd1}
-
-/* ---------------------------------------------------------
-   TRAVEL — turn long rows into compact readable boxes
---------------------------------------------------------- */
-.travel-page .package-list{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-.travel-page .package-item{
-  display:flex!important;
-  flex-direction:column;
-  gap:15px!important;
-  padding:21px!important;
-  min-height:260px;
-}
-.travel-page .package-item h3{font-size:1.45rem!important;line-height:1.2}
-.travel-page .package-item p{font-size:.92rem;line-height:1.55}
-.travel-page .package-examples{
-  padding-top:12px;
-  border-top:1px solid #e0ddd6;
-}
-.travel-page .package-examples strong{
-  display:block;
-  margin-bottom:5px;
-  font-size:.7rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:#7b6849;
-}
-.travel-page .package-examples span{font-size:.88rem;line-height:1.55}
-.travel-page .service-more{margin-top:auto}
-
-/* ---------------------------------------------------------
-   NETWORK DIAGRAMS — clean hierarchy across pages
---------------------------------------------------------- */
-.clean-network,
-.network-stage{
-  max-width:940px!important;
+  gap:24px 42px!important;
+  max-width:900px!important;
   margin:28px auto 0!important;
 }
-.clean-network .network-top,
-.network-stage .network-pill:first-child{
-  width:min(100%,520px);
-  margin:0 auto;
-  text-align:center;
+#property-network .property-network-flow .network-row{display:contents!important}
+#property-network .property-network-flow .network-row-main .network-source:first-child{grid-column:1!important;grid-row:1!important}
+#property-network .property-network-flow .network-center{grid-column:2!important;grid-row:1 / span 2!important;align-self:center!important}
+#property-network .property-network-flow .network-row-main .network-source:last-child{grid-column:3!important;grid-row:1!important}
+#property-network .property-network-flow .network-row-secondary .network-source:first-child{grid-column:1!important;grid-row:2!important}
+#property-network .property-network-flow .network-row-secondary .network-source:last-child{grid-column:3!important;grid-row:2!important}
+#property-network .property-network-flow .network-source{position:relative!important}
+#property-network .property-network-flow .network-source::before,
+#property-network .property-network-flow .network-source::after{content:none!important;display:none!important}
+#property-network .property-network-flow .network-row-main .network-source:first-child::after{
+  content:"→"!important;display:block!important;position:absolute!important;right:-34px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
 }
-.network-center.large,
-.network-stage .network-center{
-  min-width:190px;
-  min-height:74px;
-  border-radius:10px;
-  box-shadow:0 8px 22px rgba(0,0,0,.10);
+#property-network .property-network-flow .network-row-main .network-source:last-child::before{
+  content:"←"!important;display:block!important;position:absolute!important;left:-34px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
 }
-.clean-network .partner-row,
-.network-stage .network-pill:not(:first-child){
-  margin-top:10px;
+#property-network .property-network-flow .network-row-secondary .network-source:first-child::after{
+  content:"↗"!important;display:block!important;position:absolute!important;right:-34px!important;top:-27px!important;transform:none!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
 }
-.network-stage{
-  display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px!important;
-  align-items:stretch;
-}
-.network-stage .network-center{
-  grid-column:1/-1;
-  grid-row:2;
-  justify-self:center;
-  width:min(240px,100%);
-}
-.network-stage .network-pill:first-child{
-  grid-column:1/-1;
-  grid-row:1;
-}
-.network-stage .network-pill:not(:first-child){
-  min-height:58px;
-  display:grid;
-  place-items:center;
-  text-align:center;
-  padding:12px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:#fff;
-  font-size:.72rem;
-  font-weight:700;
-  letter-spacing:.08em;
+#property-network .property-network-flow .network-row-secondary .network-source:last-child::before{
+  content:"↖"!important;display:block!important;position:absolute!important;left:-34px!important;top:-27px!important;transform:none!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
 }
 
-/* ---------------------------------------------------------
-   BUTTON / CTA CONTRAST — especially Submit Requirement
---------------------------------------------------------- */
-.category-page .hero-actions .btn,
-.category-page .submit-btn,
-.category-page .final-cta .btn{
-  min-height:46px;
-  padding:12px 20px;
-  border-radius:999px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  letter-spacing:.01em;
+/* Travel offer: no repeated View More controls in this section. */
+#travel-offer .service-more{display:none!important}
+
+/* Travel network: a travel-friendly photographic panel, softly overlaid so the
+   diagram remains the focus. The center pseudo-arrow is disabled because the
+   HTML supplies the single downward arrow. */
+#travel-network .travel-network-visual{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  max-width:980px!important;
+  margin:20px auto 0!important;
+  padding:28px!important;
+  border:1px solid rgba(17,24,39,.10)!important;
+  border-radius:22px!important;
+  background-image:linear-gradient(rgba(255,255,255,.80),rgba(255,255,255,.88)),url("../images/travel-network.jpg")!important;
+  background-size:cover!important;
+  background-position:center!important;
 }
-.category-page .hero-actions .btn:not(.primary){
+#travel-network .travel-network-visual::before{content:none!important}
+#travel-network .network-center.large::after{content:none!important;display:none!important}
+#travel-network .travel-network-source{z-index:1}
+#travel-network .travel-arrow{z-index:1;height:32px!important}
+#travel-network .network-center.large{z-index:1}
+#travel-network .partner-row{z-index:1}
+
+/* Academic path: familiar education photograph used as a limited-opacity
+   section background rather than a large standalone photo. */
+#academic-path{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  background-image:linear-gradient(rgba(255,255,255,.88),rgba(255,255,255,.92)),url("../images/academic-path.jpg")!important;
+  background-size:cover!important;
+  background-position:center!important;
+}
+#academic-path::before{content:none!important}
+
+/* Education Abroad: strong navy cards with high-contrast white text. */
+#region-education-abroad .region-item,
+#education-abroad .region-item,
+.region-grid-light .region-item{
+  background:#0b1f3a!important;
+  border-color:#17365f!important;
   color:#fff!important;
-  border:1px solid rgba(255,255,255,.65)!important;
-  background:rgba(5,15,24,.72)!important;
-  box-shadow:0 8px 22px rgba(0,0,0,.22);
+  box-shadow:0 10px 24px rgba(11,31,58,.12)!important;
 }
-.category-page .hero-actions .btn.primary,
-.category-page .final-cta .btn.primary{
-  background:#d7b36e!important;
-  color:#10151a!important;
-  border-color:#d7b36e!important;
-  box-shadow:0 8px 24px rgba(0,0,0,.20);
-}
+#region-education-abroad .region-item h3,
+#region-education-abroad .region-item p,
+#education-abroad .region-item h3,
+#education-abroad .region-item p,
+.region-grid-light .region-item h3,
+.region-grid-light .region-item p{color:#fff!important}
 
-/* ---------------------------------------------------------
-   MEMBERSHIP — privileges as clean boxes
---------------------------------------------------------- */
-.privilege-grid{
+/* Education admission network: Students/Parents above, Colleges left,
+   Universities right, Education Partners below. Every arrow points to MADHYUM. */
+#admission-network .education-network-flow{
   display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px!important;
-}
-.privilege-card{
-  padding:20px!important;
-  min-height:150px;
-}
-.privilege-card span{font-weight:700;letter-spacing:.10em;font-size:.78rem;color:#7b6849}
-.privilege-card p{margin:10px 0 0;color:#697178;line-height:1.6}
-
-/* Keep the existing right Contact Us pill visible on desktop. */
-@media(min-width:961px){
-  .site-header .contact-pill{display:inline-flex!important}
-}
-
-@media(max-width:960px){
-  .home-page .layered-orbit{bottom:68px!important;height:138px!important}
-  .home-page .layered-wing{width:190px!important}
-  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-175px) scale(.80)!important}
-  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-330px) scale(.68)!important}
-  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(175px) scale(.80)!important}
-  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(330px) scale(.68)!important}
-  .travel-page .package-list{grid-template-columns:1fr}
-  .privilege-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .network-stage{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .network-stage .network-pill:first-child,.network-stage .network-center{grid-column:1/-1}
-}
-@media(max-width:600px){
-  .home-page .layered-orbit{bottom:68px!important;height:124px!important}
-  .home-page .layered-wing{width:155px!important}
-  .home-page .layered-wing .layered-wing-visual{height:66px!important}
-  .home-page .layered-wing .layered-wing-visual img{max-height:60px!important;max-width:90px!important}
-  .home-page .layered-wing-title{font-size:.68rem!important}
-  .home-page .layered-wing.position-left{transform:translate(-50%,-50%) translateX(-125px) scale(.72)!important}
-  .home-page .layered-wing.position-far-left{transform:translate(-50%,-50%) translateX(-240px) scale(.58)!important;opacity:.16!important}
-  .home-page .layered-wing.position-right{transform:translate(-50%,-50%) translateX(125px) scale(.72)!important}
-  .home-page .layered-wing.position-far-right{transform:translate(-50%,-50%) translateX(240px) scale(.58)!important;opacity:.16!important}
-  .home-page .layered-controls{bottom:18px!important}
-  .privilege-grid,.network-stage{grid-template-columns:1fr!important}
-  .network-stage .network-pill:first-child,.network-stage .network-center{grid-column:auto}
-  .network-stage .network-center{grid-row:auto}
-  .network-stage .network-pill:not(:first-child){grid-column:auto!important}
-}
-
-/* =========================================================
-   HOMEPAGE NETWORK — compact single-column relationship rows
-   Optional image slots are intentionally subtle; if no image file
-   exists, the space remains dignified and can be populated later.
-========================================================= */
-.home-page .relationship-grid{
-  display:grid!important;
-  grid-template-columns:1fr!important;
-  gap:10px!important;
-  margin-top:20px;
-}
-.home-page .relationship-card,
-.home-page .relationship-card-wide{
-  width:100%;
-  min-height:92px!important;
-  display:flex!important;
+  grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr)!important;
+  grid-template-rows:auto 86px auto!important;
+  gap:0 42px!important;
+  max-width:900px!important;
+  margin:30px auto 0!important;
   align-items:center!important;
-  justify-content:space-between!important;
-  gap:24px;
-  padding:16px 18px!important;
-  box-sizing:border-box;
 }
-.home-page .relationship-card-content{
-  min-width:0;
-  flex:1 1 auto;
+#admission-network .education-node,
+#admission-network .education-center{position:relative!important}
+#admission-network .education-students{grid-column:2!important;grid-row:1!important}
+#admission-network .education-colleges{grid-column:1!important;grid-row:2!important}
+#admission-network .education-center{grid-column:2!important;grid-row:2!important;min-height:72px;display:flex;align-items:center;justify-content:center}
+#admission-network .education-universities{grid-column:3!important;grid-row:2!important}
+#admission-network .education-partners{grid-column:2!important;grid-row:3!important}
+#admission-network .education-students::after{
+  content:"↓"!important;position:absolute!important;left:50%!important;bottom:-29px!important;transform:translateX(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
 }
-.home-page .relationship-card .eyebrow{
-  margin-bottom:6px;
-  font-size:.68rem;
+#admission-network .education-colleges::after{
+  content:"→"!important;position:absolute!important;right:-34px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
 }
-.home-page .relationship-card h3{
-  margin:0!important;
-  font-size:clamp(1rem,1.5vw,1.28rem)!important;
-  line-height:1.25!important;
+#admission-network .education-universities::before{
+  content:"←"!important;position:absolute!important;left:-34px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
 }
-.home-page .network-photo-slot{
-  width:88px;
-  height:62px;
-  flex:0 0 88px;
-  border-radius:8px;
-  border:1px solid rgba(16,21,26,.12);
-  background-color:#f1eee7;
-  background-image:var(--slot-image);
-  background-size:cover;
-  background-position:center;
-  overflow:hidden;
-}
-.home-page .network-statement{
-  margin-top:14px!important;
-}
-@media(max-width:600px){
-  .home-page .relationship-card,
-  .home-page .relationship-card-wide{
-    min-height:84px!important;
-    gap:14px;
-    padding:14px!important;
-  }
-  .home-page .network-photo-slot{
-    width:70px;
-    height:52px;
-    flex-basis:70px;
-  }
-}
-
-.contact-page .category-membership{background-position:center}
-.contact-page .inner-hero-inner{max-width:920px}
-.optional{font-size:.72em;opacity:.65;margin-left:5px}
-
-
-/* =========================================================
-   FINAL LOCK POLISH — only requested changes
-   ========================================================= */
-
-/* CTA remains in the HTML/JS but is not visually displayed. */
-.final-cta{
-  display:none !important;
-}
-
-/* Five hero wings: +2px visual size and +4px title size. */
-.layered-wing{
-  width:232px;
-}
-.layered-wing-visual{
-  height:192px;
-}
-.layered-wing-visual img{
-  max-height:192px;
-  filter:
-    drop-shadow(0 0 1px rgba(215,179,110,.95))
-    drop-shadow(0 22px 28px rgba(0,0,0,.42));
-}
-.layered-wing-title{
-  font-size:.74rem;
-  border:1px solid rgba(215,179,110,.72);
-  border-radius:999px;
-  background:rgba(7,18,29,.34);
-  box-shadow:0 6px 18px rgba(0,0,0,.14);
-  transition:
-    background .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease,
-    transform .25s ease;
-}
-.layered-wing:hover .layered-wing-title{
-  border-color:#d7b36e;
-  background:rgba(7,18,29,.62);
-  box-shadow:0 10px 24px rgba(0,0,0,.24);
-  transform:translateY(-2px);
-}
-.layered-wing:hover .layered-wing-visual img{
-  filter:
-    drop-shadow(0 0 2px rgba(215,179,110,1))
-    drop-shadow(0 30px 38px rgba(0,0,0,.50));
-}
-
-/* Category/example text: +3px throughout the site. */
-.package-examples span,
-.more-copy,
-.category-list p,
-.course-card p,
-.course-card .more-copy,
-.service-card .more-copy,
-.region-item p,
-.academic-card p,
-.split-panel p{
-  font-size:calc(1em + 3px);
-}
-
-/* Category numbers such as 01, 02, 03: +2px. */
-.package-no,
-.solution-index{
-  font-size:calc(1em + 2px) !important;
-}
-
-/* Quoted statement treatment. */
-.highlight-statement{
-  font-style:italic;
-  quotes:"“" "”";
-}
-
-/* Premium but restrained hover treatment for interactive controls. */
-button,
-.btn,
-.smalllink,
-.service-more summary,
-.view-more summary,
-.menu-btn,
-.layered-control{
-  transition:
-    transform .22s ease,
-    box-shadow .22s ease,
-    background-color .22s ease,
-    border-color .22s ease,
-    color .22s ease,
-    opacity .22s ease;
-}
-button:hover,
-.btn:hover,
-.smalllink:hover,
-.service-more summary:hover,
-.view-more summary:hover,
-.menu-btn:hover,
-.layered-control:hover{
-  transform:translateY(-2px);
-}
-.btn:hover,
-.layered-control:hover,
-.menu-btn:hover{
-  box-shadow:0 8px 22px rgba(0,0,0,.18);
-}
-
-/* Overall premium entrance/reveal polish. */
-.reveal{
-  transition:
-    opacity .75s ease,
-    transform .75s cubic-bezier(.22,.61,.36,1);
+#admission-network .education-partners::before{
+  content:"↑"!important;position:absolute!important;left:50%!important;top:-29px!important;transform:translateX(-50%)!important;color:var(--gold)!important;font-size:23px!important;font-weight:900!important;
 }
 
 @media(max-width:620px){
-  .layered-wing{width:137px;}
-  .layered-wing-visual{height:137px;}
-  .layered-wing-visual img{max-height:137px;}
-  .layered-wing-title{font-size:.57rem;}
+  #property-categories .section-heading-layout .section-photo-slot,
+  #property-location .section-heading-layout .section-photo-slot{width:120px!important;height:120px!important;min-height:120px!important}
+  #admission-network .education-network-flow{
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto auto auto auto!important;
+    gap:14px!important;
+  }
+  #admission-network .education-students,
+  #admission-network .education-colleges,
+  #admission-network .education-center,
+  #admission-network .education-universities,
+  #admission-network .education-partners{grid-column:1!important;grid-row:auto!important}
+  #admission-network .education-students::after,
+  #admission-network .education-colleges::after,
+  #admission-network .education-universities::before,
+  #admission-network .education-partners::before{display:none!important}
 }
+
+/* V21 — Events & Weddings: warm orange contrast for the occasion section only. */
+#occasion-types{
+  background:linear-gradient(135deg,#fffaf5 0%,#fff7ef 52%,#fffaf6 100%);
+  overflow:hidden;
+}
+#occasion-types .section-head .eyebrow{color:#b65f2a}
+#occasion-types .section-photo-slot{
+  border-color:rgba(197,105,43,.20);
+  box-shadow:0 18px 45px rgba(178,91,35,.10);
+}
+#occasion-types .occasion-grid{position:relative}
+#occasion-types .occasion-grid::before,
+#occasion-types .occasion-grid::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+}
+#occasion-types .occasion-grid::before{
+  width:180px;height:180px;
+  right:-85px;top:-75px;
+  border:1px solid rgba(206,112,54,.16);
+}
+#occasion-types .occasion-grid::after{
+  width:90px;height:90px;
+  left:-45px;bottom:-35px;
+  border:1px solid rgba(206,112,54,.12);
+}
+#occasion-types .occasion-card{
+  position:relative;
+  z-index:1;
+  min-height:170px;
+  border:1px solid rgba(197,105,43,.20);
+  border-top:2px solid rgba(197,105,43,.72);
+  background:linear-gradient(145deg,#fffefd 0%,#fff7ef 100%);
+  box-shadow:0 12px 32px rgba(146,75,31,.06);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+#occasion-types .occasion-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(197,105,43,.38);
+  box-shadow:0 18px 38px rgba(146,75,31,.10);
+}
+#occasion-types .occasion-card>span{
+  display:inline-block;
+  color:#b65f2a;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.13em;
+}
+#occasion-types .occasion-card h3{color:#35251d}
+#occasion-types .occasion-card p{color:#75645b}
+#occasion-types .occasion-card .smalllink{
+  color:#b65f2a;
+  font-weight:900;
+}
+/* Subtle wedding-style decorative detail — deliberately restrained, not decorative clutter. */
+#occasion-types .occasion-card::after{
+  content:"";
+  position:absolute;
+  right:16px;top:15px;
+  width:8px;height:8px;
+  border:1px solid rgba(197,105,43,.42);
+  border-radius:50%;
+  box-shadow:0 0 0 5px rgba(197,105,43,.055),0 0 0 10px rgba(197,105,43,.025);
+  pointer-events:none;
+}
+
+/* V22 — Real Estate Sections 03 & 04: restore large section-intro photos;
+   keep individual card photos compact on the right side only. */
+#property-categories .section-heading-layout .section-photo-slot,
+#property-location .section-heading-layout .section-photo-slot{
+  width:330px!important;
+  height:190px!important;
+  min-height:190px!important;
+  aspect-ratio:auto!important;
+  align-self:center!important;
+}
+
+#property-categories .category-columns,
+#property-location .location-grid{
+  align-items:stretch!important;
+}
+
+#property-categories .category-list,
+#property-location .location-card{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 150px!important;
+  grid-template-rows:auto 1fr!important;
+  column-gap:16px!important;
+  align-items:start!important;
+  min-height:150px!important;
+  padding:16px!important;
+}
+
+#property-categories .category-list .category-card-photo,
+#property-location .location-card .location-card-photo{
+  grid-column:2!important;
+  grid-row:1 / span 2!important;
+  width:150px!important;
+  height:150px!important;
+  min-height:150px!important;
+  aspect-ratio:1 / 1!important;
+  margin:0!important;
+  border-radius:11px!important;
+}
+
+#property-categories .category-list h3,
+#property-location .location-card h3{
+  grid-column:1!important;
+  grid-row:1!important;
+  margin:2px 0 7px!important;
+}
+
+#property-categories .category-list p,
+#property-location .location-card p{
+  grid-column:1!important;
+  grid-row:2!important;
+  margin:0!important;
+}
+
+@media(max-width:980px){
+  #property-categories .section-heading-layout .section-photo-slot,
+  #property-location .section-heading-layout .section-photo-slot{
+    width:100%!important;
+    height:220px!important;
+    min-height:220px!important;
+    aspect-ratio:auto!important;
+  }
+}
+
+@media(max-width:620px){
+  #property-categories .section-heading-layout .section-photo-slot,
+  #property-location .section-heading-layout .section-photo-slot{
+    width:100%!important;
+    height:220px!important;
+    min-height:220px!important;
+  }
+
+  #property-categories .category-list,
+  #property-location .location-card{
+    grid-template-columns:minmax(0,1fr) 120px!important;
+    grid-template-rows:auto 1fr!important;
+    column-gap:12px!important;
+    min-height:120px!important;
+    padding:13px!important;
+  }
+
+  #property-categories .category-list .category-card-photo,
+  #property-location .location-card .location-card-photo{
+    width:120px!important;
+    height:120px!important;
+    min-height:120px!important;
+  }
+}
+
+/* V23 — Final Real Estate photo sizing: compact square photos inside cards only. */
+#property-categories .category-list,
+#property-location .location-card{
+  grid-template-columns:minmax(0,1fr) 96px!important;
+  min-height:96px!important;
+  column-gap:14px!important;
+}
+#property-categories .category-list .category-card-photo,
+#property-location .location-card .location-card-photo{
+  width:96px!important;
+  height:96px!important;
+  min-height:96px!important;
+  aspect-ratio:1 / 1!important;
+}
+
+@media(max-width:620px){
+  #property-categories .category-list,
+  #property-location .location-card{
+    grid-template-columns:minmax(0,1fr) 82px!important;
+    min-height:82px!important;
+    column-gap:10px!important;
+  }
+  #property-categories .category-list .category-card-photo,
+  #property-location .location-card .location-card-photo{
+    width:82px!important;
+    height:82px!important;
+    min-height:82px!important;
+  }
+}
+
+
+/* V25 — FINAL LOCK: only requested refinements. */
+/* Five homepage wing photos: slightly larger (+2px height) with a refined outline. */
+.layered-wing-visual{
+  height:98px!important;
+  border:2px solid rgba(255,255,255,.72)!important;
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.30),
+    0 0 0 1px rgba(201,164,91,.30),
+    0 0 18px rgba(201,164,91,.10)!important;
+}
+.layered-wing:hover .layered-wing-visual{
+  border-color:rgba(255,255,255,.90)!important;
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.34),
+    0 0 0 1px rgba(201,164,91,.46),
+    0 0 22px rgba(201,164,91,.14)!important;
+}
+
+/* V25 typography: +2px for the same heading/subheading-style content cards,
+   without changing the main page/section heading hierarchy. */
+.why-points strong{font-size:14px!important}
+.why-points span{font-size:15px!important}
+.solution-copy h3{font-size:24px!important}
+.solution-copy p{font-size:16px!important}
+.relationship-card h3{font-size:23px!important}
+.benefit-card h3{font-size:25px!important}
+.course-card h3,.academic-card h3,.occasion-card h3{font-size:27px!important}
+.benefit-card p,.course-card p,.academic-card p,.occasion-card p,.privilege-card p{font-size:15px!important}
+.service-card h3{font-size:28px!important}
+.service-card p{font-size:15px!important}
+.package-item h3{font-size:29px!important}
+.package-item p{font-size:15px!important}
+.category-list h3,.location-card h3{font-size:27px!important}
+.category-list p,.location-card p{font-size:15px!important}
+#signature-experiences .signature-column h3{font-size:24px!important}
+#signature-experiences .signature-column p{font-size:15px!important}
+.region-item h3{font-size:20px!important}
+.region-item p{font-size:15px!important}
+
+/* Keep the new sizes graceful on small screens. */
+@media(max-width:620px){
+  .layered-wing-visual{height:98px!important}
+}
+
+
+/* V26 — FINAL LOCKED REFINEMENTS: only the explicitly requested changes. */
+/* Hide visible Final CTA bands while keeping their markup/CTA code available. */
+.final-cta{display:none!important}
+
+/* Homepage five wings: +2px from V25, stronger but elegant outline, +4px title type. */
+.layered-wing-visual{height:100px!important;border:2px solid rgba(255,255,255,.78)!important;box-shadow:0 10px 28px rgba(0,0,0,.30),0 0 0 1px rgba(201,164,91,.34),0 0 20px rgba(201,164,91,.11)!important;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+.layered-wing-title{font-size:14px!important;transition:transform .28s ease,text-shadow .28s ease}
+.layered-wing:hover{transform:translateY(-5px) scale(1.02)!important;opacity:1!important;filter:none!important}
+.layered-wing:hover .layered-wing-visual{border-color:rgba(255,255,255,.98)!important;box-shadow:0 14px 34px rgba(0,0,0,.36),0 0 0 1px rgba(201,164,91,.55),0 0 24px rgba(201,164,91,.18)!important}
+.layered-wing:hover .layered-wing-title{transform:translateY(-1px);text-shadow:0 2px 16px rgba(0,0,0,.95),0 0 8px rgba(201,164,91,.22)}
+
+/* Category/example text: +3px across the category/example systems. */
+.package-examples span,.package-examples strong,.more-copy,.region-item p,.category-list p,.location-card p{font-size:18px!important;line-height:1.55!important}
+
+/* Requested highlighted statements. */
+.highlight-statement{font-style:italic!important;font-weight:650!important;position:relative;padding:10px 14px!important;border-left:2px solid var(--gold);background:rgba(201,164,91,.07);border-radius:0 10px 10px 0}
+.dark .highlight-statement{background:rgba(201,164,91,.09)}
+
+/* Category numbering: +2px wherever numbered category/card indices are used. */
+.benefit-card>span{font-size:12px!important}.package-no,.solution-index{font-size:13px!important}
+
+/* Light premium motion: subtle entrance, lift, and button feedback. */
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+.btn,.smalllink,.solution-link,.service-more summary,.menu-business-grid a,.menu-secondary a,.contact-pill,.iconbtn,.menu-btn,.layered-control,.layered-dot{transition:transform .22s ease,box-shadow .22s ease,background-color .22s ease,border-color .22s ease,color .22s ease}
+.btn:hover,.smalllink:hover,.solution-link:hover,.service-more summary:hover,.menu-business-grid a:hover,.menu-secondary a:hover,.contact-pill:hover,.iconbtn:hover,.menu-btn:hover{transform:translateY(-2px)}
+.btn:hover{box-shadow:0 8px 22px rgba(15,23,42,.14)}
+.btn.primary:hover{box-shadow:0 8px 24px rgba(201,164,91,.28)}
+.smalllink:hover,.solution-link:hover,.service-more summary:hover{color:var(--gold)}
+.solution-panel,.benefit-card,.service-card,.course-card,.academic-card,.occasion-card,.region-item,.why-card,.relationship-card,.signature-column,.package-item,.category-list,.location-card{transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+.solution-panel:hover,.benefit-card:hover,.service-card:hover,.course-card:hover,.academic-card:hover,.occasion-card:hover,.region-item:hover,.why-card:hover,.relationship-card:hover,.signature-column:hover,.package-item:hover,.category-list:hover,.location-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(15,23,42,.08)}
+@media(max-width:980px){.layered-wing-visual{height:100px!important}.layered-wing-title{font-size:12px!important}.package-examples span,.package-examples strong,.more-copy,.region-item p,.category-list p,.location-card p{font-size:17px!important}}
+@media(max-width:620px){.layered-wing-visual{height:100px!important}.layered-wing-title{font-size:11px!important}.package-examples span,.package-examples strong,.more-copy,.region-item p,.category-list p,.location-card p{font-size:16px!important}.reveal{transform:translateY(8px)}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.layered-wing,.layered-wing-visual,.layered-wing-title,.btn,.smalllink,.solution-link,.service-more summary,.solution-panel,.benefit-card,.service-card,.course-card,.academic-card,.occasion-card,.region-item,.why-card,.relationship-card,.signature-column,.package-item,.category-list,.location-card{transition:none!important}}
+
+
+/* V26 category scale: +3px from the locked V25 category sizing. */
+.package-item h3{font-size:32px!important}
+.package-item p{font-size:18px!important}
+.course-card h3,.category-list h3,.location-card h3{font-size:30px!important}
+.course-card p,.category-list p,.location-card p{font-size:18px!important}
+@media(max-width:980px){.package-item h3{font-size:30px!important}.course-card h3,.category-list h3,.location-card h3{font-size:28px!important}.package-item p,.course-card p,.category-list p,.location-card p{font-size:17px!important}}
+@media(max-width:620px){.package-item h3{font-size:28px!important}.course-card h3,.category-list h3,.location-card h3{font-size:27px!important}.package-item p,.course-card p,.category-list p,.location-card p{font-size:16px!important}}
