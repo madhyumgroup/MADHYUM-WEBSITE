@@ -357,3 +357,6 @@ Additional duplicate-photo corrections:
 - business-stages.jpg → Consultancy Section 03 / For Every Stage of Your Business
 - business-network.jpg → Consultancy Section 04 / The MADHYUM Business Network
 - consultancy-final-cta.jpg → Consultancy final CTA
+
+
+V26 FINAL LOCK — only the explicitly requested final polish changes were applied. All other website structure/content remains locked.
