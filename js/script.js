@@ -158,7 +158,7 @@
   // Homepage live statistics: one persistent browser visitor ID is sent to the same Apps Script backend.
   // The backend must deduplicate visitor IDs and return {success:true, visitors:<number>, inquiries:<number>}.
   if(document.body.classList.contains('home-page')){
-    const statsUrl=window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfcyby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
+    const statsUrl=window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
     const visitorKey='madhyum_visitor_id_v1';
     function getVisitorId(){
       try{
@@ -182,7 +182,7 @@
       }
       requestAnimationFrame(tick);
     }
-    async function loadLiveStats(){
+    function loadLiveStats(){
       const values={visitors:document.querySelector('[data-stat-value="visitors"]'),inquiries:document.querySelector('[data-stat-value="inquiries"]')};
       const status=document.querySelector('[data-stats-status]');
       if(!statsUrl){
@@ -190,27 +190,47 @@
         return;
       }
       Object.values(values).forEach(el=>el?.classList.add('is-loading'));
-      try{
-        const url=new URL(statsUrl,window.location.href);
-        url.searchParams.set('action','stats');
-        url.searchParams.set('visitorId',getVisitorId());
-        const response=await fetch(url.toString(),{method:'GET',cache:'no-store'});
-        const data=await response.json();
-        if(!data.success)throw new Error(data.message || 'Unable to load live statistics.');
-        animateStat(values.visitors,Number(data.visitors));
-        animateStat(values.inquiries,Number(data.inquiries));
-        status&&(status.textContent='Live figures from the MADHYUM network.');
-      }catch(error){
+      const callbackName='madhyumStatsCallback_'+Date.now();
+      const script=document.createElement('script');
+      let settled=false;
+      const cleanup=()=>{script.remove();try{delete window[callbackName]}catch(_){} };
+      const fail=()=>{
+        if(settled)return;
+        settled=true;
+        cleanup();
         Object.values(values).forEach(el=>{if(el){el.classList.remove('is-loading');el.textContent='—'}});
         status&&(status.textContent='Live statistics are temporarily unavailable.');
-      }
+      };
+      window[callbackName]=(data)=>{
+        if(settled)return;
+        settled=true;
+        cleanup();
+        try{
+          if(!data || !data.success)throw new Error(data?.message || 'Unable to load live statistics.');
+          animateStat(values.visitors,Number(data.visitors));
+          animateStat(values.inquiries,Number(data.inquiries));
+          status&&(status.textContent='Live figures from the MADHYUM network.');
+        }catch(_){
+          cleanup();
+          Object.values(values).forEach(el=>{if(el){el.classList.remove('is-loading');el.textContent='—'}});
+          status&&(status.textContent='Live statistics are temporarily unavailable.');
+        }
+      };
+      script.onerror=fail;
+      const url=new URL(statsUrl,window.location.href);
+      url.searchParams.set('action','stats');
+      url.searchParams.set('visitorId',getVisitorId());
+      url.searchParams.set('callback',callbackName);
+      url.searchParams.set('_',Date.now().toString());
+      script.src=url.toString();
+      document.head.appendChild(script);
     }
     loadLiveStats();
   }
 
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
   // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
-  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfcyby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
+  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
   const pageWing = {
     'real-estate.html':'Real Estate',
     'travel.html':'Travel',
