@@ -47,17 +47,66 @@
   function esc(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
   function renderSearch(q=''){
     if(!searchResults)return;
-    const term=q.trim().toLowerCase();
-    if(!term){searchResults.innerHTML='<div class="result"><strong>Start typing a requirement</strong><small>Try property, Dubai, honeymoon, MBBS, GST, wedding, Hajj, or membership.</small></div>';return;}
+    const raw=q.trim().toLowerCase();
+    if(!raw){searchResults.innerHTML='<div class="result"><strong>Start typing a requirement</strong><small>Try property, Dubai, honeymoon, MBBS, GST, wedding, Hajj, or membership.</small></div>';return;}
+    const tokens=raw.split(/\s+/).filter(Boolean);
     const seen=new Set();
-    const matches=SEARCH_DATA.filter(([termText])=>termText.toLowerCase().includes(term)).filter(([t,p])=>{const k=p+'|'+t;if(seen.has(k))return false;seen.add(k);return true}).slice(0,24);
-    if(!matches.length){searchResults.innerHTML='<div class="result"><strong>No exact keyword found</strong><small>Try a broader requirement or service name.</small></div>';return;}
+    const matches=SEARCH_DATA
+      .map(([termText,page,label])=>{
+        const hay=termText.toLowerCase();
+        const hits=tokens.filter(token=>hay.includes(token)).length;
+        return [termText,page,label,hits];
+      })
+      .filter(([termText,page,label,hits])=>hits===tokens.length || (tokens.length===1 && hits>0))
+      .sort((a,b)=>b[3]-a[3] || a[0].length-b[0].length)
+      .filter(([t,p])=>{const k=p+'|'+t;if(seen.has(k))return false;seen.add(k);return true})
+      .slice(0,40);
+    if(!matches.length){searchResults.innerHTML='<div class="result"><strong>No matching keyword found</strong><small>Try a broader requirement or service name.</small></div>';return;}
     const pages={};
     matches.forEach(([t,p,l])=>(pages[p]??={label:l,terms:[]}).terms.push(t));
-    searchResults.innerHTML=Object.entries(pages).map(([p,v])=>`<a class="result" href="${p}"><strong>${esc(v.label)}</strong><small>${esc(v.terms.slice(0,7).join(' • '))}</small></a>`).join('');
+    searchResults.innerHTML=Object.entries(pages).map(([page,v])=>`<a class="result" href="${page}"><strong>${esc(v.label)}</strong><small>${esc(v.terms.slice(0,8).join(' • '))}</small></a>`).join('');
   }
   searchInput?.addEventListener('input',e=>renderSearch(e.target.value));
   renderSearch();
+
+
+  // Photo slots: keep every photograph in its own reserved box so nothing can overlap another section.
+  document.querySelectorAll('.section-photo-slot[data-photo], .package-photo[data-photo], .location-card-photo[data-photo], .category-card-photo[data-photo]').forEach(slot=>{
+    const file=slot.getAttribute('data-photo');
+    if(!file) return;
+    const img=new Image();
+    img.onload=()=>{slot.classList.add('has-photo');slot.style.backgroundImage=`url("images/${file}")`;};
+    img.onerror=()=>slot.classList.add('photo-pending');
+    img.src=`images/${file}`;
+  });
+
+  // Home hero: use the clear repository photograph first, with the packaged image as a local fallback.
+  const heroImage=document.querySelector('.layered-hero-image');
+  if(heroImage){
+    heroImage.addEventListener('error',()=>{
+      if(!heroImage.dataset.fallback){
+        heroImage.dataset.fallback='1';
+        heroImage.src='images/hero-madhyam.jpg';
+      }
+    },{once:false});
+  }
+
+  // Five rotating wing photographs: local package first, repository image as a fallback.
+  document.querySelectorAll('.layered-wing img').forEach(img=>{
+    img.addEventListener('error',()=>{
+      const file=img.getAttribute('src')?.split('/').pop();
+      if(file && !img.dataset.fallback){
+        img.dataset.fallback='1';
+        img.src=`https://raw.githubusercontent.com/madhyumgroup/MADHYUM-WEBSITE/main/${file}`;
+      }
+    });
+  });
+
+  // Service photo circles use the same local wing photographs.
+  document.querySelectorAll('.solution-panel[data-photo]').forEach(panel=>{
+    const file=panel.getAttribute('data-photo');
+    if(file) panel.style.setProperty('--solution-photo', `url("images/${file}")`);
+  });
 
   // Smooth internal links.
   document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',e=>{
@@ -74,7 +123,17 @@
   let active=0, timer=null, paused=false;
   if(wings.length){
     if(dots){dots.innerHTML='';wings.forEach((w,i)=>{const d=document.createElement('button');d.type='button';d.className='layered-dot';d.setAttribute('aria-label','Show '+(w.getAttribute('aria-label')||'business'));d.addEventListener('click',()=>{active=i;update();restart()});dots.appendChild(d)})}
-    function update(){wings.forEach((w,i)=>{w.classList.remove('position-left','position-far-left','is-active','position-right','position-far-right');let rel=(i-active+wings.length)%wings.length;const cls=['position-left','position-far-left','is-active','position-right','position-far-right'][rel];if(cls)w.classList.add(cls);w.setAttribute('aria-current',rel===2?'true':'false')});dots?.querySelectorAll('.layered-dot').forEach((d,i)=>d.classList.toggle('active',i===active))}
+    function update(){
+      const classes=['is-active','position-right','position-far-right','position-far-left','position-left'];
+      wings.forEach((w,i)=>{
+        w.classList.remove('position-left','position-far-left','is-active','position-right','position-far-right');
+        const rel=(i-active+wings.length)%wings.length;
+        const cls=classes[rel];
+        if(cls)w.classList.add(cls);
+        w.setAttribute('aria-current',rel===0?'true':'false');
+      });
+      dots?.querySelectorAll('.layered-dot').forEach((d,i)=>d.classList.toggle('active',i===active));
+    }
     function goNext(){active=(active+1)%wings.length;update()}
     function goPrev(){active=(active-1+wings.length)%wings.length;update()}
     function stop(){if(timer){clearInterval(timer);timer=null}}
@@ -86,11 +145,18 @@
     update();start();
   }
 
-  // Accessible View More details remain native <details>; no hidden tiny links.
+  // Accessible Inquire details remain native <details>.
   document.querySelectorAll('.service-more summary').forEach(s=>s.setAttribute('role','button'));
+
+  // Premium hover hints for actionable controls without changing their labels or destinations.
+  document.querySelectorAll('.btn,.smalllink,.solution-link,.service-more summary,.contact-pill,.menu-btn,.iconbtn,.layered-control,.layered-dot').forEach(el=>{
+    if(el.hasAttribute('title')) return;
+    const label=el.getAttribute('aria-label') || el.textContent.trim().replace(/\s+/g,' ');
+    if(label) el.setAttribute('title',label);
+  });
 
   // Basic inquiry form feedback.
   document.querySelectorAll('[data-form-name]').forEach(form=>form.addEventListener('submit',e=>{
-    e.preventDefault();const success=form.querySelector('.form-success');if(success)success.textContent='Thank you. Your requirement has been recorded. Our team will connect with you shortly.';form.reset();
+    e.preventDefault();const success=form.querySelector('.form-success');if(success)success.textContent='Thank you. We received your request. We will contact you soon.';form.reset();
   }));
 })();
