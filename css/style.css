@@ -994,7 +994,6 @@ img{max-width:100%;display:block}
 
 /* V26 — FINAL LOCKED REFINEMENTS: only the explicitly requested changes. */
 /* Hide visible Final CTA bands while keeping their markup/CTA code available. */
-.final-cta{display:none!important}
 
 /* Homepage five wings: +2px from V25, stronger but elegant outline, +4px title type. */
 .layered-wing-visual{height:100px!important;border:2px solid rgba(255,255,255,.78)!important;box-shadow:0 10px 28px rgba(0,0,0,.30),0 0 0 1px rgba(201,164,91,.34),0 0 20px rgba(201,164,91,.11)!important;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
@@ -1035,3 +1034,15 @@ img{max-width:100%;display:block}
 .course-card p,.category-list p,.location-card p{font-size:18px!important}
 @media(max-width:980px){.package-item h3{font-size:30px!important}.course-card h3,.category-list h3,.location-card h3{font-size:28px!important}.package-item p,.course-card p,.category-list p,.location-card p{font-size:17px!important}}
 @media(max-width:620px){.package-item h3{font-size:28px!important}.course-card h3,.category-list h3,.location-card h3{font-size:27px!important}.package-item p,.course-card p,.category-list p,.location-card p{font-size:16px!important}}
+
+/* V27 — FINAL LOCK: keep CTA sections visible; hide only the visible CTA label. */
+.final-cta .eyebrow{visibility:hidden!important}
+
+/* V27 — requested highlighted statements */
+.statement-highlight{font-style:italic!important;font-weight:650!important;position:relative;padding:10px 14px!important;border-left:2px solid var(--gold);background:rgba(201,164,91,.07);border-radius:0 10px 10px 0}
+.dark .statement-highlight{background:rgba(201,164,91,.09)}
+
+/* V27 — education network statement: bold and +2px */
+.education-network-bold{font-weight:800!important;font-size:17px!important;line-height:1.6!important}
+@media(max-width:980px){.education-network-bold{font-size:16px!important}}
+@media(max-width:620px){.education-network-bold{font-size:15px!important}}
