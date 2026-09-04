@@ -293,7 +293,7 @@ img{max-width:100%;display:block}
 #event-network .center-copy{margin-top:18px;line-height:1.55}
 
 /* Keep hero photo areas ready for the named wing photographs. */
-.inner-hero::before{opacity:.34}
+.inner-hero::before{opacity:.306}
 .category-real-estate::before{background-image:url("../images/real-estate-hero.jpg")}
 .category-travel::before{background-image:url("../images/travel-hero.jpg")}
 .category-education::before{background-image:url("../images/education-hero.jpg")}
@@ -993,7 +993,7 @@ img{max-width:100%;display:block}
 
 
 /* V26 — FINAL LOCKED REFINEMENTS: only the explicitly requested changes. */
-/* Hide visible Final CTA bands while keeping their markup/CTA code available. */
+/* Hide only the visible Final CTA label; keep the CTA section itself fully visible. */
 
 /* Homepage five wings: +2px from V25, stronger but elegant outline, +4px title type. */
 .layered-wing-visual{height:100px!important;border:2px solid rgba(255,255,255,.78)!important;box-shadow:0 10px 28px rgba(0,0,0,.30),0 0 0 1px rgba(201,164,91,.34),0 0 20px rgba(201,164,91,.11)!important;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
