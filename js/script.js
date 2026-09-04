@@ -158,7 +158,7 @@
   // Homepage live statistics: one persistent browser visitor ID is sent to the same Apps Script backend.
   // The backend must deduplicate visitor IDs and return {success:true, visitors:<number>, inquiries:<number>}.
   if(document.body.classList.contains('home-page')){
-    const statsUrl=window.MADHYUM_INQUIRY_API_URL || '';
+    const statsUrl=window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfcyby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
     const visitorKey='madhyum_visitor_id_v1';
     function getVisitorId(){
       try{
@@ -210,7 +210,7 @@
 
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
   // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
-  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || '';
+  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfcyby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
   const pageWing = {
     'real-estate.html':'Real Estate',
     'travel.html':'Travel',
