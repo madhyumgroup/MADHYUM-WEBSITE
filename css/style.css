@@ -30,9 +30,9 @@ img{max-width:100%;display:block}
 .trust-line{font-size:14px;letter-spacing:.14em;font-style:italic;font-weight:800;color:var(--gold)}
 
 /* NAV */
-.site-header{position:fixed;z-index:1000;top:0;left:0;width:100%;height:var(--nav-h);background:rgba(255,255,255,.82);border-bottom:1px solid rgba(17,24,39,.08);backdrop-filter:blur(16px);transition:transform .28s ease,background .28s ease}
+.site-header{position:fixed;z-index:1000;top:0;left:0;width:100%;height:var(--nav-h);background:rgba(255,255,255,.68);border-bottom:1px solid rgba(17,24,39,.08);backdrop-filter:blur(16px);transition:transform .28s ease,background .28s ease}
 .site-header.nav-hidden{transform:translateY(-100%)}
-.category-page .site-header,.home-page .site-header{background:rgba(10,20,33,.82);border-color:rgba(255,255,255,.1);color:#fff}
+.category-page .site-header,.home-page .site-header{background:rgba(10,20,33,.68);border-color:rgba(255,255,255,.1);color:#fff}
 .nav{height:100%;display:flex;align-items:center;gap:30px}
 .brand{font-weight:900;letter-spacing:.12em;font-size:18px;white-space:nowrap}
 .navlinks{display:flex;gap:26px;margin-left:auto}
