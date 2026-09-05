@@ -155,7 +155,7 @@
     if(label) el.setAttribute('title',label);
   });
 
-  // Homepage statistics are rendered directly by the Apps Script iframe in index.html.
+  // Homepage live statistics are isolated in index.html so they cannot affect the main website JavaScript.
 
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
   // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
