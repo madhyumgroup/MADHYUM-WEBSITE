@@ -8,10 +8,6 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: madhyum-live-stats
-  cancel-in-progress: true
-
 jobs:
   update-stats:
     runs-on: ubuntu-latest
@@ -19,6 +15,8 @@ jobs:
     steps:
       - name: Checkout website
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Read live stats from Apps Script
         shell: bash
@@ -59,15 +57,13 @@ jobs:
               "updatedAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
           }
 
-          pathlib.Path("data/stats.json").write_text(
-              json.dumps(clean, indent=2) + "\n",
-              encoding="utf-8",
-          )
-
-          print("MADHYUM live stats prepared:", clean)
+          out = pathlib.Path("data/stats.json")
+          out.write_text(json.dumps(clean, indent=2) + "\n", encoding="utf-8")
+          print("Created:", out.resolve())
+          print(out.read_text())
           PY
 
-      - name: Commit updated stats
+      - name: Force add and commit stats file
         shell: bash
         run: |
           set -euo pipefail
@@ -75,13 +71,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # IMPORTANT: git diff does not see a brand-new untracked file.
-          # git status --porcelain does, so stats.json will be committed even the first time.
-          if [ -z "$(git status --porcelain -- data/stats.json)" ]; then
-            echo "No statistics change to commit."
+          # -f guarantees the new file is added even if a .gitignore rule matches it.
+          git add -f data/stats.json
+
+          echo "Staged files:"
+          git diff --cached --name-status
+
+          if git diff --cached --quiet; then
+            echo "stats.json is already identical to the committed version."
             exit 0
           fi
 
-          git add data/stats.json
-          git commit -m "Update live website statistics"
-          git push
+          git commit -m "Create/update live stats file"
+          git push origin HEAD:main
