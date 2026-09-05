@@ -155,8 +155,6 @@
     if(label) el.setAttribute('title',label);
   });
 
-  // Homepage statistics are loaded by the isolated bridge in index.html.
-
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
   // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
   const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || '';
