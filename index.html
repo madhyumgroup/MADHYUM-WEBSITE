@@ -240,7 +240,7 @@
 <div class="search-results" id="searchResults"></div>
 </div>
 </div>
-<script src="js/script.js?v=20260906-final3"></script>
+<script src="js/script.js?v=20260906-relay-v3"></script>
 
 <script>
 (function(){
@@ -278,7 +278,6 @@
   }
 
   let done = false;
-  const bridgeToken = 'm_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
   const frame = document.createElement('iframe');
   frame.title = 'MADHYUM live statistics bridge';
   frame.setAttribute('aria-hidden', 'true');
@@ -290,35 +289,39 @@
     done = true;
     statusEl.textContent = 'Live statistics are temporarily unavailable.';
     try { frame.remove(); } catch (_) {}
-  }, 20000);
+  }, 25000);
 
-  function onMessage(event) {
+  frame.addEventListener('load', function() {
     if (done) return;
-    const message = event.data;
-    if (!message || message.type !== 'MADHYUM_STATS' || message.token !== bridgeToken || !message.data || message.data.success !== true) return;
 
     try {
-      showNumber(visitorsEl, message.data.visitors);
-      showNumber(inquiriesEl, message.data.inquiries);
+      const href = frame.contentWindow.location.href;
+      if (!href || href.indexOf(location.origin) !== 0) return;
+
+      const hash = frame.contentWindow.location.hash || '';
+      const prefix = '#madhyum_stats=';
+      if (hash.indexOf(prefix) !== 0) return;
+
+      const payload = JSON.parse(decodeURIComponent(hash.slice(prefix.length)));
+      if (!payload || payload.success !== true) throw new Error('Invalid bridge response');
+
+      showNumber(visitorsEl, payload.visitors);
+      showNumber(inquiriesEl, payload.inquiries);
       statusEl.textContent = 'Live figures from the MADHYUM network.';
       done = true;
       window.clearTimeout(timer);
-      window.removeEventListener('message', onMessage);
-      window.setTimeout(function() { try { frame.remove(); } catch (_) {} }, 250);
+      window.setTimeout(function(){ try { frame.remove(); } catch (_) {} }, 100);
     } catch (_) {
-      done = true;
-      window.clearTimeout(timer);
-      statusEl.textContent = 'Live statistics are temporarily unavailable.';
-      try { frame.remove(); } catch (_) {}
+      // Cross-origin while Apps Script is loading is expected.
+      // We read the frame only after it returns to the MADHYUM GitHub origin.
     }
-  }
+  });
 
-  window.addEventListener('message', onMessage);
-
+  const returnUrl = new URL('contact.html', window.location.href).href;
   const url = new URL(API);
-  url.searchParams.set('action', 'statsbridge');
+  url.searchParams.set('action', 'statsrelay');
   url.searchParams.set('visitorId', visitorId());
-  url.searchParams.set('token', bridgeToken);
+  url.searchParams.set('returnUrl', returnUrl);
   url.searchParams.set('_', String(Date.now()));
   frame.src = url.toString();
   document.body.appendChild(frame);
