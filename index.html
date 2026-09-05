@@ -240,88 +240,88 @@
 <div class="search-results" id="searchResults"></div>
 </div>
 </div>
-<script src="js/script.js?v=20260906-direct-jsonp-final"></script>
-
-
+<script src="js/script.js?v=20260906-github-stats-final"></script>
 <script>
 (function(){
   'use strict';
 
-  var API = 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
-  var visitorsEl = document.querySelector('[data-stat-value="visitors"]');
-  var inquiriesEl = document.querySelector('[data-stat-value="inquiries"]');
-  var statusEl = document.querySelector('[data-stats-status]');
-  if (!visitorsEl && !inquiriesEl) return;
+  const STATS_FILE='data/stats.json';
+  const VISITOR_API='https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
+  const VISITOR_KEY='madhyum_visitor_id_v1';
 
-  if (statusEl) statusEl.textContent = 'Connecting to MADHYUM live statistics…';
-
-  var visitorId;
-  try {
-    visitorId = localStorage.getItem('madhyum_visitor_id_v1');
-    if (!visitorId) {
-      visitorId = (window.crypto && window.crypto.randomUUID)
-        ? window.crypto.randomUUID()
-        : ('v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2));
-      localStorage.setItem('madhyum_visitor_id_v1', visitorId);
+  function visitorId(){
+    try{
+      let id=localStorage.getItem(VISITOR_KEY);
+      if(!id){
+        id=(window.crypto && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : 'v_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
+        localStorage.setItem(VISITOR_KEY,id);
+      }
+      return id;
+    }catch(_){
+      return 'session_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
     }
-  } catch (e) {
-    visitorId = 'session_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
   }
 
-  var callbackName = 'madhyumStats_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
-  var script = document.createElement('script');
-  var finished = false;
-
-  function clean(){
-    try { script.remove(); } catch(e) {}
-    try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
+  function recordVisit(){
+    try{
+      const u=new URL(VISITOR_API);
+      u.searchParams.set('action','stats');
+      u.searchParams.set('visitorId',visitorId());
+      u.searchParams.set('_',Date.now().toString());
+      // Fire-and-forget. The page never waits for or reads the Apps Script response.
+      // Even if the browser blocks Google's redirected response body, the server-side
+      // visitor write has already been requested and the meter remains independent.
+      fetch(u.toString(),{method:'GET',mode:'no-cors',cache:'no-store',keepalive:true}).catch(function(){});
+    }catch(_){}
   }
 
-  function fail(){
-    if (finished) return;
-    finished = true;
-    clearTimeout(timeout);
-    clean();
-    if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+  function animate(el,target){
+    if(!el || !Number.isFinite(target)) return;
+    const end=Math.max(0,Math.round(target));
+    const start=0;
+    const duration=900;
+    const begun=performance.now();
+    function frame(now){
+      const p=Math.min(1,(now-begun)/duration);
+      const eased=1-Math.pow(1-p,3);
+      el.textContent=Math.round(start+(end-start)*eased).toLocaleString('en-IN')+'+';
+      if(p<1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   }
 
-  window[callbackName] = function(data){
-    if (finished) return;
-    finished = true;
-    clearTimeout(timeout);
+  async function loadStats(){
+    const visitors=document.querySelector('[data-stat-value="visitors"]');
+    const inquiries=document.querySelector('[data-stat-value="inquiries"]');
+    const status=document.querySelector('[data-stats-status]');
+    if(!visitors && !inquiries) return;
 
-    if (!data || data.success !== true) {
-      clean();
-      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
-      return;
+    if(status) status.textContent='Loading MADHYUM live figures…';
+
+    try{
+      const r=await fetch(STATS_FILE+'?v='+Date.now(),{cache:'no-store'});
+      if(!r.ok) throw new Error('stats file '+r.status);
+      const data=await r.json();
+      const v=Number(data.visitors);
+      const q=Number(data.inquiries);
+      if(!Number.isFinite(v)||!Number.isFinite(q)) throw new Error('invalid stats');
+      animate(visitors,v);
+      animate(inquiries,q);
+      if(status){
+        status.textContent='Live figures from the MADHYUM network.';
+      }
+    }catch(_){
+      if(visitors) visitors.textContent='—';
+      if(inquiries) inquiries.textContent='—';
+      if(status) status.textContent='Live statistics are updating. Please check again shortly.';
     }
+  }
 
-    var v = Number(data.visitors);
-    var q = Number(data.inquiries);
-    if (!Number.isFinite(v) || !Number.isFinite(q)) {
-      clean();
-      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
-      return;
-    }
-
-    if (visitorsEl) visitorsEl.textContent = Math.max(0, Math.round(v)).toLocaleString('en-IN') + '+';
-    if (inquiriesEl) inquiriesEl.textContent = Math.max(0, Math.round(q)).toLocaleString('en-IN') + '+';
-    if (statusEl) statusEl.textContent = 'Live figures from the MADHYUM network.';
-    clean();
-  };
-
-  script.async = true;
-  script.onerror = fail;
-  script.src = API
-    + '?action=stats'
-    + '&visitorId=' + encodeURIComponent(visitorId)
-    + '&callback=' + encodeURIComponent(callbackName)
-    + '&_=' + Date.now();
-
-  document.head.appendChild(script);
-  var timeout = setTimeout(fail, 30000);
+  recordVisit();
+  loadStats();
 })();
 </script>
-
 </body>
 </html>
