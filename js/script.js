@@ -155,16 +155,11 @@
     if(label) el.setAttribute('title',label);
   });
 
-  // Shared MADHYUM backend URL.
-  // Keep this in one place so homepage statistics and inquiry forms
-  // always point to the same Apps Script Web App.
-  const MADHYUM_INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfcyby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
-
   // Homepage live statistics.
   // JSONP is intentionally used here because the public website is hosted on GitHub Pages
   // while the MADHYUM stats endpoint is hosted on Google Apps Script.
   if(document.body.classList.contains('home-page')){
-    const statsUrl=MADHYUM_INQUIRY_API_URL;
+    const statsUrl=window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfcyby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
     const visitorKey='madhyum_visitor_id_v1';
     const statsCallbackName='madhyumLiveStatsCallback';
 
@@ -275,10 +270,8 @@
   }
 
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
-  // The public website is hosted on GitHub Pages, so inquiry submission must not depend
-  // on reading a cross-origin fetch response from Google Apps Script.
-  // sendBeacon() is used first, with a hidden HTML-form POST fallback.
-  const INQUIRY_API_URL = MADHYUM_INQUIRY_API_URL;
+  // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
+  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
   const pageWing = {
     'real-estate.html':'Real Estate',
     'travel.html':'Travel',
@@ -318,63 +311,7 @@
     };
   }
 
-  function submitInquiryWithoutCors(payload){
-    // Preferred transport: Beacon is designed for cross-origin POSTs where
-    // the response is not needed by the browser.
-    try{
-      if(navigator.sendBeacon){
-        const blob=new Blob([JSON.stringify(payload)],{type:'text/plain;charset=UTF-8'});
-        const queued=navigator.sendBeacon(INQUIRY_API_URL,blob);
-        if(queued) return true;
-      }
-    }catch(_){
-      // Fall through to the standard HTML form submission.
-    }
-
-    // Fallback transport: a normal HTML form POST is not subject to CORS.
-    // The response is loaded into a hidden iframe and intentionally not read.
-    try{
-      const iframe=document.createElement('iframe');
-      const frameName='madhyumInquiryFrame_'+Date.now().toString(36);
-      iframe.name=frameName;
-      iframe.setAttribute('aria-hidden','true');
-      iframe.style.position='fixed';
-      iframe.style.width='1px';
-      iframe.style.height='1px';
-      iframe.style.opacity='0';
-      iframe.style.pointerEvents='none';
-      iframe.style.border='0';
-
-      const postForm=document.createElement('form');
-      postForm.method='POST';
-      postForm.action=INQUIRY_API_URL;
-      postForm.target=frameName;
-      postForm.style.display='none';
-
-      Object.entries(payload).forEach(([key,value])=>{
-        const input=document.createElement('input');
-        input.type='hidden';
-        input.name=key;
-        input.value=String(value ?? '');
-        postForm.appendChild(input);
-      });
-
-      document.body.appendChild(iframe);
-      document.body.appendChild(postForm);
-      postForm.submit();
-
-      setTimeout(()=>{
-        iframe.remove();
-        postForm.remove();
-      },10000);
-
-      return true;
-    }catch(_){
-      return false;
-    }
-  }
-
-  document.querySelectorAll('[data-form-name]').forEach(form=>form.addEventListener('submit',e=>{
+  document.querySelectorAll('[data-form-name]').forEach(form=>form.addEventListener('submit',async e=>{
     e.preventDefault();
     const success=form.querySelector('.form-success');
     const button=form.querySelector('button[type="submit"]');
@@ -386,29 +323,27 @@
     }
 
     if(!INQUIRY_API_URL){
-      if(success) success.textContent='The inquiry connection is not configured yet.';
+      if(success) success.textContent='Your request form is ready. The secure submission connection will be activated after the MADHYUM backend is deployed.';
       return;
     }
 
-    if(button){
-      button.disabled=true;
-      button.dataset.originalText=button.textContent;
-      button.textContent='Sending…';
-    }
+    if(button){button.disabled=true;button.dataset.originalText=button.textContent;button.textContent='Sending…';}
     if(success) success.textContent='';
 
-    const submitted=submitInquiryWithoutCors(payload);
-
-    if(submitted){
-      if(success) success.textContent='Thank you. Your request has been submitted. We will contact you soon.';
+    try{
+      const response=await fetch(INQUIRY_API_URL,{
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify(payload)
+      });
+      const result=await response.json();
+      if(!result.success) throw new Error(result.message || 'Unable to submit the inquiry.');
+      if(success) success.textContent=`Thank you. Your request has been received${result.inquiryId ? ` (${result.inquiryId})` : ''}. We will contact you soon.`;
       form.reset();
-    }else{
+    }catch(error){
       if(success) success.textContent='We could not send your request right now. Please try again in a moment.';
-    }
-
-    if(button){
-      button.disabled=false;
-      button.textContent=button.dataset.originalText || 'Send Your Request →';
+    }finally{
+      if(button){button.disabled=false;button.textContent=button.dataset.originalText || 'Send Your Request →';}
     }
   }));
 })();
