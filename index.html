@@ -167,20 +167,30 @@
   <div class="container">
     <div class="stats-meter-head reveal">
       <div>
-        <p class="eyebrow">MADHYUM NETWORK</p>
-        <h2>Live Network Snapshot</h2>
+        <div class="eyebrow">LIVE MADHYUM REACH</div>
+        <h2>Our Network in <span class="serif">Numbers.</span></h2>
       </div>
+      <p>Real activity from the MADHYUM website and inquiry network.</p>
     </div>
-
-    <iframe
-      id="madhyum-stats-frame"
-      title="MADHYUM live statistics"
-      loading="eager"
-      scrolling="no"
-      referrerpolicy="no-referrer"
-      style="width:100%;height:260px;border:0;display:block;background:transparent;overflow:hidden;"
-      src="https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec?action=statsview">
-    </iframe>
+    <div class="stats-meter-grid">
+      <article class="stats-meter-card reveal" data-stat-card="visitors">
+        <div class="stats-meter-ring" aria-hidden="true"><span class="stats-meter-ring-inner"></span></div>
+        <div class="stats-meter-copy">
+          <div class="eyebrow">PEOPLE REACHED</div>
+          <div class="stats-meter-value" data-stat-value="visitors" aria-live="polite">—</div>
+          <p>Unique website visitors recorded by the MADHYUM visitor system.</p>
+        </div>
+      </article>
+      <article class="stats-meter-card reveal" data-stat-card="inquiries">
+        <div class="stats-meter-ring" aria-hidden="true"><span class="stats-meter-ring-inner"></span></div>
+        <div class="stats-meter-copy">
+          <div class="eyebrow">INQUIRIES RECEIVED</div>
+          <div class="stats-meter-value" data-stat-value="inquiries" aria-live="polite">—</div>
+          <p>Real inquiries received through MADHYUM website forms.</p>
+        </div>
+      </article>
+    </div>
+    <p class="stats-meter-note" data-stats-status aria-live="polite">Live figures will appear here after the MADHYUM backend is connected.</p>
   </div>
 </section>
 <footer class="footer">
@@ -230,24 +240,86 @@
 <div class="search-results" id="searchResults"></div>
 </div>
 </div>
+<script src="js/script.js?v=20260906-jsonp-clean-final"></script>
+
 <script>
 (function(){
-  var frame=document.getElementById('madhyum-stats-frame');
-  if(!frame) return;
-  var key='madhyum_visitor_id_v1';
-  var id='';
-  try{
-    id=localStorage.getItem(key)||'';
-    if(!id){
-      id=(window.crypto&&window.crypto.randomUUID)?window.crypto.randomUUID():('v_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2));
-      localStorage.setItem(key,id);
+  'use strict';
+  try {
+    var API = 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
+    var visitorsEl = document.querySelector('[data-stat-value="visitors"]');
+    var inquiriesEl = document.querySelector('[data-stat-value="inquiries"]');
+    var statusEl = document.querySelector('[data-stats-status]');
+    if (!visitorsEl && !inquiriesEl) return;
+
+    if (statusEl) statusEl.textContent = 'Connecting to MADHYUM live statistics…';
+
+    var visitorKey = 'madhyum_visitor_id_v1';
+    var visitorId = '';
+    try {
+      visitorId = localStorage.getItem(visitorKey) || '';
+      if (!visitorId) {
+        visitorId = (window.crypto && window.crypto.randomUUID)
+          ? window.crypto.randomUUID()
+          : ('v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2));
+        localStorage.setItem(visitorKey, visitorId);
+      }
+    } catch (_) {
+      visitorId = 'session_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
     }
-  }catch(e){
-    id='session_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
+
+    function formatCount(value) {
+      var n = Number(value);
+      return Number.isFinite(n) ? Math.max(0, Math.round(n)).toLocaleString('en-IN') + '+' : '—';
+    }
+
+    var done = false;
+    var timer = setTimeout(function() {
+      if (done) return;
+      done = true;
+      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+    }, 20000);
+
+    window.madhyumStatsCallback = function(data) {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      if (!data || data.success !== true) {
+        if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+        return;
+      }
+      if (visitorsEl) visitorsEl.textContent = formatCount(data.visitors);
+      if (inquiriesEl) inquiriesEl.textContent = formatCount(data.inquiries);
+      if (statusEl) statusEl.textContent = 'Live figures from the MADHYUM network.';
+    };
+
+    function loadStats() {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = API + '?action=stats&callback=madhyumStatsCallback&_=' + Date.now();
+      s.onerror = function() {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+      };
+      document.head.appendChild(s);
+    }
+
+    // Record this browser first. no-cors intentionally ignores the response; the server-side request still runs.
+    var visitUrl = API + '?action=visit&visitorId=' + encodeURIComponent(visitorId) + '&_=' + Date.now();
+    try {
+      fetch(visitUrl, { mode: 'no-cors', cache: 'no-store' })
+        .then(function() { setTimeout(loadStats, 350); })
+        .catch(function() { loadStats(); });
+    } catch (_) {
+      loadStats();
+    }
+  } catch (err) {
+    var statusEl2 = document.querySelector('[data-stats-status]');
+    if (statusEl2) statusEl2.textContent = 'Live statistics are temporarily unavailable.';
   }
-  frame.src='https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec?action=statsview&visitorId='+encodeURIComponent(id)+'&_='+Date.now();
 })();
 </script>
-<script src="js/script.js?v=20260906-simple-iframe"></script>
 </body>
 </html>
