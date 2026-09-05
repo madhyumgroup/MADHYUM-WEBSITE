@@ -155,417 +155,120 @@
     if(label) el.setAttribute('title',label);
   });
 
-// ============================================================
-// MADHYUM HOMEPAGE LIVE STATISTICS
-// ============================================================
-
-if (document.body.classList.contains('home-page')) {
-
-  const statsUrl =
-    window.MADHYUM_INQUIRY_API_URL ||
-    'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
-
-  const visitorKey =
-    'madhyum_visitor_id_v1';
-
-  const callbackName =
-    'madhyumStatsCallback';
-
-
-  function getVisitorId() {
-
-    try {
-
-      let id =
-        localStorage.getItem(visitorKey);
-
-      if (!id) {
-
-        id =
-          window.crypto?.randomUUID?.() ||
-          (
-            'v_' +
-            Date.now().toString(36) +
-            '_' +
-            Math.random().toString(36).slice(2)
-          );
-
-        localStorage.setItem(
-          visitorKey,
-          id
-        );
-
-      }
-
-      return id;
-
-    } catch (error) {
-
-      return (
-        'session_' +
-        Date.now().toString(36) +
-        '_' +
-        Math.random().toString(36).slice(2)
-      );
-
-    }
-
-  }
-
-
-  function animateStat(
-    element,
-    target
-  ) {
-
-    if (
-      !element ||
-      !Number.isFinite(target)
-    ) {
-
-      return;
-
-    }
-
-
-    const end =
-      Math.max(
-        0,
-        Math.round(target)
-      );
-
-
-    const duration =
-      1100;
-
-
-    const started =
-      performance.now();
-
-
-    element.classList.remove(
-      'is-loading'
-    );
-
-
-    function tick(now) {
-
-      const progress =
-        Math.min(
-          1,
-          (now - started) /
-          duration
-        );
-
-
-      const eased =
-        1 -
-        Math.pow(
-          1 - progress,
-          3
-        );
-
-
-      element.textContent =
-        (
-          end * eased
-        ).toLocaleString(
-          'en-IN'
-        ) + '+';
-
-
-      if (
-        progress < 1
-      ) {
-
-        requestAnimationFrame(
-          tick
-        );
-
-      }
-
-    }
-
-
-    requestAnimationFrame(
-      tick
-    );
-
-  }
-
-
-  const visitorsElement =
-    document.querySelector(
-      '[data-stat-value="visitors"]'
-    );
-
-
-  const inquiriesElement =
-    document.querySelector(
-      '[data-stat-value="inquiries"]'
-    );
-
-
-  const statusElement =
-    document.querySelector(
-      '[data-stats-status]'
-    );
-
-
-  if (
-    visitorsElement &&
-    inquiriesElement &&
-    statsUrl
-  ) {
-
-    visitorsElement.classList.add(
-      'is-loading'
-    );
-
-    inquiriesElement.classList.add(
-      'is-loading'
-    );
-
-
-    let finished =
-      false;
-
-
-    let timeoutId =
-      null;
-
-
-    const statsScript =
-      document.createElement(
-        'script'
-      );
-
-
-    function cleanup() {
-
-      if (timeoutId) {
-
-        clearTimeout(
-          timeoutId
-        );
-
-      }
-
-      timeoutId =
-        null;
-
-
-      statsScript.remove();
-
-    }
-
-
-    function showError() {
-
-      if (finished) {
-
-        return;
-
-      }
-
-
-      finished =
-        true;
-
-
-      cleanup();
-
-
-      visitorsElement.classList.remove(
-        'is-loading'
-      );
-
-
-      inquiriesElement.classList.remove(
-        'is-loading'
-      );
-
-
-      visitorsElement.textContent =
-        '—';
-
-
-      inquiriesElement.textContent =
-        '—';
-
-
-      if (statusElement) {
-
-        statusElement.textContent =
-          'Live statistics are temporarily unavailable.';
-
-      }
-
-    }
-
-
-    // IMPORTANT:
-    // Fixed global callback.
-    // This matches the callback proven to work
-    // from the manual Apps Script test.
-
-    window.madhyumStatsCallback =
-      function(data) {
-
-        if (finished) {
-
-          return;
-
+  // Homepage live statistics: JSONP avoids cross-origin fetch restrictions on GitHub Pages.
+  // The Apps Script endpoint must return a JavaScript callback response.
+  if(document.body.classList.contains('home-page')){
+    const statsUrl=window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
+    const visitorKey='madhyum_visitor_id_v1';
+
+    function getVisitorId(){
+      try{
+        let id=localStorage.getItem(visitorKey);
+        if(!id){
+          id=(window.crypto?.randomUUID?.() || ('v_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2)));
+          localStorage.setItem(visitorKey,id);
         }
+        return id;
+      }catch(_){
+        return 'session_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
+      }
+    }
 
+    function animateStat(el,target){
+      if(!el || !Number.isFinite(target)) return;
+      const end=Math.max(0,Math.round(target));
+      const start=0;
+      const duration=1100;
+      const started=performance.now();
+      el.classList.remove('is-loading');
 
-        finished =
-          true;
+      function tick(now){
+        const progress=Math.min(1,(now-started)/duration);
+        const eased=1-Math.pow(1-progress,3);
+        el.textContent=(start+(end-start)*eased).toLocaleString('en-IN')+'+';
+        if(progress<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
 
+    function setStatsError(){
+      document.querySelectorAll('[data-stat-value="visitors"],[data-stat-value="inquiries"]').forEach(el=>{
+        el.classList.remove('is-loading');
+        el.textContent='—';
+      });
+      const status=document.querySelector('[data-stats-status]');
+      if(status) status.textContent='Live statistics are temporarily unavailable.';
+    }
 
-        try {
+    function loadLiveStats(){
+      const visitors=document.querySelector('[data-stat-value="visitors"]');
+      const inquiries=document.querySelector('[data-stat-value="inquiries"]');
+      const status=document.querySelector('[data-stats-status]');
+      if(!visitors && !inquiries) return;
 
-          if (
-            !data ||
-            data.success !== true
-          ) {
+      if(visitors) visitors.classList.add('is-loading');
+      if(inquiries) inquiries.classList.add('is-loading');
 
-            throw new Error(
-              data?.message ||
-              'Invalid statistics response.'
-            );
+      const callbackName='madhyumLiveStatsCallback';
+      const callbackUrl=new URL(statsUrl,window.location.href);
+      callbackUrl.searchParams.set('action','stats');
+      callbackUrl.searchParams.set('visitorId',getVisitorId());
+      callbackUrl.searchParams.set('callback',callbackName);
+      callbackUrl.searchParams.set('_',Date.now().toString());
 
-          }
+      let finished=false;
+      const script=document.createElement('script');
 
-
-          const visitors =
-            Number(
-              data.visitors
-            );
-
-
-          const inquiries =
-            Number(
-              data.inquiries
-            );
-
-
-          if (
-            !Number.isFinite(
-              visitors
-            ) ||
-            !Number.isFinite(
-              inquiries
-            )
-          ) {
-
-            throw new Error(
-              'Invalid statistics numbers.'
-            );
-
-          }
-
-
-          animateStat(
-            visitorsElement,
-            visitors
-          );
-
-
-          animateStat(
-            inquiriesElement,
-            inquiries
-          );
-
-
-          if (statusElement) {
-
-            statusElement.textContent =
-              'Live figures from the MADHYUM network.';
-
-          }
-
-
-        } catch (error) {
-
-          showError();
-
-          return;
-
-        }
-
-
-        cleanup();
-
+      const cleanup=()=>{
+        script.remove();
+        window.clearTimeout(timeoutId);
+        try{ delete window[callbackName]; }catch(_){}
       };
 
+      const fail=()=>{
+        if(finished) return;
+        finished=true;
+        cleanup();
+        setStatsError();
+      };
 
-    statsScript.async =
-      true;
+      window[callbackName]=(data)=>{
+        if(finished) return;
+        finished=true;
+        cleanup();
 
+        if(!data || data.success !== true){
+          setStatsError();
+          return;
+        }
 
-    statsScript.type =
-      'text/javascript';
+        const visitorCount=Number(data.visitors);
+        const inquiryCount=Number(data.inquiries);
 
+        if(!Number.isFinite(visitorCount) || !Number.isFinite(inquiryCount)){
+          setStatsError();
+          return;
+        }
 
-    statsScript.onerror =
-      showError;
+        animateStat(visitors,visitorCount);
+        animateStat(inquiries,inquiryCount);
+        if(status) status.textContent='Live figures from the MADHYUM network.';
+      };
 
+      script.async=true;
+      script.onerror=fail;
+      script.src=callbackUrl.toString();
+      document.head.appendChild(script);
 
-    const url =
-      new URL(
-        statsUrl,
-        window.location.href
-      );
+      const timeoutId=window.setTimeout(fail,15000);
+    }
 
-
-    url.searchParams.set(
-      'action',
-      'stats'
-    );
-
-
-    url.searchParams.set(
-      'visitorId',
-      getVisitorId()
-    );
-
-
-    url.searchParams.set(
-      'callback',
-      callbackName
-    );
-
-
-    url.searchParams.set(
-      '_',
-      Date.now().toString()
-    );
-
-
-    statsScript.src =
-      url.toString();
-
-
-    document.head.appendChild(
-      statsScript
-    );
-
-
-    timeoutId =
-      setTimeout(
-        showError,
-        20000
-      );
-
-  }
-
-}
+    loadLiveStats();
   }
 
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
   // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
-  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
+  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || '';
   const pageWing = {
     'real-estate.html':'Real Estate',
     'travel.html':'Travel',
