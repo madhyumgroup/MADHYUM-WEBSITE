@@ -278,6 +278,7 @@
   }
 
   let done = false;
+  const bridgeToken = 'm_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
   const frame = document.createElement('iframe');
   frame.title = 'MADHYUM live statistics bridge';
   frame.setAttribute('aria-hidden', 'true');
@@ -292,9 +293,9 @@
   }, 20000);
 
   function onMessage(event) {
-    if (done || event.source !== frame.contentWindow) return;
+    if (done) return;
     const message = event.data;
-    if (!message || message.type !== 'MADHYUM_STATS' || !message.data || message.data.success !== true) return;
+    if (!message || message.type !== 'MADHYUM_STATS' || message.token !== bridgeToken || !message.data || message.data.success !== true) return;
 
     try {
       showNumber(visitorsEl, message.data.visitors);
@@ -317,6 +318,7 @@
   const url = new URL(API);
   url.searchParams.set('action', 'statsbridge');
   url.searchParams.set('visitorId', visitorId());
+  url.searchParams.set('token', bridgeToken);
   url.searchParams.set('_', String(Date.now()));
   frame.src = url.toString();
   document.body.appendChild(frame);
