@@ -155,86 +155,120 @@
     if(label) el.setAttribute('title',label);
   });
 
-  // Homepage live statistics: JSONP is used intentionally because GitHub Pages is a static origin
-  // and Google Apps Script does not provide the CORS headers needed for a normal browser fetch().
+  // Homepage live statistics: JSONP avoids cross-origin fetch restrictions on GitHub Pages.
+  // The Apps Script endpoint must return a JavaScript callback response.
   if(document.body.classList.contains('home-page')){
     const statsUrl=window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
     const visitorKey='madhyum_visitor_id_v1';
+
     function getVisitorId(){
       try{
         let id=localStorage.getItem(visitorKey);
-        if(!id){id=(window.crypto?.randomUUID?.() || ('v_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2)));localStorage.setItem(visitorKey,id)}
+        if(!id){
+          id=(window.crypto?.randomUUID?.() || ('v_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2)));
+          localStorage.setItem(visitorKey,id);
+        }
         return id;
-      }catch(_){return 'session_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2)}
+      }catch(_){
+        return 'session_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
+      }
     }
+
     function animateStat(el,target){
-      if(!el || !Number.isFinite(target))return;
+      if(!el || !Number.isFinite(target)) return;
       const end=Math.max(0,Math.round(target));
       const start=0;
       const duration=1100;
       const started=performance.now();
       el.classList.remove('is-loading');
+
       function tick(now){
         const progress=Math.min(1,(now-started)/duration);
         const eased=1-Math.pow(1-progress,3);
         el.textContent=(start+(end-start)*eased).toLocaleString('en-IN')+'+';
-        if(progress<1)requestAnimationFrame(tick);
+        if(progress<1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
     }
-    function loadLiveStats(){
-      const values={visitors:document.querySelector('[data-stat-value="visitors"]'),inquiries:document.querySelector('[data-stat-value="inquiries"]')};
+
+    function setStatsError(){
+      document.querySelectorAll('[data-stat-value="visitors"],[data-stat-value="inquiries"]').forEach(el=>{
+        el.classList.remove('is-loading');
+        el.textContent='—';
+      });
       const status=document.querySelector('[data-stats-status]');
-      if(!values.visitors && !values.inquiries)return;
-      Object.values(values).forEach(el=>el?.classList.add('is-loading'));
-      const callbackName='madhyumLiveStatsCallback';
-      let settled=false;
-      let timer=null;
-      const cleanup=()=>{
-        if(timer)clearTimeout(timer);
-        const node=document.getElementById('madhyum-live-stats-script');
-        node?.remove();
-      };
-      const fail=()=>{
-        if(settled)return;
-        settled=true;
-        cleanup();
-        Object.values(values).forEach(el=>{if(el){el.classList.remove('is-loading');el.textContent='—'}});
-        status&&(status.textContent='Live statistics are temporarily unavailable.');
-      };
-      window[callbackName]=(data)=>{
-        if(settled)return;
-        settled=true;
-        cleanup();
-        try{
-          const visitors=Number(data?.visitors);
-          const inquiries=Number(data?.inquiries);
-          if(!data?.success || !Number.isFinite(visitors) || !Number.isFinite(inquiries))throw new Error(data?.message || 'Unable to load live statistics.');
-          animateStat(values.visitors,visitors);
-          animateStat(values.inquiries,inquiries);
-          status&&(status.textContent='Live figures from the MADHYUM network.');
-        }catch(_){
-          fail();
-        }
-      };
-      const url=new URL(statsUrl,window.location.href);
-      url.searchParams.set('action','stats');
-      url.searchParams.set('visitorId',getVisitorId());
-      url.searchParams.set('callback',callbackName);
-      url.searchParams.set('_',Date.now().toString());
-      const script=document.createElement('script');
-      script.id='madhyum-live-stats-script';
-      script.async=true;
-      script.src=url.toString();
-      script.onerror=fail;
-      document.head.appendChild(script);
-      timer=setTimeout(fail,15000);
+      if(status) status.textContent='Live statistics are temporarily unavailable.';
     }
+
+    function loadLiveStats(){
+      const visitors=document.querySelector('[data-stat-value="visitors"]');
+      const inquiries=document.querySelector('[data-stat-value="inquiries"]');
+      const status=document.querySelector('[data-stats-status]');
+      if(!visitors && !inquiries) return;
+
+      if(visitors) visitors.classList.add('is-loading');
+      if(inquiries) inquiries.classList.add('is-loading');
+
+      const callbackName='madhyumLiveStatsCallback';
+      const callbackUrl=new URL(statsUrl,window.location.href);
+      callbackUrl.searchParams.set('action','stats');
+      callbackUrl.searchParams.set('visitorId',getVisitorId());
+      callbackUrl.searchParams.set('callback',callbackName);
+      callbackUrl.searchParams.set('_',Date.now().toString());
+
+      let finished=false;
+      const script=document.createElement('script');
+
+      const cleanup=()=>{
+        script.remove();
+        window.clearTimeout(timeoutId);
+        try{ delete window[callbackName]; }catch(_){}
+      };
+
+      const fail=()=>{
+        if(finished) return;
+        finished=true;
+        cleanup();
+        setStatsError();
+      };
+
+      window[callbackName]=(data)=>{
+        if(finished) return;
+        finished=true;
+        cleanup();
+
+        if(!data || data.success !== true){
+          setStatsError();
+          return;
+        }
+
+        const visitorCount=Number(data.visitors);
+        const inquiryCount=Number(data.inquiries);
+
+        if(!Number.isFinite(visitorCount) || !Number.isFinite(inquiryCount)){
+          setStatsError();
+          return;
+        }
+
+        animateStat(visitors,visitorCount);
+        animateStat(inquiries,inquiryCount);
+        if(status) status.textContent='Live figures from the MADHYUM network.';
+      };
+
+      script.async=true;
+      script.onerror=fail;
+      script.src=callbackUrl.toString();
+      document.head.appendChild(script);
+
+      const timeoutId=window.setTimeout(fail,15000);
+    }
+
     loadLiveStats();
   }
 
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
-  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
+  // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
+  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || '';
   const pageWing = {
     'real-estate.html':'Real Estate',
     'travel.html':'Travel',
