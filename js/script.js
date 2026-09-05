@@ -155,7 +155,8 @@
     if(label) el.setAttribute('title',label);
   });
 
-  // Homepage live statistics are isolated in index.html so they cannot affect the main website JavaScript.
+  // Homepage live statistics are isolated in index.html and read from same-origin data/stats.json.
+  // This keeps the main website JavaScript independent from the meter backend.
 
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
   // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
