@@ -240,86 +240,88 @@
 <div class="search-results" id="searchResults"></div>
 </div>
 </div>
-<script src="js/script.js?v=20260906-jsonp-clean-final"></script>
+<script src="js/script.js?v=20260906-direct-jsonp-final"></script>
+
 
 <script>
 (function(){
   'use strict';
+
+  var API = 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
+  var visitorsEl = document.querySelector('[data-stat-value="visitors"]');
+  var inquiriesEl = document.querySelector('[data-stat-value="inquiries"]');
+  var statusEl = document.querySelector('[data-stats-status]');
+  if (!visitorsEl && !inquiriesEl) return;
+
+  if (statusEl) statusEl.textContent = 'Connecting to MADHYUM live statistics…';
+
+  var visitorId;
   try {
-    var API = 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
-    var visitorsEl = document.querySelector('[data-stat-value="visitors"]');
-    var inquiriesEl = document.querySelector('[data-stat-value="inquiries"]');
-    var statusEl = document.querySelector('[data-stats-status]');
-    if (!visitorsEl && !inquiriesEl) return;
-
-    if (statusEl) statusEl.textContent = 'Connecting to MADHYUM live statistics…';
-
-    var visitorKey = 'madhyum_visitor_id_v1';
-    var visitorId = '';
-    try {
-      visitorId = localStorage.getItem(visitorKey) || '';
-      if (!visitorId) {
-        visitorId = (window.crypto && window.crypto.randomUUID)
-          ? window.crypto.randomUUID()
-          : ('v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2));
-        localStorage.setItem(visitorKey, visitorId);
-      }
-    } catch (_) {
-      visitorId = 'session_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+    visitorId = localStorage.getItem('madhyum_visitor_id_v1');
+    if (!visitorId) {
+      visitorId = (window.crypto && window.crypto.randomUUID)
+        ? window.crypto.randomUUID()
+        : ('v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2));
+      localStorage.setItem('madhyum_visitor_id_v1', visitorId);
     }
-
-    function formatCount(value) {
-      var n = Number(value);
-      return Number.isFinite(n) ? Math.max(0, Math.round(n)).toLocaleString('en-IN') + '+' : '—';
-    }
-
-    var done = false;
-    var timer = setTimeout(function() {
-      if (done) return;
-      done = true;
-      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
-    }, 20000);
-
-    window.madhyumStatsCallback = function(data) {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
-      if (!data || data.success !== true) {
-        if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
-        return;
-      }
-      if (visitorsEl) visitorsEl.textContent = formatCount(data.visitors);
-      if (inquiriesEl) inquiriesEl.textContent = formatCount(data.inquiries);
-      if (statusEl) statusEl.textContent = 'Live figures from the MADHYUM network.';
-    };
-
-    function loadStats() {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = API + '?action=stats&callback=madhyumStatsCallback&_=' + Date.now();
-      s.onerror = function() {
-        if (done) return;
-        done = true;
-        clearTimeout(timer);
-        if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
-      };
-      document.head.appendChild(s);
-    }
-
-    // Record this browser first. no-cors intentionally ignores the response; the server-side request still runs.
-    var visitUrl = API + '?action=visit&visitorId=' + encodeURIComponent(visitorId) + '&_=' + Date.now();
-    try {
-      fetch(visitUrl, { mode: 'no-cors', cache: 'no-store' })
-        .then(function() { setTimeout(loadStats, 350); })
-        .catch(function() { loadStats(); });
-    } catch (_) {
-      loadStats();
-    }
-  } catch (err) {
-    var statusEl2 = document.querySelector('[data-stats-status]');
-    if (statusEl2) statusEl2.textContent = 'Live statistics are temporarily unavailable.';
+  } catch (e) {
+    visitorId = 'session_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
   }
+
+  var callbackName = 'madhyumStats_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  var script = document.createElement('script');
+  var finished = false;
+
+  function clean(){
+    try { script.remove(); } catch(e) {}
+    try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
+  }
+
+  function fail(){
+    if (finished) return;
+    finished = true;
+    clearTimeout(timeout);
+    clean();
+    if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+  }
+
+  window[callbackName] = function(data){
+    if (finished) return;
+    finished = true;
+    clearTimeout(timeout);
+
+    if (!data || data.success !== true) {
+      clean();
+      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+      return;
+    }
+
+    var v = Number(data.visitors);
+    var q = Number(data.inquiries);
+    if (!Number.isFinite(v) || !Number.isFinite(q)) {
+      clean();
+      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+      return;
+    }
+
+    if (visitorsEl) visitorsEl.textContent = Math.max(0, Math.round(v)).toLocaleString('en-IN') + '+';
+    if (inquiriesEl) inquiriesEl.textContent = Math.max(0, Math.round(q)).toLocaleString('en-IN') + '+';
+    if (statusEl) statusEl.textContent = 'Live figures from the MADHYUM network.';
+    clean();
+  };
+
+  script.async = true;
+  script.onerror = fail;
+  script.src = API
+    + '?action=stats'
+    + '&visitorId=' + encodeURIComponent(visitorId)
+    + '&callback=' + encodeURIComponent(callbackName)
+    + '&_=' + Date.now();
+
+  document.head.appendChild(script);
+  var timeout = setTimeout(fail, 30000);
 })();
 </script>
+
 </body>
 </html>
