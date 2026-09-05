@@ -26,31 +26,16 @@ jobs:
           set -euo pipefail
           mkdir -p data
 
-          BASE_URL="https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec"
+          BASE_URL="https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec"
           TS="$(date +%s)"
           JSONP_URL="${BASE_URL}?action=stats&callback=madhyumStatsCallback&_=${TS}"
           JSON_URL="${BASE_URL}?action=stats&_=${TS}"
 
           fetch_stats () {
-            local url="$1"
+            local req_url="$1"
             local out="$2"
 
-            curl \
-              --location \
-              --compressed \
-              --retry 4 \
-              --retry-delay 2 \
-              --retry-all-errors \
-              --connect-timeout 15 \
-              --max-time 60 \
-              --silent \
-              --show-error \
-              --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/151 Safari/537.36" \
-              --header "Accept: application/json,text/javascript,*/*;q=0.8" \
-              --header "Cache-Control: no-cache" \
-              --output "$out" \
-              --write-out "%{http_code}" \
-              "$url"
+            curl               --location               --compressed               --retry 4               --retry-delay 2               --retry-all-errors               --connect-timeout 15               --max-time 60               --silent               --show-error               --user-agent "Mozilla/5.0"               --header "Accept: application/json,text/javascript,*/*;q=0.8"               --header "Cache-Control: no-cache"               --output "$out"               --write-out "%{http_code}"               "$req_url"
           }
 
           echo "Trying Apps Script JSONP endpoint..."
@@ -66,23 +51,17 @@ jobs:
           fi
 
           if [ "$BODY_SIZE" -eq 0 ]; then
-            echo "::error::Apps Script returned an empty response after redirects and retries."
+            echo "::error::Apps Script returned an empty response."
             exit 1
           fi
 
           python3 - <<'PY'
-          import json
-          import datetime
-          import pathlib
-          import re
+          import json, datetime, pathlib, re
 
           raw = pathlib.Path("/tmp/madhyum-stats.txt").read_text(
               encoding="utf-8", errors="replace"
           ).strip()
 
-          # Accept either:
-          # {"success":true,...}
-          # or madhyumStatsCallback({"success":true,...});
           m = re.fullmatch(
               r"\s*madhyumStatsCallback\s*\(\s*(\{.*\})\s*\)\s*;?\s*",
               raw,
@@ -91,26 +70,16 @@ jobs:
           if m:
               raw = m.group(1)
 
-          try:
-              data = json.loads(raw)
-          except Exception:
-              print("Response received, but it was not valid MADHYUM stats JSON/JSONP.")
-              print("First 500 characters:")
-              print(raw[:500])
-              raise
+          data = json.loads(raw)
 
           if data.get("success") is not True:
-              raise SystemExit(
-                  "Apps Script returned success != true: " + repr(data)
-              )
+              raise SystemExit("Apps Script returned success != true: " + repr(data))
 
           clean = {
               "success": True,
               "visitors": max(0, int(data.get("visitors", 0))),
               "inquiries": max(0, int(data.get("inquiries", 0))),
-              "updatedAt": datetime.datetime.now(
-                  datetime.timezone.utc
-              ).isoformat(),
+              "updatedAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
           }
 
           pathlib.Path("data/stats.json").write_text(
