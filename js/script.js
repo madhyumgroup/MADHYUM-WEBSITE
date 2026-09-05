@@ -155,9 +155,11 @@
     if(label) el.setAttribute('title',label);
   });
 
+  // Homepage statistics are intentionally isolated in index.html so a stats failure can never break the main website JavaScript.
+
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
   // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
-  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || '';
+  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
   const pageWing = {
     'real-estate.html':'Real Estate',
     'travel.html':'Travel',
