@@ -15,6 +15,7 @@ concurrency:
 jobs:
   update-stats:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout website
         uses: actions/checkout@v4
@@ -24,36 +25,115 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p data
-          URL="https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec?action=stats&_=$(date +%s)"
-          curl --fail --silent --show-error --location --max-time 30 "$URL" -o /tmp/madhyum-stats.json
-          python3 - <<'PY'
-          import json, datetime, pathlib
-          p=pathlib.Path('/tmp/madhyum-stats.json')
-          data=json.loads(p.read_text())
-          if data.get('success') is not True:
-              raise SystemExit('Apps Script returned success != true')
-          visitors=int(data.get('visitors',0))
-          inquiries=int(data.get('inquiries',0))
-          clean={
-              'success': True,
-              'visitors': max(0, visitors),
-              'inquiries': max(0, inquiries),
-              'updatedAt': datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+          BASE_URL="https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec"
+          TS="$(date +%s)"
+          JSONP_URL="${BASE_URL}?action=stats&callback=madhyumStatsCallback&_=${TS}"
+          JSON_URL="${BASE_URL}?action=stats&_=${TS}"
+
+          fetch_stats () {
+            local url="$1"
+            local out="$2"
+
+            curl \
+              --location \
+              --compressed \
+              --retry 4 \
+              --retry-delay 2 \
+              --retry-all-errors \
+              --connect-timeout 15 \
+              --max-time 60 \
+              --silent \
+              --show-error \
+              --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/151 Safari/537.36" \
+              --header "Accept: application/json,text/javascript,*/*;q=0.8" \
+              --header "Cache-Control: no-cache" \
+              --output "$out" \
+              --write-out "%{http_code}" \
+              "$url"
           }
-          pathlib.Path('data/stats.json').write_text(json.dumps(clean,indent=2)+'\n')
-          print(clean)
+
+          echo "Trying Apps Script JSONP endpoint..."
+          HTTP_CODE="$(fetch_stats "$JSONP_URL" /tmp/madhyum-stats.txt || true)"
+          BODY_SIZE="$(wc -c < /tmp/madhyum-stats.txt 2>/dev/null || echo 0)"
+          echo "JSONP HTTP status: ${HTTP_CODE:-unknown}; bytes: ${BODY_SIZE}"
+
+          if [ "$BODY_SIZE" -eq 0 ]; then
+            echo "JSONP body was empty. Trying normal JSON endpoint..."
+            HTTP_CODE="$(fetch_stats "$JSON_URL" /tmp/madhyum-stats.txt || true)"
+            BODY_SIZE="$(wc -c < /tmp/madhyum-stats.txt 2>/dev/null || echo 0)"
+            echo "JSON HTTP status: ${HTTP_CODE:-unknown}; bytes: ${BODY_SIZE}"
+          fi
+
+          if [ "$BODY_SIZE" -eq 0 ]; then
+            echo "::error::Apps Script returned an empty response after redirects and retries."
+            exit 1
+          fi
+
+          python3 - <<'PY'
+          import json
+          import datetime
+          import pathlib
+          import re
+
+          raw = pathlib.Path("/tmp/madhyum-stats.txt").read_text(
+              encoding="utf-8", errors="replace"
+          ).strip()
+
+          # Accept either:
+          # {"success":true,...}
+          # or madhyumStatsCallback({"success":true,...});
+          m = re.fullmatch(
+              r"\s*madhyumStatsCallback\s*\(\s*(\{.*\})\s*\)\s*;?\s*",
+              raw,
+              flags=re.S,
+          )
+          if m:
+              raw = m.group(1)
+
+          try:
+              data = json.loads(raw)
+          except Exception:
+              print("Response received, but it was not valid MADHYUM stats JSON/JSONP.")
+              print("First 500 characters:")
+              print(raw[:500])
+              raise
+
+          if data.get("success") is not True:
+              raise SystemExit(
+                  "Apps Script returned success != true: " + repr(data)
+              )
+
+          clean = {
+              "success": True,
+              "visitors": max(0, int(data.get("visitors", 0))),
+              "inquiries": max(0, int(data.get("inquiries", 0))),
+              "updatedAt": datetime.datetime.now(
+                  datetime.timezone.utc
+              ).isoformat(),
+          }
+
+          pathlib.Path("data/stats.json").write_text(
+              json.dumps(clean, indent=2) + "\n",
+              encoding="utf-8",
+          )
+
+          print("MADHYUM live stats prepared:", clean)
           PY
 
       - name: Commit updated stats if changed
         shell: bash
         run: |
           set -euo pipefail
+
           if git diff --quiet -- data/stats.json; then
             echo "No statistics change to commit."
             exit 0
           fi
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add data/stats.json
           git commit -m "Update live website statistics"
           git push
