@@ -1,308 +1,1853 @@
-/* MADHYUM WEBSITE — CLEAN V7 JAVASCRIPT */
-(function(){
-  'use strict';
+/* =========================================================
+MADHYUM WEBSITE — FINAL V36 JAVASCRIPT
+======================================
 
-  const header=document.querySelector('.site-header');
-  let lastY=window.scrollY;
-  let ticking=false;
-  function onScroll(){
-    const y=window.scrollY;
-    if(header){
-      header.classList.toggle('scrolled',y>30);
-      if(y>lastY && y>90) header.classList.add('nav-hidden');
-      else if(y<lastY) header.classList.remove('nav-hidden');
-    }
-    lastY=y;
-    ticking=false;
+Purpose:
+
+* Preserve existing website interactions
+* Connect live homepage statistics
+* Connect inquiry forms
+* Use the confirmed MADHYUM Apps Script /exec backend
+  ========================================================= */
+
+(function () {
+'use strict';
+
+/* =======================================================
+1. MADHYUM BACKEND
+======================================================= */
+
+const MADHYUM_API_URL =
+'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
+
+/* =======================================================
+2. HEADER / SCROLL BEHAVIOUR
+======================================================= */
+
+const header = document.querySelector('.site-header');
+
+let lastY = window.scrollY;
+let ticking = false;
+
+function onScroll() {
+const y = window.scrollY;
+
+```
+if (header) {
+  header.classList.toggle('scrolled', y > 30);
+
+  if (y > lastY && y > 90) {
+    header.classList.add('nav-hidden');
+  } else if (y < lastY) {
+    header.classList.remove('nav-hidden');
   }
-  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(onScroll);ticking=true;}},{passive:true});
+}
 
-  const mobileMenu=document.querySelector('.mobile-menu');
-  const menuButton=document.querySelector('.menu-btn');
-  const closeButtons=document.querySelectorAll('[data-close-mobile]');
-  function closeMenu(){if(mobileMenu){mobileMenu.classList.remove('open');mobileMenu.setAttribute('aria-hidden','true');} if(menuButton)menuButton.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');}
-  function openMenu(){if(mobileMenu){mobileMenu.classList.add('open');mobileMenu.setAttribute('aria-hidden','false');} if(menuButton)menuButton.setAttribute('aria-expanded','true');document.body.classList.add('menu-open');}
-  menuButton?.addEventListener('click',()=>mobileMenu?.classList.contains('open')?closeMenu():openMenu());
-  closeButtons.forEach(b=>b.addEventListener('click',closeMenu));
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+lastY = y;
+ticking = false;
+```
 
-  // Search: broad keyword index across all locked website categories.
-  const S=(terms,page,label)=>terms.split('|').map(t=>[t,page,label]);
-  const SEARCH_DATA=[
-    ...S('real estate|property|properties|buy property|sell property|invest property|investment property|residential|commercial|plots|plot|land|new projects|projects|development|renovation|rent|rental|lease|apartment|apartments|flat|flats|duplex|villa|villas|bungalow|independent house|shop|office|showroom|property services|3 bhk|2 bhk|1 bhk|bhopal|kolar road|bawadiya kalan|hoshangabad road|jatkhedi|misrod|ayodhya bypass|awadhpuri|katara hills|salaiya|airport road|ratanpur|vidisha road|tintadi kheda|bhauri','real-estate.html','Real Estate'),
-    ...S('travel|holiday|holidays|tour|tours|domestic holidays|international holidays|family holiday|family package|honeymoon|couple|solo|adventure|hiking|trekking|backpacking|group travel|friends trip|religious travel|spiritual travel|hajj|umrah|karbala|char dham|badrinath|gangotri|yamunotri|corporate travel|business travel|custom travel|weekend getaway|beach escape|mountain getaway|heritage journey|maldives|bali|switzerland|mauritius|dubai|kashmir|thailand|goa|manali|kerala|rajasthan|singapore|nepal|bhutan|tibet|flight|flights|hotel|hotels|resort|resorts|villa stay|airport transfer|cab|chauffeur|cruise|sightseeing|visa assistance|travel insurance|itinerary','travel.html','Travel'),
-    ...S('education|admission|admissions|course|courses|study|college|university|institute|ug|undergraduate|pg|postgraduate|professional|mbbs|bds|bams|nursing|physiotherapy|btech|be|bca|mca|mtech|bba|bcom|mba|pgdm|mcom|pilot training|aviation management|cabin crew|airport management|llb|ba llb|llm|bba llb|fashion design|interior design|graphic design|ui ux|hotel management|hospitality|culinary arts|journalism|mass communication|digital media|advertising|bsc|msc|biotechnology|agriculture|barch|march|urban planning|pharmacy|paramedical|education|psychology|india education|study abroad|uk|germany|ireland|usa|canada|australia|new zealand|uae|russia|georgia|kazakhstan|kyrgyzstan|uzbekistan|delhi|noida|dehradun|jaipur|chandigarh|lucknow|mumbai|pune|ahmedabad|vadodara|surat|bengaluru|hyderabad|chennai|coimbatore|kochi|mangalore|bhubaneswar|ranchi|patna|indore|nagpur|raipur|kolkata','education.html','Education & Admissions'),
-    ...S('consultancy|business services|business support|business setup|business registration|proprietorship|partnership|llp|company registration|gst|gst registration|udyam|msme|itr|tax|profit and loss|balance sheet|financial statements|accounting|compliance|legal assistance|documentation|registry|agreements|business consultancy|business planning|project report|project reports|business proposal|financial projection|growth|expansion|business advisory|website development|business website|digital presence|job consultancy|career consultation|recruitment|placement','consultancy.html','Consultancy & Business Services'),
-    ...S('events|weddings|wedding|engagement|sagai|mehendi|haldi|sangeet|baraat|reception|vidai|ceremony|venue|banquet|resort|lawn|mandap|stage design|floral decor|theme decor|lighting|entrance decor|led wall|catering|live counters|food stations|desserts|beverages|guest hospitality|vip hospitality|photography|candid photography|videography|cinematic film|pre wedding|drone photography|album|dj|live band|singer|dhol|dance|choreography|anchor|emcee|artist booking|birthday|anniversary|party|get together|corporate event|conference|seminar|meeting|product launch|award function|concert|live show|cultural event|fog entry|cold spark|custom stage|luxury mandap|ramp walk|special effects','events.html','Events & Weddings'),
-    ...S('membership|member|member privileges|dining|dining privileges|preferred access|brokerage|travel offers|admission assistance|professional expertise|event vendors','membership.html','MADHYUM Membership')
-  ];
-  const drawer=document.querySelector('.drawer');
-  const searchInput=document.querySelector('#searchInput');
-  const searchResults=document.querySelector('#searchResults');
-  function openSearch(){drawer?.classList.add('open');drawer?.setAttribute('aria-hidden','false');setTimeout(()=>searchInput?.focus(),80)}
-  function closeSearch(){drawer?.classList.remove('open');drawer?.setAttribute('aria-hidden','true')}
-  document.querySelectorAll('[data-search]').forEach(b=>b.addEventListener('click',openSearch));
-  document.querySelectorAll('[data-close-search]').forEach(b=>b.addEventListener('click',closeSearch));
-  drawer?.addEventListener('click',e=>{if(e.target===drawer)closeSearch()});
-  function esc(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-  function renderSearch(q=''){
-    if(!searchResults)return;
-    const raw=q.trim().toLowerCase();
-    if(!raw){searchResults.innerHTML='<div class="result"><strong>Start typing a requirement</strong><small>Try property, Dubai, honeymoon, MBBS, GST, wedding, Hajj, or membership.</small></div>';return;}
-    const tokens=raw.split(/\s+/).filter(Boolean);
-    const seen=new Set();
-    const matches=SEARCH_DATA
-      .map(([termText,page,label])=>{
-        const hay=termText.toLowerCase();
-        const hits=tokens.filter(token=>hay.includes(token)).length;
-        return [termText,page,label,hits];
-      })
-      .filter(([termText,page,label,hits])=>hits===tokens.length || (tokens.length===1 && hits>0))
-      .sort((a,b)=>b[3]-a[3] || a[0].length-b[0].length)
-      .filter(([t,p])=>{const k=p+'|'+t;if(seen.has(k))return false;seen.add(k);return true})
-      .slice(0,40);
-    if(!matches.length){searchResults.innerHTML='<div class="result"><strong>No matching keyword found</strong><small>Try a broader requirement or service name.</small></div>';return;}
-    const pages={};
-    matches.forEach(([t,p,l])=>(pages[p]??={label:l,terms:[]}).terms.push(t));
-    searchResults.innerHTML=Object.entries(pages).map(([page,v])=>`<a class="result" href="${page}"><strong>${esc(v.label)}</strong><small>${esc(v.terms.slice(0,8).join(' • '))}</small></a>`).join('');
+}
+
+window.addEventListener(
+'scroll',
+function () {
+if (!ticking) {
+window.requestAnimationFrame(onScroll);
+ticking = true;
+}
+},
+{ passive: true }
+);
+
+/* =======================================================
+3. MOBILE MENU
+======================================================= */
+
+const mobileMenu = document.querySelector('.mobile-menu');
+const menuButton = document.querySelector('.menu-btn');
+const closeButtons =
+document.querySelectorAll('[data-close-mobile]');
+
+function closeMenu() {
+if (mobileMenu) {
+mobileMenu.classList.remove('open');
+mobileMenu.setAttribute('aria-hidden', 'true');
+}
+
+```
+if (menuButton) {
+  menuButton.setAttribute('aria-expanded', 'false');
+}
+
+document.body.classList.remove('menu-open');
+```
+
+}
+
+function openMenu() {
+if (mobileMenu) {
+mobileMenu.classList.add('open');
+mobileMenu.setAttribute('aria-hidden', 'false');
+}
+
+```
+if (menuButton) {
+  menuButton.setAttribute('aria-expanded', 'true');
+}
+
+document.body.classList.add('menu-open');
+```
+
+}
+
+if (menuButton) {
+menuButton.addEventListener('click', function () {
+if (
+mobileMenu &&
+mobileMenu.classList.contains('open')
+) {
+closeMenu();
+} else {
+openMenu();
+}
+});
+}
+
+closeButtons.forEach(function (button) {
+button.addEventListener('click', closeMenu);
+});
+
+document.addEventListener('keydown', function (event) {
+if (event.key === 'Escape') {
+closeMenu();
+}
+});
+
+/* =======================================================
+4. WEBSITE SEARCH
+======================================================= */
+
+function S(terms, page, label) {
+return terms
+.split('|')
+.map(function (term) {
+return [term, page, label];
+});
+}
+
+const SEARCH_DATA = [
+
+```
+...S(
+  'real estate|property|properties|buy property|sell property|invest property|investment property|residential|commercial|plots|plot|land|new projects|projects|development|renovation|rent|rental|lease|apartment|apartments|flat|flats|duplex|villa|villas|bungalow|independent house|shop|office|showroom|property services|3 bhk|2 bhk|1 bhk|bhopal|kolar road|bawadiya kalan|hoshangabad road|jatkhedi|misrod|ayodhya bypass|awadhpuri|katara hills|salaiya|airport road|ratanpur|vidisha road|tintadi kheda|bhauri',
+  'real-estate.html',
+  'Real Estate'
+),
+
+...S(
+  'travel|holiday|holidays|tour|tours|domestic holidays|international holidays|family holiday|family package|honeymoon|couple|solo|adventure|hiking|trekking|backpacking|group travel|friends trip|religious travel|spiritual travel|hajj|umrah|karbala|char dham|badrinath|gangotri|yamunotri|corporate travel|business travel|custom travel|weekend getaway|beach escape|mountain getaway|heritage journey|maldives|bali|switzerland|mauritius|dubai|kashmir|thailand|goa|manali|kerala|rajasthan|singapore|nepal|bhutan|tibet|flight|flights|hotel|hotels|resort|resorts|villa stay|airport transfer|cab|chauffeur|cruise|sightseeing|visa assistance|travel insurance|itinerary',
+  'travel.html',
+  'Travel'
+),
+
+...S(
+  'education|admission|admissions|course|courses|study|college|university|institute|ug|undergraduate|pg|postgraduate|professional|mbbs|bds|bams|nursing|physiotherapy|btech|be|bca|mca|mtech|bba|bcom|mba|pgdm|mcom|pilot training|aviation management|cabin crew|airport management|llb|ba llb|llm|bba llb|fashion design|interior design|graphic design|ui ux|hotel management|hospitality|culinary arts|journalism|mass communication|digital media|advertising|bsc|msc|biotechnology|agriculture|barch|march|urban planning|pharmacy|paramedical|psychology|india education|study abroad|uk|germany|ireland|usa|canada|australia|new zealand|uae|russia|georgia|kazakhstan|kyrgyzstan|uzbekistan|delhi|noida|dehradun|jaipur|chandigarh|lucknow|mumbai|pune|ahmedabad|vadodara|surat|bengaluru|hyderabad|chennai|coimbatore|kochi|mangalore|bhubaneswar|ranchi|patna|indore|nagpur|raipur|kolkata',
+  'education.html',
+  'Education & Admissions'
+),
+
+...S(
+  'consultancy|business services|business support|business setup|business registration|proprietorship|partnership|llp|company registration|gst|gst registration|udyam|msme|itr|tax|profit and loss|balance sheet|financial statements|accounting|compliance|legal assistance|documentation|registry|agreements|business consultancy|business planning|project report|project reports|business proposal|financial projection|growth|expansion|business advisory|website development|business website|digital presence|job consultancy|career consultation|recruitment|placement',
+  'consultancy.html',
+  'Consultancy & Business Services'
+),
+
+...S(
+  'events|weddings|wedding|engagement|sagai|mehendi|haldi|sangeet|baraat|reception|vidai|ceremony|venue|banquet|resort|lawn|mandap|stage design|floral decor|theme decor|lighting|entrance decor|led wall|catering|live counters|food stations|desserts|beverages|guest hospitality|vip hospitality|photography|candid photography|videography|cinematic film|pre wedding|drone photography|album|dj|live band|singer|dhol|dance|choreography|anchor|emcee|artist booking|birthday|anniversary|party|get together|corporate event|conference|seminar|meeting|product launch|award function|concert|live show|cultural event|fog entry|cold spark|custom stage|luxury mandap|ramp walk|special effects',
+  'events.html',
+  'Events & Weddings'
+),
+
+...S(
+  'membership|member|member privileges|dining|dining privileges|preferred access|brokerage|travel offers|admission assistance|professional expertise|event vendors',
+  'membership.html',
+  'MADHYUM Membership'
+)
+```
+
+];
+
+const drawer = document.querySelector('.drawer');
+const searchInput = document.querySelector('#searchInput');
+const searchResults =
+document.querySelector('#searchResults');
+
+function openSearch() {
+if (drawer) {
+drawer.classList.add('open');
+drawer.setAttribute('aria-hidden', 'false');
+}
+
+```
+setTimeout(function () {
+  if (searchInput) {
+    searchInput.focus();
   }
-  searchInput?.addEventListener('input',e=>renderSearch(e.target.value));
-  renderSearch();
+}, 80);
+```
 
+}
 
-  // Photo slots: keep every photograph in its own reserved box so nothing can overlap another section.
-  document.querySelectorAll('.section-photo-slot[data-photo], .package-photo[data-photo], .location-card-photo[data-photo], .category-card-photo[data-photo]').forEach(slot=>{
-    const file=slot.getAttribute('data-photo');
-    if(!file) return;
-    const img=new Image();
-    img.onload=()=>{slot.classList.add('has-photo');slot.style.backgroundImage=`url("images/${file}")`;};
-    img.onerror=()=>slot.classList.add('photo-pending');
-    img.src=`images/${file}`;
-  });
+function closeSearch() {
+if (drawer) {
+drawer.classList.remove('open');
+drawer.setAttribute('aria-hidden', 'true');
+}
+}
 
-  // Home hero: use the clear repository photograph first, with the packaged image as a local fallback.
-  const heroImage=document.querySelector('.layered-hero-image');
-  if(heroImage){
-    heroImage.addEventListener('error',()=>{
-      if(!heroImage.dataset.fallback){
-        heroImage.dataset.fallback='1';
-        heroImage.src='images/hero-madhyam.jpg';
+document
+.querySelectorAll('[data-search]')
+.forEach(function (button) {
+button.addEventListener('click', openSearch);
+});
+
+document
+.querySelectorAll('[data-close-search]')
+.forEach(function (button) {
+button.addEventListener('click', closeSearch);
+});
+
+if (drawer) {
+drawer.addEventListener('click', function (event) {
+if (event.target === drawer) {
+closeSearch();
+}
+});
+}
+
+function escapeHTML(value) {
+return String(value).replace(
+/[&<>'"]/g,
+function (character) {
+return {
+'&': '&',
+'<': '<',
+'>': '>',
+"'": ''',
+'"': '"'
+}[character];
+}
+);
+}
+
+function renderSearch(query) {
+
+```
+if (!searchResults) {
+  return;
+}
+
+const raw =
+  String(query || '').trim().toLowerCase();
+
+if (!raw) {
+
+  searchResults.innerHTML =
+    '<div class="result">' +
+    '<strong>Start typing a requirement</strong>' +
+    '<small>Try property, Dubai, honeymoon, MBBS, GST, wedding, Hajj, or membership.</small>' +
+    '</div>';
+
+  return;
+}
+
+const tokens =
+  raw.split(/\s+/).filter(Boolean);
+
+const seen = new Set();
+
+const matches =
+  SEARCH_DATA
+    .map(function (item) {
+
+      const termText = item[0];
+      const page = item[1];
+      const label = item[2];
+
+      const haystack =
+        termText.toLowerCase();
+
+      const hits =
+        tokens.filter(function (token) {
+          return haystack.includes(token);
+        }).length;
+
+      return [
+        termText,
+        page,
+        label,
+        hits
+      ];
+    })
+    .filter(function (item) {
+
+      const hits = item[3];
+
+      return (
+        hits === tokens.length ||
+        (tokens.length === 1 && hits > 0)
+      );
+
+    })
+    .sort(function (a, b) {
+
+      return (
+        b[3] - a[3] ||
+        a[0].length - b[0].length
+      );
+
+    })
+    .filter(function (item) {
+
+      const key =
+        item[1] + '|' + item[0];
+
+      if (seen.has(key)) {
+        return false;
       }
-    },{once:false});
-  }
 
-  // Five rotating wing photographs: local package first, repository image as a fallback.
-  document.querySelectorAll('.layered-wing img').forEach(img=>{
-    img.addEventListener('error',()=>{
-      const file=img.getAttribute('src')?.split('/').pop();
-      if(file && !img.dataset.fallback){
-        img.dataset.fallback='1';
-        img.src=`https://raw.githubusercontent.com/madhyumgroup/MADHYUM-WEBSITE/main/${file}`;
-      }
-    });
-  });
+      seen.add(key);
+      return true;
 
-  // Service photo circles use the same local wing photographs.
-  document.querySelectorAll('.solution-panel[data-photo]').forEach(panel=>{
-    const file=panel.getAttribute('data-photo');
-    if(file) panel.style.setProperty('--solution-photo', `url("images/${file}")`);
-  });
+    })
+    .slice(0, 40);
 
-  // Smooth internal links.
-  document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',e=>{
-    const id=link.getAttribute('href'); if(!id||id==='#')return; const el=document.querySelector(id); if(!el)return; e.preventDefault(); closeMenu(); el.scrollIntoView({behavior:'smooth',block:'start'});
-  }));
 
-  // Reveal animations.
-  const reveal=document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window){const io=new IntersectionObserver(entries=>entries.forEach(x=>x.isIntersecting&&x.target.classList.add('visible')),{threshold:.08});reveal.forEach(x=>io.observe(x));}else reveal.forEach(x=>x.classList.add('visible'));
+if (!matches.length) {
 
-  // Horizontal hero slider: cards move left-to-right instead of C-orbit rotation.
-  const wings=[...document.querySelectorAll('.layered-wing')];
-  const prev=document.querySelector('#layeredPrev'), next=document.querySelector('#layeredNext'), dots=document.querySelector('#layeredDots');
-  let active=0, timer=null, paused=false;
-  if(wings.length){
-    if(dots){dots.innerHTML='';wings.forEach((w,i)=>{const d=document.createElement('button');d.type='button';d.className='layered-dot';d.setAttribute('aria-label','Show '+(w.getAttribute('aria-label')||'business'));d.addEventListener('click',()=>{active=i;update();restart()});dots.appendChild(d)})}
-    function update(){
-      const classes=['is-active','position-right','position-far-right','position-far-left','position-left'];
-      wings.forEach((w,i)=>{
-        w.classList.remove('position-left','position-far-left','is-active','position-right','position-far-right');
-        const rel=(i-active+wings.length)%wings.length;
-        const cls=classes[rel];
-        if(cls)w.classList.add(cls);
-        w.setAttribute('aria-current',rel===0?'true':'false');
-      });
-      dots?.querySelectorAll('.layered-dot').forEach((d,i)=>d.classList.toggle('active',i===active));
-    }
-    function goNext(){active=(active+1)%wings.length;update()}
-    function goPrev(){active=(active-1+wings.length)%wings.length;update()}
-    function stop(){if(timer){clearInterval(timer);timer=null}}
-    function start(){stop();if(!paused)timer=setInterval(goNext,5200)}
-    function restart(){start()}
-    next?.addEventListener('click',()=>{goNext();restart()});prev?.addEventListener('click',()=>{goPrev();restart()});
-    const hero=document.querySelector('.layered-hero'); hero?.addEventListener('mouseenter',()=>{paused=true;stop()});hero?.addEventListener('mouseleave',()=>{paused=false;start()});
-    let sx=0;hero?.addEventListener('touchstart',e=>sx=e.changedTouches[0].clientX,{passive:true});hero?.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>35){dx<0?goNext():goPrev();restart()}},{passive:true});
-    update();start();
-  }
+  searchResults.innerHTML =
+    '<div class="result">' +
+    '<strong>No matching keyword found</strong>' +
+    '<small>Try a broader requirement or service name.</small>' +
+    '</div>';
 
-  // Accessible Inquire details remain native <details>.
-  document.querySelectorAll('.service-more summary').forEach(s=>s.setAttribute('role','button'));
+  return;
+}
 
-  // Premium hover hints for actionable controls without changing their labels or destinations.
-  document.querySelectorAll('.btn,.smalllink,.solution-link,.service-more summary,.contact-pill,.menu-btn,.iconbtn,.layered-control,.layered-dot').forEach(el=>{
-    if(el.hasAttribute('title')) return;
-    const label=el.getAttribute('aria-label') || el.textContent.trim().replace(/\s+/g,' ');
-    if(label) el.setAttribute('title',label);
-  });
 
-  // Homepage live statistics: one persistent browser visitor ID is sent to the same Apps Script backend.
-  // The backend must deduplicate visitor IDs and return {success:true, visitors:<number>, inquiries:<number>}.
-  if(document.body.classList.contains('home-page')){
-    const statsUrl=window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
-    const visitorKey='madhyum_visitor_id_v1';
-    function getVisitorId(){
-      try{
-        let id=localStorage.getItem(visitorKey);
-        if(!id){id=(window.crypto?.randomUUID?.() || ('v_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2)));localStorage.setItem(visitorKey,id)}
-        return id;
-      }catch(_){return 'session_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2)}
-    }
-    function animateStat(el,target){
-      if(!el || !Number.isFinite(target))return;
-      const end=Math.max(0,Math.round(target));
-      const start=0;
-      const duration=1100;
-      const started=performance.now();
-      el.classList.remove('is-loading');
-      function tick(now){
-        const progress=Math.min(1,(now-started)/duration);
-        const eased=1-Math.pow(1-progress,3);
-        el.textContent=(start+(end-start)*eased).toLocaleString('en-IN')+'+';
-        if(progress<1)requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-    function loadLiveStats(){
-      const values={visitors:document.querySelector('[data-stat-value="visitors"]'),inquiries:document.querySelector('[data-stat-value="inquiries"]')};
-      const status=document.querySelector('[data-stats-status]');
-      if(!statsUrl){
-        status&&(status.textContent='Live figures will appear here after the MADHYUM backend is connected.');
-        return;
-      }
-      Object.values(values).forEach(el=>el?.classList.add('is-loading'));
-      const callbackName='madhyumStatsCallback_'+Date.now();
-      const script=document.createElement('script');
-      let settled=false;
-      const cleanup=()=>{script.remove();try{delete window[callbackName]}catch(_){} };
-      const fail=()=>{
-        if(settled)return;
-        settled=true;
-        cleanup();
-        Object.values(values).forEach(el=>{if(el){el.classList.remove('is-loading');el.textContent='—'}});
-        status&&(status.textContent='Live statistics are temporarily unavailable.');
-      };
-      window[callbackName]=(data)=>{
-        if(settled)return;
-        settled=true;
-        cleanup();
-        try{
-          if(!data || !data.success)throw new Error(data?.message || 'Unable to load live statistics.');
-          animateStat(values.visitors,Number(data.visitors));
-          animateStat(values.inquiries,Number(data.inquiries));
-          status&&(status.textContent='Live figures from the MADHYUM network.');
-        }catch(_){
-          cleanup();
-          Object.values(values).forEach(el=>{if(el){el.classList.remove('is-loading');el.textContent='—'}});
-          status&&(status.textContent='Live statistics are temporarily unavailable.');
-        }
-      };
-      script.onerror=fail;
-      const url=new URL(statsUrl,window.location.href);
-      url.searchParams.set('action','stats');
-      url.searchParams.set('visitorId',getVisitorId());
-      url.searchParams.set('callback',callbackName);
-      url.searchParams.set('_',Date.now().toString());
-      script.src=url.toString();
-      document.head.appendChild(script);
-    }
-    loadLiveStats();
-  }
+const pages = {};
 
-  // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
-  // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
-  const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
-  const pageWing = {
-    'real-estate.html':'Real Estate',
-    'travel.html':'Travel',
-    'education.html':'Education & Admissions',
-    'consultancy.html':'Consultancy & Business Services',
-    'events.html':'Events & Weddings',
-    'contact.html':'General / Other'
-  };
+matches.forEach(function (item) {
 
-  function fieldValue(form,name){
-    const field=form.elements[name];
-    return field ? String(field.value || '').trim() : '';
-  }
+  const term = item[0];
+  const page = item[1];
+  const label = item[2];
 
-  function buildInquiryPayload(form){
-    const page=(window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    const all=[...form.elements].filter(el=>el.name && !el.disabled && el.type!=='submit' && el.type!=='button');
-    const commonNames=new Set(['name','phone','mobile','email','requirement','category']);
-    const details=[];
-    all.forEach(el=>{
-      const value=String(el.value || '').trim();
-      if(!value || commonNames.has(el.name)) return;
-      const label=el.closest('label')?.childNodes?.[0]?.textContent?.trim() || el.name;
-      details.push(`${label}: ${value}`);
-    });
-    const requirement = page==='contact.html' ? fieldValue(form,'category') : (pageWing[page] || form.getAttribute('data-form-name') || 'General / Other');
-    const freeText=fieldValue(form,'requirement');
-    if(freeText) details.push(`Requirement Details: ${freeText}`);
-
-    return {
-      name: fieldValue(form,'name'),
-      mobile: fieldValue(form,'phone') || fieldValue(form,'mobile'),
-      email: fieldValue(form,'email'),
-      requirement,
-      details: details.join('\n'),
-      source: page
+  if (!pages[page]) {
+    pages[page] = {
+      label: label,
+      terms: []
     };
   }
 
-  document.querySelectorAll('[data-form-name]').forEach(form=>form.addEventListener('submit',async e=>{
-    e.preventDefault();
-    const success=form.querySelector('.form-success');
-    const button=form.querySelector('button[type="submit"]');
-    const payload=buildInquiryPayload(form);
+  pages[page].terms.push(term);
 
-    if(!payload.name || !payload.mobile || !payload.requirement){
-      if(success) success.textContent='Please complete the required fields before sending your request.';
-      return;
+});
+
+
+searchResults.innerHTML =
+  Object.entries(pages)
+    .map(function (entry) {
+
+      const page = entry[0];
+      const value = entry[1];
+
+      return (
+        '<a class="result" href="' +
+        escapeHTML(page) +
+        '">' +
+        '<strong>' +
+        escapeHTML(value.label) +
+        '</strong>' +
+        '<small>' +
+        escapeHTML(
+          value.terms.slice(0, 8).join(' • ')
+        ) +
+        '</small>' +
+        '</a>'
+      );
+
+    })
+    .join('');
+```
+
+}
+
+if (searchInput) {
+searchInput.addEventListener(
+'input',
+function (event) {
+renderSearch(event.target.value);
+}
+);
+}
+
+renderSearch('');
+
+/* =======================================================
+5. PHOTO SLOTS
+======================================================= */
+
+document
+.querySelectorAll(
+'.section-photo-slot[data-photo], ' +
+'.package-photo[data-photo], ' +
+'.location-card-photo[data-photo], ' +
+'.category-card-photo[data-photo]'
+)
+.forEach(function (slot) {
+
+```
+  const file =
+    slot.getAttribute('data-photo');
+
+  if (!file) {
+    return;
+  }
+
+  const image = new Image();
+
+  image.onload = function () {
+    slot.classList.add('has-photo');
+    slot.style.backgroundImage =
+      'url("images/' + file + '")';
+  };
+
+  image.onerror = function () {
+    slot.classList.add('photo-pending');
+  };
+
+  image.src = 'images/' + file;
+
+});
+```
+
+/* =======================================================
+6. HOME HERO IMAGE FALLBACK
+======================================================= */
+
+const heroImage =
+document.querySelector('.layered-hero-image');
+
+if (heroImage) {
+
+```
+heroImage.addEventListener(
+  'error',
+  function () {
+
+    if (!heroImage.dataset.fallback) {
+
+      heroImage.dataset.fallback = '1';
+
+      heroImage.src =
+        'images/hero-madhyam.jpg';
+
     }
 
-    if(!INQUIRY_API_URL){
-      if(success) success.textContent='Your request form is ready. The secure submission connection will be activated after the MADHYUM backend is deployed.';
-      return;
+  }
+);
+```
+
+}
+
+/* =======================================================
+7. ROTATING WING IMAGE FALLBACK
+======================================================= */
+
+document
+.querySelectorAll('.layered-wing img')
+.forEach(function (image) {
+
+```
+  image.addEventListener(
+    'error',
+    function () {
+
+      const source =
+        image.getAttribute('src');
+
+      const file =
+        source
+          ? source.split('/').pop()
+          : '';
+
+      if (
+        file &&
+        !image.dataset.fallback
+      ) {
+
+        image.dataset.fallback = '1';
+
+        image.src =
+          'https://raw.githubusercontent.com/madhyumgroup/MADHYUM-WEBSITE/main/' +
+          file;
+
+      }
+
     }
+  );
 
-    if(button){button.disabled=true;button.dataset.originalText=button.textContent;button.textContent='Sending…';}
-    if(success) success.textContent='';
+});
+```
 
-    try{
-      const response=await fetch(INQUIRY_API_URL,{
-        method:'POST',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body:JSON.stringify(payload)
+/* =======================================================
+8. SOLUTION PANEL PHOTOS
+======================================================= */
+
+document
+.querySelectorAll(
+'.solution-panel[data-photo]'
+)
+.forEach(function (panel) {
+
+```
+  const file =
+    panel.getAttribute('data-photo');
+
+  if (file) {
+
+    panel.style.setProperty(
+      '--solution-photo',
+      'url("images/' + file + '")'
+    );
+
+  }
+
+});
+```
+
+/* =======================================================
+9. SMOOTH INTERNAL LINKS
+======================================================= */
+
+document
+.querySelectorAll('a[href^="#"]')
+.forEach(function (link) {
+
+```
+  link.addEventListener(
+    'click',
+    function (event) {
+
+      const id =
+        link.getAttribute('href');
+
+      if (!id || id === '#') {
+        return;
+      }
+
+      const element =
+        document.querySelector(id);
+
+      if (!element) {
+        return;
+      }
+
+      event.preventDefault();
+
+      closeMenu();
+
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
-      const result=await response.json();
-      if(!result.success) throw new Error(result.message || 'Unable to submit the inquiry.');
-      if(success) success.textContent=`Thank you. Your request has been received${result.inquiryId ? ` (${result.inquiryId})` : ''}. We will contact you soon.`;
-      form.reset();
-    }catch(error){
-      if(success) success.textContent='We could not send your request right now. Please try again in a moment.';
-    }finally{
-      if(button){button.disabled=false;button.textContent=button.dataset.originalText || 'Send Your Request →';}
+
     }
-  }));
+  );
+
+});
+```
+
+/* =======================================================
+10. REVEAL ANIMATIONS
+======================================================= */
+
+const revealElements =
+document.querySelectorAll('.reveal');
+
+if (
+'IntersectionObserver' in window
+) {
+
+```
+const observer =
+  new IntersectionObserver(
+    function (entries) {
+
+      entries.forEach(
+        function (entry) {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add(
+              'visible'
+            );
+
+          }
+
+        }
+      );
+
+    },
+    {
+      threshold: 0.08
+    }
+  );
+
+revealElements.forEach(
+  function (element) {
+    observer.observe(element);
+  }
+);
+```
+
+} else {
+
+```
+revealElements.forEach(
+  function (element) {
+    element.classList.add('visible');
+  }
+);
+```
+
+}
+
+/* =======================================================
+11. FIVE-WING HERO SLIDER
+======================================================= */
+
+const wings =
+Array.from(
+document.querySelectorAll('.layered-wing')
+);
+
+const previousButton =
+document.querySelector('#layeredPrev');
+
+const nextButton =
+document.querySelector('#layeredNext');
+
+const dotsContainer =
+document.querySelector('#layeredDots');
+
+let activeWing = 0;
+let sliderTimer = null;
+let sliderPaused = false;
+
+if (wings.length) {
+
+```
+const positionClasses = [
+  'is-active',
+  'position-right',
+  'position-far-right',
+  'position-far-left',
+  'position-left'
+];
+
+
+function updateSlider() {
+
+  wings.forEach(
+    function (wing, index) {
+
+      wing.classList.remove(
+        'position-left',
+        'position-far-left',
+        'is-active',
+        'position-right',
+        'position-far-right'
+      );
+
+      const relativePosition =
+        (
+          index -
+          activeWing +
+          wings.length
+        ) % wings.length;
+
+      const className =
+        positionClasses[relativePosition];
+
+      if (className) {
+        wing.classList.add(className);
+      }
+
+      wing.setAttribute(
+        'aria-current',
+        relativePosition === 0
+          ? 'true'
+          : 'false'
+      );
+
+    }
+  );
+
+
+  if (dotsContainer) {
+
+    dotsContainer
+      .querySelectorAll('.layered-dot')
+      .forEach(
+        function (dot, index) {
+
+          dot.classList.toggle(
+            'active',
+            index === activeWing
+          );
+
+        }
+      );
+
+  }
+
+}
+
+
+function goNext() {
+
+  activeWing =
+    (activeWing + 1) % wings.length;
+
+  updateSlider();
+
+}
+
+
+function goPrevious() {
+
+  activeWing =
+    (
+      activeWing -
+      1 +
+      wings.length
+    ) % wings.length;
+
+  updateSlider();
+
+}
+
+
+function stopSlider() {
+
+  if (sliderTimer) {
+
+    clearInterval(sliderTimer);
+    sliderTimer = null;
+
+  }
+
+}
+
+
+function startSlider() {
+
+  stopSlider();
+
+  if (!sliderPaused) {
+
+    sliderTimer =
+      setInterval(
+        goNext,
+        5200
+      );
+
+  }
+
+}
+
+
+function restartSlider() {
+  startSlider();
+}
+
+
+if (dotsContainer) {
+
+  dotsContainer.innerHTML = '';
+
+  wings.forEach(
+    function (wing, index) {
+
+      const dot =
+        document.createElement('button');
+
+      dot.type = 'button';
+
+      dot.className =
+        'layered-dot';
+
+      dot.setAttribute(
+        'aria-label',
+        'Show ' +
+        (
+          wing.getAttribute(
+            'aria-label'
+          ) || 'business'
+        )
+      );
+
+      dot.addEventListener(
+        'click',
+        function () {
+
+          activeWing = index;
+
+          updateSlider();
+          restartSlider();
+
+        }
+      );
+
+      dotsContainer.appendChild(dot);
+
+    }
+  );
+
+}
+
+
+if (nextButton) {
+
+  nextButton.addEventListener(
+    'click',
+    function () {
+
+      goNext();
+      restartSlider();
+
+    }
+  );
+
+}
+
+
+if (previousButton) {
+
+  previousButton.addEventListener(
+    'click',
+    function () {
+
+      goPrevious();
+      restartSlider();
+
+    }
+  );
+
+}
+
+
+const hero =
+  document.querySelector('.layered-hero');
+
+
+if (hero) {
+
+  hero.addEventListener(
+    'mouseenter',
+    function () {
+
+      sliderPaused = true;
+      stopSlider();
+
+    }
+  );
+
+
+  hero.addEventListener(
+    'mouseleave',
+    function () {
+
+      sliderPaused = false;
+      startSlider();
+
+    }
+  );
+
+
+  let startX = 0;
+
+
+  hero.addEventListener(
+    'touchstart',
+    function (event) {
+
+      if (
+        event.changedTouches &&
+        event.changedTouches.length
+      ) {
+
+        startX =
+          event.changedTouches[0].clientX;
+
+      }
+
+    },
+    { passive: true }
+  );
+
+
+  hero.addEventListener(
+    'touchend',
+    function (event) {
+
+      if (
+        !event.changedTouches ||
+        !event.changedTouches.length
+      ) {
+        return;
+      }
+
+      const distance =
+        event.changedTouches[0].clientX -
+        startX;
+
+      if (Math.abs(distance) > 35) {
+
+        if (distance < 0) {
+          goNext();
+        } else {
+          goPrevious();
+        }
+
+        restartSlider();
+
+      }
+
+    },
+    { passive: true }
+  );
+
+}
+
+
+updateSlider();
+startSlider();
+```
+
+}
+
+/* =======================================================
+12. ACCESSIBLE DETAILS
+======================================================= */
+
+document
+.querySelectorAll(
+'.service-more summary'
+)
+.forEach(function (summary) {
+
+```
+  summary.setAttribute(
+    'role',
+    'button'
+  );
+
+});
+```
+
+/* =======================================================
+13. BUTTON HOVER TITLES
+======================================================= */
+
+document
+.querySelectorAll(
+'.btn,' +
+'.smalllink,' +
+'.solution-link,' +
+'.service-more summary,' +
+'.contact-pill,' +
+'.menu-btn,' +
+'.iconbtn,' +
+'.layered-control,' +
+'.layered-dot'
+)
+.forEach(function (element) {
+
+```
+  if (element.hasAttribute('title')) {
+    return;
+  }
+
+  const label =
+    element.getAttribute('aria-label') ||
+    element.textContent
+      .trim()
+      .replace(/\s+/g, ' ');
+
+  if (label) {
+    element.setAttribute(
+      'title',
+      label
+    );
+  }
+
+});
+```
+
+/* =======================================================
+14. VISITOR ID
+======================================================= */
+
+const VISITOR_STORAGE_KEY =
+'madhyum_visitor_id_v1';
+
+function getVisitorId() {
+
+```
+try {
+
+  let visitorId =
+    localStorage.getItem(
+      VISITOR_STORAGE_KEY
+    );
+
+
+  if (!visitorId) {
+
+    if (
+      window.crypto &&
+      typeof window.crypto.randomUUID ===
+        'function'
+    ) {
+
+      visitorId =
+        window.crypto.randomUUID();
+
+    } else {
+
+      visitorId =
+        'v_' +
+        Date.now().toString(36) +
+        '_' +
+        Math.random()
+          .toString(36)
+          .slice(2);
+
+    }
+
+
+    localStorage.setItem(
+      VISITOR_STORAGE_KEY,
+      visitorId
+    );
+
+  }
+
+
+  return visitorId;
+
+} catch (error) {
+
+  return (
+    'session_' +
+    Date.now().toString(36) +
+    '_' +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
+
+}
+```
+
+}
+
+/* =======================================================
+15. STAT NUMBER ANIMATION
+======================================================= */
+
+function animateStatistic(
+element,
+target
+) {
+
+```
+if (
+  !element ||
+  !Number.isFinite(target)
+) {
+  return;
+}
+
+
+const finalNumber =
+  Math.max(
+    0,
+    Math.round(target)
+  );
+
+
+const duration = 1100;
+const startTime = performance.now();
+
+
+element.classList.remove(
+  'is-loading'
+);
+
+
+function animationFrame(now) {
+
+  const progress =
+    Math.min(
+      1,
+      (
+        now -
+        startTime
+      ) / duration
+    );
+
+
+  const eased =
+    1 -
+    Math.pow(
+      1 - progress,
+      3
+    );
+
+
+  const currentNumber =
+    Math.round(
+      finalNumber * eased
+    );
+
+
+  element.textContent =
+    currentNumber.toLocaleString(
+      'en-IN'
+    ) + '+';
+
+
+  if (progress < 1) {
+
+    window.requestAnimationFrame(
+      animationFrame
+    );
+
+  }
+
+}
+
+
+window.requestAnimationFrame(
+  animationFrame
+);
+```
+
+}
+
+/* =======================================================
+16. LIVE HOMEPAGE STATISTICS
+======================================================= */
+
+function loadLiveStatistics() {
+
+```
+if (
+  !document.body.classList.contains(
+    'home-page'
+  )
+) {
+  return;
+}
+
+
+const visitorElement =
+  document.querySelector(
+    '[data-stat-value="visitors"]'
+  );
+
+const inquiryElement =
+  document.querySelector(
+    '[data-stat-value="inquiries"]'
+  );
+
+const statusElement =
+  document.querySelector(
+    '[data-stats-status]'
+  );
+
+
+if (
+  !visitorElement &&
+  !inquiryElement
+) {
+  return;
+}
+
+
+const elements = [
+  visitorElement,
+  inquiryElement
+].filter(Boolean);
+
+
+elements.forEach(
+  function (element) {
+
+    element.classList.add(
+      'is-loading'
+    );
+
+  }
+);
+
+
+const callbackName =
+  'madhyumStatsCallback_' +
+  Date.now() +
+  '_' +
+  Math.random()
+    .toString(36)
+    .slice(2);
+
+
+const script =
+  document.createElement('script');
+
+
+let finished = false;
+
+
+function cleanup() {
+
+  script.remove();
+
+  try {
+    delete window[callbackName];
+  } catch (error) {
+    window[callbackName] = undefined;
+  }
+
+}
+
+
+function showFailure() {
+
+  if (finished) {
+    return;
+  }
+
+  finished = true;
+
+  cleanup();
+
+
+  elements.forEach(
+    function (element) {
+
+      element.classList.remove(
+        'is-loading'
+      );
+
+      element.textContent = '—';
+
+    }
+  );
+
+
+  if (statusElement) {
+
+    statusElement.textContent =
+      'Live statistics are temporarily unavailable.';
+
+  }
+
+}
+
+
+window[callbackName] =
+  function (data) {
+
+    if (finished) {
+      return;
+    }
+
+    finished = true;
+
+    cleanup();
+
+
+    if (
+      !data ||
+      data.success !== true
+    ) {
+
+      showFailure();
+      return;
+
+    }
+
+
+    const visitors =
+      Number(data.visitors);
+
+    const inquiries =
+      Number(data.inquiries);
+
+
+    if (
+      Number.isFinite(visitors)
+    ) {
+
+      animateStatistic(
+        visitorElement,
+        visitors
+      );
+
+    } else if (visitorElement) {
+
+      visitorElement.classList.remove(
+        'is-loading'
+      );
+
+      visitorElement.textContent =
+        '—';
+
+    }
+
+
+    if (
+      Number.isFinite(inquiries)
+    ) {
+
+      animateStatistic(
+        inquiryElement,
+        inquiries
+      );
+
+    } else if (inquiryElement) {
+
+      inquiryElement.classList.remove(
+        'is-loading'
+      );
+
+      inquiryElement.textContent =
+        '—';
+
+    }
+
+
+    if (statusElement) {
+
+      statusElement.textContent =
+        'Live figures from the MADHYUM network.';
+
+    }
+
+  };
+
+
+script.onerror =
+  function () {
+
+    showFailure();
+
+  };
+
+
+const requestURL =
+  new URL(
+    MADHYUM_API_URL,
+    window.location.href
+  );
+
+
+requestURL.searchParams.set(
+  'action',
+  'stats'
+);
+
+
+requestURL.searchParams.set(
+  'visitorId',
+  getVisitorId()
+);
+
+
+requestURL.searchParams.set(
+  'callback',
+  callbackName
+);
+
+
+requestURL.searchParams.set(
+  '_',
+  Date.now().toString()
+);
+
+
+script.src =
+  requestURL.toString();
+
+
+document.head.appendChild(script);
+
+
+/*
+  Safety timeout.
+
+  If Google's response is delayed,
+  the page will not remain stuck
+  showing a loading state forever.
+*/
+
+window.setTimeout(
+  function () {
+
+    if (!finished) {
+      showFailure();
+    }
+
+  },
+  10000
+);
+```
+
+}
+
+loadLiveStatistics();
+
+/* =======================================================
+17. INQUIRY FORM SUPPORT
+======================================================= */
+
+const pageWing = {
+
+```
+'real-estate.html':
+  'Real Estate',
+
+'travel.html':
+  'Travel',
+
+'education.html':
+  'Education & Admissions',
+
+'consultancy.html':
+  'Consultancy & Business Services',
+
+'events.html':
+  'Events & Weddings',
+
+'contact.html':
+  'General / Other'
+```
+
+};
+
+function fieldValue(
+form,
+name
+) {
+
+```
+const field =
+  form.elements[name];
+
+return field
+  ? String(
+      field.value || ''
+    ).trim()
+  : '';
+```
+
+}
+
+function buildInquiryPayload(form) {
+
+```
+const page =
+  (
+    window.location.pathname
+      .split('/')
+      .pop() ||
+    'index.html'
+  ).toLowerCase();
+
+
+const allFields =
+  Array.from(
+    form.elements
+  ).filter(
+    function (element) {
+
+      return (
+        element.name &&
+        !element.disabled &&
+        element.type !== 'submit' &&
+        element.type !== 'button'
+      );
+
+    }
+  );
+
+
+const commonNames =
+  new Set([
+    'name',
+    'phone',
+    'mobile',
+    'email',
+    'requirement',
+    'category'
+  ]);
+
+
+const details = [];
+
+
+allFields.forEach(
+  function (element) {
+
+    const value =
+      String(
+        element.value || ''
+      ).trim();
+
+
+    if (
+      !value ||
+      commonNames.has(element.name)
+    ) {
+      return;
+    }
+
+
+    const label =
+      element.closest('label') &&
+      element.closest('label')
+        .childNodes[0] &&
+      element.closest('label')
+        .childNodes[0]
+        .textContent
+        ? element.closest('label')
+            .childNodes[0]
+            .textContent
+            .trim()
+        : element.name;
+
+
+    details.push(
+      label +
+      ': ' +
+      value
+    );
+
+  }
+);
+
+
+let requirement;
+
+
+if (page === 'contact.html') {
+
+  requirement =
+    fieldValue(
+      form,
+      'category'
+    );
+
+} else {
+
+  requirement =
+    pageWing[page] ||
+    form.getAttribute(
+      'data-form-name'
+    ) ||
+    'General / Other';
+
+}
+
+
+const freeText =
+  fieldValue(
+    form,
+    'requirement'
+  );
+
+
+if (freeText) {
+
+  details.push(
+    'Requirement Details: ' +
+    freeText
+  );
+
+}
+
+
+return {
+
+  name:
+    fieldValue(
+      form,
+      'name'
+    ),
+
+  mobile:
+    fieldValue(
+      form,
+      'phone'
+    ) ||
+    fieldValue(
+      form,
+      'mobile'
+    ),
+
+  email:
+    fieldValue(
+      form,
+      'email'
+    ),
+
+  requirement:
+    requirement,
+
+  details:
+    details.join('\n'),
+
+  source:
+    page
+
+};
+```
+
+}
+
+/* =======================================================
+18. INQUIRY FORM SUBMISSION
+======================================================= */
+
+document
+.querySelectorAll(
+'[data-form-name]'
+)
+.forEach(
+function (form) {
+
+```
+    form.addEventListener(
+      'submit',
+      async function (event) {
+
+        event.preventDefault();
+
+
+        const successElement =
+          form.querySelector(
+            '.form-success'
+          );
+
+
+        const submitButton =
+          form.querySelector(
+            'button[type="submit"]'
+          );
+
+
+        const payload =
+          buildInquiryPayload(form);
+
+
+        /* ---------------------------------------------
+           REQUIRED FIELD CHECK
+           --------------------------------------------- */
+
+        if (
+          !payload.name ||
+          !payload.mobile ||
+          !payload.requirement
+        ) {
+
+          if (successElement) {
+
+            successElement.textContent =
+              'Please complete the required fields before sending your request.';
+
+          }
+
+          return;
+
+        }
+
+
+        /* ---------------------------------------------
+           BUTTON STATE
+           --------------------------------------------- */
+
+        if (submitButton) {
+
+          submitButton.disabled = true;
+
+          submitButton.dataset.originalText =
+            submitButton.textContent;
+
+          submitButton.textContent =
+            'Sending…';
+
+        }
+
+
+        if (successElement) {
+          successElement.textContent = '';
+        }
+
+
+        /* ---------------------------------------------
+           SEND TO APPS SCRIPT
+           --------------------------------------------- */
+
+        try {
+
+          const response =
+            await fetch(
+              MADHYUM_API_URL,
+              {
+                method: 'POST',
+
+                headers: {
+                  'Content-Type':
+                    'text/plain;charset=utf-8'
+                },
+
+                body:
+                  JSON.stringify(
+                    payload
+                  )
+
+              }
+            );
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              'Network response was not successful.'
+            );
+
+          }
+
+
+          const result =
+            await response.json();
+
+
+          if (
+            !result ||
+            result.success !== true
+          ) {
+
+            throw new Error(
+              result &&
+              result.message
+                ? result.message
+                : 'Unable to submit the inquiry.'
+            );
+
+          }
+
+
+          /* -------------------------------------------
+             SUCCESS
+             ------------------------------------------- */
+
+          if (successElement) {
+
+            successElement.textContent =
+              'Thank you. Your request has been received' +
+              (
+                result.inquiryId
+                  ? ' (' +
+                    result.inquiryId +
+                    ')'
+                  : ''
+              ) +
+              '. We will contact you soon.';
+
+          }
+
+
+          form.reset();
+
+
+          /*
+            Refresh homepage statistics if this
+            form happens to be on the homepage.
+          */
+
+          if (
+            document.body.classList.contains(
+              'home-page'
+            )
+          ) {
+
+            window.setTimeout(
+              loadLiveStatistics,
+              500
+            );
+
+          }
+
+
+        } catch (error) {
+
+          console.error(
+            'MADHYUM inquiry error:',
+            error
+          );
+
+
+          if (successElement) {
+
+            successElement.textContent =
+              'We could not send your request right now. Please try again in a moment.';
+
+          }
+
+        } finally {
+
+          if (submitButton) {
+
+            submitButton.disabled =
+              false;
+
+            submitButton.textContent =
+              submitButton.dataset.originalText ||
+              'Send Your Request →';
+
+          }
+
+        }
+
+      }
+    );
+
+  }
+);
+```
+
+/* =======================================================
+19. FINAL INITIALIZATION
+======================================================= */
+
+document.documentElement.classList.add(
+'madhyum-js-ready'
+);
+
 })();
