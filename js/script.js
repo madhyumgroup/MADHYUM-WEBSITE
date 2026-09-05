@@ -1,4 +1,4 @@
- /* MADHYUM WEBSITE — CLEAN V7 JAVASCRIPT */
+/* MADHYUM WEBSITE — CLEAN V7 JAVASCRIPT */
 (function(){
   'use strict';
 
