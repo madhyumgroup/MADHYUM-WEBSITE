@@ -2,207 +2,84 @@
 /* MADHYUM WEBSITE — CLEAN V7 JAVASCRIPT */
 
 (function(){
-
   'use strict';
 
-
-  /* =====================================================
-     HEADER / NAVIGATION
-     ===================================================== */
-
-  const header = document.querySelector('.site-header');
-
-  let lastY = window.scrollY;
-  let ticking = false;
-
+  const header=document.querySelector('.site-header');
+  let lastY=window.scrollY;
+  let ticking=false;
 
   function onScroll(){
-
-    const y = window.scrollY;
+    const y=window.scrollY;
 
     if(header){
+      header.classList.toggle('scrolled',y>30);
 
-      header.classList.toggle(
-        'scrolled',
-        y > 30
-      );
-
-      if(
-        y > lastY &&
-        y > 90
-      ){
-
-        header.classList.add(
-          'nav-hidden'
-        );
-
-      }else if(y < lastY){
-
-        header.classList.remove(
-          'nav-hidden'
-        );
-
-      }
-
+      if(y>lastY && y>90)
+        header.classList.add('nav-hidden');
+      else if(y<lastY)
+        header.classList.remove('nav-hidden');
     }
 
-    lastY = y;
-    ticking = false;
-
+    lastY=y;
+    ticking=false;
   }
 
-
-  window.addEventListener(
-    'scroll',
-    () => {
-
-      if(!ticking){
-
-        requestAnimationFrame(
-          onScroll
-        );
-
-        ticking = true;
-
-      }
-
-    },
-    {
-      passive: true
+  window.addEventListener('scroll',()=>{
+    if(!ticking){
+      requestAnimationFrame(onScroll);
+      ticking=true;
     }
-  );
+  },{passive:true});
 
 
-  /* =====================================================
-     MOBILE MENU
-     ===================================================== */
-
-  const mobileMenu =
-    document.querySelector(
-      '.mobile-menu'
-    );
-
-  const menuButton =
-    document.querySelector(
-      '.menu-btn'
-    );
-
-  const closeButtons =
-    document.querySelectorAll(
-      '[data-close-mobile]'
-    );
-
+  const mobileMenu=document.querySelector('.mobile-menu');
+  const menuButton=document.querySelector('.menu-btn');
+  const closeButtons=document.querySelectorAll('[data-close-mobile]');
 
   function closeMenu(){
-
     if(mobileMenu){
-
-      mobileMenu.classList.remove(
-        'open'
-      );
-
-      mobileMenu.setAttribute(
-        'aria-hidden',
-        'true'
-      );
-
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden','true');
     }
 
-    if(menuButton){
+    if(menuButton)
+      menuButton.setAttribute('aria-expanded','false');
 
-      menuButton.setAttribute(
-        'aria-expanded',
-        'false'
-      );
-
-    }
-
-    document.body.classList.remove(
-      'menu-open'
-    );
-
+    document.body.classList.remove('menu-open');
   }
-
 
   function openMenu(){
-
     if(mobileMenu){
-
-      mobileMenu.classList.add(
-        'open'
-      );
-
-      mobileMenu.setAttribute(
-        'aria-hidden',
-        'false'
-      );
-
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden','false');
     }
 
-    if(menuButton){
+    if(menuButton)
+      menuButton.setAttribute('aria-expanded','true');
 
-      menuButton.setAttribute(
-        'aria-expanded',
-        'true'
-      );
-
-    }
-
-    document.body.classList.add(
-      'menu-open'
-    );
-
+    document.body.classList.add('menu-open');
   }
 
+  menuButton?.addEventListener('click',()=>{
+    mobileMenu?.classList.contains('open')
+      ? closeMenu()
+      : openMenu();
+  });
 
-  menuButton?.addEventListener(
-    'click',
-    () =>
-      mobileMenu?.classList.contains('open')
-        ? closeMenu()
-        : openMenu()
-  );
+  closeButtons.forEach(b=>b.addEventListener('click',closeMenu));
 
-
-  closeButtons.forEach(
-    button =>
-      button.addEventListener(
-        'click',
-        closeMenu
-      )
-  );
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')
+      closeMenu();
+  });
 
 
-  document.addEventListener(
-    'keydown',
-    event => {
+  // Search: broad keyword index across all locked website categories.
 
-      if(event.key === 'Escape'){
+  const S=(terms,page,label)=>
+    terms.split('|').map(t=>[t,page,label]);
 
-        closeMenu();
-
-      }
-
-    }
-  );
-
-
-  /* =====================================================
-     SEARCH
-     ===================================================== */
-
-  const S =
-    (terms, page, label) =>
-      terms
-        .split('|')
-        .map(term => [
-          term,
-          page,
-          label
-        ]);
-
-
-  const SEARCH_DATA = [
+  const SEARCH_DATA=[
 
     ...S(
       'real estate|property|properties|buy property|sell property|invest property|investment property|residential|commercial|plots|plot|land|new projects|projects|development|renovation|rent|rental|lease|apartment|apartments|flat|flats|duplex|villa|villas|bungalow|independent house|shop|office|showroom|property services|3 bhk|2 bhk|1 bhk|bhopal|kolar road|bawadiya kalan|hoshangabad road|jatkhedi|misrod|ayodhya bypass|awadhpuri|katara hills|salaiya|airport road|ratanpur|vidisha road|tintadi kheda|bhauri',
@@ -243,641 +120,357 @@
   ];
 
 
-  const drawer =
-    document.querySelector(
-      '.drawer'
-    );
-
-  const searchInput =
-    document.querySelector(
-      '#searchInput'
-    );
-
-  const searchResults =
-    document.querySelector(
-      '#searchResults'
-    );
-
+  const drawer=document.querySelector('.drawer');
+  const searchInput=document.querySelector('#searchInput');
+  const searchResults=document.querySelector('#searchResults');
 
   function openSearch(){
-
-    drawer?.classList.add(
-      'open'
-    );
-
-    drawer?.setAttribute(
-      'aria-hidden',
-      'false'
-    );
-
-    setTimeout(
-      () =>
-        searchInput?.focus(),
-      80
-    );
-
+    drawer?.classList.add('open');
+    drawer?.setAttribute('aria-hidden','false');
+    setTimeout(()=>searchInput?.focus(),80);
   }
-
 
   function closeSearch(){
-
-    drawer?.classList.remove(
-      'open'
-    );
-
-    drawer?.setAttribute(
-      'aria-hidden',
-      'true'
-    );
-
+    drawer?.classList.remove('open');
+    drawer?.setAttribute('aria-hidden','true');
   }
 
+  document.querySelectorAll('[data-search]')
+    .forEach(b=>b.addEventListener('click',openSearch));
 
-  document
-    .querySelectorAll('[data-search]')
-    .forEach(
-      button =>
-        button.addEventListener(
-          'click',
-          openSearch
-        )
-    );
+  document.querySelectorAll('[data-close-search]')
+    .forEach(b=>b.addEventListener('click',closeSearch));
 
-
-  document
-    .querySelectorAll('[data-close-search]')
-    .forEach(
-      button =>
-        button.addEventListener(
-          'click',
-          closeSearch
-        )
-    );
+  drawer?.addEventListener('click',e=>{
+    if(e.target===drawer)
+      closeSearch();
+  });
 
 
-  drawer?.addEventListener(
-    'click',
-    event => {
-
-      if(event.target === drawer){
-
-        closeSearch();
-
-      }
-
-    }
-  );
-
-
-  function esc(string){
-
-    return string.replace(
+  function esc(s){
+    return s.replace(
       /[&<>'"]/g,
-      character => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        "'": '&#39;',
-        '"': '&quot;'
-      }[character])
+      c=>({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        "'":'&#39;',
+        '"':'&quot;'
+      }[c])
     );
-
   }
 
 
-  function renderSearch(query = ''){
+  function renderSearch(q=''){
 
-    if(!searchResults){
-
+    if(!searchResults)
       return;
 
-    }
-
-
-    const raw =
-      query
-        .trim()
-        .toLowerCase();
-
+    const raw=q.trim().toLowerCase();
 
     if(!raw){
-
-      searchResults.innerHTML =
-        '<div class="result">' +
-        '<strong>Start typing a requirement</strong>' +
-        '<small>Try property, Dubai, honeymoon, MBBS, GST, wedding, Hajj, or membership.</small>' +
-        '</div>';
-
+      searchResults.innerHTML=
+        '<div class="result"><strong>Start typing a requirement</strong><small>Try property, Dubai, honeymoon, MBBS, GST, wedding, Hajj, or membership.</small></div>';
       return;
-
     }
 
+    const tokens=raw.split(/\s+/).filter(Boolean);
+    const seen=new Set();
 
-    const tokens =
-      raw
-        .split(/\s+/)
-        .filter(Boolean);
+    const matches=SEARCH_DATA
 
+      .map(([termText,page,label])=>{
+        const hay=termText.toLowerCase();
+        const hits=tokens.filter(token=>hay.includes(token)).length;
 
-    const seen =
-      new Set();
+        return [
+          termText,
+          page,
+          label,
+          hits
+        ];
+      })
 
+      .filter(
+        ([termText,page,label,hits])=>
+          hits===tokens.length ||
+          (tokens.length===1 && hits>0)
+      )
 
-    const matches =
-      SEARCH_DATA
+      .sort(
+        (a,b)=>
+          b[3]-a[3] ||
+          a[0].length-b[0].length
+      )
 
-        .map(
-          ([termText, page, label]) => {
+      .filter(([t,p])=>{
+        const k=p+'|'+t;
 
-            const hay =
-              termText.toLowerCase();
+        if(seen.has(k))
+          return false;
 
-            const hits =
-              tokens.filter(
-                token =>
-                  hay.includes(token)
-              ).length;
+        seen.add(k);
+        return true;
+      })
 
-            return [
-              termText,
-              page,
-              label,
-              hits
-            ];
-
-          }
-        )
-
-        .filter(
-          ([termText, page, label, hits]) =>
-            hits === tokens.length ||
-            (
-              tokens.length === 1 &&
-              hits > 0
-            )
-        )
-
-        .sort(
-          (a, b) =>
-            b[3] - a[3] ||
-            a[0].length - b[0].length
-        )
-
-        .filter(
-          ([termText, page]) => {
-
-            const key =
-              page + '|' + termText;
-
-            if(seen.has(key)){
-
-              return false;
-
-            }
-
-            seen.add(key);
-
-            return true;
-
-          }
-        )
-
-        .slice(
-          0,
-          40
-        );
+      .slice(0,40);
 
 
     if(!matches.length){
 
-      searchResults.innerHTML =
-        '<div class="result">' +
-        '<strong>No matching keyword found</strong>' +
-        '<small>Try a broader requirement or service name.</small>' +
-        '</div>';
+      searchResults.innerHTML=
+        '<div class="result"><strong>No matching keyword found</strong><small>Try a broader requirement or service name.</small></div>';
 
       return;
-
     }
 
 
-    const pages = {};
+    const pages={};
 
-
-    matches.forEach(
-      ([termText, page, label]) => {
-
-        (
-          pages[page] ??=
-          {
-            label,
-            terms: []
-          }
-        )
-          .terms
-          .push(termText);
-
-      }
+    matches.forEach(([t,p,l])=>
+      (pages[p]??={
+        label:l,
+        terms:[]
+      }).terms.push(t)
     );
 
 
-    searchResults.innerHTML =
-      Object
-        .entries(pages)
-        .map(
-          ([page, value]) =>
-            `<a class="result" href="${page}">
-              <strong>${esc(value.label)}</strong>
-              <small>${esc(value.terms.slice(0, 8).join(' • '))}</small>
-            </a>`
+    searchResults.innerHTML=
+      Object.entries(pages)
+        .map(([page,v])=>
+          `<a class="result" href="${page}"><strong>${esc(v.label)}</strong><small>${esc(v.terms.slice(0,8).join(' • '))}</small></a>`
         )
         .join('');
-
   }
 
 
   searchInput?.addEventListener(
     'input',
-    event =>
-      renderSearch(
-        event.target.value
-      )
+    e=>renderSearch(e.target.value)
   );
-
 
   renderSearch();
 
 
-  /* =====================================================
-     PHOTO SLOTS
-     ===================================================== */
+  // Photo slots: keep every photograph in its own reserved box so nothing can overlap another section.
 
-  document
-    .querySelectorAll(
-      '.section-photo-slot[data-photo], .package-photo[data-photo], .location-card-photo[data-photo], .category-card-photo[data-photo]'
-    )
-    .forEach(
-      slot => {
+  document.querySelectorAll(
+    '.section-photo-slot[data-photo], .package-photo[data-photo], .location-card-photo[data-photo], .category-card-photo[data-photo]'
+  ).forEach(slot=>{
 
-        const file =
-          slot.getAttribute(
-            'data-photo'
-          );
+    const file=slot.getAttribute('data-photo');
 
-        if(!file){
+    if(!file)
+      return;
 
-          return;
+    const img=new Image();
 
-        }
+    img.onload=()=>{
+      slot.classList.add('has-photo');
+      slot.style.backgroundImage=
+        `url("images/${file}")`;
+    };
 
+    img.onerror=()=>{
+      slot.classList.add('photo-pending');
+    };
 
-        const img =
-          new Image();
+    img.src=`images/${file}`;
 
-
-        img.onload =
-          () => {
-
-            slot.classList.add(
-              'has-photo'
-            );
-
-            slot.style.backgroundImage =
-              `url("images/${file}")`;
-
-          };
+  });
 
 
-        img.onerror =
-          () =>
-            slot.classList.add(
-              'photo-pending'
-            );
+  // Home hero: use the clear repository photograph first, with the packaged image as a local fallback.
 
-
-        img.src =
-          `images/${file}`;
-
-      }
-    );
-
-
-  /* =====================================================
-     HOME HERO IMAGE
-     ===================================================== */
-
-  const heroImage =
-    document.querySelector(
-      '.layered-hero-image'
-    );
-
+  const heroImage=
+    document.querySelector('.layered-hero-image');
 
   if(heroImage){
 
-    heroImage.addEventListener(
-      'error',
-      () => {
+    heroImage.addEventListener('error',()=>{
 
-        if(!heroImage.dataset.fallback){
+      if(!heroImage.dataset.fallback){
 
-          heroImage.dataset.fallback =
-            '1';
+        heroImage.dataset.fallback='1';
 
-          heroImage.src =
-            'images/hero-madhyam.jpg';
+        heroImage.src=
+          'images/hero-madhyam.jpg';
 
-        }
-
-      },
-      {
-        once: false
       }
-    );
+
+    },{once:false});
 
   }
 
 
-  /* =====================================================
-     FIVE ROTATING WING PHOTOGRAPHS
-     ===================================================== */
+  // Five rotating wing photographs: local package first, repository image as a fallback.
 
-  document
-    .querySelectorAll(
-      '.layered-wing img'
-    )
-    .forEach(
-      img => {
+  document.querySelectorAll(
+    '.layered-wing img'
+  ).forEach(img=>{
 
-        img.addEventListener(
-          'error',
-          () => {
+    img.addEventListener('error',()=>{
 
-            const file =
-              img
-                .getAttribute('src')
-                ?.split('/')
-                .pop();
+      const file=
+        img.getAttribute('src')
+          ?.split('/')
+          .pop();
 
+      if(
+        file &&
+        !img.dataset.fallback
+      ){
 
-            if(
-              file &&
-              !img.dataset.fallback
-            ){
+        img.dataset.fallback='1';
 
-              img.dataset.fallback =
-                '1';
-
-              img.src =
-                `https://raw.githubusercontent.com/madhyumgroup/MADHYUM-WEBSITE/main/${file}`;
-
-            }
-
-          }
-        );
+        img.src=
+          `https://raw.githubusercontent.com/madhyumgroup/MADHYUM-WEBSITE/main/${file}`;
 
       }
-    );
+
+    });
+
+  });
 
 
-  /* =====================================================
-     SERVICE PHOTO CIRCLES
-     ===================================================== */
+  // Service photo circles use the same local wing photographs.
 
-  document
-    .querySelectorAll(
-      '.solution-panel[data-photo]'
-    )
-    .forEach(
-      panel => {
+  document.querySelectorAll(
+    '.solution-panel[data-photo]'
+  ).forEach(panel=>{
 
-        const file =
-          panel.getAttribute(
-            'data-photo'
-          );
+    const file=
+      panel.getAttribute('data-photo');
 
-
-        if(file){
-
-          panel.style.setProperty(
-            '--solution-photo',
-            `url("images/${file}")`
-          );
-
-        }
-
-      }
-    );
-
-
-  /* =====================================================
-     SMOOTH INTERNAL LINKS
-     ===================================================== */
-
-  document
-    .querySelectorAll(
-      'a[href^="#"]'
-    )
-    .forEach(
-      link =>
-        link.addEventListener(
-          'click',
-          event => {
-
-            const id =
-              link.getAttribute(
-                'href'
-              );
-
-
-            if(
-              !id ||
-              id === '#'
-            ){
-
-              return;
-
-            }
-
-
-            const element =
-              document.querySelector(
-                id
-              );
-
-
-            if(!element){
-
-              return;
-
-            }
-
-
-            event.preventDefault();
-
-            closeMenu();
-
-            element.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-
-          }
-        )
-    );
-
-
-  /* =====================================================
-     REVEAL ANIMATIONS
-     ===================================================== */
-
-  const reveal =
-    document.querySelectorAll(
-      '.reveal'
-    );
-
-
-  if(
-    'IntersectionObserver' in window
-  ){
-
-    const io =
-      new IntersectionObserver(
-        entries =>
-          entries.forEach(
-            entry => {
-
-              if(
-                entry.isIntersecting
-              ){
-
-                entry.target.classList.add(
-                  'visible'
-                );
-
-              }
-
-            }
-          ),
-        {
-          threshold: 0.08
-        }
+    if(file)
+      panel.style.setProperty(
+        '--solution-photo',
+        `url("images/${file}")`
       );
 
+  });
 
-    reveal.forEach(
-      element =>
-        io.observe(element)
-    );
 
+  // Smooth internal links.
+
+  document.querySelectorAll(
+    'a[href^="#"]'
+  ).forEach(link=>
+    link.addEventListener('click',e=>{
+
+      const id=
+        link.getAttribute('href');
+
+      if(!id || id==='#')
+        return;
+
+      const el=
+        document.querySelector(id);
+
+      if(!el)
+        return;
+
+      e.preventDefault();
+
+      closeMenu();
+
+      el.scrollIntoView({
+        behavior:'smooth',
+        block:'start'
+      });
+
+    })
+  );
+
+
+  // Reveal animations.
+
+  const reveal=
+    document.querySelectorAll('.reveal');
+
+  if('IntersectionObserver' in window){
+
+    const io=
+      new IntersectionObserver(
+        entries=>
+          entries.forEach(x=>
+            x.isIntersecting &&
+            x.target.classList.add('visible')
+          ),
+        {threshold:.08}
+      );
+
+    reveal.forEach(x=>io.observe(x));
 
   }else{
 
     reveal.forEach(
-      element =>
-        element.classList.add(
-          'visible'
-        )
+      x=>x.classList.add('visible')
     );
 
   }
 
 
-  /* =====================================================
-     HORIZONTAL HERO SLIDER
-     ===================================================== */
+  // Horizontal hero slider: cards move left-to-right instead of C-orbit rotation.
 
-  const wings =
-    [
-      ...document.querySelectorAll(
-        '.layered-wing'
-      )
-    ];
+  const wings=[
+    ...document.querySelectorAll('.layered-wing')
+  ];
 
+  const prev=
+    document.querySelector('#layeredPrev');
 
-  const prev =
-    document.querySelector(
-      '#layeredPrev'
-    );
+  const next=
+    document.querySelector('#layeredNext');
 
-  const next =
-    document.querySelector(
-      '#layeredNext'
-    );
+  const dots=
+    document.querySelector('#layeredDots');
 
-  const dots =
-    document.querySelector(
-      '#layeredDots'
-    );
-
-
-  let active = 0;
-  let timer = null;
-  let paused = false;
+  let active=0;
+  let timer=null;
+  let paused=false;
 
 
   if(wings.length){
 
     if(dots){
 
-      dots.innerHTML = '';
+      dots.innerHTML='';
 
+      wings.forEach((w,i)=>{
 
-      wings.forEach(
-        (wing, index) => {
+        const d=
+          document.createElement('button');
 
-          const dot =
-            document.createElement(
-              'button'
-            );
+        d.type='button';
 
+        d.className='layered-dot';
 
-          dot.type =
-            'button';
+        d.setAttribute(
+          'aria-label',
+          'Show '+
+          (
+            w.getAttribute('aria-label') ||
+            'business'
+          )
+        );
 
+        d.addEventListener('click',()=>{
+          active=i;
+          update();
+          restart();
+        });
 
-          dot.className =
-            'layered-dot';
+        dots.appendChild(d);
 
-
-          dot.setAttribute(
-            'aria-label',
-            'Show ' +
-            (
-              wing.getAttribute(
-                'aria-label'
-              ) ||
-              'business'
-            )
-          );
-
-
-          dot.addEventListener(
-            'click',
-            () => {
-
-              active = index;
-
-              update();
-
-              restart();
-
-            }
-          );
-
-
-          dots.appendChild(
-            dot
-          );
-
-        }
-      );
+      });
 
     }
 
 
     function update(){
 
-      const classes = [
+      const classes=[
         'is-active',
         'position-right',
         'position-far-right',
@@ -886,72 +479,51 @@
       ];
 
 
-      wings.forEach(
-        (wing, index) => {
+      wings.forEach((w,i)=>{
 
-          wing.classList.remove(
-            'position-left',
-            'position-far-left',
-            'is-active',
-            'position-right',
-            'position-far-right'
-          );
-
-
-          const relative =
-            (
-              index -
-              active +
-              wings.length
-            ) %
-            wings.length;
-
-
-          const className =
-            classes[relative];
-
-
-          if(className){
-
-            wing.classList.add(
-              className
-            );
-
-          }
-
-
-          wing.setAttribute(
-            'aria-current',
-            relative === 0
-              ? 'true'
-              : 'false'
-          );
-
-        }
-      );
-
-
-      dots
-        ?.querySelectorAll(
-          '.layered-dot'
-        )
-        .forEach(
-          (dot, index) =>
-            dot.classList.toggle(
-              'active',
-              index === active
-            )
+        w.classList.remove(
+          'position-left',
+          'position-far-left',
+          'is-active',
+          'position-right',
+          'position-far-right'
         );
+
+
+        const rel=
+          (i-active+wings.length)%
+          wings.length;
+
+        const cls=
+          classes[rel];
+
+        if(cls)
+          w.classList.add(cls);
+
+        w.setAttribute(
+          'aria-current',
+          rel===0?'true':'false'
+        );
+
+      });
+
+
+      dots?.querySelectorAll(
+        '.layered-dot'
+      ).forEach((d,i)=>
+        d.classList.toggle(
+          'active',
+          i===active
+        )
+      );
 
     }
 
 
     function goNext(){
 
-      active =
-        (
-          active + 1
-        ) %
+      active=
+        (active+1)%
         wings.length;
 
       update();
@@ -961,12 +533,8 @@
 
     function goPrev(){
 
-      active =
-        (
-          active -
-          1 +
-          wings.length
-        ) %
+      active=
+        (active-1+wings.length)%
         wings.length;
 
       update();
@@ -978,11 +546,8 @@
 
       if(timer){
 
-        clearInterval(
-          timer
-        );
-
-        timer = null;
+        clearInterval(timer);
+        timer=null;
 
       }
 
@@ -993,110 +558,83 @@
 
       stop();
 
-
-      if(!paused){
-
-        timer =
+      if(!paused)
+        timer=
           setInterval(
             goNext,
             5200
           );
 
-      }
-
     }
 
 
     function restart(){
-
       start();
-
     }
 
 
     next?.addEventListener(
       'click',
-      () => {
-
+      ()=>{
         goNext();
-
         restart();
-
       }
     );
 
 
     prev?.addEventListener(
       'click',
-      () => {
-
+      ()=>{
         goPrev();
-
         restart();
-
       }
     );
 
 
-    const hero =
-      document.querySelector(
-        '.layered-hero'
-      );
+    const hero=
+      document.querySelector('.layered-hero');
 
 
     hero?.addEventListener(
       'mouseenter',
-      () => {
-
-        paused = true;
-
+      ()=>{
+        paused=true;
         stop();
-
       }
     );
 
 
     hero?.addEventListener(
       'mouseleave',
-      () => {
-
-        paused = false;
-
+      ()=>{
+        paused=false;
         start();
-
       }
     );
 
 
-    let startX = 0;
+    let sx=0;
 
 
     hero?.addEventListener(
       'touchstart',
-      event => {
-
-        startX =
-          event.changedTouches[0].clientX;
-
+      e=>{
+        sx=e.changedTouches[0].clientX;
       },
-      {
-        passive: true
-      }
+      {passive:true}
     );
 
 
     hero?.addEventListener(
       'touchend',
-      event => {
+      e=>{
 
-        const deltaX =
-          event.changedTouches[0].clientX -
-          startX;
+        const dx=
+          e.changedTouches[0].clientX-sx;
 
+        if(Math.abs(dx)>35){
 
-        if(Math.abs(deltaX) > 35){
-
-          deltaX < 0
+          dx<0
             ? goNext()
             : goPrev();
 
@@ -1105,94 +643,60 @@
         }
 
       },
-      {
-        passive: true
-      }
+      {passive:true}
     );
 
 
     update();
-
     start();
 
   }
 
 
-  /* =====================================================
-     ACCESSIBLE SERVICE DETAILS
-     ===================================================== */
+  // Accessible Inquire details remain native <details>.
 
-  document
-    .querySelectorAll(
-      '.service-more summary'
+  document.querySelectorAll(
+    '.service-more summary'
+  ).forEach(
+    s=>s.setAttribute(
+      'role',
+      'button'
     )
-    .forEach(
-      summary =>
-        summary.setAttribute(
-          'role',
-          'button'
-        )
-    );
+  );
 
 
-  /* =====================================================
-     PREMIUM HOVER HINTS
-     ===================================================== */
+  // Premium hover hints for actionable controls without changing their labels or destinations.
 
-  document
-    .querySelectorAll(
-      '.btn,.smalllink,.solution-link,.service-more summary,.contact-pill,.menu-btn,.iconbtn,.layered-control,.layered-dot'
-    )
-    .forEach(
-      element => {
+  document.querySelectorAll(
+    '.btn,.smalllink,.solution-link,.service-more summary,.contact-pill,.menu-btn,.iconbtn,.layered-control,.layered-dot'
+  ).forEach(el=>{
 
-        if(
-          element.hasAttribute('title')
-        ){
+    if(el.hasAttribute('title'))
+      return;
 
-          return;
+    const label=
+      el.getAttribute('aria-label') ||
+      el.textContent
+        .trim()
+        .replace(/\s+/g,' ');
 
-        }
+    if(label)
+      el.setAttribute(
+        'title',
+        label
+      );
 
-
-        const label =
-          element.getAttribute(
-            'aria-label'
-          ) ||
-          element.textContent
-            .trim()
-            .replace(
-              /\s+/g,
-              ' '
-            );
+  });
 
 
-        if(label){
-
-          element.setAttribute(
-            'title',
-            label
-          );
-
-        }
-
-      }
-    );
-
-
-  /* =====================================================
-     HOMEPAGE LIVE STATISTICS
-     
-     REAL DATA ONLY
-     
-     PEOPLE REACHED
-       = unique visitors in VISITORS sheet
-
-     INQUIRIES RECEIVED
-       = actual inquiry rows in INQUIRIES sheet
-     
-     The Apps Script backend returns JSONP.
-     ===================================================== */
+  // =====================================================
+  // HOMEPAGE LIVE STATISTICS
+  //
+  // ONLY THIS SECTION HAS BEEN CORRECTED.
+  //
+  // It receives the real values from the Apps Script
+  // JSONP endpoint and animates them into the meters.
+  // =====================================================
 
   if(
     document.body.classList.contains(
@@ -1200,24 +704,20 @@
     )
   ){
 
-    const statsUrl =
+    const statsUrl=
       window.MADHYUM_INQUIRY_API_URL ||
       'https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
 
 
-    const visitorKey =
+    const visitorKey=
       'madhyum_visitor_id_v1';
 
-
-    /* -----------------------------------------------
-       GET / CREATE PERSISTENT VISITOR ID
-       ----------------------------------------------- */
 
     function getVisitorId(){
 
       try{
 
-        let id =
+        let id=
           localStorage.getItem(
             visitorKey
           );
@@ -1225,7 +725,7 @@
 
         if(!id){
 
-          id =
+          id=
             window.crypto?.randomUUID?.() ||
             (
               'v_' +
@@ -1248,9 +748,9 @@
         return id;
 
 
-      }catch(error){
+      }catch(_){
 
-        return (
+        return(
           'session_' +
           Date.now().toString(36) +
           '_' +
@@ -1264,82 +764,78 @@
     }
 
 
-    /* -----------------------------------------------
-       ANIMATE REAL NUMBER
-       ----------------------------------------------- */
+    /*
+     * Animate from 0 to the REAL backend value.
+     */
 
     function animateStat(
-      element,
+      el,
       target
     ){
 
       if(
-        !element ||
+        !el ||
         !Number.isFinite(target)
-      ){
-
+      )
         return;
 
-      }
 
-
-      const end =
+      const end=
         Math.max(
           0,
           Math.round(target)
         );
 
 
-      const duration =
-        1200;
+      const duration=
+        1100;
 
-
-      const startTime =
+      const started=
         performance.now();
+
+
+      el.classList.remove(
+        'is-loading'
+      );
 
 
       function tick(now){
 
-        const progress =
+        const progress=
           Math.min(
             1,
-            (
-              now -
-              startTime
-            ) /
+            (now-started)/
             duration
           );
 
 
-        const eased =
-          1 -
+        const eased=
+          1-
           Math.pow(
-            1 - progress,
+            1-progress,
             3
           );
 
 
-        const current =
+        const current=
           Math.round(
-            end *
-            eased
+            end*eased
           );
 
 
         /*
-         * Exact real number.
-         * No fake/random increment.
-         * No "+" because this is an
-         * actual database count.
+         * REAL NUMBER ONLY.
+         *
+         * No fake + sign.
          */
 
-        element.textContent =
+        el.textContent=
           current.toLocaleString(
             'en-IN'
           );
 
 
-        if(progress < 1){
+        if(progress<1){
 
           requestAnimationFrame(
             tick
@@ -1348,10 +844,11 @@
         }else{
 
           /*
-           * Guarantee exact final value.
+           * Guarantee the exact final
+           * backend number.
            */
 
-          element.textContent =
+          el.textContent=
             end.toLocaleString(
               'en-IN'
             );
@@ -1368,54 +865,47 @@
     }
 
 
-    /* -----------------------------------------------
-       LOAD LIVE STATISTICS
-       ----------------------------------------------- */
-
     function loadLiveStats(){
 
-      const visitorElement =
+      const visitors=
         document.querySelector(
           '[data-stat-value="visitors"]'
         );
 
 
-      const inquiryElement =
+      const inquiries=
         document.querySelector(
           '[data-stat-value="inquiries"]'
         );
 
 
-      const statusElement =
+      const status=
         document.querySelector(
           '[data-stats-status]'
         );
 
 
       if(
-        !visitorElement ||
-        !inquiryElement
-      ){
-
+        !visitors ||
+        !inquiries
+      )
         return;
 
-      }
+
+      visitors.classList.add(
+        'is-loading'
+      );
+
+      inquiries.classList.add(
+        'is-loading'
+      );
 
 
       /*
-       * Show loading state.
+       * Create a unique JSONP callback.
        */
 
-      visitorElement.classList.add(
-        'is-loading'
-      );
-
-      inquiryElement.classList.add(
-        'is-loading'
-      );
-
-
-      const callbackName =
+      const callbackName=
         'madhyumStatsCallback_' +
         Date.now() +
         '_' +
@@ -1424,23 +914,18 @@
           .slice(2);
 
 
-      const script =
+      const script=
         document.createElement(
           'script'
         );
 
 
-      let finished = false;
+      let settled=false;
 
-
-      /* -----------------------------------------------
-         CLEANUP
-         ----------------------------------------------- */
 
       function cleanup(){
 
         script.remove();
-
 
         try{
 
@@ -1448,63 +933,49 @@
             callbackName
           ];
 
-        }catch(error){
+        }catch(_){
 
           window[
             callbackName
-          ] = undefined;
+          ]=undefined;
 
         }
 
       }
 
 
-      /* -----------------------------------------------
-         FAILURE
-         ----------------------------------------------- */
-
       function fail(){
 
-        if(finished){
-
+        if(settled)
           return;
 
-        }
 
-
-        finished = true;
-
+        settled=true;
 
         cleanup();
 
 
-        visitorElement.classList.remove(
+        visitors.classList.remove(
           'is-loading'
         );
 
-        inquiryElement.classList.remove(
+        inquiries.classList.remove(
           'is-loading'
         );
 
 
         /*
-         * Keep the UI usable if the server
-         * becomes temporarily unavailable.
-         *
-         * This is NOT a fake statistic.
-         * It is only the fallback state.
+         * Only use zero on an actual
+         * communication failure.
          */
 
-        visitorElement.textContent =
-          '—';
-
-        inquiryElement.textContent =
-          '—';
+        visitors.textContent='0';
+        inquiries.textContent='0';
 
 
-        if(statusElement){
+        if(status){
 
-          statusElement.textContent =
+          status.textContent=
             'Live statistics are temporarily unavailable.';
 
         }
@@ -1512,20 +983,21 @@
       }
 
 
-      /* -----------------------------------------------
-         JSONP CALLBACK
-         ----------------------------------------------- */
+      /*
+       * Apps Script calls this function with:
+       *
+       * madhyumStatsCallback_xxx({
+       *   success:true,
+       *   visitors:2,
+       *   inquiries:0
+       * });
+       */
 
-      window[
-        callbackName
-      ] =
+      window[callbackName]=
         function(data){
 
-          if(finished){
-
+          if(settled)
             return;
-
-          }
 
 
           try{
@@ -1537,19 +1009,19 @@
 
               throw new Error(
                 data?.message ||
-                'Invalid statistics response.'
+                'Unable to load live statistics.'
               );
 
             }
 
 
-            const visitors =
+            const visitorCount=
               Number(
                 data.visitors
               );
 
 
-            const inquiries =
+            const inquiryCount=
               Number(
                 data.inquiries
               );
@@ -1557,10 +1029,10 @@
 
             if(
               !Number.isFinite(
-                visitors
+                visitorCount
               ) ||
               !Number.isFinite(
-                inquiries
+                inquiryCount
               )
             ){
 
@@ -1571,40 +1043,26 @@
             }
 
 
-            finished = true;
-
+            settled=true;
 
             cleanup();
 
 
-            visitorElement.classList.remove(
-              'is-loading'
-            );
-
-            inquiryElement.classList.remove(
-              'is-loading'
-            );
-
-
-            /*
-             * Animate the REAL backend values.
-             */
-
             animateStat(
-              visitorElement,
-              visitors
+              visitors,
+              visitorCount
             );
 
 
             animateStat(
-              inquiryElement,
-              inquiries
+              inquiries,
+              inquiryCount
             );
 
 
-            if(statusElement){
+            if(status){
 
-              statusElement.textContent =
+              status.textContent=
                 'Live figures from the MADHYUM network.';
 
             }
@@ -1619,55 +1077,51 @@
         };
 
 
-      /* -----------------------------------------------
-         SCRIPT ERROR
-         ----------------------------------------------- */
-
-      script.onerror =
+      script.onerror=
         fail;
 
 
-      /* -----------------------------------------------
-         BUILD APPS SCRIPT JSONP REQUEST
-         ----------------------------------------------- */
+      /*
+       * Build the exact Apps Script request.
+       */
 
-      const requestUrl =
+      const url=
         new URL(
           statsUrl,
           window.location.href
         );
 
 
-      requestUrl.searchParams.set(
+      url.searchParams.set(
         'action',
         'stats'
       );
 
 
-      requestUrl.searchParams.set(
+      url.searchParams.set(
         'visitorId',
         getVisitorId()
       );
 
 
-      requestUrl.searchParams.set(
+      url.searchParams.set(
         'callback',
         callbackName
       );
 
 
       /*
-       * Prevent browser/proxy caching.
+       * Prevent cached responses.
        */
 
-      requestUrl.searchParams.set(
+      url.searchParams.set(
         '_',
         Date.now().toString()
       );
 
 
-      script.src =
-        requestUrl.toString();
+      script.src=
+        url.toString();
 
 
       document.head.appendChild(
@@ -1680,14 +1134,9 @@
        */
 
       window.setTimeout(
-        () => {
-
-          if(!finished){
-
+        ()=>{
+          if(!settled)
             fail();
-
-          }
-
         },
         10000
       );
@@ -1696,7 +1145,7 @@
 
 
     /*
-     * Start after DOM is ready.
+     * Run once the DOM exists.
      */
 
     if(
@@ -1707,9 +1156,7 @@
       document.addEventListener(
         'DOMContentLoaded',
         loadLiveStats,
-        {
-          once: true
-        }
+        {once:true}
       );
 
     }else{
@@ -1721,16 +1168,14 @@
   }
 
 
-  /* =====================================================
-     INQUIRY FORMS
-     ===================================================== */
+  // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
 
-  const INQUIRY_API_URL =
+  const INQUIRY_API_URL=
     window.MADHYUM_INQUIRY_API_URL ||
     'https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec';
 
 
-  const pageWing = {
+  const pageWing={
 
     'real-estate.html':
       'Real Estate',
@@ -1758,9 +1203,8 @@
     name
   ){
 
-    const field =
+    const field=
       form.elements[name];
-
 
     return field
       ? String(
@@ -1771,34 +1215,29 @@
   }
 
 
-  function buildInquiryPayload(
-    form
-  ){
+  function buildInquiryPayload(form){
 
-    const page =
+    const page=
       (
         window.location.pathname
           .split('/')
           .pop() ||
         'index.html'
-      )
-      .toLowerCase();
+      ).toLowerCase();
 
 
-    const all =
-      [
-        ...form.elements
-      ]
-      .filter(
-        element =>
-          element.name &&
-          !element.disabled &&
-          element.type !== 'submit' &&
-          element.type !== 'button'
-      );
+    const all=
+      [...form.elements]
+        .filter(
+          el=>
+            el.name &&
+            !el.disabled &&
+            el.type!=='submit' &&
+            el.type!=='button'
+        );
 
 
-    const commonNames =
+    const commonNames=
       new Set([
         'name',
         'phone',
@@ -1809,49 +1248,41 @@
       ]);
 
 
-    const details = [];
+    const details=[];
 
 
-    all.forEach(
-      element => {
+    all.forEach(el=>{
 
-        const value =
-          String(
-            element.value || ''
-          ).trim();
-
-
-        if(
-          !value ||
-          commonNames.has(
-            element.name
-          )
-        ){
-
-          return;
-
-        }
+      const value=
+        String(
+          el.value || ''
+        ).trim();
 
 
-        const label =
-          element
-            .closest('label')
-            ?.childNodes?.[0]
-            ?.textContent
-            ?.trim() ||
-          element.name;
+      if(
+        !value ||
+        commonNames.has(el.name)
+      )
+        return;
 
 
-        details.push(
-          `${label}: ${value}`
-        );
+      const label=
+        el.closest('label')
+          ?.childNodes?.[0]
+          ?.textContent
+          ?.trim() ||
+        el.name;
 
-      }
-    );
+
+      details.push(
+        `${label}: ${value}`
+      );
+
+    });
 
 
-    const requirement =
-      page === 'contact.html'
+    const requirement=
+      page==='contact.html'
         ? fieldValue(
             form,
             'category'
@@ -1865,23 +1296,20 @@
           );
 
 
-    const freeText =
+    const freeText=
       fieldValue(
         form,
         'requirement'
       );
 
 
-    if(freeText){
-
+    if(freeText)
       details.push(
         `Requirement Details: ${freeText}`
       );
 
-    }
 
-
-    return {
+    return{
 
       name:
         fieldValue(
@@ -1905,7 +1333,8 @@
           'email'
         ),
 
-      requirement,
+      requirement:
+        requirement,
 
       details:
         details.join('\n'),
@@ -1918,169 +1347,146 @@
   }
 
 
-  document
-    .querySelectorAll(
-      '[data-form-name]'
-    )
-    .forEach(
-      form =>
-        form.addEventListener(
-          'submit',
-          async event => {
+  document.querySelectorAll(
+    '[data-form-name]'
+  ).forEach(
+    form=>
+      form.addEventListener(
+        'submit',
+        async e=>{
 
-            event.preventDefault();
+          e.preventDefault();
 
 
-            const success =
-              form.querySelector(
-                '.form-success'
+          const success=
+            form.querySelector(
+              '.form-success'
+            );
+
+
+          const button=
+            form.querySelector(
+              'button[type="submit"]'
+            );
+
+
+          const payload=
+            buildInquiryPayload(
+              form
+            );
+
+
+          if(
+            !payload.name ||
+            !payload.mobile ||
+            !payload.requirement
+          ){
+
+            if(success)
+              success.textContent=
+                'Please complete the required fields before sending your request.';
+
+            return;
+
+          }
+
+
+          if(!INQUIRY_API_URL){
+
+            if(success)
+              success.textContent=
+                'Your request form is ready. The secure submission connection will be activated after the MADHYUM backend is deployed.';
+
+            return;
+
+          }
+
+
+          if(button){
+
+            button.disabled=true;
+
+            button.dataset.originalText=
+              button.textContent;
+
+            button.textContent=
+              'Sending…';
+
+          }
+
+
+          if(success)
+            success.textContent='';
+
+
+          try{
+
+            const response=
+              await fetch(
+                INQUIRY_API_URL,
+                {
+                  method:'POST',
+
+                  headers:{
+                    'Content-Type':
+                      'text/plain;charset=utf-8'
+                  },
+
+                  body:
+                    JSON.stringify(
+                      payload
+                    )
+                }
               );
 
 
-            const button =
-              form.querySelector(
-                'button[type="submit"]'
+            const result=
+              await response.json();
+
+
+            if(!result.success)
+              throw new Error(
+                result.message ||
+                'Unable to submit the inquiry.'
               );
 
 
-            const payload =
-              buildInquiryPayload(
-                form
-              );
+            if(success)
+              success.textContent=
+                `Thank you. Your request has been received${
+                  result.inquiryId
+                    ? ` (${result.inquiryId})`
+                    : ''
+                }. We will contact you soon.`;
 
 
-            if(
-              !payload.name ||
-              !payload.mobile ||
-              !payload.requirement
-            ){
-
-              if(success){
-
-                success.textContent =
-                  'Please complete the required fields before sending your request.';
-
-              }
-
-              return;
-
-            }
+            form.reset();
 
 
-            if(!INQUIRY_API_URL){
+          }catch(error){
 
-              if(success){
+            if(success)
+              success.textContent=
+                'We could not send your request right now. Please try again in a moment.';
 
-                success.textContent =
-                  'Your request form is ready. The secure submission connection will be activated after the MADHYUM backend is deployed.';
 
-              }
-
-              return;
-
-            }
-
+          }finally{
 
             if(button){
 
-              button.disabled =
-                true;
+              button.disabled=false;
 
-              button.dataset.originalText =
-                button.textContent;
-
-              button.textContent =
-                'Sending…';
-
-            }
-
-
-            if(success){
-
-              success.textContent =
-                '';
-
-            }
-
-
-            try{
-
-              const response =
-                await fetch(
-                  INQUIRY_API_URL,
-                  {
-                    method: 'POST',
-
-                    headers: {
-                      'Content-Type':
-                        'text/plain;charset=utf-8'
-                    },
-
-                    body:
-                      JSON.stringify(
-                        payload
-                      )
-                  }
-                );
-
-
-              const result =
-                await response.json();
-
-
-              if(!result.success){
-
-                throw new Error(
-                  result.message ||
-                  'Unable to submit the inquiry.'
-                );
-
-              }
-
-
-              if(success){
-
-                success.textContent =
-                  `Thank you. Your request has been received${
-                    result.inquiryId
-                      ? ` (${result.inquiryId})`
-                      : ''
-                  }. We will contact you soon.`;
-
-              }
-
-
-              form.reset();
-
-
-            }catch(error){
-
-              if(success){
-
-                success.textContent =
-                  'We could not send your request right now. Please try again in a moment.';
-
-              }
-
-            }finally{
-
-              if(button){
-
-                button.disabled =
-                  false;
-
-                button.textContent =
-                  button.dataset.originalText ||
-                  'Send Your Request →';
-
-              }
+              button.textContent=
+                button.dataset.originalText ||
+                'Send Your Request →';
 
             }
 
           }
-        )
-    );
 
+        }
+      )
+  );
 
 })();
 ```
