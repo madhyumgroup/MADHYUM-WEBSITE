@@ -29,31 +29,8 @@ jobs:
           BASE_URL="https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec"
           TS="$(date +%s)"
           JSONP_URL="${BASE_URL}?action=stats&callback=madhyumStatsCallback&_=${TS}"
-          JSON_URL="${BASE_URL}?action=stats&_=${TS}"
 
-          fetch_stats () {
-            local req_url="$1"
-            local out="$2"
-
-            curl               --location               --compressed               --retry 4               --retry-delay 2               --retry-all-errors               --connect-timeout 15               --max-time 60               --silent               --show-error               --user-agent "Mozilla/5.0"               --header "Accept: application/json,text/javascript,*/*;q=0.8"               --header "Cache-Control: no-cache"               --output "$out"               --write-out "%{http_code}"               "$req_url"
-          }
-
-          echo "Trying Apps Script JSONP endpoint..."
-          HTTP_CODE="$(fetch_stats "$JSONP_URL" /tmp/madhyum-stats.txt || true)"
-          BODY_SIZE="$(wc -c < /tmp/madhyum-stats.txt 2>/dev/null || echo 0)"
-          echo "JSONP HTTP status: ${HTTP_CODE:-unknown}; bytes: ${BODY_SIZE}"
-
-          if [ "$BODY_SIZE" -eq 0 ]; then
-            echo "JSONP body was empty. Trying normal JSON endpoint..."
-            HTTP_CODE="$(fetch_stats "$JSON_URL" /tmp/madhyum-stats.txt || true)"
-            BODY_SIZE="$(wc -c < /tmp/madhyum-stats.txt 2>/dev/null || echo 0)"
-            echo "JSON HTTP status: ${HTTP_CODE:-unknown}; bytes: ${BODY_SIZE}"
-          fi
-
-          if [ "$BODY_SIZE" -eq 0 ]; then
-            echo "::error::Apps Script returned an empty response."
-            exit 1
-          fi
+          curl             --location             --compressed             --retry 4             --retry-delay 2             --retry-all-errors             --connect-timeout 15             --max-time 60             --silent             --show-error             --user-agent "Mozilla/5.0"             --header "Accept: application/json,text/javascript,*/*;q=0.8"             --header "Cache-Control: no-cache"             --output /tmp/madhyum-stats.txt             "$JSONP_URL"
 
           python3 - <<'PY'
           import json, datetime, pathlib, re
@@ -90,18 +67,20 @@ jobs:
           print("MADHYUM live stats prepared:", clean)
           PY
 
-      - name: Commit updated stats if changed
+      - name: Commit updated stats
         shell: bash
         run: |
           set -euo pipefail
 
-          if git diff --quiet -- data/stats.json; then
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # IMPORTANT: git diff does not see a brand-new untracked file.
+          # git status --porcelain does, so stats.json will be committed even the first time.
+          if [ -z "$(git status --porcelain -- data/stats.json)" ]; then
             echo "No statistics change to commit."
             exit 0
           fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add data/stats.json
           git commit -m "Update live website statistics"
