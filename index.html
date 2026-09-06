@@ -147,7 +147,8 @@
 <div class="membership-preview-copy">
 <div class="eyebrow light">MEMBERSHIP</div>
 <h2>Become a Member.</h2>
-<p class="lead light-text"><span class="membership-accent">Special Access</span>, member benefits and trusted connections across five services, plus lifestyle benefits.</p>
+<p class="lead light-text"><span class="membership-accent">Special Access</span></p>
+<p class="lead light-text">Unlock member privileges, preferred access and trusted connections across MADHYUM’s five core services — with selected lifestyle benefits throughout the year.</p>
 <a class="btn" href="membership.html">Explore Membership →</a>
 </div>
 </div>
@@ -157,9 +158,9 @@
 <div>
 <div class="eyebrow light">START WITH MADHYUM</div>
 <h2>Need Something? Start Here.</h2>
-<p class="start-here-accent">When you are ready, MADHYUM is here to help.</p>
+<p class="start-here-accent">Tell us what you need. MADHYUM connects you with the right people, options and support — so your next step is clearer.</p>
 </div>
-<a class="btn primary" href="contact.html">Start With MADHYUM →</a>
+<a class="btn primary" href="contact.html">Share Your Requirement →</a>
 </div>
 </section>
 </main>
@@ -240,88 +241,6 @@
 <div class="search-results" id="searchResults"></div>
 </div>
 </div>
-<script src="js/script.js?v=20260906-github-stats-final"></script>
-<script>
-(function(){
-  'use strict';
-
-  const STATS_FILE='data/stats.json';
-  const VISITOR_API='https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
-  const VISITOR_KEY='madhyum_visitor_id_v1';
-
-  function visitorId(){
-    try{
-      let id=localStorage.getItem(VISITOR_KEY);
-      if(!id){
-        id=(window.crypto && crypto.randomUUID)
-          ? crypto.randomUUID()
-          : 'v_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
-        localStorage.setItem(VISITOR_KEY,id);
-      }
-      return id;
-    }catch(_){
-      return 'session_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
-    }
-  }
-
-  function recordVisit(){
-    try{
-      const u=new URL(VISITOR_API);
-      u.searchParams.set('action','stats');
-      u.searchParams.set('visitorId',visitorId());
-      u.searchParams.set('_',Date.now().toString());
-      // Fire-and-forget. The page never waits for or reads the Apps Script response.
-      // Even if the browser blocks Google's redirected response body, the server-side
-      // visitor write has already been requested and the meter remains independent.
-      fetch(u.toString(),{method:'GET',mode:'no-cors',cache:'no-store',keepalive:true}).catch(function(){});
-    }catch(_){}
-  }
-
-  function animate(el,target){
-    if(!el || !Number.isFinite(target)) return;
-    const end=Math.max(0,Math.round(target));
-    const start=0;
-    const duration=900;
-    const begun=performance.now();
-    function frame(now){
-      const p=Math.min(1,(now-begun)/duration);
-      const eased=1-Math.pow(1-p,3);
-      el.textContent=Math.round(start+(end-start)*eased).toLocaleString('en-IN')+'+';
-      if(p<1) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-
-  async function loadStats(){
-    const visitors=document.querySelector('[data-stat-value="visitors"]');
-    const inquiries=document.querySelector('[data-stat-value="inquiries"]');
-    const status=document.querySelector('[data-stats-status]');
-    if(!visitors && !inquiries) return;
-
-    if(status) status.textContent='Loading MADHYUM live figures…';
-
-    try{
-      const r=await fetch(STATS_FILE+'?v='+Date.now(),{cache:'no-store'});
-      if(!r.ok) throw new Error('stats file '+r.status);
-      const data=await r.json();
-      const v=Number(data.visitors);
-      const q=Number(data.inquiries);
-      if(!Number.isFinite(v)||!Number.isFinite(q)) throw new Error('invalid stats');
-      animate(visitors,v);
-      animate(inquiries,q);
-      if(status){
-        status.textContent='Live figures from the MADHYUM network.';
-      }
-    }catch(_){
-      if(visitors) visitors.textContent='—';
-      if(inquiries) inquiries.textContent='—';
-      if(status) status.textContent='Live statistics are updating. Please check again shortly.';
-    }
-  }
-
-  recordVisit();
-  loadStats();
-})();
-</script>
+<script src="js/script.js"></script>
 </body>
 </html>
