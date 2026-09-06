@@ -358,6 +358,9 @@
 
 <script>
 
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec";
+
 const token =
   sessionStorage.getItem("madhyumAdminToken");
 
@@ -384,6 +387,251 @@ document.getElementById("logoutButton")
     window.location.href = "index.html";
 
   });
+
+
+let allInquiries = [];
+
+
+function escapeHtml(value) {
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function renderTable() {
+
+  const search =
+    document
+      .getElementById("searchInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const wing =
+    document
+      .getElementById("wingFilter")
+      .value;
+
+  const status =
+    document
+      .getElementById("statusFilter")
+      .value;
+
+
+  const filtered =
+    allInquiries.filter(function(item) {
+
+      const matchesSearch =
+        !search ||
+        String(item.inquiryId || "").toLowerCase().includes(search) ||
+        String(item.name || "").toLowerCase().includes(search) ||
+        String(item.mobile || "").toLowerCase().includes(search);
+
+      const matchesWing =
+        !wing ||
+        item.requirement === wing;
+
+      const matchesStatus =
+        !status ||
+        String(item.status || "").toUpperCase() === status.toUpperCase();
+
+      return (
+        matchesSearch &&
+        matchesWing &&
+        matchesStatus
+      );
+
+    });
+
+
+  const body =
+    document.getElementById("inquiryTableBody");
+
+
+  if (!filtered.length) {
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="7" class="empty">
+          No inquiries found.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  body.innerHTML =
+    filtered.map(function(item) {
+
+      return `
+        <tr>
+
+          <td>
+            <strong>
+              ${escapeHtml(item.inquiryId)}
+            </strong>
+          </td>
+
+          <td>
+            ${escapeHtml(item.date)}
+          </td>
+
+          <td>
+            ${escapeHtml(item.name)}
+          </td>
+
+          <td>
+            ${escapeHtml(item.mobile)}
+          </td>
+
+          <td>
+            ${escapeHtml(item.requirement)}
+          </td>
+
+          <td>
+            <span class="status">
+              ${escapeHtml(item.status || "NEW")}
+            </span>
+          </td>
+
+          <td>
+            ${escapeHtml(item.source)}
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+async function loadDashboard() {
+
+  const body =
+    document.getElementById("inquiryTableBody");
+
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="7" class="loading">
+        Loading inquiries...
+      </td>
+    </tr>
+  `;
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL + "?action=adminDashboard",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body: JSON.stringify({
+            token: token
+          })
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (!result.success) {
+
+      if (
+        String(result.message || "")
+          .toLowerCase()
+          .includes("session")
+      ) {
+
+        sessionStorage.clear();
+
+        window.location.href =
+          "index.html";
+
+        return;
+      }
+
+      throw new Error(
+        result.message ||
+        "Unable to load dashboard."
+      );
+
+    }
+
+
+    document.getElementById("totalInquiries").textContent =
+      result.stats?.total ?? 0;
+
+    document.getElementById("newInquiries").textContent =
+      result.stats?.new ?? 0;
+
+    document.getElementById("progressInquiries").textContent =
+      result.stats?.inProgress ?? 0;
+
+    document.getElementById("closedInquiries").textContent =
+      result.stats?.closed ?? 0;
+
+    document.getElementById("visitorCount").textContent =
+      result.stats?.visitors ?? 0;
+
+
+    allInquiries =
+      Array.isArray(result.inquiries)
+        ? result.inquiries
+        : [];
+
+
+    renderTable();
+
+
+  } catch (error) {
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="7" class="empty">
+          ${escapeHtml(
+            error.message ||
+            "Unable to load dashboard."
+          )}
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+document.getElementById("searchInput")
+  .addEventListener("input", renderTable);
+
+document.getElementById("wingFilter")
+  .addEventListener("change", renderTable);
+
+document.getElementById("statusFilter")
+  .addEventListener("change", renderTable);
+
+
+loadDashboard();
 
 </script>
 
