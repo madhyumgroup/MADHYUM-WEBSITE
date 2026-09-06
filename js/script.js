@@ -157,7 +157,18 @@
 
   // Homepage live statistics are isolated in index.html and read from same-origin data/stats.json.
   // This keeps the main website JavaScript independent from the meter backend.
+// Phone validation — exact 10 digits on all MADHYUM forms
+document.querySelectorAll('input[name="phone"], input[name="mobile"]').forEach(input => {
+  input.setAttribute('inputmode', 'numeric');
+  input.setAttribute('pattern', '[0-9]{10}');
+  input.setAttribute('minlength', '10');
+  input.setAttribute('maxlength', '10');
+  input.setAttribute('title', 'Please enter a valid 10-digit mobile number');
 
+  input.addEventListener('input', () => {
+    input.value = input.value.replace(/\D/g, '').slice(0, 10);
+  });
+});
   // Inquiry forms: normalize every wing's different fields into the shared MADHYUM backend shape.
   // The Apps Script /exec URL will be added only after the website is locked and the Web App is deployed.
 const INQUIRY_API_URL = window.MADHYUM_INQUIRY_API_URL || 'https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec';
