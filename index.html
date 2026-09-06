@@ -249,6 +249,7 @@
   'use strict';
 
   var STATS_URL = 'data/stats.json';
+  var VISITOR_API = 'https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec';
 
   var visitorsEl = document.querySelector('[data-stat-value="visitors"]');
   var inquiriesEl = document.querySelector('[data-stat-value="inquiries"]');
@@ -259,6 +260,41 @@
   if (statusEl) {
     statusEl.textContent = 'Updating live statistics…';
   }
+
+  function getVisitorId() {
+    try {
+      var id = localStorage.getItem('madhyum_visitor_id_v1');
+      if (!id) {
+        id = (window.crypto && window.crypto.randomUUID)
+          ? window.crypto.randomUUID()
+          : ('v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2));
+        localStorage.setItem('madhyum_visitor_id_v1', id);
+      }
+      return id;
+    } catch (e) {
+      return 'session_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+    }
+  }
+
+  function recordVisitor() {
+    var url = VISITOR_API
+      + '?action=stats'
+      + '&visitorId=' + encodeURIComponent(getVisitorId())
+      + '&_=' + Date.now();
+
+    /* GET request only: Apps Script visitor endpoint is handled by doGet. */
+    fetch(url, {
+      method: 'GET',
+      mode: 'no-cors',
+      cache: 'no-store',
+      keepalive: true
+    }).catch(function(){
+      var img = new Image();
+      img.src = url;
+    });
+  }
+
+  recordVisitor();
 
   fetch(STATS_URL + '?v=' + Date.now(), { cache: 'no-store' })
     .then(function(response){
