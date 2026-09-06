@@ -16,7 +16,7 @@
 
 <a aria-label="MADHYUM home" class="brand" href="index.html">MADHYUM</a>
 
-<nav aria-label="Primary navigation" class="navlinks">
+<nav aria-="Primary navigation" class="navlinks">
 <a href="index.html#why-madhyum">Why MADHYUM</a>
 <a href="index.html#solutions">Solutions</a>
 <a href="index.html#network">Network</a>
@@ -171,8 +171,14 @@ Phone Number
 <input
 autocomplete="tel"
 name="phone"
-required=""
-type="tel"/>
+required
+type="tel"
+inputmode="numeric"
+pattern="[0-9]{10,}"
+minlength="10"
+title="Please enter at least 10 digits"
+oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+/>
 
 </label>
 
