@@ -147,8 +147,7 @@
 <div class="membership-preview-copy">
 <div class="eyebrow light">MEMBERSHIP</div>
 <h2>Become a Member.</h2>
-<p class="lead light-text"><span class="membership-accent">Special Access</span></p>
-<p class="lead light-text">Unlock member privileges, preferred access and trusted connections across MADHYUM’s five core services — with selected lifestyle benefits throughout the year.</p>
+<p class="lead light-text"><span class="membership-accent">Special Access</span>, member benefits and trusted connections across five services, plus lifestyle benefits.</p>
 <a class="btn" href="membership.html">Explore Membership →</a>
 </div>
 </div>
@@ -158,9 +157,9 @@
 <div>
 <div class="eyebrow light">START WITH MADHYUM</div>
 <h2>Need Something? Start Here.</h2>
-<p class="start-here-accent">Tell us what you need. MADHYUM connects you with the right people, options and support — so your next step is clearer.</p>
+<p class="start-here-accent">When you are ready, MADHYUM is here to help.</p>
 </div>
-<a class="btn primary" href="contact.html">Share Your Requirement →</a>
+<a class="btn primary" href="contact.html">Start With MADHYUM →</a>
 </div>
 </section>
 </main>
@@ -241,6 +240,88 @@
 <div class="search-results" id="searchResults"></div>
 </div>
 </div>
-<script src="js/script.js"></script>
+<script src="js/script.js?v=20260906-direct-jsonp-final"></script>
+
+
+<script>
+(function(){
+  'use strict';
+
+  var API = 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
+  var visitorsEl = document.querySelector('[data-stat-value="visitors"]');
+  var inquiriesEl = document.querySelector('[data-stat-value="inquiries"]');
+  var statusEl = document.querySelector('[data-stats-status]');
+  if (!visitorsEl && !inquiriesEl) return;
+
+  if (statusEl) statusEl.textContent = 'Connecting to MADHYUM live statistics…';
+
+  var visitorId;
+  try {
+    visitorId = localStorage.getItem('madhyum_visitor_id_v1');
+    if (!visitorId) {
+      visitorId = (window.crypto && window.crypto.randomUUID)
+        ? window.crypto.randomUUID()
+        : ('v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2));
+      localStorage.setItem('madhyum_visitor_id_v1', visitorId);
+    }
+  } catch (e) {
+    visitorId = 'session_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  }
+
+  var callbackName = 'madhyumStats_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  var script = document.createElement('script');
+  var finished = false;
+
+  function clean(){
+    try { script.remove(); } catch(e) {}
+    try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
+  }
+
+  function fail(){
+    if (finished) return;
+    finished = true;
+    clearTimeout(timeout);
+    clean();
+    if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+  }
+
+  window[callbackName] = function(data){
+    if (finished) return;
+    finished = true;
+    clearTimeout(timeout);
+
+    if (!data || data.success !== true) {
+      clean();
+      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+      return;
+    }
+
+    var v = Number(data.visitors);
+    var q = Number(data.inquiries);
+    if (!Number.isFinite(v) || !Number.isFinite(q)) {
+      clean();
+      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
+      return;
+    }
+
+    if (visitorsEl) visitorsEl.textContent = Math.max(0, Math.round(v)).toLocaleString('en-IN') + '+';
+    if (inquiriesEl) inquiriesEl.textContent = Math.max(0, Math.round(q)).toLocaleString('en-IN') + '+';
+    if (statusEl) statusEl.textContent = 'Live figures from the MADHYUM network.';
+    clean();
+  };
+
+  script.async = true;
+  script.onerror = fail;
+  script.src = API
+    + '?action=stats'
+    + '&visitorId=' + encodeURIComponent(visitorId)
+    + '&callback=' + encodeURIComponent(callbackName)
+    + '&_=' + Date.now();
+
+  document.head.appendChild(script);
+  var timeout = setTimeout(fail, 30000);
+})();
+</script>
+
 </body>
 </html>
