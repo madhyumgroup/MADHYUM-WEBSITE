@@ -248,79 +248,54 @@
 (function(){
   'use strict';
 
-  var API = 'https://script.google.com/macros/s/AKfycbzRgbrdHLtZO6MB-WjazHCqHfQtVEeANQHrCet1Ag/exec';
+  var STATS_URL = 'data/stats.json';
+
   var visitorsEl = document.querySelector('[data-stat-value="visitors"]');
   var inquiriesEl = document.querySelector('[data-stat-value="inquiries"]');
   var statusEl = document.querySelector('[data-stats-status]');
+
   if (!visitorsEl && !inquiriesEl) return;
 
-  if (statusEl) statusEl.textContent = 'Connecting to MADHYUM live statistics…';
-
-  var visitorId;
-  try {
-    visitorId = localStorage.getItem('madhyum_visitor_id_v1');
-    if (!visitorId) {
-      visitorId = (window.crypto && window.crypto.randomUUID)
-        ? window.crypto.randomUUID()
-        : ('v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2));
-      localStorage.setItem('madhyum_visitor_id_v1', visitorId);
-    }
-  } catch (e) {
-    visitorId = 'session_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  if (statusEl) {
+    statusEl.textContent = 'Updating live statistics…';
   }
 
-  var callbackName = 'madhyumStats_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
-  var script = document.createElement('script');
-  var finished = false;
+  fetch(STATS_URL + '?v=' + Date.now(), { cache: 'no-store' })
+    .then(function(response){
+      if (!response.ok) {
+        throw new Error('Unable to load stats.json');
+      }
+      return response.json();
+    })
+    .then(function(data){
+      if (!data || data.success !== true) {
+        throw new Error('Invalid stats response');
+      }
 
-  function clean(){
-    try { script.remove(); } catch(e) {}
-    try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
-  }
+      var visitors = Number(data.visitors);
+      var inquiries = Number(data.inquiries);
 
-  function fail(){
-    if (finished) return;
-    finished = true;
-    clearTimeout(timeout);
-    clean();
-    if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
-  }
+      if (!Number.isFinite(visitors) || !Number.isFinite(inquiries)) {
+        throw new Error('Invalid stats values');
+      }
 
-  window[callbackName] = function(data){
-    if (finished) return;
-    finished = true;
-    clearTimeout(timeout);
+      if (visitorsEl) {
+        visitorsEl.textContent = Math.max(0, Math.round(visitors)).toLocaleString('en-IN') + '+';
+      }
 
-    if (!data || data.success !== true) {
-      clean();
-      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
-      return;
-    }
+      if (inquiriesEl) {
+        inquiriesEl.textContent = Math.max(0, Math.round(inquiries)).toLocaleString('en-IN') + '+';
+      }
 
-    var v = Number(data.visitors);
-    var q = Number(data.inquiries);
-    if (!Number.isFinite(v) || !Number.isFinite(q)) {
-      clean();
-      if (statusEl) statusEl.textContent = 'Live statistics are temporarily unavailable.';
-      return;
-    }
-
-    if (visitorsEl) visitorsEl.textContent = Math.max(0, Math.round(v)).toLocaleString('en-IN') + '+';
-    if (inquiriesEl) inquiriesEl.textContent = Math.max(0, Math.round(q)).toLocaleString('en-IN') + '+';
-    if (statusEl) statusEl.textContent = 'Live figures from the MADHYUM network.';
-    clean();
-  };
-
-  script.async = true;
-  script.onerror = fail;
-  script.src = API
-    + '?action=stats'
-    + '&visitorId=' + encodeURIComponent(visitorId)
-    + '&callback=' + encodeURIComponent(callbackName)
-    + '&_=' + Date.now();
-
-  document.head.appendChild(script);
-  var timeout = setTimeout(fail, 30000);
+      if (statusEl) {
+        statusEl.textContent = 'Live figures from the MADHYUM network.';
+      }
+    })
+    .catch(function(){
+      if (statusEl) {
+        statusEl.textContent = 'Live statistics are updating. Please check again shortly.';
+      }
+    });
 })();
 </script>
 
