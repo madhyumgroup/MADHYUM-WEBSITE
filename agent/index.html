@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>MADHYUM Agent Login</title>
@@ -34,6 +37,19 @@
       border-radius:20px;
       padding:32px;
       box-shadow:0 24px 60px rgba(0,0,0,.25);
+    }
+
+    .login-banner-wrap{
+      margin-bottom:20px;
+      text-align:center;
+    }
+
+    .login-banner{
+      width:100%;
+      max-height:220px;
+      object-fit:cover;
+      border-radius:14px;
+      display:block;
     }
 
     .brand{
@@ -112,70 +128,86 @@
 <body>
 
 
-<div class="login-card">
-
-  <div class="brand">
-    MADHYUM
-  </div>
-
-  <div class="subtitle">
-    Agent / Employee Portal
-  </div>
+  <div class="login-card">
 
 
-  <form id="loginForm">
+    <!-- SAME EXISTING MADHYUM IMAGE -->
 
+    <div class="login-banner-wrap">
 
-    <div class="field">
-
-      <label>
-        Agent ID
-      </label>
-
-      <input
-        id="agentId"
-        type="text"
-        autocomplete="username"
-        required
+      <img
+        src="../images/admin-sidebar-banner.png"
+        alt="MADHYUM Group"
+        class="login-banner"
       >
 
     </div>
 
 
-    <div class="field">
-
-      <label>
-        Password
-      </label>
-
-      <input
-        id="password"
-        type="password"
-        autocomplete="current-password"
-        required
-      >
-
+    <div class="brand">
+      MADHYUM
     </div>
 
 
-    <button
-      class="login-btn"
-      id="loginButton"
-      type="submit"
-    >
-      Login
-    </button>
+    <div class="subtitle">
+      Agent / Employee Portal
+    </div>
 
 
-    <div
-      class="message"
-      id="loginMessage"
-    ></div>
+    <form id="loginForm">
 
 
-  </form>
+      <div class="field">
 
-</div>
+        <label>
+          Agent ID
+        </label>
+
+        <input
+          id="agentId"
+          type="text"
+          autocomplete="username"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+      </div>
+
+
+      <button
+        class="login-btn"
+        id="loginButton"
+        type="submit"
+      >
+        Login
+      </button>
+
+
+      <div
+        class="message"
+        id="loginMessage"
+      ></div>
+
+
+    </form>
+
+
+  </div>
 
 
 
@@ -198,6 +230,7 @@ document
         document.getElementById(
           "loginMessage"
         );
+
 
       const button =
         document.getElementById(
@@ -225,6 +258,7 @@ document
       message.textContent =
         "Logging in...";
 
+
       button.disabled =
         true;
 
@@ -249,8 +283,11 @@ document
 
               body:
                 JSON.stringify({
+
                   agentId:agentId,
+
                   password:password
+
                 })
 
             }
@@ -265,37 +302,51 @@ document
         if (!result.success){
 
           throw new Error(
+
             result.message ||
             "Login failed."
+
           );
 
         }
 
 
         sessionStorage.setItem(
+
           "madhyumAgentToken",
+
           result.token
+
         );
 
 
         sessionStorage.setItem(
+
           "madhyumAgentId",
+
           result.agent?.agentId ||
           agentId
+
         );
 
 
         sessionStorage.setItem(
+
           "madhyumAgentName",
+
           result.agent?.name ||
           "Agent"
+
         );
 
 
         sessionStorage.setItem(
+
           "madhyumAgentRole",
+
           result.agent?.role ||
           "Agent"
+
         );
 
 
@@ -307,7 +358,9 @@ document
 
 
         message.textContent =
+
           error.message ||
+
           "Unable to login.";
 
 
@@ -327,4 +380,5 @@ document
 
 
 </body>
+
 </html>
