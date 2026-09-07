@@ -1,396 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MADHYUM Agent Dashboard</title>
-
-  <style>
-    *{
-      box-sizing:border-box;
-    }
-
-    body{
-      margin:0;
-      font-family:Arial,sans-serif;
-      background:#f5f7fa;
-      color:#111827;
-    }
-
-    .shell{
-      min-height:100vh;
-      display:grid;
-      grid-template-columns:230px 1fr;
-    }
-
-    .sidebar{
-      background:#0d1726;
-      color:#fff;
-      padding:24px 18px;
-    }
-
-    .brand{
-      font-size:22px;
-      font-weight:900;
-      letter-spacing:.12em;
-      margin-bottom:6px;
-    }
-
-    .role{
-      font-size:12px;
-      color:#aeb8c5;
-      margin-bottom:30px;
-    }
-
-    .nav-item{
-      width:100%;
-      display:block;
-      text-align:left;
-      padding:12px 14px;
-      margin-bottom:8px;
-      border:0;
-      border-radius:10px;
-      background:transparent;
-      color:#d8e0e8;
-      cursor:pointer;
-      font-size:14px;
-    }
-
-    .nav-item:hover,
-    .nav-item.active{
-      background:#18263a;
-      color:#fff;
-    }
-
-    .logout{
-      margin-top:30px;
-      background:#c9a45b;
-      color:#111;
-      font-weight:800;
-    }
-
-    .main{
-      padding:28px;
-    }
-
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:24px;
-    }
-
-    .topbar h1{
-      margin:0;
-      font-size:30px;
-    }
-
-    .agent-name{
-      color:#667085;
-      font-size:14px;
-      margin-top:4px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1.4fr;
-      gap:20px;
-      align-items:start;
-    }
-
-    .panel{
-      background:#fff;
-      border-radius:16px;
-      padding:20px;
-      box-shadow:0 8px 24px rgba(15,23,42,.06);
-    }
-
-    .panel h2{
-      margin:0 0 18px;
-      font-size:20px;
-    }
-
-    .field{
-      margin-bottom:14px;
-    }
-
-    label{
-      display:block;
-      font-size:12px;
-      font-weight:700;
-      margin-bottom:6px;
-      color:#344054;
-    }
-
-    input,
-    select,
-    textarea{
-      width:100%;
-      padding:11px 12px;
-      border:1px solid #d9dee5;
-      border-radius:10px;
-      font-size:14px;
-      background:#fff;
-    }
-
-    textarea{
-      min-height:100px;
-      resize:vertical;
-    }
-
-    .submit-btn{
-      width:100%;
-      border:0;
-      border-radius:10px;
-      padding:12px 16px;
-      background:#c9a45b;
-      color:#111;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    .message{
-      min-height:18px;
-      margin-top:12px;
-      text-align:center;
-      font-size:13px;
-      font-weight:700;
-    }
-
-    .table-wrap{
-      overflow:auto;
-    }
-
-    table{
-      width:100%;
-      border-collapse:collapse;
-      min-width:760px;
-    }
-
-    th,
-    td{
-      padding:11px 10px;
-      border-bottom:1px solid #eceff3;
-      text-align:left;
-      font-size:13px;
-    }
-
-    th{
-      font-size:11px;
-      text-transform:uppercase;
-      color:#667085;
-    }
-
-    .status{
-      display:inline-block;
-      padding:5px 8px;
-      border-radius:999px;
-      background:#eef2f6;
-      font-size:11px;
-      font-weight:800;
-    }
-
-    .empty{
-      text-align:center;
-      padding:24px;
-      color:#667085;
-    }
-
-    @media(max-width:900px){
-      .shell{
-        grid-template-columns:1fr;
-      }
-
-      .sidebar{
-        min-height:auto;
-      }
-
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .main{
-        padding:16px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="shell">
-
-  <aside class="sidebar">
-
-    <div class="brand">MADHYUM</div>
-
-    <div class="role">
-      Agent / Employee Portal
-    </div>
-
-    <button class="nav-item active" id="dashboardNav">
-      Dashboard
-    </button>
-
-    <button class="nav-item" id="addLeadNav">
-      Add Lead
-    </button>
-
-    <button class="nav-item" id="myLeadsNav">
-      My Leads
-    </button>
-
-    <button class="nav-item logout" id="logoutButton">
-      Logout
-    </button>
-
-  </aside>
-
-
-  <main class="main" id="dashboardTop">
-
-    <div class="topbar">
-
-      <div>
-        <h1>Agent Dashboard</h1>
-        <div class="agent-name" id="agentName"></div>
-      </div>
-
-    </div>
-
-
-    <div class="grid">
-
-      <section class="panel" id="addLeadSection">
-
-        <h2>Add New Lead</h2>
-
-        <form id="leadForm">
-
-          <div class="field">
-            <label>Customer Name</label>
-
-            <input
-              id="leadName"
-              type="text"
-              required
-            >
-          </div>
-
-
-          <div class="field">
-            <label>Mobile</label>
-
-            <input
-              id="leadMobile"
-              type="tel"
-              inputmode="numeric"
-              maxlength="10"
-              pattern="[0-9]{10}"
-              required
-            >
-          </div>
-
-
-          <div class="field">
-            <label>Email</label>
-
-            <input
-              id="leadEmail"
-              type="email"
-            >
-          </div>
-
-
-          <div class="field">
-            <label>Requirement</label>
-
-            <select
-              id="leadRequirement"
-              required
-            >
-              <option value="">Select Requirement</option>
-              <option>Real Estate</option>
-              <option>Travel</option>
-              <option>Education & Admissions</option>
-              <option>Consultancy & Business Services</option>
-              <option>Events & Weddings</option>
-              <option>Membership</option>
-              <option>General / Other</option>
-            </select>
-          </div>
-
-
-          <div class="field">
-            <label>Details</label>
-
-            <textarea
-              id="leadDetails"
-              placeholder="Enter customer requirement..."
-            ></textarea>
-          </div>
-
-
-          <button
-            class="submit-btn"
-            id="submitLeadButton"
-            type="submit"
-          >
-            Add Lead
-          </button>
-
-          <div
-            class="message"
-            id="leadMessage"
-          ></div>
-
-        </form>
-
-      </section>
-
-
-      <section class="panel" id="myLeadsSection">
-
-        <h2>My Leads</h2>
-
-        <div class="table-wrap">
-
-          <table>
-
-            <thead>
-              <tr>
-                <th>Lead ID</th>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Mobile</th>
-                <th>Requirement</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody id="leadTableBody">
-
-              <tr>
-                <td colspan="6" class="empty">
-                  Agent lead API not connected yet.
-                </td>
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </section>
-
-    </div>
-
-  </main>
-
-</div>
-
-
 <script>
 
 const API_URL =
@@ -413,6 +20,10 @@ document.getElementById("agentName").textContent =
   "Logged in as " + agentName;
 
 
+/* =========================
+   LOGOUT
+========================= */
+
 document.getElementById("logoutButton")
   .addEventListener("click",function(){
 
@@ -425,6 +36,10 @@ document.getElementById("logoutButton")
 
   });
 
+
+/* =========================
+   NAVIGATION
+========================= */
 
 document.getElementById("dashboardNav")
   .addEventListener("click",function(){
@@ -459,6 +74,10 @@ document.getElementById("myLeadsNav")
   });
 
 
+/* =========================
+   MOBILE VALIDATION
+========================= */
+
 document.getElementById("leadMobile")
   .addEventListener("input",function(){
 
@@ -470,17 +89,326 @@ document.getElementById("leadMobile")
   });
 
 
+/* =========================
+   SAFE HTML
+========================= */
+
+function escapeHtml(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   LOAD MY LEADS
+========================= */
+
+async function loadMyLeads(){
+
+  const body =
+    document.getElementById("leadTableBody");
+
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="6" class="empty">
+        Loading leads...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL + "?action=agentDashboard",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:JSON.stringify({
+            token:token
+          })
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (!result.success){
+
+      if (
+        String(result.message || "")
+          .toLowerCase()
+          .includes("session")
+      ){
+
+        sessionStorage.clear();
+
+        window.location.href =
+          "index.html";
+
+        return;
+      }
+
+
+      throw new Error(
+        result.message ||
+        "Unable to load leads."
+      );
+
+    }
+
+
+    const leads =
+      Array.isArray(result.leads)
+        ? result.leads
+        : [];
+
+
+    if (!leads.length){
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="6" class="empty">
+            No leads added yet.
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+
+    body.innerHTML =
+      leads
+        .slice()
+        .reverse()
+        .map(function(item){
+
+          return `
+            <tr>
+
+              <td>
+                <strong>
+                  ${escapeHtml(item.leadId)}
+                </strong>
+              </td>
+
+              <td>
+                ${escapeHtml(item.date)}
+              </td>
+
+              <td>
+                ${escapeHtml(item.name)}
+              </td>
+
+              <td>
+                ${escapeHtml(item.mobile)}
+              </td>
+
+              <td>
+                ${escapeHtml(item.requirement)}
+              </td>
+
+              <td>
+                <span class="status">
+                  ${escapeHtml(item.status || "NEW")}
+                </span>
+              </td>
+
+            </tr>
+          `;
+
+        })
+        .join("");
+
+
+  } catch(error){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="6" class="empty">
+          ${escapeHtml(
+            error.message ||
+            "Unable to load leads."
+          )}
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   ADD LEAD
+========================= */
+
 document.getElementById("leadForm")
-  .addEventListener("submit",function(e){
+  .addEventListener(
+    "submit",
+    async function(e){
 
-    e.preventDefault();
+      e.preventDefault();
 
-    document.getElementById("leadMessage").textContent =
-      "Backend connection next step me add hoga.";
 
-  });
+      const message =
+        document.getElementById("leadMessage");
+
+      const button =
+        document.getElementById("submitLeadButton");
+
+
+      const mobile =
+        document
+          .getElementById("leadMobile")
+          .value
+          .trim();
+
+
+      if (!/^[0-9]{10}$/.test(mobile)){
+
+        message.textContent =
+          "Please enter a valid 10-digit mobile number.";
+
+        return;
+      }
+
+
+      button.disabled = true;
+
+      message.textContent =
+        "Adding lead...";
+
+
+      try{
+
+        const payload = {
+
+          token:token,
+
+          name:
+            document
+              .getElementById("leadName")
+              .value
+              .trim(),
+
+          mobile:mobile,
+
+          email:
+            document
+              .getElementById("leadEmail")
+              .value
+              .trim(),
+
+          requirement:
+            document
+              .getElementById("leadRequirement")
+              .value,
+
+          details:
+            document
+              .getElementById("leadDetails")
+              .value
+              .trim()
+
+        };
+
+
+        const response =
+          await fetch(
+            API_URL + "?action=addAgentLead",
+            {
+              method:"POST",
+
+              headers:{
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+              },
+
+              body:
+                JSON.stringify(payload)
+            }
+          );
+
+
+        const result =
+          await response.json();
+
+
+        if (!result.success){
+
+          if (
+            String(result.message || "")
+              .toLowerCase()
+              .includes("session")
+          ){
+
+            sessionStorage.clear();
+
+            window.location.href =
+              "index.html";
+
+            return;
+          }
+
+
+          throw new Error(
+            result.message ||
+            "Unable to add lead."
+          );
+
+        }
+
+
+        message.textContent =
+          "Lead added successfully. Lead ID: " +
+          result.leadId;
+
+
+        document
+          .getElementById("leadForm")
+          .reset();
+
+
+        await loadMyLeads();
+
+
+      } catch(error){
+
+        message.textContent =
+          error.message ||
+          "Unable to add lead.";
+
+      } finally{
+
+        button.disabled = false;
+
+      }
+
+    }
+  );
+
+
+/* =========================
+   START
+========================= */
+
+loadMyLeads();
 
 </script>
-
-</body>
-</html>
