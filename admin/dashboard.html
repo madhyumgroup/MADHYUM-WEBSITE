@@ -3,12 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>MADHYUM Admin Dashboard</title>
 
   <style>
-    *{box-sizing:border-box}
 
-    html{scroll-behavior:smooth}
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
 
     body{
       margin:0;
@@ -73,7 +79,9 @@
       font-weight:800;
     }
 
-    .main{padding:28px}
+    .main{
+      padding:28px;
+    }
 
     .topbar{
       display:flex;
@@ -133,7 +141,7 @@
 
     .filters{
       display:grid;
-      grid-template-columns:1.5fr 1fr 1fr;
+      grid-template-columns:1.5fr 1fr 1fr 1fr;
       gap:12px;
       margin-bottom:18px;
     }
@@ -154,12 +162,19 @@
       resize:vertical;
     }
 
-    .table-wrap{overflow:auto}
+    input:disabled{
+      background:#eef2f6;
+      color:#667085;
+    }
+
+    .table-wrap{
+      overflow:auto;
+    }
 
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:980px;
+      min-width:1100px;
     }
 
     th,
@@ -184,6 +199,15 @@
       font-size:11px;
       font-weight:800;
       background:#eef2f6;
+    }
+
+    .source-badge{
+      display:inline-block;
+      padding:5px 8px;
+      border-radius:999px;
+      background:#f2f4f7;
+      font-size:10px;
+      font-weight:800;
     }
 
     .view-btn{
@@ -307,6 +331,11 @@
       cursor:pointer;
     }
 
+    .save-btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
     .save-message{
       text-align:center;
       font-size:13px;
@@ -315,13 +344,32 @@
       min-height:18px;
     }
 
-    @media(max-width:1000px){
+    .sidebar-banner-wrap{
+      margin-top:24px;
+      text-align:center;
+    }
+
+    .sidebar-banner{
+      width:100%;
+      border-radius:12px;
+      display:block;
+      object-fit:cover;
+    }
+
+    @media(max-width:1100px){
+
       .cards{
         grid-template-columns:repeat(2,1fr);
       }
+
+      .filters{
+        grid-template-columns:1fr 1fr;
+      }
+
     }
 
     @media(max-width:760px){
+
       .admin-shell{
         grid-template-columns:1fr;
       }
@@ -343,160 +391,352 @@
       .detail-grid{
         grid-template-columns:1fr;
       }
-    }
-    .sidebar-banner-wrap{
-  margin-top:24px;
-  text-align:center;
-}
 
-.sidebar-banner{
-  width:100%;
-  border-radius:12px;
-  display:block;
-  object-fit:cover;
-}
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="admin-shell">
+
+
+  <!-- SIDEBAR -->
 
   <aside class="sidebar">
 
-    <div class="brand">MADHYUM</div>
+    <div class="brand">
+      MADHYUM
+    </div>
 
-    <div class="role">Admin Dashboard</div>
+    <div class="role">
+      Admin Dashboard
+    </div>
 
-    <button class="nav-item active" id="dashboardNav">
+
+    <button
+      class="nav-item active"
+      id="dashboardNav"
+    >
       Dashboard
     </button>
 
-    <button class="nav-item" id="inquiriesNav">
+
+    <button
+      class="nav-item"
+      id="inquiriesNav"
+    >
       Inquiries
     </button>
 
-    <button class="nav-item" id="visitorsNav">
+
+    <button
+      class="nav-item"
+      id="visitorsNav"
+    >
       Visitors
     </button>
 
-    <button class="nav-item" id="exportNav">
+
+    <button
+      class="nav-item"
+      id="exportNav"
+    >
       Export
     </button>
 
-    <button class="nav-item logout" id="logoutButton">
+
+    <button
+      class="nav-item logout"
+      id="logoutButton"
+    >
       Logout
     </button>
+
+
     <div class="sidebar-banner-wrap">
-  <img
-    src="../images/admin-sidebar-banner.png"
-    alt="MADHYUM Group"
-    class="sidebar-banner"
-  >
-</div>
+
+      <img
+        src="../images/admin-sidebar-banner.png"
+        alt="MADHYUM Group"
+        class="sidebar-banner"
+      >
+
+    </div>
 
   </aside>
 
 
-  <main class="main" id="dashboardTop">
+
+  <!-- MAIN -->
+
+  <main
+    class="main"
+    id="dashboardTop"
+  >
+
 
     <div class="topbar">
+
       <div>
-        <h1>Dashboard</h1>
-        <div class="admin-name" id="adminName"></div>
+
+        <h1>
+          Dashboard
+        </h1>
+
+        <div
+          class="admin-name"
+          id="adminName"
+        ></div>
+
       </div>
+
     </div>
 
 
+
+    <!-- CARDS -->
+
     <section class="cards">
 
-      <div class="card">
-        <div class="card-label">Total Inquiries</div>
-        <div class="card-value" id="totalInquiries">—</div>
-      </div>
 
       <div class="card">
-        <div class="card-label">New</div>
-        <div class="card-value" id="newInquiries">—</div>
+
+        <div class="card-label">
+          Total Leads / Inquiries
+        </div>
+
+        <div
+          class="card-value"
+          id="totalInquiries"
+        >
+          —
+        </div>
+
       </div>
+
 
       <div class="card">
-        <div class="card-label">In Progress</div>
-        <div class="card-value" id="progressInquiries">—</div>
+
+        <div class="card-label">
+          New
+        </div>
+
+        <div
+          class="card-value"
+          id="newInquiries"
+        >
+          —
+        </div>
+
       </div>
+
 
       <div class="card">
-        <div class="card-label">Closed</div>
-        <div class="card-value" id="closedInquiries">—</div>
+
+        <div class="card-label">
+          In Progress
+        </div>
+
+        <div
+          class="card-value"
+          id="progressInquiries"
+        >
+          —
+        </div>
+
       </div>
 
-      <div class="card" id="visitorsCard">
-        <div class="card-label">Visitors</div>
-        <div class="card-value" id="visitorCount">—</div>
+
+      <div class="card">
+
+        <div class="card-label">
+          Closed / Converted
+        </div>
+
+        <div
+          class="card-value"
+          id="closedInquiries"
+        >
+          —
+        </div>
+
       </div>
+
+
+      <div
+        class="card"
+        id="visitorsCard"
+      >
+
+        <div class="card-label">
+          Visitors
+        </div>
+
+        <div
+          class="card-value"
+          id="visitorCount"
+        >
+          —
+        </div>
+
+      </div>
+
 
     </section>
 
 
-    <section class="panel" id="inquiriesSection">
 
-      <h2 class="panel-title">Inquiries</h2>
+    <!-- INQUIRIES -->
+
+    <section
+      class="panel"
+      id="inquiriesSection"
+    >
+
+
+      <h2 class="panel-title">
+        All Inquiries & Leads
+      </h2>
+
 
       <div class="filters">
+
 
         <input
           id="searchInput"
           type="search"
-          placeholder="Search Inquiry ID, name or mobile..."
+          placeholder="Search ID, name, mobile or Agent ID..."
         >
 
+
         <select id="wingFilter">
-          <option value="">All Status</option>
-          <option>NEW</option>
-          <option>CONTACTED</option>
-          <option>FOLLOW UP</option>
-          <option>IN PROGRESS</option>
-          <option>CONVERTED</option>
-          <option>CLOSED</option>
-          <option>NOT INTERESTED</option>
+
+          <option value="">
+            All Requirements
+          </option>
+
+          <option>
+            Real Estate
+          </option>
+
+          <option>
+            Travel
+          </option>
+
+          <option>
+            Education & Admissions
+          </option>
+
+          <option>
+            Consultancy & Business Services
+          </option>
+
+          <option>
+            Events & Weddings
+          </option>
+
+          <option>
+            Membership
+          </option>
+
+          <option>
+            General / Other
+          </option>
+
         </select>
+
 
         <select id="statusFilter">
-        <option value="">All Status</option>
-        <option>NEW</option>
-        <option>CONTACTED</option>
-        <option>FOLLOW UP</option>
-        <option>IN PROGRESS</option>
-        <option>CONVERTED</option>
-        <option>CLOSED</option>
-        <option>NOT INTERESTED</option>
+
+          <option value="">
+            All Status
+          </option>
+
+          <option>NEW</option>
+
+          <option>CONTACTED</option>
+
+          <option>FOLLOW UP</option>
+
+          <option>IN PROGRESS</option>
+
+          <option>CONVERTED</option>
+
+          <option>CLOSED</option>
+
+          <option>NOT INTERESTED</option>
+
         </select>
 
+
+        <select id="sourceFilter">
+
+          <option value="">
+            All Sources
+          </option>
+
+          <option value="WEBSITE">
+            Website
+          </option>
+
+          <option value="AGENT">
+            Agent
+          </option>
+
+        </select>
+
+
       </div>
+
+
 
       <div class="table-wrap">
 
         <table>
 
           <thead>
+
             <tr>
-              <th>Inquiry ID</th>
+
+              <th>ID</th>
+
               <th>Date</th>
+
               <th>Name</th>
+
               <th>Mobile</th>
-              <th>Wing</th>
+
+              <th>Requirement</th>
+
               <th>Status</th>
+
               <th>Source</th>
+
+              <th>Agent ID</th>
+
               <th>Action</th>
+
             </tr>
+
           </thead>
+
 
           <tbody id="inquiryTableBody">
 
             <tr>
-              <td colspan="8" class="loading">
+
+              <td
+                colspan="9"
+                class="loading"
+              >
                 Loading inquiries...
               </td>
+
             </tr>
 
           </tbody>
@@ -505,206 +745,417 @@
 
       </div>
 
-      <div class="export-message" id="exportMessage"></div>
+
+      <div
+        class="export-message"
+        id="exportMessage"
+      ></div>
+
 
     </section>
 
+
   </main>
+
 
 </div>
 
 
-<div class="modal-backdrop" id="inquiryModal">
+
+<!-- MODAL -->
+
+<div
+  class="modal-backdrop"
+  id="inquiryModal"
+>
+
 
   <div class="modal">
 
-    <div class="modal-head">
-      <h2>Inquiry Details</h2>
 
-      <button class="close-btn" id="closeModal">
+    <div class="modal-head">
+
+      <h2>
+        Inquiry / Lead Details
+      </h2>
+
+      <button
+        class="close-btn"
+        id="closeModal"
+      >
         ×
       </button>
+
     </div>
+
+
 
     <div class="detail-grid">
 
-      <div class="detail-box">
-        <div class="detail-label">Inquiry ID</div>
-        <div class="detail-value" id="detailId"></div>
-      </div>
 
       <div class="detail-box">
-        <div class="detail-label">Date</div>
-        <div class="detail-value" id="detailDate"></div>
+
+        <div class="detail-label">
+          ID
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailId"
+        ></div>
+
       </div>
 
-      <div class="detail-box">
-        <div class="detail-label">Name</div>
-        <div class="detail-value" id="detailName"></div>
-      </div>
 
       <div class="detail-box">
-        <div class="detail-label">Mobile</div>
-        <div class="detail-value" id="detailMobile"></div>
+
+        <div class="detail-label">
+          Date
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailDate"
+        ></div>
+
       </div>
 
-      <div class="detail-box">
-        <div class="detail-label">Email</div>
-        <div class="detail-value" id="detailEmail"></div>
-      </div>
 
       <div class="detail-box">
-        <div class="detail-label">Wing</div>
-        <div class="detail-value" id="detailWing"></div>
+
+        <div class="detail-label">
+          Name
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailName"
+        ></div>
+
       </div>
 
-      <div class="detail-box">
-        <div class="detail-label">Source</div>
-        <div class="detail-value" id="detailSource"></div>
-      </div>
 
       <div class="detail-box">
-        <div class="detail-label">Details</div>
-        <div class="detail-value" id="detailText"></div>
+
+        <div class="detail-label">
+          Mobile
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailMobile"
+        ></div>
+
       </div>
+
+
+      <div class="detail-box">
+
+        <div class="detail-label">
+          Email
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailEmail"
+        ></div>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <div class="detail-label">
+          Requirement
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailWing"
+        ></div>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <div class="detail-label">
+          Source
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailSource"
+        ></div>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <div class="detail-label">
+          Agent ID
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailAgentId"
+        ></div>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <div class="detail-label">
+          Details
+        </div>
+
+        <div
+          class="detail-value"
+          id="detailText"
+        ></div>
+
+      </div>
+
 
     </div>
 
 
+
     <div class="field">
-      <label>Status</label>
+
+      <label>
+        Status
+      </label>
 
       <select id="editStatus">
+
         <option>NEW</option>
+
         <option>CONTACTED</option>
+
         <option>FOLLOW UP</option>
+
         <option>IN PROGRESS</option>
+
         <option>CONVERTED</option>
+
         <option>CLOSED</option>
+
         <option>NOT INTERESTED</option>
+
       </select>
+
     </div>
 
 
+
     <div class="field">
-      <label>Assigned To</label>
+
+      <label>
+        Assigned To
+      </label>
 
       <input
         id="editAssignedTo"
         type="text"
         placeholder="Enter assigned person"
       >
+
     </div>
 
 
+
     <div class="field">
-      <label>Follow-up Date</label>
+
+      <label>
+        Follow-up Date
+      </label>
 
       <input
         id="editFollowUp"
         type="date"
       >
+
     </div>
 
 
+
     <div class="field">
-      <label>Notes</label>
+
+      <label>
+        Notes
+      </label>
 
       <textarea
         id="editNotes"
         placeholder="Enter notes..."
       ></textarea>
+
     </div>
 
 
-    <button class="save-btn" id="saveInquiry">
+
+    <button
+      class="save-btn"
+      id="saveInquiry"
+    >
       Save Update
     </button>
 
-    <div class="save-message" id="saveMessage"></div>
+
+    <div
+      class="save-message"
+      id="saveMessage"
+    ></div>
+
 
   </div>
+
 
 </div>
 
 
+
 <script>
+
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec";
 
 
+
 const token =
-  sessionStorage.getItem("madhyumAdminToken");
+  sessionStorage.getItem(
+    "madhyumAdminToken"
+  );
+
 
 const adminName =
-  sessionStorage.getItem("madhyumAdminName") || "Admin";
+  sessionStorage.getItem(
+    "madhyumAdminName"
+  ) || "Admin";
 
 
-if (!token) {
-  window.location.href = "index.html";
+
+if (!token){
+
+  window.location.href =
+    "index.html";
+
 }
 
 
-document.getElementById("adminName").textContent =
-  "Logged in as " + adminName;
+
+document
+  .getElementById("adminName")
+  .textContent =
+    "Logged in as " +
+    adminName;
 
 
-document.getElementById("logoutButton")
-  .addEventListener("click", function(){
 
-    sessionStorage.clear();
+/* ==================================================
+   LOGOUT
+================================================== */
 
-    window.location.href = "index.html";
+document
+  .getElementById("logoutButton")
+  .addEventListener(
+    "click",
+    function(){
 
-  });
+      sessionStorage.clear();
+
+      window.location.href =
+        "index.html";
+
+    }
+  );
+
 
 
 let allInquiries = [];
+
 let selectedInquiry = null;
 
 
-/* NAVIGATION */
 
-document.getElementById("dashboardNav")
-  .addEventListener("click", function(){
+/* ==================================================
+   NAVIGATION
+================================================== */
 
-    document.getElementById("dashboardTop")
-      .scrollIntoView({
-        behavior:"smooth"
-      });
+document
+  .getElementById("dashboardNav")
+  .addEventListener(
+    "click",
+    function(){
 
-  });
+      document
+        .getElementById(
+          "dashboardTop"
+        )
+        .scrollIntoView({
+          behavior:"smooth"
+        });
 
-
-document.getElementById("inquiriesNav")
-  .addEventListener("click", function(){
-
-    document.getElementById("inquiriesSection")
-      .scrollIntoView({
-        behavior:"smooth"
-      });
-
-  });
-
-
-document.getElementById("visitorsNav")
-  .addEventListener("click", function(){
-
-    document.getElementById("visitorsCard")
-      .scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-      });
-
-  });
+    }
+  );
 
 
-document.getElementById("exportNav")
-  .addEventListener("click", exportInquiriesCSV);
+
+document
+  .getElementById("inquiriesNav")
+  .addEventListener(
+    "click",
+    function(){
+
+      document
+        .getElementById(
+          "inquiriesSection"
+        )
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+
+    }
+  );
 
 
-/* SAFE HTML */
+
+document
+  .getElementById("visitorsNav")
+  .addEventListener(
+    "click",
+    function(){
+
+      document
+        .getElementById(
+          "visitorsCard"
+        )
+        .scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+
+    }
+  );
+
+
+
+document
+  .getElementById("exportNav")
+  .addEventListener(
+    "click",
+    exportInquiriesCSV
+  );
+
+
+
+/* ==================================================
+   SAFE HTML
+================================================== */
 
 function escapeHtml(value){
 
@@ -718,125 +1169,335 @@ function escapeHtml(value){
 }
 
 
-/* FILTER */
+
+/* ==================================================
+   FILTERS
+================================================== */
 
 function getFilteredInquiries(){
 
   const search =
-    document.getElementById("searchInput")
-      .value.trim().toLowerCase();
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
 
   const wing =
-    document.getElementById("wingFilter").value;
+    document
+      .getElementById(
+        "wingFilter"
+      )
+      .value;
+
 
   const status =
-    document.getElementById("statusFilter").value;
+    document
+      .getElementById(
+        "statusFilter"
+      )
+      .value;
 
 
-  return allInquiries.filter(function(item){
+  const source =
+    document
+      .getElementById(
+        "sourceFilter"
+      )
+      .value
+      .toUpperCase();
 
-    const matchesSearch =
-      !search ||
-      String(item.inquiryId || "").toLowerCase().includes(search) ||
-      String(item.name || "").toLowerCase().includes(search) ||
-      String(item.mobile || "").toLowerCase().includes(search);
 
-    const matchesWing =
-      !wing ||
-      item.requirement === wing;
 
-    const matchesStatus =
-      !status ||
-      String(item.status || "").toUpperCase() ===
-      status.toUpperCase();
+  return allInquiries
+    .filter(function(item){
 
-    return matchesSearch &&
-           matchesWing &&
-           matchesStatus;
 
-  });
+      const itemSource =
+        String(
+          item.recordType ||
+          item.source ||
+          ""
+        )
+        .toUpperCase();
+
+
+      const matchesSearch =
+
+        !search ||
+
+        String(
+          item.inquiryId || ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.name || ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.mobile || ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.agentId || ""
+        )
+        .toLowerCase()
+        .includes(search);
+
+
+
+      const matchesWing =
+
+        !wing ||
+
+        item.requirement === wing;
+
+
+
+      const matchesStatus =
+
+        !status ||
+
+        String(
+          item.status || ""
+        )
+        .toUpperCase() ===
+        status.toUpperCase();
+
+
+
+      const matchesSource =
+
+        !source ||
+
+        itemSource === source;
+
+
+
+      return (
+        matchesSearch &&
+        matchesWing &&
+        matchesStatus &&
+        matchesSource
+      );
+
+    });
 
 }
 
 
-/* TABLE */
+
+/* ==================================================
+   TABLE
+================================================== */
 
 function renderTable(){
 
   const filtered =
     getFilteredInquiries();
 
+
   const body =
-    document.getElementById("inquiryTableBody");
+    document
+      .getElementById(
+        "inquiryTableBody"
+      );
 
 
   if (!filtered.length){
 
     body.innerHTML = `
       <tr>
-        <td colspan="8" class="empty">
-          No inquiries found.
+        <td
+          colspan="9"
+          class="empty"
+        >
+          No inquiries or leads found.
         </td>
       </tr>
     `;
 
     return;
+
   }
 
 
+
   body.innerHTML =
-    filtered.map(function(item){
 
-      return `
-        <tr>
+    filtered
+      .slice()
+      .reverse()
+      .map(function(item){
 
-          <td>
-            <strong>
-              ${escapeHtml(item.inquiryId)}
-            </strong>
-          </td>
 
-          <td>${escapeHtml(item.date)}</td>
+        const source =
+          item.recordType === "AGENT"
+            ? "AGENT"
+            : (
+                item.source ||
+                "WEBSITE"
+              );
 
-          <td>${escapeHtml(item.name)}</td>
 
-          <td>${escapeHtml(item.mobile)}</td>
+        return `
 
-          <td>${escapeHtml(item.requirement)}</td>
+          <tr>
 
-          <td>
-            <span class="status">
-              ${escapeHtml(item.status || "NEW")}
-            </span>
-          </td>
+            <td>
 
-          <td>${escapeHtml(item.source)}</td>
+              <strong>
+                ${escapeHtml(
+                  item.inquiryId
+                )}
+              </strong>
 
-          <td>
-            <button
-              class="view-btn"
-              onclick="openInquiry('${escapeHtml(item.inquiryId)}')"
-            >
-              View / Edit
-            </button>
-          </td>
+            </td>
 
-        </tr>
-      `;
 
-    }).join("");
+            <td>
+              ${escapeHtml(
+                item.date
+              )}
+            </td>
+
+
+            <td>
+              ${escapeHtml(
+                item.name
+              )}
+            </td>
+
+
+            <td>
+              ${escapeHtml(
+                item.mobile
+              )}
+            </td>
+
+
+            <td>
+              ${escapeHtml(
+                item.requirement
+              )}
+            </td>
+
+
+            <td>
+
+              <span class="status">
+
+                ${escapeHtml(
+                  item.status ||
+                  "NEW"
+                )}
+
+              </span>
+
+            </td>
+
+
+            <td>
+
+              <span class="source-badge">
+
+                ${escapeHtml(
+                  source
+                )}
+
+              </span>
+
+            </td>
+
+
+            <td>
+
+              ${escapeHtml(
+                item.agentId ||
+                "—"
+              )}
+
+            </td>
+
+
+            <td>
+
+              <button
+                class="view-btn"
+                data-id="${escapeHtml(
+                  item.inquiryId
+                )}"
+              >
+                View / Edit
+              </button>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
+
+
+
+  body
+    .querySelectorAll(
+      ".view-btn"
+    )
+    .forEach(function(button){
+
+      button
+        .addEventListener(
+          "click",
+          function(){
+
+            openInquiry(
+              this.dataset.id
+            );
+
+          }
+        );
+
+    });
 
 }
 
 
-/* OPEN INQUIRY */
+
+/* ==================================================
+   OPEN INQUIRY / LEAD
+================================================== */
 
 function openInquiry(inquiryId){
 
   selectedInquiry =
-    allInquiries.find(function(item){
-      return item.inquiryId === inquiryId;
-    });
+    allInquiries.find(
+      function(item){
+
+        return (
+          item.inquiryId ===
+          inquiryId
+        );
+
+      }
+    );
 
 
   if (!selectedInquiry){
@@ -844,216 +1505,531 @@ function openInquiry(inquiryId){
   }
 
 
-  document.getElementById("detailId").textContent =
-    selectedInquiry.inquiryId || "";
 
-  document.getElementById("detailDate").textContent =
-    selectedInquiry.date || "";
-
-  document.getElementById("detailName").textContent =
-    selectedInquiry.name || "";
-
-  document.getElementById("detailMobile").textContent =
-    selectedInquiry.mobile || "";
-
-  document.getElementById("detailEmail").textContent =
-    selectedInquiry.email || "";
-
-  document.getElementById("detailWing").textContent =
-    selectedInquiry.requirement || "";
-
-  document.getElementById("detailSource").textContent =
-    selectedInquiry.source || "";
-
-  document.getElementById("detailText").textContent =
-    selectedInquiry.details || "";
+  document
+    .getElementById(
+      "detailId"
+    )
+    .textContent =
+      selectedInquiry.inquiryId ||
+      "";
 
 
-  document.getElementById("editStatus").value =
-    selectedInquiry.status || "NEW";
 
-  document.getElementById("editAssignedTo").value =
-    selectedInquiry.assignedTo || "";
-
-  document.getElementById("editFollowUp").value =
-    selectedInquiry.followUp || "";
-
-  document.getElementById("editNotes").value =
-    selectedInquiry.notes || "";
+  document
+    .getElementById(
+      "detailDate"
+    )
+    .textContent =
+      selectedInquiry.date ||
+      "";
 
 
-  document.getElementById("saveMessage").textContent = "";
+
+  document
+    .getElementById(
+      "detailName"
+    )
+    .textContent =
+      selectedInquiry.name ||
+      "";
 
 
-  document.getElementById("inquiryModal")
-    .classList.add("show");
+
+  document
+    .getElementById(
+      "detailMobile"
+    )
+    .textContent =
+      selectedInquiry.mobile ||
+      "";
+
+
+
+  document
+    .getElementById(
+      "detailEmail"
+    )
+    .textContent =
+      selectedInquiry.email ||
+      "";
+
+
+
+  document
+    .getElementById(
+      "detailWing"
+    )
+    .textContent =
+      selectedInquiry.requirement ||
+      "";
+
+
+
+  document
+    .getElementById(
+      "detailSource"
+    )
+    .textContent =
+
+      selectedInquiry.recordType ===
+      "AGENT"
+
+        ? "AGENT"
+
+        : (
+            selectedInquiry.source ||
+            "WEBSITE"
+          );
+
+
+
+  document
+    .getElementById(
+      "detailAgentId"
+    )
+    .textContent =
+      selectedInquiry.agentId ||
+      "—";
+
+
+
+  document
+    .getElementById(
+      "detailText"
+    )
+    .textContent =
+      selectedInquiry.details ||
+      "";
+
+
+
+  document
+    .getElementById(
+      "editStatus"
+    )
+    .value =
+      selectedInquiry.status ||
+      "NEW";
+
+
+
+  document
+    .getElementById(
+      "editFollowUp"
+    )
+    .value =
+      selectedInquiry.followUp ||
+      "";
+
+
+
+  document
+    .getElementById(
+      "editNotes"
+    )
+    .value =
+      selectedInquiry.notes ||
+      "";
+
+
+
+  const assignedField =
+    document
+      .getElementById(
+        "editAssignedTo"
+      );
+
+
+  if (
+    selectedInquiry.recordType ===
+    "AGENT"
+  ){
+
+    assignedField.value =
+      selectedInquiry.agentId ||
+      "";
+
+    assignedField.disabled =
+      true;
+
+    assignedField.placeholder =
+      "Agent lead";
+
+  } else {
+
+    assignedField.value =
+      selectedInquiry.assignedTo ||
+      "";
+
+    assignedField.disabled =
+      false;
+
+    assignedField.placeholder =
+      "Enter assigned person";
+
+  }
+
+
+
+  document
+    .getElementById(
+      "saveMessage"
+    )
+    .textContent =
+      "";
+
+
+
+  document
+    .getElementById(
+      "inquiryModal"
+    )
+    .classList
+    .add("show");
 
 }
 
 
-/* CLOSE MODAL */
 
-document.getElementById("closeModal")
-  .addEventListener("click", function(){
+/* ==================================================
+   CLOSE MODAL
+================================================== */
 
-    document.getElementById("inquiryModal")
-      .classList.remove("show");
+document
+  .getElementById(
+    "closeModal"
+  )
+  .addEventListener(
+    "click",
+    function(){
 
-  });
-
-
-document.getElementById("inquiryModal")
-  .addEventListener("click", function(e){
-
-    if (e.target === this){
-
-      this.classList.remove("show");
+      document
+        .getElementById(
+          "inquiryModal"
+        )
+        .classList
+        .remove("show");
 
     }
+  );
 
-  });
 
 
-/* SAVE UPDATE */
+document
+  .getElementById(
+    "inquiryModal"
+  )
+  .addEventListener(
+    "click",
+    function(e){
 
-document.getElementById("saveInquiry")
-  .addEventListener("click", async function(){
+      if (
+        e.target === this
+      ){
 
-    if (!selectedInquiry){
-      return;
+        this
+          .classList
+          .remove("show");
+
+      }
+
     }
-
-    const message =
-      document.getElementById("saveMessage");
-
-    const button =
-      document.getElementById("saveInquiry");
+  );
 
 
-    message.textContent =
-      "Saving...";
 
-    button.disabled = true;
+/* ==================================================
+   SAVE WEBSITE / AGENT UPDATE
+================================================== */
 
-
-    try {
-
-      const payload = {
-
-        token:token,
-
-        inquiryId:
-          selectedInquiry.inquiryId,
-
-        status:
-          document.getElementById("editStatus").value,
-
-        assignedTo:
-          document.getElementById("editAssignedTo").value,
-
-        followUp:
-          document.getElementById("editFollowUp").value,
-
-        notes:
-          document.getElementById("editNotes").value
-
-      };
+document
+  .getElementById(
+    "saveInquiry"
+  )
+  .addEventListener(
+    "click",
+    async function(){
 
 
-      const response =
-        await fetch(
-          API_URL + "?action=updateInquiry",
-          {
-            method:"POST",
-
-            headers:{
-              "Content-Type":
-                "text/plain;charset=utf-8"
-            },
-
-            body:
-              JSON.stringify(payload)
-          }
-        );
-
-
-      const result =
-        await response.json();
-
-
-      if (!result.success){
-        throw new Error(
-          result.message ||
-          "Unable to update inquiry."
-        );
+      if (!selectedInquiry){
+        return;
       }
 
 
-      selectedInquiry.status =
-        payload.status;
+      const message =
+        document
+          .getElementById(
+            "saveMessage"
+          );
 
-      selectedInquiry.assignedTo =
-        payload.assignedTo;
 
-      selectedInquiry.followUp =
-        payload.followUp;
-
-      selectedInquiry.notes =
-        payload.notes;
+      const button =
+        document
+          .getElementById(
+            "saveInquiry"
+          );
 
 
       message.textContent =
-        "Inquiry updated successfully.";
+        "Saving...";
 
 
-      renderTable();
+      button.disabled =
+        true;
 
 
-      setTimeout(function(){
 
-        document.getElementById("inquiryModal")
-          .classList.remove("show");
-
-      },800);
+      try {
 
 
-    } catch(error){
+        const isAgentLead =
+          selectedInquiry.recordType ===
+          "AGENT";
 
-      message.textContent =
-        error.message ||
-        "Unable to update inquiry.";
 
-    } finally {
+        const payload = {
 
-      button.disabled = false;
+          token:token,
+
+          inquiryId:
+            selectedInquiry.inquiryId,
+
+          status:
+            document
+              .getElementById(
+                "editStatus"
+              )
+              .value,
+
+          assignedTo:
+            isAgentLead
+              ? ""
+              : document
+                  .getElementById(
+                    "editAssignedTo"
+                  )
+                  .value
+                  .trim(),
+
+          followUp:
+            document
+              .getElementById(
+                "editFollowUp"
+              )
+              .value,
+
+          notes:
+            document
+              .getElementById(
+                "editNotes"
+              )
+              .value
+              .trim()
+
+        };
+
+
+
+        const action =
+          isAgentLead
+            ? "updateAgentLead"
+            : "updateInquiry";
+
+
+
+        const response =
+          await fetch(
+
+            API_URL +
+            "?action=" +
+            action,
+
+            {
+
+              method:"POST",
+
+              headers:{
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+
+          );
+
+
+
+        const result =
+          await response.json();
+
+
+
+        if (!result.success){
+
+
+          if (
+            String(
+              result.message ||
+              ""
+            )
+            .toLowerCase()
+            .includes(
+              "session"
+            )
+          ){
+
+            sessionStorage.clear();
+
+            window.location.href =
+              "index.html";
+
+            return;
+
+          }
+
+
+          throw new Error(
+            result.message ||
+            "Unable to update."
+          );
+
+        }
+
+
+
+        selectedInquiry.status =
+          payload.status;
+
+
+        selectedInquiry.followUp =
+          payload.followUp;
+
+
+        selectedInquiry.notes =
+          payload.notes;
+
+
+
+        if (!isAgentLead){
+
+          selectedInquiry.assignedTo =
+            payload.assignedTo;
+
+        }
+
+
+
+        message.textContent =
+          isAgentLead
+
+            ? "Agent lead updated successfully."
+
+            : "Inquiry updated successfully.";
+
+
+
+        renderTable();
+
+
+
+        document
+          .getElementById(
+            "newInquiries"
+          );
+
+
+
+        setTimeout(
+          function(){
+
+            document
+              .getElementById(
+                "inquiryModal"
+              )
+              .classList
+              .remove("show");
+
+          },
+          800
+        );
+
+
+
+        setTimeout(
+          loadDashboard,
+          900
+        );
+
+
+      } catch(error){
+
+
+        message.textContent =
+          error.message ||
+          "Unable to update.";
+
+
+      } finally {
+
+
+        button.disabled =
+          false;
+
+
+      }
 
     }
+  );
 
-  });
 
 
-/* EXPORT */
+/* ==================================================
+   CSV EXPORT
+================================================== */
 
 function csvSafe(value){
 
   const text =
-    String(value ?? "")
-      .replace(/\r?\n/g," ");
+    String(
+      value ?? ""
+    )
+    .replace(
+      /\r?\n/g,
+      " "
+    );
 
-  return '"' +
-    text.replace(/"/g,'""') +
-    '"';
+
+  return (
+    '"' +
+    text.replace(
+      /"/g,
+      '""'
+    ) +
+    '"'
+  );
 
 }
 
 
+
 function exportInquiriesCSV(){
+
 
   const data =
     getFilteredInquiries();
 
+
   const message =
-    document.getElementById("exportMessage");
+    document
+      .getElementById(
+        "exportMessage"
+      );
 
 
   if (!data.length){
@@ -1062,90 +2038,164 @@ function exportInquiriesCSV(){
       "No inquiries available to export.";
 
     return;
+
   }
+
 
 
   const rows = [
 
     [
-      "Inquiry ID",
+
+      "ID",
+
       "Date",
+
       "Time",
+
       "Name",
+
       "Mobile",
+
       "Email",
+
       "Wing / Requirement",
+
       "Details",
+
       "Source",
+
+      "Agent ID",
+
       "Status",
+
       "Assigned To",
+
       "Follow Up",
+
       "Notes",
+
       "Last Updated"
+
     ],
 
-    ...data.map(function(item){
 
-      return [
-        item.inquiryId,
-        item.date,
-        item.time,
-        item.name,
-        item.mobile,
-        item.email,
-        item.requirement,
-        item.details,
-        item.source,
-        item.status,
-        item.assignedTo,
-        item.followUp,
-        item.notes,
-        item.lastUpdated
-      ];
+    ...data.map(
+      function(item){
 
-    })
+
+        return [
+
+          item.inquiryId,
+
+          item.date,
+
+          item.time,
+
+          item.name,
+
+          item.mobile,
+
+          item.email,
+
+          item.requirement,
+
+          item.details,
+
+          item.recordType === "AGENT"
+            ? "AGENT"
+            : (
+                item.source ||
+                "WEBSITE"
+              ),
+
+          item.agentId,
+
+          item.status,
+
+          item.assignedTo,
+
+          item.followUp,
+
+          item.notes,
+
+          item.lastUpdated
+
+        ];
+
+      }
+    )
 
   ];
 
 
+
   const csv =
+
     rows
       .map(function(row){
-        return row.map(csvSafe).join(",");
+
+        return row
+          .map(csvSafe)
+          .join(",");
+
       })
       .join("\n");
 
 
+
   const blob =
     new Blob(
-      ["\uFEFF" + csv],
+
+      [
+        "\uFEFF" +
+        csv
+      ],
+
       {
-        type:"text/csv;charset=utf-8;"
+        type:
+          "text/csv;charset=utf-8;"
       }
+
     );
 
 
+
   const url =
-    URL.createObjectURL(blob);
+    URL.createObjectURL(
+      blob
+    );
 
 
   const link =
-    document.createElement("a");
+    document.createElement(
+      "a"
+    );
 
 
-  link.href = url;
+  link.href =
+    url;
+
 
   link.download =
-    "MADHYUM-Inquiries.csv";
+    "MADHYUM-All-Leads.csv";
 
 
-  document.body.appendChild(link);
+  document.body
+    .appendChild(
+      link
+    );
+
 
   link.click();
 
+
   link.remove();
 
-  URL.revokeObjectURL(url);
+
+  URL.revokeObjectURL(
+    url
+  );
 
 
   message.textContent =
@@ -1154,20 +2204,32 @@ function exportInquiriesCSV(){
 }
 
 
-/* LOAD DASHBOARD */
+
+/* ==================================================
+   LOAD DASHBOARD
+================================================== */
 
 async function loadDashboard(){
 
+
   const body =
-    document.getElementById("inquiryTableBody");
+    document
+      .getElementById(
+        "inquiryTableBody"
+      );
 
 
   try {
 
+
     const response =
       await fetch(
-        API_URL + "?action=adminDashboard",
+
+        API_URL +
+        "?action=adminDashboard",
+
         {
+
           method:"POST",
 
           headers:{
@@ -1179,20 +2241,30 @@ async function loadDashboard(){
             JSON.stringify({
               token:token
             })
+
         }
+
       );
+
 
 
     const result =
       await response.json();
 
 
+
     if (!result.success){
 
+
       if (
-        String(result.message || "")
-          .toLowerCase()
-          .includes("session")
+        String(
+          result.message ||
+          ""
+        )
+        .toLowerCase()
+        .includes(
+          "session"
+        )
       ){
 
         sessionStorage.clear();
@@ -1201,6 +2273,7 @@ async function loadDashboard(){
           "index.html";
 
         return;
+
       }
 
 
@@ -1212,26 +2285,67 @@ async function loadDashboard(){
     }
 
 
-    document.getElementById("totalInquiries").textContent =
-      result.stats?.total ?? 0;
 
-    document.getElementById("newInquiries").textContent =
-      result.stats?.new ?? 0;
+    document
+      .getElementById(
+        "totalInquiries"
+      )
+      .textContent =
+        result.stats?.total ??
+        0;
 
-    document.getElementById("progressInquiries").textContent =
-      result.stats?.inProgress ?? 0;
 
-    document.getElementById("closedInquiries").textContent =
-      result.stats?.closed ?? 0;
 
-    document.getElementById("visitorCount").textContent =
-      result.stats?.visitors ?? 0;
+    document
+      .getElementById(
+        "newInquiries"
+      )
+      .textContent =
+        result.stats?.new ??
+        0;
+
+
+
+    document
+      .getElementById(
+        "progressInquiries"
+      )
+      .textContent =
+        result.stats?.inProgress ??
+        0;
+
+
+
+    document
+      .getElementById(
+        "closedInquiries"
+      )
+      .textContent =
+        result.stats?.closed ??
+        0;
+
+
+
+    document
+      .getElementById(
+        "visitorCount"
+      )
+      .textContent =
+        result.stats?.visitors ??
+        0;
+
 
 
     allInquiries =
-      Array.isArray(result.inquiries)
+
+      Array.isArray(
+        result.inquiries
+      )
+
         ? result.inquiries
+
         : [];
+
 
 
     renderTable();
@@ -1239,15 +2353,25 @@ async function loadDashboard(){
 
   } catch(error){
 
+
     body.innerHTML = `
+
       <tr>
-        <td colspan="8" class="empty">
+
+        <td
+          colspan="9"
+          class="empty"
+        >
+
           ${escapeHtml(
             error.message ||
             "Unable to load dashboard."
           )}
+
         </td>
+
       </tr>
+
     `;
 
   }
@@ -1255,19 +2379,61 @@ async function loadDashboard(){
 }
 
 
-document.getElementById("searchInput")
-  .addEventListener("input",renderTable);
 
-document.getElementById("wingFilter")
-  .addEventListener("change",renderTable);
+/* ==================================================
+   FILTER EVENTS
+================================================== */
 
-document.getElementById("statusFilter")
-  .addEventListener("change",renderTable);
+document
+  .getElementById(
+    "searchInput"
+  )
+  .addEventListener(
+    "input",
+    renderTable
+  );
 
+
+document
+  .getElementById(
+    "wingFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+document
+  .getElementById(
+    "statusFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+document
+  .getElementById(
+    "sourceFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+
+/* ==================================================
+   START
+================================================== */
 
 loadDashboard();
 
+
 </script>
+
 
 </body>
 </html>
