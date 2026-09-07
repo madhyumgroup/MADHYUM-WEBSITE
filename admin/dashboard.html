@@ -10,6 +10,10 @@
       box-sizing:border-box;
     }
 
+    html{
+      scroll-behavior:smooth;
+    }
+
     body{
       margin:0;
       font-family:Arial,sans-serif;
@@ -27,6 +31,10 @@
       background:#0d1726;
       color:#fff;
       padding:24px 18px;
+      min-height:100vh;
+      position:sticky;
+      top:0;
+      align-self:start;
     }
 
     .brand{
@@ -116,11 +124,26 @@
       font-weight:900;
     }
 
+    #visitorsCard{
+      scroll-margin-top:25px;
+    }
+
+    .visitor-highlight{
+      outline:2px solid #c9a45b;
+      outline-offset:2px;
+    }
+
     .panel{
       background:#fff;
       border-radius:16px;
       padding:20px;
       box-shadow:0 8px 24px rgba(15,23,42,.06);
+      scroll-margin-top:25px;
+    }
+
+    .panel-title{
+      margin:0 0 18px;
+      font-size:20px;
     }
 
     .filters{
@@ -181,6 +204,14 @@
       color:#667085;
     }
 
+    .export-message{
+      margin-top:12px;
+      font-size:12px;
+      color:#067647;
+      font-weight:700;
+      min-height:18px;
+    }
+
     @media(max-width:1000px){
       .cards{
         grid-template-columns:repeat(2,1fr);
@@ -193,7 +224,8 @@
       }
 
       .sidebar{
-        display:none;
+        position:relative;
+        min-height:auto;
       }
 
       .main{
@@ -223,19 +255,19 @@
       Admin Dashboard
     </div>
 
-    <button class="nav-item active">
+    <button class="nav-item active" id="dashboardNav">
       Dashboard
     </button>
 
-    <button class="nav-item">
+    <button class="nav-item" id="inquiriesNav">
       Inquiries
     </button>
 
-    <button class="nav-item">
+    <button class="nav-item" id="visitorsNav">
       Visitors
     </button>
 
-    <button class="nav-item">
+    <button class="nav-item" id="exportNav">
       Export
     </button>
 
@@ -246,7 +278,7 @@
   </aside>
 
 
-  <main class="main">
+  <main class="main" id="dashboardTop">
 
     <div class="topbar">
 
@@ -258,7 +290,7 @@
     </div>
 
 
-    <section class="cards">
+    <section class="cards" id="dashboardCards">
 
       <div class="card">
         <div class="card-label">Total Inquiries</div>
@@ -280,7 +312,7 @@
         <div class="card-value" id="closedInquiries">—</div>
       </div>
 
-      <div class="card">
+      <div class="card" id="visitorsCard">
         <div class="card-label">Visitors</div>
         <div class="card-value" id="visitorCount">—</div>
       </div>
@@ -288,7 +320,9 @@
     </section>
 
 
-    <section class="panel">
+    <section class="panel" id="inquiriesSection">
+
+      <h2 class="panel-title">Inquiries</h2>
 
       <div class="filters">
 
@@ -339,7 +373,7 @@
 
             <tr>
               <td colspan="7" class="loading">
-                Waiting for admin data API...
+                Loading inquiries...
               </td>
             </tr>
 
@@ -348,6 +382,8 @@
         </table>
 
       </div>
+
+      <div class="export-message" id="exportMessage"></div>
 
     </section>
 
@@ -360,6 +396,7 @@
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec";
+
 
 const token =
   sessionStorage.getItem("madhyumAdminToken");
@@ -392,6 +429,88 @@ document.getElementById("logoutButton")
 let allInquiries = [];
 
 
+/* -------------------------------
+   SIDEBAR NAVIGATION
+-------------------------------- */
+
+const navButtons =
+  document.querySelectorAll(".nav-item:not(.logout)");
+
+function setActiveNav(button){
+
+  navButtons.forEach(function(item){
+    item.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+}
+
+
+document.getElementById("dashboardNav")
+  .addEventListener("click", function(){
+
+    setActiveNav(this);
+
+    document.getElementById("dashboardTop")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+  });
+
+
+document.getElementById("inquiriesNav")
+  .addEventListener("click", function(){
+
+    setActiveNav(this);
+
+    document.getElementById("inquiriesSection")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+  });
+
+
+document.getElementById("visitorsNav")
+  .addEventListener("click", function(){
+
+    setActiveNav(this);
+
+    const visitorCard =
+      document.getElementById("visitorsCard");
+
+    visitorCard.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+    visitorCard.classList.add("visitor-highlight");
+
+    setTimeout(function(){
+      visitorCard.classList.remove("visitor-highlight");
+    },1500);
+
+  });
+
+
+document.getElementById("exportNav")
+  .addEventListener("click", function(){
+
+    setActiveNav(this);
+
+    exportInquiriesCSV();
+
+  });
+
+
+/* -------------------------------
+   HTML SAFETY
+-------------------------------- */
+
 function escapeHtml(value) {
 
   return String(value || "")
@@ -404,7 +523,11 @@ function escapeHtml(value) {
 }
 
 
-function renderTable() {
+/* -------------------------------
+   INQUIRY TABLE
+-------------------------------- */
+
+function getFilteredInquiries() {
 
   const search =
     document
@@ -424,31 +547,38 @@ function renderTable() {
       .value;
 
 
+  return allInquiries.filter(function(item) {
+
+    const matchesSearch =
+      !search ||
+      String(item.inquiryId || "").toLowerCase().includes(search) ||
+      String(item.name || "").toLowerCase().includes(search) ||
+      String(item.mobile || "").toLowerCase().includes(search);
+
+    const matchesWing =
+      !wing ||
+      item.requirement === wing;
+
+    const matchesStatus =
+      !status ||
+      String(item.status || "").toUpperCase() ===
+      status.toUpperCase();
+
+    return (
+      matchesSearch &&
+      matchesWing &&
+      matchesStatus
+    );
+
+  });
+
+}
+
+
+function renderTable() {
+
   const filtered =
-    allInquiries.filter(function(item) {
-
-      const matchesSearch =
-        !search ||
-        String(item.inquiryId || "").toLowerCase().includes(search) ||
-        String(item.name || "").toLowerCase().includes(search) ||
-        String(item.mobile || "").toLowerCase().includes(search);
-
-      const matchesWing =
-        !wing ||
-        item.requirement === wing;
-
-      const matchesStatus =
-        !status ||
-        String(item.status || "").toUpperCase() === status.toUpperCase();
-
-      return (
-        matchesSearch &&
-        matchesWing &&
-        matchesStatus
-      );
-
-    });
-
+    getFilteredInquiries();
 
   const body =
     document.getElementById("inquiryTableBody");
@@ -465,7 +595,6 @@ function renderTable() {
     `;
 
     return;
-
   }
 
 
@@ -515,6 +644,153 @@ function renderTable() {
 }
 
 
+/* -------------------------------
+   EXPORT CSV
+-------------------------------- */
+
+function csvSafe(value){
+
+  const text =
+    String(value ?? "")
+      .replace(/\r?\n/g," ");
+
+  return '"' +
+    text.replace(/"/g,'""') +
+    '"';
+
+}
+
+
+function exportInquiriesCSV(){
+
+  const message =
+    document.getElementById("exportMessage");
+
+  const data =
+    getFilteredInquiries();
+
+
+  if (!data.length){
+
+    message.textContent =
+      "No inquiries available to export.";
+
+    return;
+  }
+
+
+  const rows = [
+
+    [
+      "Inquiry ID",
+      "Date",
+      "Time",
+      "Name",
+      "Mobile",
+      "Email",
+      "Wing / Requirement",
+      "Details",
+      "Source",
+      "Status",
+      "Assigned To",
+      "Follow Up",
+      "Notes",
+      "Last Updated"
+    ],
+
+    ...data.map(function(item){
+
+      return [
+        item.inquiryId,
+        item.date,
+        item.time,
+        item.name,
+        item.mobile,
+        item.email,
+        item.requirement,
+        item.details,
+        item.source,
+        item.status,
+        item.assignedTo,
+        item.followUp,
+        item.notes,
+        item.lastUpdated
+      ];
+
+    })
+
+  ];
+
+
+  const csv =
+    rows
+      .map(function(row){
+        return row
+          .map(csvSafe)
+          .join(",");
+      })
+      .join("\n");
+
+
+  const blob =
+    new Blob(
+      ["\uFEFF" + csv],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  const link =
+    document.createElement("a");
+
+
+  const today =
+    new Date()
+      .toISOString()
+      .slice(0,10);
+
+
+  link.href = url;
+
+  link.download =
+    "MADHYUM-Inquiries-" +
+    today +
+    ".csv";
+
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  link.remove();
+
+  URL.revokeObjectURL(url);
+
+
+  message.textContent =
+    data.length +
+    " inquiries exported successfully.";
+
+
+  setTimeout(function(){
+
+    message.textContent = "";
+
+  },3000);
+
+}
+
+
+/* -------------------------------
+   LOAD DASHBOARD
+-------------------------------- */
+
 async function loadDashboard() {
 
   const body =
@@ -536,15 +812,15 @@ async function loadDashboard() {
       await fetch(
         API_URL + "?action=adminDashboard",
         {
-          method: "POST",
+          method:"POST",
 
-          headers: {
+          headers:{
             "Content-Type":
               "text/plain;charset=utf-8"
           },
 
-          body: JSON.stringify({
-            token: token
+          body:JSON.stringify({
+            token:token
           })
         }
       );
@@ -569,6 +845,7 @@ async function loadDashboard() {
 
         return;
       }
+
 
       throw new Error(
         result.message ||
@@ -621,14 +898,16 @@ async function loadDashboard() {
 }
 
 
+/* FILTERS */
+
 document.getElementById("searchInput")
-  .addEventListener("input", renderTable);
+  .addEventListener("input",renderTable);
 
 document.getElementById("wingFilter")
-  .addEventListener("change", renderTable);
+  .addEventListener("change",renderTable);
 
 document.getElementById("statusFilter")
-  .addEventListener("change", renderTable);
+  .addEventListener("change",renderTable);
 
 
 loadDashboard();
