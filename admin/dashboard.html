@@ -6,13 +6,9 @@
   <title>MADHYUM Admin Dashboard</title>
 
   <style>
-    *{
-      box-sizing:border-box;
-    }
+    *{box-sizing:border-box}
 
-    html{
-      scroll-behavior:smooth;
-    }
+    html{scroll-behavior:smooth}
 
     body{
       margin:0;
@@ -77,9 +73,7 @@
       font-weight:800;
     }
 
-    .main{
-      padding:28px;
-    }
+    .main{padding:28px}
 
     .topbar{
       display:flex;
@@ -124,15 +118,6 @@
       font-weight:900;
     }
 
-    #visitorsCard{
-      scroll-margin-top:25px;
-    }
-
-    .visitor-highlight{
-      outline:2px solid #c9a45b;
-      outline-offset:2px;
-    }
-
     .panel{
       background:#fff;
       border-radius:16px;
@@ -154,7 +139,8 @@
     }
 
     input,
-    select{
+    select,
+    textarea{
       width:100%;
       padding:11px 12px;
       border:1px solid #d9dee5;
@@ -163,14 +149,17 @@
       background:#fff;
     }
 
-    .table-wrap{
-      overflow:auto;
+    textarea{
+      min-height:100px;
+      resize:vertical;
     }
+
+    .table-wrap{overflow:auto}
 
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:900px;
+      min-width:980px;
     }
 
     th,
@@ -197,6 +186,17 @@
       background:#eef2f6;
     }
 
+    .view-btn{
+      border:0;
+      background:#0d1726;
+      color:#fff;
+      padding:7px 11px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+    }
+
     .loading,
     .empty{
       padding:28px;
@@ -209,6 +209,109 @@
       font-size:12px;
       color:#067647;
       font-weight:700;
+      min-height:18px;
+    }
+
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:9999;
+    }
+
+    .modal-backdrop.show{
+      display:flex;
+    }
+
+    .modal{
+      width:min(700px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:18px;
+      padding:24px;
+      box-shadow:0 24px 60px rgba(0,0,0,.25);
+    }
+
+    .modal-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:18px;
+    }
+
+    .modal-head h2{
+      margin:0;
+      font-size:22px;
+    }
+
+    .close-btn{
+      border:0;
+      background:#eef2f6;
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:18px;
+    }
+
+    .detail-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:20px;
+    }
+
+    .detail-box{
+      background:#f8fafc;
+      border-radius:10px;
+      padding:12px;
+    }
+
+    .detail-label{
+      font-size:11px;
+      color:#667085;
+      margin-bottom:5px;
+      text-transform:uppercase;
+    }
+
+    .detail-value{
+      font-size:14px;
+      word-break:break-word;
+    }
+
+    .field{
+      margin-bottom:14px;
+    }
+
+    .field label{
+      display:block;
+      font-size:12px;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    .save-btn{
+      width:100%;
+      border:0;
+      background:#c9a45b;
+      color:#111;
+      padding:12px 16px;
+      border-radius:10px;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .save-message{
+      text-align:center;
+      font-size:13px;
+      font-weight:700;
+      margin-top:12px;
       min-height:18px;
     }
 
@@ -236,7 +339,8 @@
         grid-template-columns:1fr 1fr;
       }
 
-      .filters{
+      .filters,
+      .detail-grid{
         grid-template-columns:1fr;
       }
     }
@@ -251,9 +355,7 @@
 
     <div class="brand">MADHYUM</div>
 
-    <div class="role">
-      Admin Dashboard
-    </div>
+    <div class="role">Admin Dashboard</div>
 
     <button class="nav-item active" id="dashboardNav">
       Dashboard
@@ -281,16 +383,14 @@
   <main class="main" id="dashboardTop">
 
     <div class="topbar">
-
       <div>
         <h1>Dashboard</h1>
         <div class="admin-name" id="adminName"></div>
       </div>
-
     </div>
 
 
-    <section class="cards" id="dashboardCards">
+    <section class="cards">
 
       <div class="card">
         <div class="card-label">Total Inquiries</div>
@@ -352,7 +452,6 @@
 
       </div>
 
-
       <div class="table-wrap">
 
         <table>
@@ -366,13 +465,14 @@
               <th>Wing</th>
               <th>Status</th>
               <th>Source</th>
+              <th>Action</th>
             </tr>
           </thead>
 
           <tbody id="inquiryTableBody">
 
             <tr>
-              <td colspan="7" class="loading">
+              <td colspan="8" class="loading">
                 Loading inquiries...
               </td>
             </tr>
@@ -388,6 +488,116 @@
     </section>
 
   </main>
+
+</div>
+
+
+<div class="modal-backdrop" id="inquiryModal">
+
+  <div class="modal">
+
+    <div class="modal-head">
+      <h2>Inquiry Details</h2>
+
+      <button class="close-btn" id="closeModal">
+        ×
+      </button>
+    </div>
+
+    <div class="detail-grid">
+
+      <div class="detail-box">
+        <div class="detail-label">Inquiry ID</div>
+        <div class="detail-value" id="detailId"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Date</div>
+        <div class="detail-value" id="detailDate"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Name</div>
+        <div class="detail-value" id="detailName"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Mobile</div>
+        <div class="detail-value" id="detailMobile"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Email</div>
+        <div class="detail-value" id="detailEmail"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Wing</div>
+        <div class="detail-value" id="detailWing"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Source</div>
+        <div class="detail-value" id="detailSource"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Details</div>
+        <div class="detail-value" id="detailText"></div>
+      </div>
+
+    </div>
+
+
+    <div class="field">
+      <label>Status</label>
+
+      <select id="editStatus">
+        <option>NEW</option>
+        <option>IN PROGRESS</option>
+        <option>CLOSED</option>
+      </select>
+    </div>
+
+
+    <div class="field">
+      <label>Assigned To</label>
+
+      <input
+        id="editAssignedTo"
+        type="text"
+        placeholder="Enter assigned person"
+      >
+    </div>
+
+
+    <div class="field">
+      <label>Follow-up Date</label>
+
+      <input
+        id="editFollowUp"
+        type="date"
+      >
+    </div>
+
+
+    <div class="field">
+      <label>Notes</label>
+
+      <textarea
+        id="editNotes"
+        placeholder="Enter notes..."
+      ></textarea>
+    </div>
+
+
+    <button class="save-btn" id="saveInquiry">
+      Save Update
+    </button>
+
+    <div class="save-message" id="saveMessage"></div>
+
+  </div>
 
 </div>
 
@@ -417,9 +627,7 @@ document.getElementById("adminName").textContent =
 document.getElementById("logoutButton")
   .addEventListener("click", function(){
 
-    sessionStorage.removeItem("madhyumAdminToken");
-    sessionStorage.removeItem("madhyumAdminName");
-    sessionStorage.removeItem("madhyumAdminRole");
+    sessionStorage.clear();
 
     window.location.href = "index.html";
 
@@ -427,35 +635,17 @@ document.getElementById("logoutButton")
 
 
 let allInquiries = [];
+let selectedInquiry = null;
 
 
-/* -------------------------------
-   SIDEBAR NAVIGATION
--------------------------------- */
-
-const navButtons =
-  document.querySelectorAll(".nav-item:not(.logout)");
-
-function setActiveNav(button){
-
-  navButtons.forEach(function(item){
-    item.classList.remove("active");
-  });
-
-  button.classList.add("active");
-
-}
-
+/* NAVIGATION */
 
 document.getElementById("dashboardNav")
   .addEventListener("click", function(){
 
-    setActiveNav(this);
-
     document.getElementById("dashboardTop")
       .scrollIntoView({
-        behavior:"smooth",
-        block:"start"
+        behavior:"smooth"
       });
 
   });
@@ -464,12 +654,9 @@ document.getElementById("dashboardNav")
 document.getElementById("inquiriesNav")
   .addEventListener("click", function(){
 
-    setActiveNav(this);
-
     document.getElementById("inquiriesSection")
       .scrollIntoView({
-        behavior:"smooth",
-        block:"start"
+        behavior:"smooth"
       });
 
   });
@@ -478,76 +665,49 @@ document.getElementById("inquiriesNav")
 document.getElementById("visitorsNav")
   .addEventListener("click", function(){
 
-    setActiveNav(this);
-
-    const visitorCard =
-      document.getElementById("visitorsCard");
-
-    visitorCard.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-
-    visitorCard.classList.add("visitor-highlight");
-
-    setTimeout(function(){
-      visitorCard.classList.remove("visitor-highlight");
-    },1500);
+    document.getElementById("visitorsCard")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
 
   });
 
 
 document.getElementById("exportNav")
-  .addEventListener("click", function(){
-
-    setActiveNav(this);
-
-    exportInquiriesCSV();
-
-  });
+  .addEventListener("click", exportInquiriesCSV);
 
 
-/* -------------------------------
-   HTML SAFETY
--------------------------------- */
+/* SAFE HTML */
 
-function escapeHtml(value) {
+function escapeHtml(value){
 
   return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
-/* -------------------------------
-   INQUIRY TABLE
--------------------------------- */
+/* FILTER */
 
-function getFilteredInquiries() {
+function getFilteredInquiries(){
 
   const search =
-    document
-      .getElementById("searchInput")
-      .value
-      .trim()
-      .toLowerCase();
+    document.getElementById("searchInput")
+      .value.trim().toLowerCase();
 
   const wing =
-    document
-      .getElementById("wingFilter")
-      .value;
+    document.getElementById("wingFilter").value;
 
   const status =
-    document
-      .getElementById("statusFilter")
-      .value;
+    document.getElementById("statusFilter").value;
 
 
-  return allInquiries.filter(function(item) {
+  return allInquiries.filter(function(item){
 
     const matchesSearch =
       !search ||
@@ -564,18 +724,18 @@ function getFilteredInquiries() {
       String(item.status || "").toUpperCase() ===
       status.toUpperCase();
 
-    return (
-      matchesSearch &&
-      matchesWing &&
-      matchesStatus
-    );
+    return matchesSearch &&
+           matchesWing &&
+           matchesStatus;
 
   });
 
 }
 
 
-function renderTable() {
+/* TABLE */
+
+function renderTable(){
 
   const filtered =
     getFilteredInquiries();
@@ -584,11 +744,11 @@ function renderTable() {
     document.getElementById("inquiryTableBody");
 
 
-  if (!filtered.length) {
+  if (!filtered.length){
 
     body.innerHTML = `
       <tr>
-        <td colspan="7" class="empty">
+        <td colspan="8" class="empty">
           No inquiries found.
         </td>
       </tr>
@@ -599,7 +759,7 @@ function renderTable() {
 
 
   body.innerHTML =
-    filtered.map(function(item) {
+    filtered.map(function(item){
 
       return `
         <tr>
@@ -610,21 +770,13 @@ function renderTable() {
             </strong>
           </td>
 
-          <td>
-            ${escapeHtml(item.date)}
-          </td>
+          <td>${escapeHtml(item.date)}</td>
 
-          <td>
-            ${escapeHtml(item.name)}
-          </td>
+          <td>${escapeHtml(item.name)}</td>
 
-          <td>
-            ${escapeHtml(item.mobile)}
-          </td>
+          <td>${escapeHtml(item.mobile)}</td>
 
-          <td>
-            ${escapeHtml(item.requirement)}
-          </td>
+          <td>${escapeHtml(item.requirement)}</td>
 
           <td>
             <span class="status">
@@ -632,8 +784,15 @@ function renderTable() {
             </span>
           </td>
 
+          <td>${escapeHtml(item.source)}</td>
+
           <td>
-            ${escapeHtml(item.source)}
+            <button
+              class="view-btn"
+              onclick="openInquiry('${escapeHtml(item.inquiryId)}')"
+            >
+              View / Edit
+            </button>
           </td>
 
         </tr>
@@ -644,9 +803,210 @@ function renderTable() {
 }
 
 
-/* -------------------------------
-   EXPORT CSV
--------------------------------- */
+/* OPEN INQUIRY */
+
+function openInquiry(inquiryId){
+
+  selectedInquiry =
+    allInquiries.find(function(item){
+      return item.inquiryId === inquiryId;
+    });
+
+
+  if (!selectedInquiry){
+    return;
+  }
+
+
+  document.getElementById("detailId").textContent =
+    selectedInquiry.inquiryId || "";
+
+  document.getElementById("detailDate").textContent =
+    selectedInquiry.date || "";
+
+  document.getElementById("detailName").textContent =
+    selectedInquiry.name || "";
+
+  document.getElementById("detailMobile").textContent =
+    selectedInquiry.mobile || "";
+
+  document.getElementById("detailEmail").textContent =
+    selectedInquiry.email || "";
+
+  document.getElementById("detailWing").textContent =
+    selectedInquiry.requirement || "";
+
+  document.getElementById("detailSource").textContent =
+    selectedInquiry.source || "";
+
+  document.getElementById("detailText").textContent =
+    selectedInquiry.details || "";
+
+
+  document.getElementById("editStatus").value =
+    selectedInquiry.status || "NEW";
+
+  document.getElementById("editAssignedTo").value =
+    selectedInquiry.assignedTo || "";
+
+  document.getElementById("editFollowUp").value =
+    selectedInquiry.followUp || "";
+
+  document.getElementById("editNotes").value =
+    selectedInquiry.notes || "";
+
+
+  document.getElementById("saveMessage").textContent = "";
+
+
+  document.getElementById("inquiryModal")
+    .classList.add("show");
+
+}
+
+
+/* CLOSE MODAL */
+
+document.getElementById("closeModal")
+  .addEventListener("click", function(){
+
+    document.getElementById("inquiryModal")
+      .classList.remove("show");
+
+  });
+
+
+document.getElementById("inquiryModal")
+  .addEventListener("click", function(e){
+
+    if (e.target === this){
+
+      this.classList.remove("show");
+
+    }
+
+  });
+
+
+/* SAVE UPDATE */
+
+document.getElementById("saveInquiry")
+  .addEventListener("click", async function(){
+
+    if (!selectedInquiry){
+      return;
+    }
+
+    const message =
+      document.getElementById("saveMessage");
+
+    const button =
+      document.getElementById("saveInquiry");
+
+
+    message.textContent =
+      "Saving...";
+
+    button.disabled = true;
+
+
+    try {
+
+      const payload = {
+
+        token:token,
+
+        inquiryId:
+          selectedInquiry.inquiryId,
+
+        status:
+          document.getElementById("editStatus").value,
+
+        assignedTo:
+          document.getElementById("editAssignedTo").value,
+
+        followUp:
+          document.getElementById("editFollowUp").value,
+
+        notes:
+          document.getElementById("editNotes").value
+
+      };
+
+
+      const response =
+        await fetch(
+          API_URL + "?action=updateInquiry",
+          {
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "text/plain;charset=utf-8"
+            },
+
+            body:
+              JSON.stringify(payload)
+          }
+        );
+
+
+      const result =
+        await response.json();
+
+
+      if (!result.success){
+        throw new Error(
+          result.message ||
+          "Unable to update inquiry."
+        );
+      }
+
+
+      selectedInquiry.status =
+        payload.status;
+
+      selectedInquiry.assignedTo =
+        payload.assignedTo;
+
+      selectedInquiry.followUp =
+        payload.followUp;
+
+      selectedInquiry.notes =
+        payload.notes;
+
+
+      message.textContent =
+        "Inquiry updated successfully.";
+
+
+      renderTable();
+
+
+      setTimeout(function(){
+
+        document.getElementById("inquiryModal")
+          .classList.remove("show");
+
+      },800);
+
+
+    } catch(error){
+
+      message.textContent =
+        error.message ||
+        "Unable to update inquiry.";
+
+    } finally {
+
+      button.disabled = false;
+
+    }
+
+  });
+
+
+/* EXPORT */
 
 function csvSafe(value){
 
@@ -663,11 +1023,11 @@ function csvSafe(value){
 
 function exportInquiriesCSV(){
 
-  const message =
-    document.getElementById("exportMessage");
-
   const data =
     getFilteredInquiries();
+
+  const message =
+    document.getElementById("exportMessage");
 
 
   if (!data.length){
@@ -725,9 +1085,7 @@ function exportInquiriesCSV(){
   const csv =
     rows
       .map(function(row){
-        return row
-          .map(csvSafe)
-          .join(",");
+        return row.map(csvSafe).join(",");
       })
       .join("\n");
 
@@ -736,8 +1094,7 @@ function exportInquiriesCSV(){
     new Blob(
       ["\uFEFF" + csv],
       {
-        type:
-          "text/csv;charset=utf-8;"
+        type:"text/csv;charset=utf-8;"
       }
     );
 
@@ -750,18 +1107,10 @@ function exportInquiriesCSV(){
     document.createElement("a");
 
 
-  const today =
-    new Date()
-      .toISOString()
-      .slice(0,10);
-
-
   link.href = url;
 
   link.download =
-    "MADHYUM-Inquiries-" +
-    today +
-    ".csv";
+    "MADHYUM-Inquiries.csv";
 
 
   document.body.appendChild(link);
@@ -774,36 +1123,17 @@ function exportInquiriesCSV(){
 
 
   message.textContent =
-    data.length +
-    " inquiries exported successfully.";
-
-
-  setTimeout(function(){
-
-    message.textContent = "";
-
-  },3000);
+    "Export completed successfully.";
 
 }
 
 
-/* -------------------------------
-   LOAD DASHBOARD
--------------------------------- */
+/* LOAD DASHBOARD */
 
-async function loadDashboard() {
+async function loadDashboard(){
 
   const body =
     document.getElementById("inquiryTableBody");
-
-
-  body.innerHTML = `
-    <tr>
-      <td colspan="7" class="loading">
-        Loading inquiries...
-      </td>
-    </tr>
-  `;
 
 
   try {
@@ -819,9 +1149,10 @@ async function loadDashboard() {
               "text/plain;charset=utf-8"
           },
 
-          body:JSON.stringify({
-            token:token
-          })
+          body:
+            JSON.stringify({
+              token:token
+            })
         }
       );
 
@@ -830,13 +1161,13 @@ async function loadDashboard() {
       await response.json();
 
 
-    if (!result.success) {
+    if (!result.success){
 
       if (
         String(result.message || "")
           .toLowerCase()
           .includes("session")
-      ) {
+      ){
 
         sessionStorage.clear();
 
@@ -880,11 +1211,11 @@ async function loadDashboard() {
     renderTable();
 
 
-  } catch (error) {
+  } catch(error){
 
     body.innerHTML = `
       <tr>
-        <td colspan="7" class="empty">
+        <td colspan="8" class="empty">
           ${escapeHtml(
             error.message ||
             "Unable to load dashboard."
@@ -897,8 +1228,6 @@ async function loadDashboard() {
 
 }
 
-
-/* FILTERS */
 
 document.getElementById("searchInput")
   .addEventListener("input",renderTable);
