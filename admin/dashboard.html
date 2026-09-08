@@ -1888,10 +1888,46 @@ function renderTable(){
 
 
   body.innerHTML =
-    filtered
-      .slice()
-      .reverse()
-      .map(function(item){
+   filtered
+  .slice()
+  .sort(function(a,b){
+
+    function idParts(item){
+
+      const id =
+        String(
+          item.inquiryId || ""
+        );
+
+      const match =
+        id.match(
+          /(?:INQ|LEAD)-(\d{8})-(\d+)/
+        );
+
+      if (!match){
+        return {
+          date:0,
+          number:0
+        };
+      }
+
+      return {
+        date:Number(match[1]),
+        number:Number(match[2])
+      };
+    }
+
+    const A = idParts(a);
+    const B = idParts(b);
+
+    if (B.date !== A.date){
+      return B.date - A.date;
+    }
+
+    return B.number - A.number;
+
+  })
+  .map(function(item){
 
 
         const source =
