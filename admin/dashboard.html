@@ -695,6 +695,10 @@
       Visitors
     </button>
 
+    <button class="nav-item" id="commissionsNav">
+      Commissions
+    </button>
+
     <button class="nav-item" id="exportNav">
       Export
     </button>
@@ -749,7 +753,7 @@
       </div>
 
       <div class="card">
-        <div class="card-label">Closed / Converted</div>
+        <div class="card-label">Converted</div>
         <div class="card-value" id="closedInquiries">—</div>
       </div>
 
@@ -798,7 +802,6 @@
           <option>FOLLOW UP</option>
           <option>IN PROGRESS</option>
           <option>CONVERTED</option>
-          <option>CLOSED</option>
           <option>NOT INTERESTED</option>
 
         </select>
@@ -873,23 +876,9 @@
 
         <div class="agent-box">
 
-          <h3>Create New Agent</h3>
+          <h3>Create Agent / BDM</h3>
 
           <form id="createAgentForm">
-
-            <div class="field">
-
-              <label>Agent ID</label>
-
-              <input
-                id="newAgentId"
-                type="text"
-                placeholder="Example: AG002"
-                required
-              >
-
-            </div>
-
 
             <div class="field">
 
@@ -924,19 +913,27 @@
               <label>Role</label>
 
               <select id="newAgentRole">
-
-                <option value="Agent">
-                  Agent
-                </option>
-
-                <option value="Employee">
-                  Employee
-                </option>
-
+                <option value="AGENT">Agent / BDE</option>
+                <option value="Employee">Employee / BDM</option>
               </select>
 
             </div>
 
+
+            <div class="field" id="reportingBdmField">
+              <label>Reporting BDM</label>
+              <select id="newReportingBdmId">
+                <option value="">Select Reporting BDM</option>
+                <option value="__NEW__">+ Create New BDM</option>
+              </select>
+            </div>
+
+
+            <div id="newBdmFields" style="display:none;">
+              <div class="field"><label>New BDM Name</label><input id="newBdmName" type="text"></div>
+              <div class="field"><label>New BDM Mobile</label><input id="newBdmMobile" type="tel" maxlength="10" inputmode="numeric"></div>
+              <div class="field"><label>New BDM Password</label><input id="newBdmPassword" type="password" minlength="6"></div>
+            </div>
 
             <div class="field">
 
@@ -1044,6 +1041,7 @@
               <th>Name</th>
               <th>Mobile</th>
               <th>Role</th>
+              <th>Reporting BDM</th>
               <th>Active</th>
               <th>Action</th>
             </tr>
@@ -1054,7 +1052,7 @@
 
             <tr>
 
-              <td colspan="6" class="loading">
+              <td colspan="7" class="loading">
                 Loading agents...
               </td>
 
@@ -1066,6 +1064,19 @@
 
       </div>
 
+    </section>
+
+
+    <!-- COMMISSIONS -->
+    <section class="panel" id="commissionsSection">
+      <h2 class="panel-title">Commission Management</h2>
+      <div class="filters">
+        <input id="commissionSearch" type="search" placeholder="Search Lead ID, customer, LG, LC...">
+        <select id="commissionStatusFilter"><option value="">All Commission Statuses</option><option>Pending</option><option>Approved</option><option>Paid</option><option>HOLD</option></select>
+        <select id="commissionWingFilter"><option value="">All Wings</option><option>Real Estate</option><option>Travel</option><option>Education & Admissions</option><option>Consultancy & Business Services</option><option>Events & Weddings</option><option>Membership</option><option>General / Other</option></select>
+        <input id="commissionPersonFilter" type="search" placeholder="LG / BDM / LC ID">
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Lead</th><th>Customer</th><th>Wing</th><th>LG</th><th>BDM</th><th>LC</th><th>Total Commission</th><th>Status</th><th>Action</th></tr></thead><tbody id="commissionTableBody"><tr><td colspan="9" class="loading">Loading commissions...</td></tr></tbody></table></div>
     </section>
 
   </main>
@@ -1154,7 +1165,6 @@
         <option>FOLLOW UP</option>
         <option>IN PROGRESS</option>
         <option>CONVERTED</option>
-        <option>CLOSED</option>
         <option>NOT INTERESTED</option>
 
       </select>
@@ -1216,6 +1226,33 @@
 </div>
 
 
+
+
+<div class="modal-backdrop" id="commissionModal">
+  <div class="modal">
+    <div class="modal-head"><h2>Commission Details</h2><button class="close-btn" id="closeCommissionModal">×</button></div>
+    <div class="detail-grid">
+      <div class="field"><label>Lead ID</label><input id="commissionLeadId" disabled></div>
+      <div class="field"><label>Customer</label><input id="commissionCustomer" disabled></div>
+      <div class="field"><label>Wing</label><input id="commissionWing" disabled></div>
+      <div class="field"><label>LG ID</label><input id="commissionLgId"></div>
+      <div class="field"><label>Reporting BDM ID</label><input id="commissionBdmId"></div>
+      <div class="field"><label>LC ID</label><input id="commissionLcId"></div>
+      <div class="field"><label>Deal Value</label><input id="commissionDealValue" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>Total Commission Received</label><input id="commissionTotal" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>LG %</label><input id="commissionLgPct" type="number" min="0" max="100" step="0.01"></div>
+      <div class="field"><label>LC %</label><input id="commissionLcPct" type="number" min="0" max="100" step="0.01"></div>
+      <div class="field"><label>Commission Status</label><select id="commissionStatus"><option>Pending</option><option>Approved</option><option>Paid</option><option>HOLD</option></select></div>
+      <div class="field"><label>Payment Date</label><input id="commissionPaymentDate" type="date"></div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-box"><div class="detail-label">LG Commission</div><div class="detail-value" id="calcLgCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">LC Commission</div><div class="detail-value" id="calcLcCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">Company Share</div><div class="detail-value" id="calcCompanyShare">₹0</div></div>
+    </div>
+    <button class="save-btn" id="saveCommission">Save Commission</button><div class="save-message" id="commissionMessage"></div>
+  </div>
+</div>
 
 <script>
 
@@ -2589,7 +2626,7 @@ async function loadAgents(){
 
   body.innerHTML = `
     <tr>
-      <td colspan="6" class="loading">
+      <td colspan="7" class="loading">
         Loading agents...
       </td>
     </tr>
@@ -2635,11 +2672,20 @@ async function loadAgents(){
         : [];
 
 
+    const bdmSelect = document.getElementById("newReportingBdmId");
+    if (bdmSelect){
+      const current = bdmSelect.value;
+      const bdms = agents.filter(a => String(a.role || "").toUpperCase() === "EMPLOYEE" && String(a.active || "").toUpperCase() === "YES");
+      bdmSelect.innerHTML = '<option value="">Select Reporting BDM</option>' + bdms.map(a => `<option value="${escapeHtml(a.agentId)}">${escapeHtml(a.agentId)} — ${escapeHtml(a.name)}</option>`).join("");
+      if ([...bdmSelect.options].some(o => o.value === current)) bdmSelect.value = current;
+    }
+
+
     if (!agents.length){
 
       body.innerHTML = `
         <tr>
-          <td colspan="6" class="empty">
+          <td colspan="7" class="empty">
             No agents found.
           </td>
         </tr>
@@ -2693,6 +2739,10 @@ async function loadAgents(){
                 ${escapeHtml(
                   agent.role
                 )}
+              </td>
+
+              <td>
+                ${escapeHtml(agent.reportingBdmId || "—")}
               </td>
 
               <td>
@@ -2852,6 +2902,8 @@ async function loadAgents(){
 
                 await loadAgents();
 
+loadCommissions();
+
 
               } catch(error){
 
@@ -2881,7 +2933,7 @@ async function loadAgents(){
 
     body.innerHTML = `
       <tr>
-        <td colspan="6" class="empty">
+        <td colspan="7" class="empty">
           ${escapeHtml(
             error.message ||
             "Unable to load agents."
@@ -2920,6 +2972,20 @@ document
 
     }
   );
+
+
+document.getElementById("newAgentRole").addEventListener("change", function(){
+  const isAgent = String(this.value).toUpperCase() === "AGENT";
+  document.getElementById("reportingBdmField").style.display = isAgent ? "block" : "none";
+  document.getElementById("newReportingBdmId").required = isAgent;
+});
+document.getElementById("newAgentRole").dispatchEvent(new Event("change"));
+
+document.getElementById("newReportingBdmId").addEventListener("change", function(){
+  const show = this.value === "__NEW__" && String(document.getElementById("newAgentRole").value).toUpperCase() === "AGENT";
+  document.getElementById("newBdmFields").style.display = show ? "block" : "none";
+  ["newBdmName","newBdmMobile","newBdmPassword"].forEach(function(id){ document.getElementById(id).required = show; });
+});
 
 
 /* =====================================================
@@ -2962,6 +3028,21 @@ document
       try{
 
 
+        let reportingBdmId = document.getElementById("newReportingBdmId").value;
+
+        if (String(document.getElementById("newAgentRole").value).toUpperCase() === "AGENT" && reportingBdmId === "__NEW__") {
+          const bdmResult = await apiPost("createAgent", {
+            token: token,
+            name: document.getElementById("newBdmName").value.trim(),
+            mobile: document.getElementById("newBdmMobile").value.trim(),
+            role: "Employee",
+            reportingBdmId: "",
+            password: document.getElementById("newBdmPassword").value
+          });
+          if (!bdmResult.success) throw new Error(bdmResult.message || "Unable to create BDM.");
+          reportingBdmId = bdmResult.agentId;
+        }
+
         const result =
           await apiPost(
             "createAgent",
@@ -2969,15 +3050,6 @@ document
 
               token:
                 token,
-
-              agentId:
-                document
-                  .getElementById(
-                    "newAgentId"
-                  )
-                  .value
-                  .trim()
-                  .toUpperCase(),
 
               name:
                 document
@@ -3001,6 +3073,9 @@ document
                     "newAgentRole"
                   )
                   .value,
+
+              reportingBdmId:
+                reportingBdmId,
 
               password:
                 document
@@ -3033,7 +3108,7 @@ document
 
 
         message.textContent =
-          "Agent created successfully. Agent ID: " +
+          result.message + " ID: " +
           result.agentId;
 
 
@@ -3438,6 +3513,82 @@ document
     }
   );
 
+
+
+/* =====================================================
+   COMMISSIONS
+===================================================== */
+let allCommissions = [];
+let selectedCommission = null;
+
+function money(value){ return "₹" + Number(value || 0).toLocaleString("en-IN",{maximumFractionDigits:2}); }
+
+async function loadCommissions(){
+  const body=document.getElementById("commissionTableBody");
+  try{
+    const result=await apiPost("adminCommissions",{token:token});
+    if(!result.success) throw new Error(result.message || "Unable to load commissions.");
+    allCommissions=Array.isArray(result.commissions)?result.commissions:[];
+    renderCommissions();
+  }catch(error){ body.innerHTML=`<tr><td colspan="9" class="empty">${escapeHtml(error.message||"Unable to load commissions.")}</td></tr>`; }
+}
+
+function renderCommissions(){
+  const q=document.getElementById("commissionSearch").value.trim().toLowerCase();
+  const st=document.getElementById("commissionStatusFilter").value.toUpperCase();
+  const wing=document.getElementById("commissionWingFilter").value;
+  const person=document.getElementById("commissionPersonFilter").value.trim().toLowerCase();
+  const rows=allCommissions.filter(c=>{
+    const text=[c.leadId,c.customerName,c.lgId,c.reportingBdmId,c.lcId].join(" ").toLowerCase();
+    const p=[c.lgId,c.reportingBdmId,c.lcId].join(" ").toLowerCase();
+    return (!q||text.includes(q))&&(!st||String(c.commissionStatus||"").toUpperCase()===st)&&(!wing||c.wing===wing)&&(!person||p.includes(person));
+  });
+  const body=document.getElementById("commissionTableBody");
+  body.innerHTML=rows.length?rows.map(c=>`<tr><td><strong>${escapeHtml(c.leadId)}</strong></td><td>${escapeHtml(c.customerName)}</td><td>${escapeHtml(c.wing)}</td><td>${escapeHtml(c.lgId||"—")}</td><td>${escapeHtml(c.reportingBdmId||"—")}</td><td>${escapeHtml(c.lcId||"—")}</td><td>${money(c.totalCommission)}</td><td>${escapeHtml(c.commissionStatus)}</td><td><button class="view-btn commission-edit-btn" data-id="${escapeHtml(c.leadId)}">Edit</button></td></tr>`).join(""):'<tr><td colspan="9" class="empty">No commission records found.</td></tr>';
+  body.querySelectorAll(".commission-edit-btn").forEach(b=>b.onclick=()=>openCommission(b.dataset.id));
+}
+
+function recalcCommission(){
+  const total=Number(document.getElementById("commissionTotal").value)||0;
+  const lg=Number(document.getElementById("commissionLgPct").value)||0;
+  const lc=Number(document.getElementById("commissionLcPct").value)||0;
+  const lgAmt=total*lg/100, lcAmt=total*lc/100;
+  document.getElementById("calcLgCommission").textContent=money(lgAmt);
+  document.getElementById("calcLcCommission").textContent=money(lcAmt);
+  document.getElementById("calcCompanyShare").textContent=money(total-lgAmt-lcAmt);
+}
+
+function openCommission(leadId){
+  selectedCommission=allCommissions.find(c=>c.leadId===leadId); if(!selectedCommission)return;
+  document.getElementById("commissionLeadId").value=selectedCommission.leadId||"";
+  document.getElementById("commissionCustomer").value=selectedCommission.customerName||"";
+  document.getElementById("commissionWing").value=selectedCommission.wing||"";
+  document.getElementById("commissionLgId").value=selectedCommission.lgId||"";
+  document.getElementById("commissionBdmId").value=selectedCommission.reportingBdmId||"";
+  document.getElementById("commissionLcId").value=selectedCommission.lcId||"";
+  document.getElementById("commissionDealValue").value=selectedCommission.dealValue||"";
+  document.getElementById("commissionTotal").value=selectedCommission.totalCommission||"";
+  document.getElementById("commissionLgPct").value=selectedCommission.lgPercent||"";
+  document.getElementById("commissionLcPct").value=selectedCommission.lcPercent||"";
+  document.getElementById("commissionStatus").value=selectedCommission.commissionStatus||"Pending";
+  document.getElementById("commissionPaymentDate").value=selectedCommission.paymentDate||"";
+  document.getElementById("commissionMessage").textContent=""; recalcCommission();
+  document.getElementById("commissionModal").classList.add("show");
+}
+["commissionTotal","commissionLgPct","commissionLcPct"].forEach(id=>document.getElementById(id).addEventListener("input",recalcCommission));
+document.getElementById("closeCommissionModal").onclick=()=>document.getElementById("commissionModal").classList.remove("show");
+document.getElementById("commissionModal").onclick=e=>{if(e.target===document.getElementById("commissionModal"))document.getElementById("commissionModal").classList.remove("show")};
+document.getElementById("saveCommission").onclick=async function(){
+  if(!selectedCommission)return; this.disabled=true; document.getElementById("commissionMessage").textContent="Saving...";
+  try{
+    const result=await apiPost("updateCommission",{token:token,leadId:selectedCommission.leadId,lgId:document.getElementById("commissionLgId").value.trim().toUpperCase(),reportingBdmId:document.getElementById("commissionBdmId").value.trim().toUpperCase(),lcId:document.getElementById("commissionLcId").value.trim().toUpperCase(),dealValue:document.getElementById("commissionDealValue").value,totalCommission:document.getElementById("commissionTotal").value,lgPercent:document.getElementById("commissionLgPct").value,lcPercent:document.getElementById("commissionLcPct").value,commissionStatus:document.getElementById("commissionStatus").value,paymentDate:document.getElementById("commissionPaymentDate").value});
+    if(!result.success)throw new Error(result.message||"Unable to update commission.");
+    document.getElementById("commissionMessage").textContent="Commission saved successfully."; await loadCommissions();
+  }catch(error){document.getElementById("commissionMessage").textContent=error.message||"Unable to save commission."}finally{this.disabled=false}
+};
+["commissionSearch","commissionPersonFilter"].forEach(id=>document.getElementById(id).addEventListener("input",renderCommissions));
+["commissionStatusFilter","commissionWingFilter"].forEach(id=>document.getElementById(id).addEventListener("change",renderCommissions));
+document.getElementById("commissionsNav").addEventListener("click",()=>document.getElementById("commissionsSection").scrollIntoView({behavior:"smooth"}));
 
 /* =====================================================
    START
