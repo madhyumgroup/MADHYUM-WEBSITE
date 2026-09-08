@@ -7,647 +7,2054 @@
   <title>MADHYUM Admin Dashboard</title>
 
   <style>
+<script>
 
-    *{
-      box-sizing:border-box;
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec";
+
+
+const token =
+  sessionStorage.getItem("madhyumAdminToken");
+
+
+const adminName =
+  sessionStorage.getItem("madhyumAdminName") || "Admin";
+
+
+if (!token){
+  window.location.href = "index.html";
+}
+
+
+document.getElementById("adminName").textContent =
+  "Logged in as " + adminName;
+
+
+let allInquiries = [];
+let selectedInquiry = null;
+
+
+/* =====================================================
+   SAFE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   SAFE DATE DISPLAY
+===================================================== */
+
+const MONTH_NAMES = [
+  "Jan","Feb","Mar","Apr","May","Jun",
+  "Jul","Aug","Sep","Oct","Nov","Dec"
+];
+
+
+function pad2(value){
+  return String(value).padStart(2,"0");
+}
+
+
+function formatDateDisplay(value){
+
+  if (!value){
+    return "—";
+  }
+
+  const text =
+    String(value).trim();
+
+
+  /* YYYY-MM-DD */
+
+  let match =
+    text.match(
+      /^(\d{4})-(\d{2})-(\d{2})/
+    );
+
+  if (match){
+
+    return (
+      pad2(match[3]) +
+      " " +
+      MONTH_NAMES[
+        Number(match[2]) - 1
+      ] +
+      " " +
+      match[1]
+    );
+
+  }
+
+
+  /* DD/MM/YYYY */
+
+  match =
+    text.match(
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
+    );
+
+  if (match){
+
+    return (
+      pad2(match[1]) +
+      " " +
+      MONTH_NAMES[
+        Number(match[2]) - 1
+      ] +
+      " " +
+      match[3]
+    );
+
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    !isNaN(date.getTime())
+  ){
+
+    return date.toLocaleDateString(
+      "en-GB",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        timeZone:"Asia/Kolkata"
+      }
+    );
+
+  }
+
+
+  return text;
+}
+
+
+function formatDateForInput(value){
+
+  if (!value){
+    return "";
+  }
+
+
+  const text =
+    String(value).trim();
+
+
+  /* Already YYYY-MM-DD */
+
+  let match =
+    text.match(
+      /^(\d{4})-(\d{2})-(\d{2})/
+    );
+
+
+  if (match){
+
+    return (
+      match[1] +
+      "-" +
+      match[2] +
+      "-" +
+      match[3]
+    );
+
+  }
+
+
+  /* DD/MM/YYYY */
+
+  match =
+    text.match(
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
+    );
+
+
+  if (match){
+
+    return (
+      match[3] +
+      "-" +
+      pad2(match[2]) +
+      "-" +
+      pad2(match[1])
+    );
+
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    isNaN(date.getTime())
+  ){
+    return "";
+  }
+
+
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        year:"numeric",
+        month:"2-digit",
+        day:"2-digit",
+        timeZone:"Asia/Kolkata"
+      }
+    )
+    .formatToParts(date);
+
+
+  const year =
+    parts.find(function(part){
+      return part.type === "year";
+    })?.value;
+
+
+  const month =
+    parts.find(function(part){
+      return part.type === "month";
+    })?.value;
+
+
+  const day =
+    parts.find(function(part){
+      return part.type === "day";
+    })?.value;
+
+
+  if (
+    !year ||
+    !month ||
+    !day
+  ){
+    return "";
+  }
+
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
+
+}
+
+
+/* =====================================================
+   API HELPER
+===================================================== */
+
+async function apiPost(action,payload){
+
+  const response =
+    await fetch(
+      API_URL +
+      "?action=" +
+      encodeURIComponent(action) +
+      "&_=" +
+      Date.now(),
+      {
+        method:"POST",
+
+        cache:"no-store",
+
+        headers:{
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body:
+          JSON.stringify(payload || {})
+      }
+    );
+
+
+  const result =
+    await response.json();
+
+
+  return result;
+}
+
+
+/* =====================================================
+   SESSION FAILURE
+===================================================== */
+
+function handleSessionFailure(message){
+
+  const text =
+    String(message || "")
+      .toLowerCase();
+
+
+  if (
+    text.includes("session expired") ||
+    text.includes("session invalid")
+  ){
+
+    sessionStorage.clear();
+
+    window.location.href =
+      "index.html";
+
+    return true;
+  }
+
+
+  return false;
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+  .getElementById("logoutButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      sessionStorage.clear();
+
+      window.location.href =
+        "index.html";
+
     }
+  );
 
-    html{
-      scroll-behavior:smooth;
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+document
+  .getElementById("dashboardNav")
+  .addEventListener(
+    "click",
+    function(){
+
+      document
+        .getElementById("dashboardTop")
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+
     }
+  );
 
-    body{
-      margin:0;
-      font-family:Arial,sans-serif;
-      background:#f5f7fa;
-      color:#111827;
+
+document
+  .getElementById("inquiriesNav")
+  .addEventListener(
+    "click",
+    function(){
+
+      document
+        .getElementById("inquiriesSection")
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+
     }
+  );
 
-    .admin-shell{
-      min-height:100vh;
-      display:grid;
-      grid-template-columns:240px 1fr;
+
+document
+  .getElementById("agentsNav")
+  .addEventListener(
+    "click",
+    function(){
+
+      document
+        .getElementById("agentsSection")
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+
     }
+  );
 
-    .sidebar{
-      background:#0d1726;
-      color:#fff;
-      padding:24px 18px;
-      min-height:100vh;
-      position:sticky;
-      top:0;
-      align-self:start;
+
+document
+  .getElementById("visitorsNav")
+  .addEventListener(
+    "click",
+    function(){
+
+      document
+        .getElementById("visitorsCard")
+        .scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+
     }
+  );
 
-    .brand{
-      font-size:22px;
-      font-weight:900;
-      letter-spacing:.12em;
-      margin-bottom:8px;
+
+document
+  .getElementById("exportNav")
+  .addEventListener(
+    "click",
+    exportInquiriesCSV
+  );
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+function getFilteredInquiries(){
+
+  const search =
+    document
+      .getElementById("searchInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const wing =
+    document
+      .getElementById("wingFilter")
+      .value;
+
+
+  const status =
+    document
+      .getElementById("statusFilter")
+      .value;
+
+
+  const source =
+    document
+      .getElementById("sourceFilter")
+      .value
+      .toUpperCase();
+
+
+  return allInquiries
+    .filter(function(item){
+
+
+      const itemSource =
+        String(
+          item.recordType ||
+          item.source ||
+          ""
+        )
+        .toUpperCase();
+
+
+      const matchesSearch =
+
+        !search ||
+
+        String(
+          item.inquiryId || ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.name || ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.mobile || ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.agentId || ""
+        )
+        .toLowerCase()
+        .includes(search);
+
+
+      const matchesWing =
+        !wing ||
+        item.requirement === wing;
+
+
+      const matchesStatus =
+        !status ||
+        String(
+          item.status || ""
+        )
+        .toUpperCase() ===
+        status.toUpperCase();
+
+
+      const matchesSource =
+        !source ||
+        itemSource === source;
+
+
+      return (
+        matchesSearch &&
+        matchesWing &&
+        matchesStatus &&
+        matchesSource
+      );
+
+    });
+
+}
+
+
+/* =====================================================
+   RENDER INQUIRIES
+===================================================== */
+
+function renderTable(){
+
+  const filtered =
+    getFilteredInquiries();
+
+
+  const body =
+    document
+      .getElementById(
+        "inquiryTableBody"
+      );
+
+
+  if (!filtered.length){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="9" class="empty">
+          No inquiries or leads found.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  body.innerHTML =
+    filtered
+      .slice()
+      .reverse()
+      .map(function(item){
+
+
+        const source =
+          item.recordType === "AGENT"
+            ? "AGENT"
+            : (
+                item.source ||
+                "WEBSITE"
+              );
+
+
+        return `
+
+          <tr>
+
+            <td>
+              <strong>
+                ${escapeHtml(
+                  item.inquiryId
+                )}
+              </strong>
+            </td>
+
+            <td>
+              ${escapeHtml(
+                formatDateDisplay(
+                  item.date
+                )
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.name
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.mobile
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.requirement
+              )}
+            </td>
+
+            <td>
+              <span class="status">
+                ${escapeHtml(
+                  item.status ||
+                  "NEW"
+                )}
+              </span>
+            </td>
+
+            <td>
+              <span class="source-badge">
+                ${escapeHtml(
+                  source
+                )}
+              </span>
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.agentId ||
+                "—"
+              )}
+            </td>
+
+            <td>
+
+              <button
+                class="view-btn"
+                data-id="${escapeHtml(
+                  item.inquiryId
+                )}"
+              >
+                View / Edit
+              </button>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
+
+
+  body
+    .querySelectorAll(
+      ".view-btn"
+    )
+    .forEach(function(button){
+
+      button
+        .addEventListener(
+          "click",
+          function(){
+
+            openInquiry(
+              this.dataset.id
+            );
+
+          }
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   OPEN INQUIRY
+===================================================== */
+
+function openInquiry(inquiryId){
+
+  selectedInquiry =
+    allInquiries
+      .find(function(item){
+
+        return (
+          item.inquiryId ===
+          inquiryId
+        );
+
+      });
+
+
+  if (!selectedInquiry){
+    return;
+  }
+
+
+  document
+    .getElementById("detailId")
+    .textContent =
+      selectedInquiry.inquiryId ||
+      "";
+
+
+  document
+    .getElementById("detailDate")
+    .textContent =
+      formatDateDisplay(
+        selectedInquiry.date
+      );
+
+
+  document
+    .getElementById("detailName")
+    .textContent =
+      selectedInquiry.name ||
+      "";
+
+
+  document
+    .getElementById("detailMobile")
+    .textContent =
+      selectedInquiry.mobile ||
+      "";
+
+
+  document
+    .getElementById("detailEmail")
+    .textContent =
+      selectedInquiry.email ||
+      "";
+
+
+  document
+    .getElementById("detailWing")
+    .textContent =
+      selectedInquiry.requirement ||
+      "";
+
+
+  document
+    .getElementById("detailSource")
+    .textContent =
+
+      selectedInquiry.recordType ===
+      "AGENT"
+
+        ? "AGENT"
+
+        : (
+            selectedInquiry.source ||
+            "WEBSITE"
+          );
+
+
+  document
+    .getElementById("detailAgentId")
+    .textContent =
+      selectedInquiry.agentId ||
+      "—";
+
+
+  document
+    .getElementById("detailText")
+    .textContent =
+      selectedInquiry.details ||
+      "";
+
+
+  document
+    .getElementById("editStatus")
+    .value =
+      selectedInquiry.status ||
+      "NEW";
+
+
+  document
+    .getElementById("editFollowUp")
+    .value =
+      formatDateForInput(
+        selectedInquiry.followUp
+      );
+
+
+  document
+    .getElementById("editNotes")
+    .value =
+      selectedInquiry.notes ||
+      "";
+
+
+  const assignedField =
+    document
+      .getElementById(
+        "editAssignedTo"
+      );
+
+
+  if (
+    selectedInquiry.recordType ===
+    "AGENT"
+  ){
+
+    assignedField.value =
+      selectedInquiry.agentId ||
+      "";
+
+    assignedField.disabled =
+      true;
+
+  } else {
+
+    assignedField.value =
+      selectedInquiry.assignedTo ||
+      "";
+
+    assignedField.disabled =
+      false;
+
+  }
+
+
+  document
+    .getElementById("saveMessage")
+    .textContent =
+      "";
+
+
+  document
+    .getElementById("inquiryModal")
+    .classList
+    .add("show");
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+document
+  .getElementById("closeModal")
+  .addEventListener(
+    "click",
+    function(){
+
+      document
+        .getElementById(
+          "inquiryModal"
+        )
+        .classList
+        .remove("show");
+
     }
+  );
 
-    .role{
-      font-size:12px;
-      color:#aeb8c5;
-      margin-bottom:32px;
-    }
 
-    .nav-item{
-      display:block;
-      width:100%;
-      text-align:left;
-      padding:12px 14px;
-      border-radius:10px;
-      margin-bottom:8px;
-      color:#d8e0e8;
-      background:transparent;
-      border:0;
-      cursor:pointer;
-      font-size:14px;
-    }
+document
+  .getElementById("inquiryModal")
+  .addEventListener(
+    "click",
+    function(e){
 
-    .nav-item.active,
-    .nav-item:hover{
-      background:#18263a;
-      color:#fff;
-    }
+      if (
+        e.target === this
+      ){
 
-    .logout{
-      margin-top:30px;
-      background:#c9a45b;
-      color:#111;
-      font-weight:800;
-    }
+        this
+          .classList
+          .remove("show");
 
-    .sidebar-banner-wrap{
-      margin-top:24px;
-      text-align:center;
-    }
-
-    .sidebar-banner{
-      width:100%;
-      border-radius:12px;
-      display:block;
-      object-fit:cover;
-    }
-
-    .main{
-      padding:28px;
-    }
-
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-      margin-bottom:24px;
-    }
-
-    .topbar h1{
-      margin:0;
-      font-size:30px;
-    }
-
-    .admin-name{
-      color:#667085;
-      font-size:14px;
-      margin-top:5px;
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:14px;
-      margin-bottom:24px;
-    }
-
-    .card{
-      background:#fff;
-      border-radius:16px;
-      padding:18px;
-      box-shadow:0 8px 24px rgba(15,23,42,.06);
-    }
-
-    .card-label{
-      font-size:12px;
-      color:#667085;
-      margin-bottom:8px;
-    }
-
-    .card-value{
-      font-size:30px;
-      font-weight:900;
-    }
-
-    .panel{
-      background:#fff;
-      border-radius:16px;
-      padding:20px;
-      box-shadow:0 8px 24px rgba(15,23,42,.06);
-      scroll-margin-top:25px;
-      margin-bottom:24px;
-    }
-
-    .panel-title{
-      margin:0 0 18px;
-      font-size:20px;
-    }
-
-    .filters{
-      display:grid;
-      grid-template-columns:1.5fr 1fr 1fr 1fr;
-      gap:12px;
-      margin-bottom:18px;
-    }
-
-    input,
-    select,
-    textarea{
-      width:100%;
-      padding:11px 12px;
-      border:1px solid #d9dee5;
-      border-radius:10px;
-      font-size:14px;
-      background:#fff;
-    }
-
-    input:disabled{
-      background:#eef2f6;
-      color:#667085;
-    }
-
-    textarea{
-      min-height:100px;
-      resize:vertical;
-    }
-
-    .field{
-      margin-bottom:14px;
-    }
-
-    .field label{
-      display:block;
-      font-size:12px;
-      font-weight:700;
-      margin-bottom:6px;
-      color:#344054;
-    }
-
-    .table-wrap{
-      overflow:auto;
-    }
-
-    table{
-      width:100%;
-      border-collapse:collapse;
-      min-width:1050px;
-    }
-
-    th,
-    td{
-      padding:12px 10px;
-      border-bottom:1px solid #eceff3;
-      text-align:left;
-      font-size:13px;
-    }
-
-    th{
-      color:#667085;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.05em;
-    }
-
-    .status,
-    .source-badge,
-    .active-badge{
-      display:inline-block;
-      padding:5px 9px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:800;
-      background:#eef2f6;
-    }
-
-    .active-badge{
-      background:#ecfdf3;
-      color:#067647;
-    }
-
-    .view-btn,
-    .small-btn{
-      border:0;
-      background:#0d1726;
-      color:#fff;
-      padding:7px 11px;
-      border-radius:8px;
-      cursor:pointer;
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .small-btn{
-      background:#c9a45b;
-      color:#111;
-    }
-
-    .loading,
-    .empty{
-      padding:28px;
-      text-align:center;
-      color:#667085;
-    }
-
-    .export-message,
-    .form-message{
-      margin-top:12px;
-      font-size:12px;
-      color:#067647;
-      font-weight:700;
-      min-height:18px;
-    }
-
-    .agent-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-      margin-bottom:22px;
-    }
-
-    .agent-box{
-      border:1px solid #eceff3;
-      border-radius:14px;
-      padding:18px;
-    }
-
-    .agent-box h3{
-      margin:0 0 16px;
-      font-size:17px;
-    }
-
-    .gold-btn{
-      width:100%;
-      border:0;
-      background:#c9a45b;
-      color:#111;
-      padding:12px 16px;
-      border-radius:10px;
-      font-size:14px;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    .gold-btn:disabled{
-      opacity:.6;
-      cursor:not-allowed;
-    }
-
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.55);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      z-index:9999;
-    }
-
-    .modal-backdrop.show{
-      display:flex;
-    }
-
-    .modal{
-      width:min(700px,100%);
-      max-height:90vh;
-      overflow:auto;
-      background:#fff;
-      border-radius:18px;
-      padding:24px;
-      box-shadow:0 24px 60px rgba(0,0,0,.25);
-    }
-
-    .modal-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:18px;
-    }
-
-    .modal-head h2{
-      margin:0;
-      font-size:22px;
-    }
-
-    .close-btn{
-      border:0;
-      background:#eef2f6;
-      width:34px;
-      height:34px;
-      border-radius:50%;
-      cursor:pointer;
-      font-size:18px;
-    }
-
-    .detail-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-bottom:20px;
-    }
-
-    .detail-box{
-      background:#f8fafc;
-      border-radius:10px;
-      padding:12px;
-    }
-
-    .detail-label{
-      font-size:11px;
-      color:#667085;
-      margin-bottom:5px;
-      text-transform:uppercase;
-    }
-
-    .detail-value{
-      font-size:14px;
-      word-break:break-word;
-    }
-
-    .save-btn{
-      width:100%;
-      border:0;
-      background:#c9a45b;
-      color:#111;
-      padding:12px 16px;
-      border-radius:10px;
-      font-size:14px;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    .save-btn:disabled{
-      opacity:.6;
-    }
-
-    .save-message{
-      text-align:center;
-      font-size:13px;
-      font-weight:700;
-      margin-top:12px;
-      min-height:18px;
-    }
-
-    @media(max-width:1100px){
-
-      .cards{
-        grid-template-columns:repeat(2,1fr);
       }
 
-      .filters{
-        grid-template-columns:1fr 1fr;
+    }
+  );
+
+
+/* =====================================================
+   SAVE INQUIRY / AGENT LEAD
+===================================================== */
+
+document
+  .getElementById("saveInquiry")
+  .addEventListener(
+    "click",
+    async function(){
+
+      if (!selectedInquiry){
+        return;
+      }
+
+
+      const message =
+        document
+          .getElementById(
+            "saveMessage"
+          );
+
+
+      const button =
+        document
+          .getElementById(
+            "saveInquiry"
+          );
+
+
+      message.textContent =
+        "Saving...";
+
+
+      button.disabled =
+        true;
+
+
+      try{
+
+
+        const isAgentLead =
+          selectedInquiry.recordType ===
+          "AGENT";
+
+
+        const payload = {
+
+          token:
+            token,
+
+          inquiryId:
+            selectedInquiry.inquiryId,
+
+          status:
+            document
+              .getElementById(
+                "editStatus"
+              )
+              .value,
+
+          assignedTo:
+
+            isAgentLead
+
+              ? ""
+
+              : document
+                  .getElementById(
+                    "editAssignedTo"
+                  )
+                  .value
+                  .trim(),
+
+          followUp:
+            document
+              .getElementById(
+                "editFollowUp"
+              )
+              .value,
+
+          notes:
+            document
+              .getElementById(
+                "editNotes"
+              )
+              .value
+              .trim()
+
+        };
+
+
+        const action =
+          isAgentLead
+            ? "updateAgentLead"
+            : "updateInquiry";
+
+
+        const result =
+          await apiPost(
+            action,
+            payload
+          );
+
+
+        if (!result.success){
+
+          if (
+            handleSessionFailure(
+              result.message
+            )
+          ){
+            return;
+          }
+
+
+          throw new Error(
+            result.message ||
+            "Unable to update."
+          );
+
+        }
+
+
+        message.textContent =
+
+          isAgentLead
+
+            ? "Agent lead updated successfully."
+
+            : "Inquiry updated successfully.";
+
+
+        await loadDashboard();
+
+
+        setTimeout(
+          function(){
+
+            document
+              .getElementById(
+                "inquiryModal"
+              )
+              .classList
+              .remove("show");
+
+          },
+          500
+        );
+
+
+      } catch(error){
+
+        message.textContent =
+          error.message ||
+          "Unable to update.";
+
+      } finally{
+
+        button.disabled =
+          false;
+
       }
 
     }
+  );
 
-    @media(max-width:760px){
 
-      .admin-shell{
-        grid-template-columns:1fr;
+/* =====================================================
+   LOAD DASHBOARD
+===================================================== */
+
+async function loadDashboard(){
+
+  const body =
+    document
+      .getElementById(
+        "inquiryTableBody"
+      );
+
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="9" class="loading">
+        Loading latest inquiries...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+
+    const result =
+      await apiPost(
+        "adminDashboard",
+        {
+          token:token
+        }
+      );
+
+
+    if (!result.success){
+
+      if (
+        handleSessionFailure(
+          result.message
+        )
+      ){
+        return;
       }
 
-      .sidebar{
-        position:relative;
-        min-height:auto;
-      }
 
-      .main{
-        padding:16px;
-      }
-
-      .cards{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .filters,
-      .detail-grid,
-      .agent-grid{
-        grid-template-columns:1fr;
-      }
+      throw new Error(
+        result.message ||
+        "Unable to load dashboard."
+      );
 
     }
-/* =========================================================
-   ADMIN MOBILE TABLE → CARD FIX
-   ONLY MOBILE
-   ========================================================= */
-
-@media(max-width:760px){
-
-  /* Remove horizontal table squeeze */
-
-  #inquiriesSection .table-wrap,
-  #agentsSection .table-wrap{
-    overflow:visible!important;
-  }
-
-  #inquiriesSection table,
-  #agentsSection table{
-    min-width:0!important;
-    width:100%!important;
-    display:block!important;
-  }
-
-  #inquiriesSection thead,
-  #agentsSection thead{
-    display:none!important;
-  }
-
-  #inquiryTableBody,
-  #agentsTableBody{
-    display:block!important;
-    width:100%!important;
-  }
 
 
-  /* =========================
-     INQUIRY / LEAD CARDS
-  ========================= */
-
-  #inquiryTableBody tr{
-    display:block!important;
-    width:100%!important;
-    margin-bottom:12px!important;
-    padding:12px!important;
-
-    background:#fff!important;
-
-    border:1px solid #e6e9ee!important;
-    border-radius:12px!important;
-
-    box-shadow:0 4px 14px rgba(15,23,42,.05)!important;
-  }
-
-  #inquiryTableBody td{
-    display:grid!important;
-    grid-template-columns:105px minmax(0,1fr)!important;
-
-    width:100%!important;
-
-    padding:7px 0!important;
-
-    border:0!important;
-    border-bottom:1px solid #f0f1f3!important;
-
-    font-size:12px!important;
-    line-height:1.4!important;
-
-    word-break:break-word!important;
-  }
-
-  #inquiryTableBody td:last-child{
-    border-bottom:0!important;
-  }
+    document
+      .getElementById(
+        "totalInquiries"
+      )
+      .textContent =
+        result.stats?.total ?? 0;
 
 
-  #inquiryTableBody td:nth-child(1)::before{
-    content:"ID";
-  }
-
-  #inquiryTableBody td:nth-child(2)::before{
-    content:"Date";
-  }
-
-  #inquiryTableBody td:nth-child(3)::before{
-    content:"Name";
-  }
-
-  #inquiryTableBody td:nth-child(4)::before{
-    content:"Mobile";
-  }
-
-  #inquiryTableBody td:nth-child(5)::before{
-    content:"Requirement";
-  }
-
-  #inquiryTableBody td:nth-child(6)::before{
-    content:"Status";
-  }
-
-  #inquiryTableBody td:nth-child(7)::before{
-    content:"Source";
-  }
-
-  #inquiryTableBody td:nth-child(8)::before{
-    content:"Agent ID";
-  }
-
-  #inquiryTableBody td:nth-child(9)::before{
-    content:"Action";
-  }
+    document
+      .getElementById(
+        "newInquiries"
+      )
+      .textContent =
+        result.stats?.new ?? 0;
 
 
-  #inquiryTableBody td::before{
-    font-size:10px!important;
-    font-weight:800!important;
-    text-transform:uppercase!important;
-    letter-spacing:.05em!important;
-    color:#667085!important;
-    padding-right:10px!important;
-  }
+    document
+      .getElementById(
+        "progressInquiries"
+      )
+      .textContent =
+        result.stats?.inProgress ?? 0;
 
 
-  #inquiryTableBody .view-btn{
-    width:100%!important;
-    max-width:150px!important;
-
-    padding:8px 10px!important;
-
-    font-size:11px!important;
-  }
+    document
+      .getElementById(
+        "closedInquiries"
+      )
+      .textContent =
+        result.stats?.closed ?? 0;
 
 
-
-  /* =========================
-     EXISTING AGENTS CARDS
-  ========================= */
-
-  #agentsTableBody tr{
-    display:block!important;
-    width:100%!important;
-
-    margin-bottom:12px!important;
-    padding:12px!important;
-
-    border:1px solid #e6e9ee!important;
-    border-radius:12px!important;
-
-    background:#fff!important;
-
-    box-shadow:0 4px 14px rgba(15,23,42,.05)!important;
-  }
+    document
+      .getElementById(
+        "visitorCount"
+      )
+      .textContent =
+        result.stats?.visitors ?? 0;
 
 
-  #agentsTableBody td{
-    display:grid!important;
-    grid-template-columns:95px minmax(0,1fr)!important;
-
-    width:100%!important;
-
-    padding:7px 0!important;
-
-    border:0!important;
-    border-bottom:1px solid #f0f1f3!important;
-
-    font-size:12px!important;
-
-    word-break:break-word!important;
-  }
+    allInquiries =
+      Array.isArray(
+        result.inquiries
+      )
+        ? result.inquiries
+        : [];
 
 
-  #agentsTableBody td:last-child{
-    border-bottom:0!important;
-  }
+    renderTable();
 
 
-  #agentsTableBody td:nth-child(1)::before{
-    content:"Agent ID";
-  }
-
-  #agentsTableBody td:nth-child(2)::before{
-    content:"Name";
-  }
-
-  #agentsTableBody td:nth-child(3)::before{
-    content:"Mobile";
-  }
-
-  #agentsTableBody td:nth-child(4)::before{
-    content:"Role";
-  }
-
-  #agentsTableBody td:nth-child(5)::before{
-    content:"Active";
-  }
-
-  #agentsTableBody td:nth-child(6)::before{
-    content:"Action";
-  }
+  } catch(error){
 
 
-  #agentsTableBody td::before{
-    font-size:10px!important;
-    font-weight:800!important;
-    text-transform:uppercase!important;
-    color:#667085!important;
-  }
+    body.innerHTML = `
+      <tr>
+        <td colspan="9" class="empty">
+          ${escapeHtml(
+            error.message ||
+            "Unable to load dashboard."
+          )}
+        </td>
+      </tr>
+    `;
 
-
-  #agentsTableBody .small-btn{
-    width:100%!important;
-    max-width:160px!important;
   }
 
 }
+
+
+/* =====================================================
+   LOAD AGENTS
+===================================================== */
+
+async function loadAgents(){
+
+  const body =
+    document
+      .getElementById(
+        "agentsTableBody"
+      );
+
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="6" class="loading">
+        Loading agents...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+
+    const result =
+      await apiPost(
+        "listAgents",
+        {
+          token:token
+        }
+      );
+
+
+    if (!result.success){
+
+      if (
+        handleSessionFailure(
+          result.message
+        )
+      ){
+        return;
+      }
+
+
+      throw new Error(
+        result.message ||
+        "Unable to load agents."
+      );
+
+    }
+
+
+    const agents =
+      Array.isArray(
+        result.agents
+      )
+        ? result.agents
+        : [];
+
+
+    if (!agents.length){
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="6" class="empty">
+            No agents found.
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+
+    body.innerHTML =
+      agents
+        .map(function(agent){
+
+
+          const active =
+            String(
+              agent.active ||
+              ""
+            )
+            .toUpperCase();
+
+
+          const deactivateButton =
+
+            active === "YES"
+
+              ? `
+                <button
+                  class="small-btn deactivate-agent-btn"
+                  data-id="${escapeHtml(
+                    agent.agentId
+                  )}"
+                  style="margin-left:6px;background:#b42318;color:#fff;"
+                >
+                  Deactivate
+                </button>
+              `
+
+              : `
+                <span style="font-size:11px;color:#b42318;font-weight:700;">
+                  Deactivated
+                </span>
+              `;
+
+
+          return `
+
+            <tr>
+
+              <td>
+                <strong>
+                  ${escapeHtml(
+                    agent.agentId
+                  )}
+                </strong>
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  agent.name
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  agent.mobile
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  agent.role
+                )}
+              </td>
+
+              <td>
+                <span class="active-badge">
+                  ${escapeHtml(
+                    agent.active
+                  )}
+                </span>
+              </td>
+
+              <td>
+
+                <button
+                  class="small-btn reset-agent-btn"
+                  data-id="${escapeHtml(
+                    agent.agentId
+                  )}"
+                >
+                  Reset Password
+                </button>
+
+                ${deactivateButton}
+
+              </td>
+
+            </tr>
+
+          `;
+
+        })
+        .join("");
+
+
+    document
+      .querySelectorAll(
+        ".reset-agent-btn"
+      )
+      .forEach(function(button){
+
+        button
+          .addEventListener(
+            "click",
+            function(){
+
+              document
+                .getElementById(
+                  "resetAgentId"
+                )
+                .value =
+                  this.dataset.id;
+
+
+              document
+                .getElementById(
+                  "resetAgentPassword"
+                )
+                .focus();
+
+
+              document
+                .getElementById(
+                  "resetAgentForm"
+                )
+                .scrollIntoView({
+                  behavior:"smooth",
+                  block:"center"
+                });
+
+            }
+          );
+
+      });
+
+
+    document
+      .querySelectorAll(
+        ".deactivate-agent-btn"
+      )
+      .forEach(function(button){
+
+        button
+          .addEventListener(
+            "click",
+            async function(){
+
+              const agentId =
+                this.dataset.id;
+
+
+              const confirmed =
+                confirm(
+                  "Deactivate Agent " +
+                  agentId +
+                  "?\n\nTheir old leads will remain safe, but login will be disabled."
+                );
+
+
+              if (!confirmed){
+                return;
+              }
+
+
+              this.disabled =
+                true;
+
+
+              this.textContent =
+                "Deactivating...";
+
+
+              try{
+
+
+                const result =
+                  await apiPost(
+                    "deleteAgent",
+                    {
+                      token:
+                        token,
+
+                      agentId:
+                        agentId
+                    }
+                  );
+
+
+                if (!result.success){
+
+                  throw new Error(
+                    result.message ||
+                    "Unable to deactivate agent."
+                  );
+
+                }
+
+
+                alert(
+                  "Agent deactivated successfully."
+                );
+
+
+                await loadAgents();
+
+
+              } catch(error){
+
+                alert(
+                  error.message ||
+                  "Unable to deactivate agent."
+                );
+
+
+                this.disabled =
+                  false;
+
+
+                this.textContent =
+                  "Deactivate";
+
+              }
+
+            }
+          );
+
+      });
+
+
+  } catch(error){
+
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="6" class="empty">
+          ${escapeHtml(
+            error.message ||
+            "Unable to load agents."
+          )}
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE VALIDATION
+===================================================== */
+
+document
+  .getElementById(
+    "newAgentMobile"
+  )
+  .addEventListener(
+    "input",
+    function(){
+
+      this.value =
+        this.value
+          .replace(
+            /\D/g,
+            ""
+          )
+          .slice(
+            0,
+            10
+          );
+
+    }
+  );
+
+
+/* =====================================================
+   CREATE AGENT
+===================================================== */
+
+document
+  .getElementById(
+    "createAgentForm"
+  )
+  .addEventListener(
+    "submit",
+    async function(e){
+
+      e.preventDefault();
+
+
+      const message =
+        document
+          .getElementById(
+            "createAgentMessage"
+          );
+
+
+      const button =
+        document
+          .getElementById(
+            "createAgentButton"
+          );
+
+
+      button.disabled =
+        true;
+
+
+      message.textContent =
+        "Creating agent...";
+
+
+      try{
+
+
+        const payload = {
+
+          token:
+            token,
+
+          agentId:
+            document
+              .getElementById(
+                "newAgentId"
+              )
+              .value
+              .trim()
+              .toUpperCase(),
+
+          name:
+            document
+              .getElementById(
+                "newAgentName"
+              )
+              .value
+              .trim(),
+
+          mobile:
+            document
+              .getElementById(
+                "newAgentMobile"
+              )
+              .value
+              .trim(),
+
+          role:
+            document
+              .getElementById(
+                "newAgentRole"
+              )
+              .value,
+
+          password:
+            document
+              .getElementById(
+                "newAgentPassword"
+              )
+              .value
+
+        };
+
+
+        const result =
+          await apiPost(
+            "createAgent",
+            payload
+          );
+
+
+        if (!result.success){
+
+          throw new Error(
+            result.message ||
+            "Unable to create agent."
+          );
+
+        }
+
+
+        message.textContent =
+          "Agent created successfully. Agent ID: " +
+          result.agentId;
+
+
+        document
+          .getElementById(
+            "createAgentForm"
+          )
+          .reset();
+
+
+        await loadAgents();
+
+
+      } catch(error){
+
+        message.textContent =
+          error.message ||
+          "Unable to create agent.";
+
+      } finally{
+
+        button.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   RESET AGENT PASSWORD
+===================================================== */
+
+document
+  .getElementById(
+    "resetAgentForm"
+  )
+  .addEventListener(
+    "submit",
+    async function(e){
+
+      e.preventDefault();
+
+
+      const message =
+        document
+          .getElementById(
+            "resetAgentMessage"
+          );
+
+
+      const button =
+        document
+          .getElementById(
+            "resetAgentButton"
+          );
+
+
+      button.disabled =
+        true;
+
+
+      message.textContent =
+        "Resetting password...";
+
+
+      try{
+
+
+        const payload = {
+
+          token:
+            token,
+
+          agentId:
+            document
+              .getElementById(
+                "resetAgentId"
+              )
+              .value
+              .trim()
+              .toUpperCase(),
+
+          password:
+            document
+              .getElementById(
+                "resetAgentPassword"
+              )
+              .value
+
+        };
+
+
+        const result =
+          await apiPost(
+            "resetAgentPassword",
+            payload
+          );
+
+
+        if (!result.success){
+
+          throw new Error(
+            result.message ||
+            "Unable to reset password."
+          );
+
+        }
+
+
+        message.textContent =
+          "Password reset successfully.";
+
+
+        document
+          .getElementById(
+            "resetAgentForm"
+          )
+          .reset();
+
+
+        await loadAgents();
+
+
+      } catch(error){
+
+        message.textContent =
+          error.message ||
+          "Unable to reset password.";
+
+      } finally{
+
+        button.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   CSV EXPORT
+===================================================== */
+
+function csvSafe(value){
+
+  const text =
+    String(
+      value ?? ""
+    )
+    .replace(
+      /\r?\n/g,
+      " "
+    );
+
+
+  return (
+    '"' +
+    text.replace(
+      /"/g,
+      '""'
+    ) +
+    '"'
+  );
+
+}
+
+
+function exportInquiriesCSV(){
+
+  const data =
+    getFilteredInquiries();
+
+
+  const message =
+    document
+      .getElementById(
+        "exportMessage"
+      );
+
+
+  if (!data.length){
+
+    message.textContent =
+      "No inquiries available to export.";
+
+    return;
+
+  }
+
+
+  const rows = [
+
+    [
+      "ID",
+      "Date",
+      "Time",
+      "Name",
+      "Mobile",
+      "Email",
+      "Wing / Requirement",
+      "Details",
+      "Source",
+      "Agent ID",
+      "Status",
+      "Assigned To",
+      "Follow Up",
+      "Notes",
+      "Last Updated"
+    ],
+
+
+    ...data.map(function(item){
+
+      return [
+
+        item.inquiryId,
+
+        formatDateDisplay(
+          item.date
+        ),
+
+        item.time,
+
+        item.name,
+
+        item.mobile,
+
+        item.email,
+
+        item.requirement,
+
+        item.details,
+
+        item.recordType === "AGENT"
+          ? "AGENT"
+          : (
+              item.source ||
+              "WEBSITE"
+            ),
+
+        item.agentId,
+
+        item.status,
+
+        item.assignedTo,
+
+        formatDateDisplay(
+          item.followUp
+        ),
+
+        item.notes,
+
+        item.lastUpdated
+
+      ];
+
+    })
+
+  ];
+
+
+  const csv =
+    rows
+      .map(function(row){
+
+        return row
+          .map(csvSafe)
+          .join(",");
+
+      })
+      .join("\n");
+
+
+  const blob =
+    new Blob(
+      [
+        "\uFEFF" +
+        csv
+      ],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+
+  link.download =
+    "MADHYUM-All-Leads.csv";
+
+
+  document.body
+    .appendChild(
+      link
+    );
+
+
+  link.click();
+
+
+  link.remove();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  message.textContent =
+    "Export completed successfully.";
+
+}
+
+
+/* =====================================================
+   FILTER EVENTS
+===================================================== */
+
+document
+  .getElementById(
+    "searchInput"
+  )
+  .addEventListener(
+    "input",
+    renderTable
+  );
+
+
+document
+  .getElementById(
+    "wingFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+document
+  .getElementById(
+    "statusFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+document
+  .getElementById(
+    "sourceFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+/* =====================================================
+   AUTO REFRESH WHEN USER RETURNS
+===================================================== */
+
+document
+  .addEventListener(
+    "visibilitychange",
+    function(){
+
+      if (
+        document.visibilityState ===
+        "visible"
+      ){
+
+        loadDashboard();
+
+      }
+
+    }
+  );
+
+
+window
+  .addEventListener(
+    "focus",
+    function(){
+
+      loadDashboard();
+
+    }
+  );
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadDashboard();
+
+loadAgents();
+
+</script>
   </style>
 </head>
 
