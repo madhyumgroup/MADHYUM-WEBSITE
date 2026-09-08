@@ -650,8 +650,9 @@
       #agentsTableBody td:nth-child(2)::before{content:"Name";}
       #agentsTableBody td:nth-child(3)::before{content:"Mobile";}
       #agentsTableBody td:nth-child(4)::before{content:"Role";}
-      #agentsTableBody td:nth-child(5)::before{content:"Active";}
-      #agentsTableBody td:nth-child(6)::before{content:"Action";}
+      #agentsTableBody td:nth-child(5)::before{content:"Reporting BDM";}
+      #agentsTableBody td:nth-child(6)::before{content:"Active";}
+      #agentsTableBody td:nth-child(7)::before{content:"Action";}
 
       .deactivate-btn{
         margin-left:0;
@@ -879,6 +880,19 @@
           <h3>Create Agent / BDM</h3>
 
           <form id="createAgentForm">
+
+            <div class="field">
+
+              <label>Agent / BDM ID</label>
+
+              <input
+                id="newAgentId"
+                type="text"
+                placeholder="Example: AG003 or MG009 (leave blank for auto ID)"
+                autocomplete="off"
+              >
+
+            </div>
 
             <div class="field">
 
@@ -1228,6 +1242,51 @@
 
 
 
+<div class="modal-backdrop" id="editAgentModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Edit Agent / BDM</h2>
+      <button class="close-btn" id="closeEditAgentModal">×</button>
+    </div>
+
+    <div class="detail-grid">
+      <div class="field">
+        <label>ID</label>
+        <input id="editAgentId" type="text" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label>Name</label>
+        <input id="editAgentName" type="text">
+      </div>
+
+      <div class="field">
+        <label>Mobile</label>
+        <input id="editAgentMobile" type="tel" maxlength="10" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>Role</label>
+        <select id="editAgentRole">
+          <option value="AGENT">Agent / BDE</option>
+          <option value="Employee">Employee / BDM</option>
+        </select>
+      </div>
+
+      <div class="field" id="editReportingBdmField">
+        <label>Reporting BDM</label>
+        <select id="editReportingBdmId">
+          <option value="">Select Reporting BDM</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="save-message" id="editAgentMessage"></div>
+    <button class="save-btn" id="saveAgentEdit">Save Changes</button>
+  </div>
+</div>
+
+
 <div class="modal-backdrop" id="commissionModal">
   <div class="modal">
     <div class="modal-head"><h2>Commission Details</h2><button class="close-btn" id="closeCommissionModal">×</button></div>
@@ -1279,6 +1338,8 @@ document.getElementById("adminName").textContent =
 
 let allInquiries = [];
 let selectedInquiry = null;
+let allAgents = [];
+let selectedAgent = null;
 
 
 /* =====================================================
@@ -2671,12 +2732,14 @@ async function loadAgents(){
         ? result.agents
         : [];
 
+    allAgents = agents;
+
 
     const bdmSelect = document.getElementById("newReportingBdmId");
     if (bdmSelect){
       const current = bdmSelect.value;
       const bdms = agents.filter(a => String(a.role || "").toUpperCase() === "EMPLOYEE" && String(a.active || "").toUpperCase() === "YES");
-      bdmSelect.innerHTML = '<option value="">Select Reporting BDM</option>' + bdms.map(a => `<option value="${escapeHtml(a.agentId)}">${escapeHtml(a.agentId)} — ${escapeHtml(a.name)}</option>`).join("");
+      bdmSelect.innerHTML = '<option value="">Select Reporting BDM</option><option value="__NEW__">+ Create New BDM</option>' + bdms.map(a => `<option value="${escapeHtml(a.agentId)}">${escapeHtml(a.agentId)} — ${escapeHtml(a.name)}</option>`).join("");
       if ([...bdmSelect.options].some(o => o.value === current)) bdmSelect.value = current;
     }
 
@@ -2759,6 +2822,15 @@ async function loadAgents(){
               <td>
 
                 <button
+                  class="small-btn edit-agent-btn"
+                  data-id="${escapeHtml(
+                    agent.agentId
+                  )}"
+                >
+                  Edit
+                </button>
+
+                <button
                   class="small-btn reset-agent-btn"
                   data-id="${escapeHtml(
                     agent.agentId
@@ -2790,6 +2862,19 @@ async function loadAgents(){
 
         })
         .join("");
+
+
+    document
+      .querySelectorAll(
+        ".edit-agent-btn"
+      )
+      .forEach(function(button){
+
+        button.addEventListener("click", function(){
+          openEditAgentModal(this.dataset.id);
+        });
+
+      });
 
 
     document
@@ -2948,6 +3033,141 @@ loadCommissions();
 
 
 /* =====================================================
+   EDIT AGENT / BDM
+===================================================== */
+
+function populateEditBdmOptions(selectedValue, excludeId){
+  const select = document.getElementById("editReportingBdmId");
+  const bdms = allAgents.filter(function(a){
+    return String(a.role || "").toUpperCase() === "EMPLOYEE" &&
+           String(a.active || "").toUpperCase() === "YES" &&
+           String(a.agentId || "").toUpperCase() !== String(excludeId || "").toUpperCase();
+  });
+
+  select.innerHTML = '<option value="">Select Reporting BDM</option>' +
+    bdms.map(function(a){
+      return `<option value="${escapeHtml(a.agentId)}">${escapeHtml(a.agentId)} — ${escapeHtml(a.name)}</option>`;
+    }).join("");
+
+  if ([...select.options].some(function(o){ return o.value === selectedValue; })) {
+    select.value = selectedValue;
+  }
+}
+
+function refreshEditRoleUI(){
+  const role = String(document.getElementById("editAgentRole").value || "").toUpperCase();
+  const isAgent = role === "AGENT";
+  const field = document.getElementById("editReportingBdmField");
+  const select = document.getElementById("editReportingBdmId");
+  field.style.display = isAgent ? "block" : "none";
+  select.required = isAgent;
+  if (!isAgent) select.value = "";
+}
+
+function openEditAgentModal(agentId){
+  selectedAgent = allAgents.find(function(a){
+    return String(a.agentId || "").toUpperCase() === String(agentId || "").toUpperCase();
+  }) || null;
+
+  if (!selectedAgent) {
+    alert("Agent / BDM details not found.");
+    return;
+  }
+
+  document.getElementById("editAgentId").value = selectedAgent.agentId || "";
+  document.getElementById("editAgentName").value = selectedAgent.name || "";
+  document.getElementById("editAgentMobile").value = selectedAgent.mobile || "";
+  document.getElementById("editAgentRole").value = String(selectedAgent.role || "").toUpperCase() === "EMPLOYEE" ? "Employee" : "AGENT";
+  populateEditBdmOptions(selectedAgent.reportingBdmId || "", selectedAgent.agentId);
+  refreshEditRoleUI();
+  document.getElementById("editAgentMessage").textContent = "";
+  document.getElementById("editAgentModal").classList.add("show");
+}
+
+document.getElementById("closeEditAgentModal").addEventListener("click", function(){
+  document.getElementById("editAgentModal").classList.remove("show");
+  selectedAgent = null;
+});
+
+document.getElementById("editAgentModal").addEventListener("click", function(e){
+  if (e.target === this) {
+    this.classList.remove("show");
+    selectedAgent = null;
+  }
+});
+
+document.getElementById("editAgentRole").addEventListener("change", function(){
+  populateEditBdmOptions(
+    selectedAgent ? selectedAgent.reportingBdmId || "" : "",
+    selectedAgent ? selectedAgent.agentId : ""
+  );
+  refreshEditRoleUI();
+});
+
+document.getElementById("editAgentMobile").addEventListener("input", function(){
+  this.value = this.value.replace(/\D/g, "").slice(0, 10);
+});
+
+document.getElementById("editAgentId").addEventListener("input", function(){
+  this.value = this.value.toUpperCase().replace(/\s/g, "");
+});
+
+document.getElementById("saveAgentEdit").addEventListener("click", async function(){
+  if (!selectedAgent) return;
+
+  const button = this;
+  const message = document.getElementById("editAgentMessage");
+  const oldId = String(selectedAgent.agentId || "").toUpperCase();
+  const newId = document.getElementById("editAgentId").value.trim().toUpperCase();
+  const role = document.getElementById("editAgentRole").value;
+
+  if (newId !== oldId) {
+    const confirmed = confirm(
+      "Change ID from " + oldId + " to " + newId + "?\n\nThe system will also update linked leads and commission records."
+    );
+    if (!confirmed) return;
+  }
+
+  button.disabled = true;
+  message.textContent = "Saving changes...";
+
+  try {
+    const result = await apiPost("updateAgentProfile", {
+      token: token,
+      oldAgentId: oldId,
+      agentId: newId,
+      name: document.getElementById("editAgentName").value.trim(),
+      mobile: document.getElementById("editAgentMobile").value.trim(),
+      role: role,
+      reportingBdmId: String(role).toUpperCase() === "AGENT"
+        ? document.getElementById("editReportingBdmId").value
+        : ""
+    });
+
+    if (!result.success) {
+      if (handleSessionFailure(result.message)) return;
+      throw new Error(result.message || "Unable to update Agent / BDM.");
+    }
+
+    message.textContent = "Details updated successfully.";
+    await loadAgents();
+    await loadDashboard();
+    loadCommissions();
+
+    setTimeout(function(){
+      document.getElementById("editAgentModal").classList.remove("show");
+      selectedAgent = null;
+    }, 500);
+
+  } catch(error) {
+    message.textContent = error.message || "Unable to update Agent / BDM.";
+  } finally {
+    button.disabled = false;
+  }
+});
+
+
+/* =====================================================
    MOBILE VALIDATION
 ===================================================== */
 
@@ -2973,6 +3193,10 @@ document
     }
   );
 
+
+document.getElementById("newAgentId").addEventListener("input", function(){
+  this.value = this.value.toUpperCase().replace(/\s/g, "");
+});
 
 document.getElementById("newAgentRole").addEventListener("change", function(){
   const isAgent = String(this.value).toUpperCase() === "AGENT";
@@ -3050,6 +3274,15 @@ document
 
               token:
                 token,
+
+              agentId:
+                document
+                  .getElementById(
+                    "newAgentId"
+                  )
+                  .value
+                  .trim()
+                  .toUpperCase(),
 
               name:
                 document
