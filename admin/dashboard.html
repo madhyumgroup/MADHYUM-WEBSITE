@@ -1890,44 +1890,39 @@ function renderTable(){
   body.innerHTML =
    filtered
   .slice()
-  .sort(function(a,b){
+ .sort(function(a,b){
 
-    function idParts(item){
+  function getDateTime(item){
 
-      const id =
-        String(
-          item.inquiryId || ""
-        );
+    const date =
+      String(
+        item.date || ""
+      );
 
-      const match =
-        id.match(
-          /(?:INQ|LEAD)-(\d{8})-(\d+)/
-        );
+    const time =
+      String(
+        item.time || "00:00:00"
+      );
 
-      if (!match){
-        return {
-          date:0,
-          number:0
-        };
-      }
+    const value =
+      new Date(
+        date + "T" + time
+      );
 
-      return {
-        date:Number(match[1]),
-        number:Number(match[2])
-      };
-    }
+    return isNaN(
+      value.getTime()
+    )
+      ? 0
+      : value.getTime();
+  }
 
-    const A = idParts(a);
-    const B = idParts(b);
+  return (
+    getDateTime(b) -
+    getDateTime(a)
+  );
 
-    if (B.date !== A.date){
-      return B.date - A.date;
-    }
-
-    return B.number - A.number;
-
-  })
-  .map(function(item){
+})
+    .map(function(item){
 
 
         const source =
