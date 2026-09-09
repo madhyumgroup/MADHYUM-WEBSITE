@@ -4856,68 +4856,62 @@ document.getElementById("importCallingDataButton").addEventListener("click", asy
     });
 
   if (!validRows.length){
-    msg.textContent = "No valid rows found. Name and 10-digit Mobile Number are required.";
+    msg.textContent =
+      "No valid rows found. Name and 10-digit Mobile Number are required.";
     return;
   }
 
   btn.disabled = true;
+  msg.textContent =
+    "Importing " + validRows.length + " rows...";
 
-  let imported = 0;
-  let failed = 0;
-  const failures = [];
+  try {
 
-  try{
-    for (let i = 0; i < validRows.length; i++){
-      const row = validRows[i];
-
-      msg.textContent =
-        "Importing " + (i + 1) + " of " + validRows.length + "...";
-
-      try{
-        // Use the existing, already working single Calling Data action.
-        // This avoids any route mismatch between bulk-import and manual actions.
-        const r = await apiPost("adminAddCallingData",{
+    const result =
+      await apiPost(
+        "adminImportCallingDataV2",
+        {
           token:token,
-          name:row.name,
-          mobile:row.mobile,
-          city:row.city,
-          source:row.source,
-          assignedTo:assignedTo
-        });
-
-        if (!r || !r.success){
-          throw new Error((r && r.message) || "Unable to import row.");
+          assignedTo:assignedTo,
+          rows:validRows
         }
+      );
 
-        imported++;
-
-      }catch(error){
-        failed++;
-        failures.push(
-          "Row " + (i + 2) + ": " + (error.message || "Import failed")
-        );
-      }
+    if (!result || !result.success){
+      throw new Error(
+        (result && result.message) ||
+        "Calling Data import failed."
+      );
     }
 
     msg.textContent =
-      imported + " rows imported successfully" +
-      (failed ? " • " + failed + " failed" : "") +
+      result.imported +
+      " rows imported successfully" +
+      (
+        result.skipped
+          ? " • " + result.skipped + " skipped"
+          : ""
+      ) +
       ".";
 
-    if (failures.length){
-      console.warn("Calling Data import failures:", failures);
-    }
+    document.getElementById("callingExcelFile").value = "";
+    document.getElementById("callingImportPreview").textContent =
+      "No file selected.";
 
-    if (imported){
-      document.getElementById("callingExcelFile").value = "";
-      document.getElementById("callingImportPreview").textContent =
-        "No file selected.";
-      parsedCallingImportRows = [];
-      await loadAdminCallingData();
-    }
+    parsedCallingImportRows = [];
+
+    await loadAdminCallingData();
+
+  } catch(error) {
+
+    msg.textContent =
+      error.message ||
+      "Calling Data import failed.";
 
   } finally {
+
     btn.disabled = false;
+
   }
 });
 
