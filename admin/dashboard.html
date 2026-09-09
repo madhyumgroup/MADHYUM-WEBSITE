@@ -691,6 +691,35 @@
       }
     }
 
+
+    .card.dashboard-action-card{
+      cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .card.dashboard-action-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 24px rgba(15,23,42,.10);
+    }
+    .trash-btn{
+      border:0;
+      background:#fee2e2;
+      color:#991b1b;
+      border-radius:8px;
+      padding:8px 10px;
+      font-weight:700;
+      cursor:pointer;
+      margin-left:6px;
+    }
+    .restore-btn{
+      border:0;
+      background:#dcfce7;
+      color:#166534;
+      border-radius:8px;
+      padding:8px 10px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
 </style>
 </head>
 
@@ -724,6 +753,10 @@
 
     <button class="nav-item" id="commissionsNav">
       Commissions
+    </button>
+
+    <button class="nav-item" id="trashNav">
+      Dispose
     </button>
 
     <button class="nav-item" id="exportNav">
@@ -764,27 +797,27 @@
 
     <section class="cards" id="dashboardCards">
 
-      <div class="card">
+      <div class="card dashboard-action-card" id="totalCard" role="button" tabindex="0">
         <div class="card-label">Total Leads / Inquiries</div>
         <div class="card-value" id="totalInquiries">—</div>
       </div>
 
-      <div class="card">
+      <div class="card dashboard-action-card" id="newCard" role="button" tabindex="0">
         <div class="card-label">New</div>
         <div class="card-value" id="newInquiries">—</div>
       </div>
 
-      <div class="card">
+      <div class="card dashboard-action-card" id="progressCard" role="button" tabindex="0">
         <div class="card-label">In Progress</div>
         <div class="card-value" id="progressInquiries">—</div>
       </div>
 
-      <div class="card">
+      <div class="card dashboard-action-card" id="convertedCard" role="button" tabindex="0">
         <div class="card-label">Converted</div>
         <div class="card-value" id="closedInquiries">—</div>
       </div>
 
-      <div class="card" id="visitorsCard">
+      <div class="card dashboard-action-card" id="visitorsCard" role="button" tabindex="0">
         <div class="card-label">Visitors</div>
         <div class="card-value" id="visitorCount">—</div>
       </div>
@@ -1108,15 +1141,30 @@
 
 
     <!-- COMMISSIONS -->
+    <section class="panel admin-view-hidden" id="trashSection">
+      <h2 class="panel-title">Disposed Records</h2>
+      <div class="helper" style="margin-bottom:14px;">Items moved here are hidden only from the Admin CRM view. Original source records stay unchanged, so the live website/public counters are not affected.</div>
+      <div class="filters">
+        <input id="trashSearch" type="search" placeholder="Search disposed ID, customer, mobile, requirement...">
+        <select id="trashSourceFilter"><option value="">All Sources</option><option value="WEBSITE">Website</option><option value="AGENT">Agent / BDM</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Disposed At</th><th>Name</th><th>Mobile</th><th>Requirement</th><th>Status</th><th>Source</th><th>Action</th></tr></thead>
+          <tbody id="trashTableBody"><tr><td colspan="8" class="loading">Loading Disposed Records...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
     <section class="panel" id="commissionsSection">
       <h2 class="panel-title">Commission Management</h2>
       <div class="filters">
         <input id="commissionSearch" type="search" placeholder="Search Lead ID, customer, LG, LC...">
-        <select id="commissionStatusFilter"><option value="">All Commission Statuses</option><option>Pending</option><option>Approved</option><option>Paid</option><option>HOLD</option></select>
+        <select id="commissionStatusFilter"><option value="">All Commission Records</option><option value="CONVERTED">Converted Leads</option><option value="PENDING">Pending</option><option value="APPROVED">Approved</option><option value="PAID">Paid</option><option value="HOLD">Hold</option></select>
         <select id="commissionWingFilter"><option value="">All Wings</option><option>Real Estate</option><option>Travel</option><option>Education & Admissions</option><option>Consultancy & Business Services</option><option>Events & Weddings</option><option>Membership</option><option>General / Other</option></select>
         <input id="commissionPersonFilter" type="search" placeholder="LG / BDM / LC ID">
       </div>
-      <div class="table-wrap"><table><thead><tr><th>Lead</th><th>Customer</th><th>Wing</th><th>LG</th><th>BDM</th><th>LC</th><th>Total Commission</th><th>Status</th><th>Action</th></tr></thead><tbody id="commissionTableBody"><tr><td colspan="9" class="loading">Loading commissions...</td></tr></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Lead</th><th>Customer</th><th>Wing</th><th>LG</th><th>BDM</th><th>LC</th><th>Total Company Commission</th><th>Status</th><th>Action</th></tr></thead><tbody id="commissionTableBody"><tr><td colspan="9" class="loading">Loading commissions...</td></tr></tbody></table></div>
     </section>
 
   </main>
@@ -1324,15 +1372,15 @@
       <div class="field"><label>Reporting BDM ID</label><input id="commissionBdmId"></div>
       <div class="field"><label>LC ID</label><input id="commissionLcId"></div>
       <div class="field"><label>Deal Value</label><input id="commissionDealValue" type="number" min="0" step="0.01"></div>
-      <div class="field"><label>Total Commission Received</label><input id="commissionTotal" type="number" min="0" step="0.01"></div>
-      <div class="field"><label>LG %</label><input id="commissionLgPct" type="number" min="0" max="100" step="0.01"></div>
-      <div class="field"><label>LC %</label><input id="commissionLcPct" type="number" min="0" max="100" step="0.01"></div>
+      <div class="field"><label>Total Company Commission</label><input id="commissionTotal" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>LG Share (20%)</label><input id="commissionLgPct" type="number" value="20" readonly><div class="helper">Automatically calculated at 20% of Total Company Commission.</div></div>
+      <div class="field"><label>LC Share (20%)</label><input id="commissionLcPct" type="number" value="20" readonly><div class="helper">Automatically calculated at 20% of Total Company Commission.</div></div>
       <div class="field"><label>Commission Status</label><select id="commissionStatus"><option>Pending</option><option>Approved</option><option>Paid</option><option>HOLD</option></select></div>
       <div class="field"><label>Payment Date</label><input id="commissionPaymentDate" type="date"></div>
     </div>
     <div class="detail-grid">
-      <div class="detail-box"><div class="detail-label">LG Commission</div><div class="detail-value" id="calcLgCommission">₹0</div></div>
-      <div class="detail-box"><div class="detail-label">LC Commission</div><div class="detail-value" id="calcLcCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">LG Commission Amount (20%)</div><div class="detail-value" id="calcLgCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">LC Commission Amount (20%)</div><div class="detail-value" id="calcLcCommission">₹0</div></div>
       <div class="detail-box"><div class="detail-label">Company Share</div><div class="detail-value" id="calcCompanyShare">₹0</div></div>
     </div>
     <button class="save-btn" id="saveCommission">Save Commission</button><div class="save-message" id="commissionMessage"></div>
@@ -1803,6 +1851,9 @@ function setAdminView(view){
   const commissions =
     document.getElementById("commissionsSection");
 
+  const trash =
+    document.getElementById("trashSection");
+
   const pageTitle =
     document.getElementById("pageTitle");
 
@@ -1811,7 +1862,8 @@ function setAdminView(view){
     inquiries: "inquiriesNav",
     agents: "agentsNav",
     visitors: "visitorsNav",
-    commissions: "commissionsNav"
+    commissions: "commissionsNav",
+    trash: "trashNav"
   };
 
   Object.values(navMap).forEach(function(id){
@@ -1824,7 +1876,7 @@ function setAdminView(view){
     cards.classList.remove("visitors-only");
   }
 
-  [inquiries, agents, commissions].forEach(function(section){
+  [inquiries, agents, commissions, trash].forEach(function(section){
     if (section) section.classList.add("admin-view-hidden");
   });
 
@@ -1854,6 +1906,13 @@ function setAdminView(view){
   if (view === "commissions"){
     if (commissions) commissions.classList.remove("admin-view-hidden");
     if (pageTitle) pageTitle.textContent = "Commissions";
+    loadCommissions();
+  }
+
+  if (view === "trash"){
+    if (trash) trash.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Dispose";
+    loadTrash();
   }
 
   const activeId = navMap[view];
@@ -1885,7 +1944,33 @@ document.getElementById("commissionsNav").addEventListener("click", function(){
   setAdminView("commissions");
 });
 
+document.getElementById("trashNav").addEventListener("click", function(){
+  setAdminView("trash");
+});
+
 document.getElementById("exportNav").addEventListener("click", exportInquiriesCSV);
+
+function openInquiryStatus(status){
+  setAdminView("inquiries");
+  document.getElementById("statusFilter").value = status || "";
+  document.getElementById("wingFilter").value = "";
+  document.getElementById("sourceFilter").value = "";
+  document.getElementById("searchInput").value = "";
+  renderTable();
+}
+
+function bindCardAction(id, fn){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener("click",fn);
+  el.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();fn();}});
+}
+
+bindCardAction("totalCard",function(){openInquiryStatus("");});
+bindCardAction("newCard",function(){openInquiryStatus("NEW");});
+bindCardAction("progressCard",function(){openInquiryStatus("IN PROGRESS");});
+bindCardAction("convertedCard",function(){openInquiryStatus("CONVERTED");});
+bindCardAction("visitorsCard",function(){setAdminView("visitors");});
 
 
 /* =====================================================
@@ -2174,6 +2259,14 @@ function renderTable(){
                 )}"
               >
                 View / Edit
+              </button>
+
+              <button
+                class="trash-btn inquiry-trash-btn"
+                data-id="${escapeHtml(item.inquiryId)}"
+                data-type="${escapeHtml(item.recordType || (String(item.source||"").toUpperCase()==="AGENT" ? "AGENT" : "WEBSITE"))}"
+              >
+                Dispose
               </button>
 
             </td>
@@ -3801,6 +3894,79 @@ document
 
 
 /* =====================================================
+   DISPOSE
+===================================================== */
+let allTrashRecords = [];
+
+async function moveRecordToTrash(recordType, recordId){
+  if(!confirm("Move " + recordId + " to Dispose?\n\nThis hides it only from the Admin CRM. The original source record stays unchanged.")) return;
+  const result = await apiPost("trashRecord",{token:token,recordType:recordType,recordId:recordId});
+  if(!result.success) throw new Error(result.message || "Unable to move record to Dispose.");
+  await loadDashboard();
+  if(document.getElementById("trashSection") && !document.getElementById("trashSection").classList.contains("admin-view-hidden")) await loadTrash();
+}
+
+document.addEventListener("click",async function(e){
+  const btn=e.target.closest(".inquiry-trash-btn");
+  if(!btn)return;
+  btn.disabled=true;
+  try{ await moveRecordToTrash(btn.dataset.type || "WEBSITE", btn.dataset.id); }
+  catch(error){ alert(error.message || "Unable to move record to Dispose."); }
+  finally{ btn.disabled=false; }
+});
+
+async function loadTrash(){
+  const body=document.getElementById("trashTableBody");
+  if(!body)return;
+  body.innerHTML='<tr><td colspan="8" class="loading">Loading Disposed Records...</td></tr>';
+  try{
+    const result=await apiPost("adminTrash",{token:token});
+    if(!result.success) throw new Error(result.message || "Unable to load Disposed Records.");
+    allTrashRecords=Array.isArray(result.records)?result.records:[];
+    renderTrash();
+  }catch(error){
+    body.innerHTML=`<tr><td colspan="8" class="empty">${escapeHtml(error.message||"Unable to load Disposed Records.")}</td></tr>`;
+  }
+}
+
+function renderTrash(){
+  const q=(document.getElementById("trashSearch")?.value||"").trim().toLowerCase();
+  const source=(document.getElementById("trashSourceFilter")?.value||"").toUpperCase();
+  const rows=allTrashRecords.filter(function(r){
+    const text=[r.inquiryId,r.name,r.mobile,r.requirement,r.status,r.source,r.recordType].join(" ").toLowerCase();
+    return (!q||text.includes(q)) && (!source||String(r.recordType||"").toUpperCase()===source);
+  });
+  const body=document.getElementById("trashTableBody");
+  body.innerHTML=rows.length?rows.map(function(r){
+    return `<tr>
+      <td><strong>${escapeHtml(r.inquiryId||"")}</strong></td>
+      <td>${escapeHtml(r.trashedAt||"—")}</td>
+      <td>${escapeHtml(r.name||"—")}</td>
+      <td>${escapeHtml(r.mobile||"—")}</td>
+      <td>${escapeHtml(r.requirement||"—")}</td>
+      <td>${escapeHtml(r.status||"—")}</td>
+      <td>${escapeHtml(r.recordType||r.source||"—")}</td>
+      <td><button class="restore-btn trash-restore-btn" data-id="${escapeHtml(r.inquiryId||"")}" data-type="${escapeHtml(r.recordType||"")}">Restore</button></td>
+    </tr>`;
+  }).join(""):'<tr><td colspan="8" class="empty">No disposed records.</td></tr>';
+  body.querySelectorAll(".trash-restore-btn").forEach(function(btn){
+    btn.addEventListener("click",async function(){
+      this.disabled=true;
+      try{
+        const result=await apiPost("restoreTrashRecord",{token:token,recordType:this.dataset.type,recordId:this.dataset.id});
+        if(!result.success) throw new Error(result.message||"Unable to restore record.");
+        await loadTrash();
+        await loadDashboard();
+      }catch(error){ alert(error.message||"Unable to restore record."); }
+      finally{this.disabled=false;}
+    });
+  });
+}
+
+document.getElementById("trashSearch")?.addEventListener("input",renderTrash);
+document.getElementById("trashSourceFilter")?.addEventListener("change",renderTrash);
+
+/* =====================================================
    COMMISSIONS
 ===================================================== */
 let allCommissions = [];
@@ -3826,7 +3992,7 @@ function renderCommissions(){
   const rows=allCommissions.filter(c=>{
     const text=[c.leadId,c.customerName,c.lgId,c.reportingBdmId,c.lcId].join(" ").toLowerCase();
     const p=[c.lgId,c.reportingBdmId,c.lcId].join(" ").toLowerCase();
-    return (!q||text.includes(q))&&(!st||String(c.commissionStatus||"").toUpperCase()===st)&&(!wing||c.wing===wing)&&(!person||p.includes(person));
+    return (!q||text.includes(q))&&(!st||st==="CONVERTED"||String(c.commissionStatus||"").toUpperCase()===st)&&(!wing||c.wing===wing)&&(!person||p.includes(person));
   });
   const body=document.getElementById("commissionTableBody");
   body.innerHTML=rows.length?rows.map(c=>`<tr><td><strong>${escapeHtml(c.leadId)}</strong></td><td>${escapeHtml(c.customerName)}</td><td>${escapeHtml(c.wing)}</td><td>${escapeHtml(c.lgId||"—")}</td><td>${escapeHtml(c.reportingBdmId||"—")}</td><td>${escapeHtml(c.lcId||"—")}</td><td>${money(c.totalCommission)}</td><td>${escapeHtml(c.commissionStatus)}</td><td><button class="view-btn commission-edit-btn" data-id="${escapeHtml(c.leadId)}">Edit</button></td></tr>`).join(""):'<tr><td colspan="9" class="empty">No commission records found.</td></tr>';
@@ -3835,8 +4001,9 @@ function renderCommissions(){
 
 function recalcCommission(){
   const total=Number(document.getElementById("commissionTotal").value)||0;
-  const lg=Number(document.getElementById("commissionLgPct").value)||0;
-  const lc=Number(document.getElementById("commissionLcPct").value)||0;
+  const lg=20, lc=20;
+  document.getElementById("commissionLgPct").value=20;
+  document.getElementById("commissionLcPct").value=20;
   const lgAmt=total*lg/100, lcAmt=total*lc/100;
   document.getElementById("calcLgCommission").textContent=money(lgAmt);
   document.getElementById("calcLcCommission").textContent=money(lcAmt);
@@ -3853,20 +4020,20 @@ function openCommission(leadId){
   document.getElementById("commissionLcId").value=selectedCommission.lcId||"";
   document.getElementById("commissionDealValue").value=selectedCommission.dealValue||"";
   document.getElementById("commissionTotal").value=selectedCommission.totalCommission||"";
-  document.getElementById("commissionLgPct").value=selectedCommission.lgPercent||"";
-  document.getElementById("commissionLcPct").value=selectedCommission.lcPercent||"";
+  document.getElementById("commissionLgPct").value=20;
+  document.getElementById("commissionLcPct").value=20;
   document.getElementById("commissionStatus").value=selectedCommission.commissionStatus||"Pending";
   document.getElementById("commissionPaymentDate").value=selectedCommission.paymentDate||"";
   document.getElementById("commissionMessage").textContent=""; recalcCommission();
   document.getElementById("commissionModal").classList.add("show");
 }
-["commissionTotal","commissionLgPct","commissionLcPct"].forEach(id=>document.getElementById(id).addEventListener("input",recalcCommission));
+document.getElementById("commissionTotal").addEventListener("input",recalcCommission);
 document.getElementById("closeCommissionModal").onclick=()=>document.getElementById("commissionModal").classList.remove("show");
 document.getElementById("commissionModal").onclick=e=>{if(e.target===document.getElementById("commissionModal"))document.getElementById("commissionModal").classList.remove("show")};
 document.getElementById("saveCommission").onclick=async function(){
   if(!selectedCommission)return; this.disabled=true; document.getElementById("commissionMessage").textContent="Saving...";
   try{
-    const result=await apiPost("updateCommission",{token:token,leadId:selectedCommission.leadId,lgId:document.getElementById("commissionLgId").value.trim().toUpperCase(),reportingBdmId:document.getElementById("commissionBdmId").value.trim().toUpperCase(),lcId:document.getElementById("commissionLcId").value.trim().toUpperCase(),dealValue:document.getElementById("commissionDealValue").value,totalCommission:document.getElementById("commissionTotal").value,lgPercent:document.getElementById("commissionLgPct").value,lcPercent:document.getElementById("commissionLcPct").value,commissionStatus:document.getElementById("commissionStatus").value,paymentDate:document.getElementById("commissionPaymentDate").value});
+    const result=await apiPost("updateCommission",{token:token,leadId:selectedCommission.leadId,lgId:document.getElementById("commissionLgId").value.trim().toUpperCase(),reportingBdmId:document.getElementById("commissionBdmId").value.trim().toUpperCase(),lcId:document.getElementById("commissionLcId").value.trim().toUpperCase(),dealValue:document.getElementById("commissionDealValue").value,totalCommission:document.getElementById("commissionTotal").value,lgPercent:20,lcPercent:20,commissionStatus:document.getElementById("commissionStatus").value,paymentDate:document.getElementById("commissionPaymentDate").value});
     if(!result.success)throw new Error(result.message||"Unable to update commission.");
     document.getElementById("commissionMessage").textContent="Commission saved successfully."; await loadCommissions();
   }catch(error){document.getElementById("commissionMessage").textContent=error.message||"Unable to save commission."}finally{this.disabled=false}
