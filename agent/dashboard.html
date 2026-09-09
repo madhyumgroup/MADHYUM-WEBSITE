@@ -301,6 +301,48 @@ let receivedSharedData=[];
 let sentSharedData=[];
 let teamDataAgents=[];
 let agentCallingItems=[];
+
+const callingSavedState = new Map();
+
+function rememberCallingSavedState_(dataId, state){
+  callingSavedState.set(String(dataId), {
+    leadStatus:String(state.leadStatus || "NEW"),
+    followUpDate:String(state.followUpDate || ""),
+    callStatus:String(state.callStatus || "NOT CONNECTED"),
+    remark:String(state.remark || ""),
+    assignedTo:String(state.assignedTo || ""),
+    savedAt:Date.now()
+  });
+}
+
+function applyCallingSavedState_(items){
+  return (items || []).map(function(item){
+    const saved = callingSavedState.get(String(item.dataId));
+    if (!saved) return item;
+
+    // If backend has caught up, remove the temporary cache.
+    const same =
+      String(item.leadStatus || "NEW") === saved.leadStatus &&
+      String(item.followUpDate || "") === saved.followUpDate &&
+      String(item.callStatus || "NOT CONNECTED") === saved.callStatus &&
+      String(item.remark || "") === saved.remark &&
+      String(item.assignedTo || "") === saved.assignedTo;
+
+    if (same){
+      callingSavedState.delete(String(item.dataId));
+      return item;
+    }
+
+    // Keep the saved UI state for a short window only; backend remains source of truth.
+    if (Date.now() - saved.savedAt < 15000){
+      return Object.assign({}, item, saved);
+    }
+
+    callingSavedState.delete(String(item.dataId));
+    return item;
+  });
+}
+
 let agentCallingTeam=[];
 let agentCallingIsBdm=false;
 let agentCallingMe="";
@@ -464,7 +506,7 @@ async function loadAgentCallingData(){
     const r=await post("agentCallingData",{token});
     if(!r.success)throw new Error(r.message||"Unable to load calling data.");
 
-    agentCallingItems=Array.isArray(r.items)?r.items:[];
+    agentCallingItems=applyCallingSavedState_(Array.isArray(r.items)?r.items:[]);
     agentCallingTeam=Array.isArray(r.team)?r.team:[];
     agentCallingIsBdm=!!r.isBdm;
     agentCallingMe=r.me||currentAgent.agentId||"";
@@ -544,6 +586,14 @@ function renderSharedCallingData(){
       this.disabled=true;
       this.textContent="Saving...";
 
+      rememberCallingSavedState_(id,{
+        assignedTo:assignedTo,
+        callStatus:status,
+        leadStatus:leadStatus,
+        followUpDate:followUpDate,
+        remark:remark
+      });
+
       try{
         const r=await post("agentUpdateCallingData",{token,dataId:id,assignedTo,callStatus:status,leadStatus,followUpDate,remark});
         if(!r.success)throw new Error(r.message||"Unable to save.");
@@ -617,6 +667,14 @@ function renderAgentCallingData(){
       const old=this.textContent;
       this.disabled=true;
       this.textContent="Saving...";
+
+      rememberCallingSavedState_(id,{
+        assignedTo:assignedTo,
+        callStatus:status,
+        leadStatus:leadStatus,
+        followUpDate:followUpDate,
+        remark:remark
+      });
 
       try{
         const r=await post("agentUpdateCallingData",{token,dataId:id,assignedTo,callStatus:status,leadStatus,followUpDate,remark});
