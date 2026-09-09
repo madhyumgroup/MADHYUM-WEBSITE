@@ -1160,7 +1160,7 @@
           <div class="field"><label>Recipient</label><select id="distributionRecipient"><option value="">Select Agent / BDM</option></select></div>
           <div class="field"><label>Title</label><input id="distributionTitle" type="text" placeholder="Example: Travel leads - September"></div>
           <div class="field"><label>Details / Instructions</label><textarea id="distributionDetails" placeholder="Enter data, instructions or notes..."></textarea></div>
-          <div class="field"><label>Attachment (optional)</label><input id="distributionFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.csv,.xls,.xlsx,.doc,.docx"><div class="helper">Private attachment, maximum 3 MB.</div></div>
+          <div class="field"><label>Attachment (optional)</label><input id="distributionFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.csv,.xls,.xlsx,.doc,.docx"><div class="helper">Private attachment, maximum 3 MB.</div><div class="helper" id="distributionStructuredPreview" style="margin-top:6px;"></div></div>
           <button class="gold-btn" id="sendDistributionButton" type="button">Send Data</button>
           <div class="form-message" id="distributionMessage"></div>
         </div>
@@ -4523,6 +4523,68 @@ function recipientOptionsHtml_(recipients,placeholder){
     }).join("");
 }
 
+
+let distributionStructuredRows = [];
+
+function normalizeDistHeader_(value){
+  return String(value || "").trim().toLowerCase().replace(/[\s_\-\/]+/g," ");
+}
+function findDistColumn_(headers,aliases){
+  const normalized=headers.map(normalizeDistHeader_);
+  for(let i=0;i<aliases.length;i++){
+    const idx=normalized.indexOf(normalizeDistHeader_(aliases[i]));
+    if(idx>=0)return idx;
+  }
+  return -1;
+}
+function parseDistributionSheet_(buffer){
+  const wb=XLSX.read(buffer,{type:"array"});
+  const ws=wb.Sheets[wb.SheetNames[0]];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",raw:false});
+  if(!rows.length)throw new Error("The uploaded file is empty.");
+
+  const headers=rows[0].map(v=>String(v||"").trim());
+  const nameCol=findDistColumn_(headers,["Name","Customer Name","Lead Name"]);
+  const mobileCol=findDistColumn_(headers,["Mobile Number","Mobile","Phone","Phone Number","Contact Number","Contact"]);
+  const cityCol=findDistColumn_(headers,["City","Location"]);
+  const sourceCol=findDistColumn_(headers,["Source","Lead Source"]);
+
+  if(nameCol<0||mobileCol<0){
+    throw new Error("Excel/CSV must contain Name and Mobile Number columns.");
+  }
+
+  return rows.slice(1).map(r=>({
+    name:String(r[nameCol]??"").trim(),
+    mobile:String(r[mobileCol]??"").trim(),
+    city:cityCol>=0?String(r[cityCol]??"").trim():"",
+    source:sourceCol>=0?String(r[sourceCol]??"").trim():""
+  })).filter(r=>r.name||r.mobile||r.city||r.source);
+}
+
+document.getElementById("distributionFile").addEventListener("change",async function(){
+  distributionStructuredRows=[];
+  const preview=document.getElementById("distributionStructuredPreview");
+  if(preview)preview.textContent="";
+  const file=this.files[0];
+  if(!file)return;
+
+  const ext=(file.name.split(".").pop()||"").toLowerCase();
+  if(!["xlsx","xls","csv"].includes(ext))return;
+
+  try{
+    const rows=parseDistributionSheet_(await file.arrayBuffer());
+    distributionStructuredRows=rows.filter(r=>{
+      const mobile=String(r.mobile||"").replace(/\D/g,"").slice(-10);
+      return r.name && mobile.length===10;
+    });
+    if(preview)preview.textContent=
+      distributionStructuredRows.length+" rows will be stored as an editable data sheet in the recipient dashboard.";
+  }catch(e){
+    if(preview)preview.textContent=e.message;
+    distributionStructuredRows=[];
+  }
+});
+
 async function loadAdminDistribution(){
   const body=document.getElementById("distributionTableBody");
   if(!body)return;
@@ -4598,10 +4660,11 @@ document.getElementById("sendDistributionButton").addEventListener("click",async
       recipientId:document.getElementById("distributionRecipient").value,
       title:document.getElementById("distributionTitle").value.trim(),
       details:document.getElementById("distributionDetails").value.trim(),
-      file:payload
+      file:payload,
+      structuredRows:distributionStructuredRows
     });
     if(!r.success)throw new Error(r.message||"Unable to send data.");
-    msg.textContent="Data sent successfully.";
+    msg.textContent="Data sent successfully." + (r.structuredImported ? " • "+r.structuredImported+" rows stored in the dashboard data sheet." : "");
     document.getElementById("distributionTitle").value="";
     document.getElementById("distributionDetails").value="";
     document.getElementById("distributionFile").value="";
