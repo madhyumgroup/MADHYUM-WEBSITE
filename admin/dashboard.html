@@ -4397,24 +4397,90 @@ document.getElementById("viewAadhaarButton").addEventListener("click",async func
   }catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}
 });
 
+
+async function getActiveRecipientsForData_(){
+  let recipients = [];
+
+  try{
+    const dist = await apiPost("adminDataDistribution",{token:token});
+    if (dist && dist.success && Array.isArray(dist.recipients)){
+      recipients = dist.recipients;
+    }
+  }catch(_){}
+
+  if (!recipients.length){
+    const agentsResult = await apiPost("listAgents",{token:token});
+    if (!agentsResult || !agentsResult.success){
+      throw new Error((agentsResult && agentsResult.message) || "Unable to load Agent / BDM list.");
+    }
+
+    const rows = Array.isArray(agentsResult.agents)
+      ? agentsResult.agents
+      : (Array.isArray(agentsResult.items) ? agentsResult.items : []);
+
+    recipients = rows
+      .filter(function(a){
+        return String(a.active || "").toUpperCase() === "YES";
+      })
+      .map(function(a){
+        return {
+          agentId:a.agentId || a.id || "",
+          name:a.name || "",
+          role:a.role || "",
+          reportingBdmId:a.reportingBdmId || ""
+        };
+      })
+      .filter(function(a){ return a.agentId; });
+  }
+
+  return recipients;
+}
+
+function recipientOptionsHtml_(recipients,placeholder){
+  return '<option value="">'+escapeHtml(placeholder || "Select Agent / BDM")+'</option>' +
+    recipients.map(function(a){
+      const role = String(a.role || "").toUpperCase() === "EMPLOYEE" ? "BDM" : "Agent";
+      return '<option value="'+escapeHtml(a.agentId)+'">'+
+        escapeHtml(a.agentId+" — "+a.name+" ("+role+")")+
+      '</option>';
+    }).join("");
+}
+
 async function loadAdminDistribution(){
   const body=document.getElementById("distributionTableBody");
   if(!body)return;
+
   body.innerHTML='<tr><td colspan="7" class="loading">Loading distributed data...</td></tr>';
+
   try{
-    const r=await apiPost("adminDataDistribution",{token:token});
-    if(!r.success)throw new Error(r.message||"Unable to load distributed data.");
-    adminDistributionItems=Array.isArray(r.items)?r.items:[];
-    adminDistributionRecipients=Array.isArray(r.recipients)?r.recipients:[];
+    let items = [];
+
+    try{
+      const r=await apiPost("adminDataDistribution",{token:token});
+      if(r && r.success && Array.isArray(r.items)) items=r.items;
+    }catch(_){}
+
+    adminDistributionItems=items;
+    adminDistributionRecipients=await getActiveRecipientsForData_();
+
     const select=document.getElementById("distributionRecipient");
     const current=select.value;
-    select.innerHTML='<option value="">Select Agent / BDM</option>'+
-      adminDistributionRecipients.map(function(a){
-        const role=String(a.role||"").toUpperCase()==="EMPLOYEE"?"BDM":"Agent";
-        return '<option value="'+escapeHtml(a.agentId)+'">'+escapeHtml(a.agentId+" — "+a.name+" ("+role+")")+'</option>';
-      }).join("");
-    if([...select.options].some(function(o){return o.value===current;}))select.value=current;
+
+    select.innerHTML=recipientOptionsHtml_(
+      adminDistributionRecipients,
+      "Select Agent / BDM"
+    );
+
+    if([...select.options].some(function(o){return o.value===current;})){
+      select.value=current;
+    }
+
+    if(!adminDistributionRecipients.length){
+      throw new Error("No active BDM / Agent found. Check Active = YES in AGENTS sheet.");
+    }
+
     renderAdminDistribution();
+
   }catch(err){
     body.innerHTML='<tr><td colspan="7" class="empty">'+escapeHtml(err.message)+'</td></tr>';
   }
@@ -4494,6 +4560,10 @@ async function loadAdminCallingData(){
     if (!r.success) throw new Error(r.message || "Unable to load calling data.");
     adminCallingItems = Array.isArray(r.items) ? r.items : [];
     adminCallingRecipients = Array.isArray(r.recipients) ? r.recipients : [];
+
+    if (!adminCallingRecipients.length){
+      adminCallingRecipients = await getActiveRecipientsForData_();
+    }
 
     const options = adminCallingRecipients.map(function(a){
       const role = String(a.role||"").toUpperCase()==="EMPLOYEE" ? "BDM" : "Agent";
