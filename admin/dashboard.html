@@ -742,39 +742,39 @@
       Dashboard
     </button>
 
-    <button class="nav-item" id="inquiriesNav">
+    <button type="button" class="nav-item" id="inquiriesNav">
       Inquiries
     </button>
 
-    <button class="nav-item" id="agentsNav">
+    <button type="button" class="nav-item" id="agentsNav">
       Agents
     </button>
 
-    <button class="nav-item" id="distributionNav">
+    <button type="button" class="nav-item" id="distributionNav">
       Data Distribution
     </button>
 
-    <button class="nav-item" id="callingDataNav">
+    <button type="button" class="nav-item" id="callingDataNav">
       Calling Data
     </button>
 
-    <button class="nav-item" id="visitorsNav">
+    <button type="button" class="nav-item" id="visitorsNav">
       Visitors
     </button>
 
-    <button class="nav-item" id="commissionsNav">
+    <button type="button" class="nav-item" id="commissionsNav">
       Commissions
     </button>
 
-    <button class="nav-item" id="trashNav">
+    <button type="button" class="nav-item" id="trashNav">
       Dispose
     </button>
 
-    <button class="nav-item" id="exportNav">
+    <button type="button" class="nav-item" id="exportNav">
       Export
     </button>
 
-    <button class="nav-item logout" id="logoutButton">
+    <button type="button" class="nav-item logout" id="logoutButton">
       Logout
     </button>
 
@@ -823,7 +823,7 @@
 
     <!-- INQUIRIES -->
 
-    <section class="panel" id="inquiriesSection">
+    <section class="panel admin-view-hidden" id="inquiriesSection">
 
       <h2 class="panel-title">
         All Inquiries & Leads
@@ -918,7 +918,7 @@
 
     <!-- AGENTS -->
 
-    <section class="panel" id="agentsSection">
+    <section class="panel admin-view-hidden" id="agentsSection">
 
       <h2 class="panel-title">
         Agent Management
@@ -1241,7 +1241,7 @@
       </div>
     </section>
 
-    <section class="panel" id="commissionsSection">
+    <section class="panel admin-view-hidden" id="commissionsSection">
       <h2 class="panel-title">Commission Management</h2>
       <div class="filters">
         <input id="commissionSearch" type="search" placeholder="Search Lead ID, customer, LG, LC...">
@@ -1949,7 +1949,14 @@ function setAdminView(view){
   const agents =
     document.getElementById("agentsSection");
 
-  const commissions =
+  
+  const distribution =
+    document.getElementById("distributionSection");
+
+  const callingData =
+    document.getElementById("callingDataSection");
+
+const commissions =
     document.getElementById("commissionsSection");
 
   const trash =
