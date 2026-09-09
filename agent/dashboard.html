@@ -83,20 +83,34 @@
         <button class="submit-btn" id="sendTeamDataButton" type="button">Send to Agent</button>
         <div class="message" id="teamDataMessage"></div>
       </div>
+
       <div>
-        <h3 style="margin-top:0;">Forwarding</h3>
-        <div class="section-note">Use <strong>Forward to Team</strong> on any received item. Its title/details and attachment will be prepared for forwarding to one of your reporting Agents.</div>
+        <h3 style="margin-top:0;">Distribution Rule</h3>
+        <div class="section-note">
+          BDM can forward Director data only to Agents reporting to that BDM.
+          Agent can receive and view only.
+        </div>
         <button class="small-btn" id="clearForwardButton" type="button">Clear Forward Selection</button>
       </div>
     </div>
   </div>
 
-  <h3>Received</h3>
-  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Date</th><th>From</th><th>Title</th><th>Details</th><th>Attachment</th><th>Action</th></tr></thead><tbody id="receivedDataBody"><tr><td colspan="7" class="empty">Loading shared data...</td></tr></tbody></table></div>
+  <h3>Received Data</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Date</th><th>From</th><th>Title</th><th>Details</th><th>Attachment</th><th>Action</th></tr></thead>
+      <tbody id="receivedDataBody"><tr><td colspan="7" class="empty">Loading shared data...</td></tr></tbody>
+    </table>
+  </div>
 
   <div id="bdmSentDataWrap" style="display:none;margin-top:24px;">
     <h3>Sent to Team</h3>
-    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Date</th><th>Agent</th><th>Title</th><th>Details</th><th>Attachment</th></tr></thead><tbody id="sentDataBody"><tr><td colspan="6" class="empty">No sent data.</td></tr></tbody></table></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Date</th><th>Agent</th><th>Title</th><th>Details</th><th>Attachment</th></tr></thead>
+        <tbody id="sentDataBody"><tr><td colspan="6" class="empty">No sent data.</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </section>
 
@@ -104,7 +118,7 @@
 <section class="panel view-section" id="callingDataSection">
   <h2>Calling Data</h2>
   <div class="section-note" id="callingDataNote">
-    Update call status and remark. BDM can keep data for self or assign it to reporting Agents.
+    Update Connected / Not Connected and Remark. BDM can keep data for self or assign it only to reporting Agents.
   </div>
 
   <div class="filters">
@@ -119,10 +133,18 @@
 
   <div class="table-wrap">
     <table>
-      <thead><tr>
-        <th>Name</th><th>Mobile Number</th><th>City</th><th>Source</th>
-        <th>Connected / Not Connected</th><th>Remark</th><th>Assigned To</th><th>Action</th>
-      </tr></thead>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Mobile Number</th>
+          <th>City</th>
+          <th>Source</th>
+          <th>Connected / Not Connected</th>
+          <th>Remark</th>
+          <th>Assigned To</th>
+          <th>Action</th>
+        </tr>
+      </thead>
       <tbody id="agentCallingTableBody"><tr><td colspan="8" class="empty">Loading calling data...</td></tr></tbody>
     </table>
   </div>
@@ -139,7 +161,7 @@ const API_URL="https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQAB
 const token=sessionStorage.getItem("madhyumAgentToken");if(!token)location.href="index.html";
 let currentAgent={},allLeads=[],allCommissions=[],selectedLead=null;
 const $=id=>document.getElementById(id);const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-async function post(action,payload={}){const r=await fetch(API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});return r.json()}
+async function post(action,payload={}){const bodyPayload=Object.assign({},payload||{},{action});const r=await fetch(API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(bodyPayload)});return r.json()}
 function badge(s){const k=String(s||"NEW").toLowerCase().replace(/ /g,"-");return `<span class="status s-${k}">${esc(s||"NEW")}</span>`}
 function dateText(d,t){return esc(d||"—")+(t?`<br><small>${esc(t)}</small>`:"")}
 function parseLeadDetails(text){const raw=String(text||'').trim();let subcategory='',budget='',details='';if(!raw)return{subcategory,budget,details};const lines=raw.split(/\r?\n/);let structured=false;for(const line of lines){let m=line.match(/^Category \/ Sub-category:\s*(.*)$/i)||line.match(/^Sub-category:\s*(.*)$/i);if(m){subcategory=m[1].trim();structured=true;continue}m=line.match(/^Budget \/ Range:\s*(.*)$/i)||line.match(/^Budget:\s*(.*)$/i);if(m){budget=m[1].trim();structured=true;continue}m=line.match(/^Details:\s*(.*)$/i);if(m){details+=(details?'\n':'')+m[1];structured=true;continue}if(structured){details+=(details?'\n':'')+line}}if(!structured)details=raw;return{subcategory,budget,details:details.trim()}}
@@ -226,186 +248,265 @@ bindMetricCard("convertedLeadsCard",function(){
   openLeadCardStatus("CONVERTED","convertedLeadsCard");
 });
 document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{clearMetricCardActive();showView(b.dataset.view)});$('logoutButton').onclick=()=>{['madhyumAgentToken','madhyumAgentId','madhyumAgentName','madhyumAgentRole','madhyumReportingBdmId'].forEach(k=>sessionStorage.removeItem(k));location.href='index.html'};
-/* SHARED DATA — DIRECTOR → BDM/AGENT, BDM → TEAM AGENTS */
-let receivedSharedData=[], sentSharedData=[], teamDataAgents=[];
+/* =====================================================
+   SHARED DATA + CALLING DATA
+===================================================== */
+let receivedSharedData=[];
+let sentSharedData=[];
+let teamDataAgents=[];
+let agentCallingItems=[];
+let agentCallingTeam=[];
+let agentCallingIsBdm=false;
+let agentCallingMe="";
 
 function agentFileToBase64(file,maxMb){
   return new Promise((resolve,reject)=>{
     if(!file)return resolve(null);
     if(file.size>maxMb*1024*1024)return reject(new Error("File is too large. Maximum "+maxMb+" MB."));
     const r=new FileReader();
-    r.onload=()=>resolve({fileName:file.name,mimeType:file.type||"application/octet-stream",base64:String(r.result||"").split(",")[1]||""});
+    r.onload=()=>resolve({
+      fileName:file.name,
+      mimeType:file.type||"application/octet-stream",
+      base64:String(r.result||"").split(",")[1]||""
+    });
     r.onerror=()=>reject(new Error("Unable to read file."));
     r.readAsDataURL(file);
   });
 }
+
 function openAgentBase64File(p){
-  const b=atob(p.base64||""),a=new Uint8Array(b.length);
+  const b=atob(p.base64||"");
+  const a=new Uint8Array(b.length);
   for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);
   const u=URL.createObjectURL(new Blob([a],{type:p.mimeType||"application/octet-stream"}));
-  window.open(u,"_blank","noopener");setTimeout(()=>URL.revokeObjectURL(u),60000);
+  window.open(u,"_blank","noopener");
+  setTimeout(()=>URL.revokeObjectURL(u),60000);
 }
+
 async function loadSharedData(){
   const r=await post("agentDataDistribution",{token});
   if(!r.success)throw new Error(r.message||"Unable to load shared data.");
+
   receivedSharedData=Array.isArray(r.received)?r.received:[];
   sentSharedData=Array.isArray(r.sent)?r.sent:[];
   teamDataAgents=Array.isArray(r.team)?r.team:[];
+
   const isBdm=!!r.isBdm;
+
   $("bdmDistributionPanel").style.display=isBdm?"block":"none";
   $("bdmSentDataWrap").style.display=isBdm?"block":"none";
+
   $("sharedDataNote").textContent=isBdm
     ?"Data received from Director is shown below. You can further distribute it only to Agents reporting to you."
     :"Data shared with you by Director / BDM will appear here.";
+
   if(isBdm){
-    $("teamDataRecipient").innerHTML='<option value="">Select Agent</option>'+teamDataAgents.map(a=>`<option value="${esc(a.agentId)}">${esc(a.agentId+" — "+a.name)}</option>`).join("");
+    $("teamDataRecipient").innerHTML=
+      '<option value="">Select Agent</option>'+
+      teamDataAgents.map(a=>`<option value="${esc(a.agentId)}">${esc(a.agentId+" — "+a.name)}</option>`).join("");
   }
+
   renderSharedData();
 }
+
 function renderSharedData(){
-  $("receivedDataBody").innerHTML=receivedSharedData.length?receivedSharedData.map(x=>`<tr>
-    <td><strong>${esc(x.distributionId)}</strong></td><td>${esc(x.createdAt||"—")}</td>
-    <td>${esc(x.senderId||"—")}<br><small>${esc(x.senderRole||"")}</small></td>
-    <td>${esc(x.title||"—")}</td><td>${esc(x.details||"—")}</td>
-    <td>${x.hasAttachment?`<button class="small-btn shared-file-btn" data-id="${esc(x.distributionId)}">${esc(x.attachmentFileName||"Open File")}</button>`:"—"}</td>
-    <td>${String(currentAgent.role||"").toUpperCase()==="EMPLOYEE"?`<button class="small-btn forward-data-btn" data-id="${esc(x.distributionId)}">Forward to Team</button>`:"—"}</td>
-  </tr>`).join(""):'<tr><td colspan="7" class="empty">No shared data received yet.</td></tr>';
+  $("receivedDataBody").innerHTML=receivedSharedData.length
+    ? receivedSharedData.map(x=>`<tr>
+        <td><strong>${esc(x.distributionId)}</strong></td>
+        <td>${esc(x.createdAt||"—")}</td>
+        <td>${esc(x.senderId||"—")}<br><small>${esc(x.senderRole||"")}</small></td>
+        <td>${esc(x.title||"—")}</td>
+        <td>${esc(x.details||"—")}</td>
+        <td>${x.hasAttachment?`<button class="small-btn shared-file-btn" data-id="${esc(x.distributionId)}">${esc(x.attachmentFileName||"Open File")}</button>`:"—"}</td>
+        <td>${String(currentAgent.role||"").toUpperCase()==="EMPLOYEE"
+          ?`<button class="small-btn forward-data-btn" data-id="${esc(x.distributionId)}">Forward to Team</button>`
+          :"—"}</td>
+      </tr>`).join("")
+    :'<tr><td colspan="7" class="empty">No shared data received yet.</td></tr>';
 
-  $("sentDataBody").innerHTML=sentSharedData.length?sentSharedData.map(x=>`<tr>
-    <td><strong>${esc(x.distributionId)}</strong></td><td>${esc(x.createdAt||"—")}</td>
-    <td>${esc(x.recipientId||"—")}<br><small>${esc(x.recipientName||"")}</small></td>
-    <td>${esc(x.title||"—")}</td><td>${esc(x.details||"—")}</td>
-    <td>${x.hasAttachment?`<button class="small-btn shared-file-btn" data-id="${esc(x.distributionId)}">${esc(x.attachmentFileName||"Open File")}</button>`:"—"}</td>
-  </tr>`).join(""):'<tr><td colspan="6" class="empty">No data sent to team yet.</td></tr>';
+  $("sentDataBody").innerHTML=sentSharedData.length
+    ? sentSharedData.map(x=>`<tr>
+        <td><strong>${esc(x.distributionId)}</strong></td>
+        <td>${esc(x.createdAt||"—")}</td>
+        <td>${esc(x.recipientId||"—")}<br><small>${esc(x.recipientName||"")}</small></td>
+        <td>${esc(x.title||"—")}</td>
+        <td>${esc(x.details||"—")}</td>
+        <td>${x.hasAttachment?`<button class="small-btn shared-file-btn" data-id="${esc(x.distributionId)}">${esc(x.attachmentFileName||"Open File")}</button>`:"—"}</td>
+      </tr>`).join("")
+    :'<tr><td colspan="6" class="empty">No data sent to team yet.</td></tr>';
 
-  document.querySelectorAll(".shared-file-btn").forEach(btn=>btn.onclick=async function(){
-    const old=this.textContent;this.disabled=true;this.textContent="Opening...";
-    try{const r=await post("agentGetSharedFile",{token,distributionId:this.dataset.id});if(!r.success)throw new Error(r.message);openAgentBase64File(r)}
-    catch(e){alert(e.message||"Unable to open file.")}finally{this.disabled=false;this.textContent=old}
+  document.querySelectorAll(".shared-file-btn").forEach(btn=>{
+    btn.onclick=async function(){
+      const old=this.textContent;
+      this.disabled=true;
+      this.textContent="Opening...";
+      try{
+        const r=await post("agentGetSharedFile",{token,distributionId:this.dataset.id});
+        if(!r.success)throw new Error(r.message||"Unable to open file.");
+        openAgentBase64File(r);
+      }catch(e){
+        alert(e.message||"Unable to open file.");
+      }finally{
+        this.disabled=false;
+        this.textContent=old;
+      }
+    };
   });
-  document.querySelectorAll(".forward-data-btn").forEach(btn=>btn.onclick=function(){
-    const x=receivedSharedData.find(i=>i.distributionId===this.dataset.id);if(!x)return;
-    $("teamDataTitle").value=x.title||"";
-    $("teamDataDetails").value=x.details||"";
-    $("teamParentDistributionId").value=x.distributionId||"";
-    $("teamDataFile").value="";
-    $("teamDataMessage").textContent="Forwarding "+x.distributionId+(x.hasAttachment?" with its existing attachment.":"");
-    $("teamDataRecipient").focus();
+
+  document.querySelectorAll(".forward-data-btn").forEach(btn=>{
+    btn.onclick=function(){
+      const x=receivedSharedData.find(i=>i.distributionId===this.dataset.id);
+      if(!x)return;
+      $("teamDataTitle").value=x.title||"";
+      $("teamDataDetails").value=x.details||"";
+      $("teamParentDistributionId").value=x.distributionId||"";
+      $("teamDataFile").value="";
+      $("teamDataMessage").textContent=
+        "Forwarding "+x.distributionId+(x.hasAttachment?" with its existing attachment.":"");
+      $("teamDataRecipient").focus();
+    };
   });
 }
-$("clearForwardButton").onclick=()=>{$("teamParentDistributionId").value="";$("teamDataTitle").value="";$("teamDataDetails").value="";$("teamDataFile").value="";$("teamDataMessage").textContent=""};
-$("sendTeamDataButton").onclick=async function(){
-  const b=this;b.disabled=true;$("teamDataMessage").textContent="Sending...";
-  try{
-    const f=$("teamDataFile").files[0],payload=f?await agentFileToBase64(f,3):null;
-    const r=await post("agentSendData",{token,recipientId:$("teamDataRecipient").value,title:$("teamDataTitle").value.trim(),details:$("teamDataDetails").value.trim(),parentDistributionId:$("teamParentDistributionId").value,file:payload});
-    if(!r.success)throw new Error(r.message||"Unable to send data.");
-    $("teamDataMessage").textContent="Data sent successfully.";
-    $("teamDataTitle").value="";$("teamDataDetails").value="";$("teamParentDistributionId").value="";$("teamDataFile").value="";
-    await loadSharedData();
-  }catch(e){$("teamDataMessage").textContent=e.message}finally{b.disabled=false}
+
+$("clearForwardButton").onclick=()=>{
+  $("teamParentDistributionId").value="";
+  $("teamDataTitle").value="";
+  $("teamDataDetails").value="";
+  $("teamDataFile").value="";
+  $("teamDataMessage").textContent="";
 };
 
+$("sendTeamDataButton").onclick=async function(){
+  const b=this;
+  b.disabled=true;
+  $("teamDataMessage").textContent="Sending...";
+  try{
+    const f=$("teamDataFile").files[0];
+    const payload=f?await agentFileToBase64(f,3):null;
 
-/* CALLING DATA — BDM SELF / TEAM, AGENT OWN */
-let agentCallingItems = [];
-let agentCallingTeam = [];
-let agentCallingIsBdm = false;
-let agentCallingMe = "";
+    const r=await post("agentSendData",{
+      token,
+      recipientId:$("teamDataRecipient").value,
+      title:$("teamDataTitle").value.trim(),
+      details:$("teamDataDetails").value.trim(),
+      parentDistributionId:$("teamParentDistributionId").value,
+      file:payload
+    });
+
+    if(!r.success)throw new Error(r.message||"Unable to send data.");
+
+    $("teamDataMessage").textContent="Data sent successfully.";
+    $("teamDataTitle").value="";
+    $("teamDataDetails").value="";
+    $("teamParentDistributionId").value="";
+    $("teamDataFile").value="";
+    await loadSharedData();
+  }catch(e){
+    $("teamDataMessage").textContent=e.message;
+  }finally{
+    b.disabled=false;
+  }
+};
 
 async function loadAgentCallingData(){
-  const body = $("agentCallingTableBody");
-  if (!body) return;
-  body.innerHTML = '<tr><td colspan="8" class="empty">Loading calling data...</td></tr>';
+  const body=$("agentCallingTableBody");
+  if(!body)return;
 
-  try {
-    const r = await post("agentCallingData",{token});
-    if (!r.success) throw new Error(r.message || "Unable to load calling data.");
+  body.innerHTML='<tr><td colspan="8" class="empty">Loading calling data...</td></tr>';
 
-    agentCallingItems = Array.isArray(r.items) ? r.items : [];
-    agentCallingTeam = Array.isArray(r.team) ? r.team : [];
-    agentCallingIsBdm = !!r.isBdm;
-    agentCallingMe = r.me || currentAgent.agentId || "";
+  try{
+    const r=await post("agentCallingData",{token});
+    if(!r.success)throw new Error(r.message||"Unable to load calling data.");
 
-    $("callingDataNote").textContent = agentCallingIsBdm
-      ? "You can call data yourself or assign it only to Agents reporting to you."
-      : "Update Connected / Not Connected and your remark for data assigned to you.";
+    agentCallingItems=Array.isArray(r.items)?r.items:[];
+    agentCallingTeam=Array.isArray(r.team)?r.team:[];
+    agentCallingIsBdm=!!r.isBdm;
+    agentCallingMe=r.me||currentAgent.agentId||"";
 
-    if (agentCallingIsBdm) {
-      $("agentCallingAssigneeFilter").style.display = "";
-      $("agentCallingAssigneeFilter").innerHTML =
+    $("callingDataNote").textContent=agentCallingIsBdm
+      ?"You can call data yourself or assign it only to Agents reporting to you."
+      :"Update Connected / Not Connected and your remark for data assigned to you.";
+
+    if(agentCallingIsBdm){
+      $("agentCallingAssigneeFilter").style.display="";
+      $("agentCallingAssigneeFilter").innerHTML=
         '<option value="">All Assigned</option>'+
         '<option value="'+esc(agentCallingMe)+'">Myself ('+esc(agentCallingMe)+')</option>'+
         agentCallingTeam.map(a=>'<option value="'+esc(a.agentId)+'">'+esc(a.agentId+" — "+a.name)+'</option>').join("");
-    } else {
-      $("agentCallingAssigneeFilter").style.display = "none";
+    }else{
+      $("agentCallingAssigneeFilter").style.display="none";
     }
 
     renderAgentCallingData();
 
-  } catch(error) {
-    body.innerHTML = '<tr><td colspan="8" class="empty">'+esc(error.message)+'</td></tr>';
+  }catch(error){
+    body.innerHTML='<tr><td colspan="8" class="empty">'+esc(error.message)+'</td></tr>';
   }
 }
 
 function renderAgentCallingData(){
-  const body = $("agentCallingTableBody");
-  const q = ($("agentCallingSearch").value||"").trim().toLowerCase();
-  const s = $("agentCallingStatusFilter").value;
-  const a = $("agentCallingAssigneeFilter").value;
+  const body=$("agentCallingTableBody");
+  const q=($("agentCallingSearch").value||"").trim().toLowerCase();
+  const s=$("agentCallingStatusFilter").value;
+  const a=$("agentCallingAssigneeFilter").value;
 
-  const rows = agentCallingItems.filter(x=>{
-    const hay = [x.dataId,x.name,x.mobile,x.city,x.source,x.remark,x.assignedTo].join(" ").toLowerCase();
+  const rows=agentCallingItems.filter(x=>{
+    const hay=[x.dataId,x.name,x.mobile,x.city,x.source,x.remark,x.assignedTo].join(" ").toLowerCase();
     return (!q||hay.includes(q)) &&
       (!s||String(x.callStatus||"").toUpperCase()===s) &&
       (!a||x.assignedTo===a);
   });
 
-  body.innerHTML = rows.length ? rows.map(x=>{
-    let assignee = esc(x.assignedTo||"—");
+  body.innerHTML=rows.length
+    ?rows.map(x=>{
+      let assignee=esc(x.assignedTo||"—");
 
-    if (agentCallingIsBdm) {
-      assignee = '<select class="agent-calling-assignee" data-id="'+esc(x.dataId)+'">'+
-        '<option value="'+esc(agentCallingMe)+'" '+(x.assignedTo===agentCallingMe?'selected':'')+'>Myself ('+esc(agentCallingMe)+')</option>'+
-        agentCallingTeam.map(t=>'<option value="'+esc(t.agentId)+'" '+(x.assignedTo===t.agentId?'selected':'')+'>'+esc(t.agentId+" — "+t.name)+'</option>').join("")+
-      '</select>';
-    }
+      if(agentCallingIsBdm){
+        assignee=
+          '<select class="agent-calling-assignee" data-id="'+esc(x.dataId)+'">'+
+          '<option value="'+esc(agentCallingMe)+'" '+(x.assignedTo===agentCallingMe?'selected':'')+'>Myself ('+esc(agentCallingMe)+')</option>'+
+          agentCallingTeam.map(t=>'<option value="'+esc(t.agentId)+'" '+(x.assignedTo===t.agentId?'selected':'')+'>'+esc(t.agentId+" — "+t.name)+'</option>').join("")+
+          '</select>';
+      }
 
-    return '<tr>'+
-      '<td><strong>'+esc(x.name||"—")+'</strong><br><small>'+esc(x.dataId||"")+'</small></td>'+
-      '<td><a href="tel:'+esc(String(x.mobile||"").replace(/\D/g,""))+'">'+esc(x.mobile||"—")+'</a></td>'+
-      '<td>'+esc(x.city||"—")+'</td>'+
-      '<td>'+esc(x.source||"—")+'</td>'+
-      '<td><select class="agent-calling-status" data-id="'+esc(x.dataId)+'">'+
-        '<option value="NOT CONNECTED" '+(String(x.callStatus).toUpperCase()==="NOT CONNECTED"?"selected":"")+'>Not Connected</option>'+
-        '<option value="CONNECTED" '+(String(x.callStatus).toUpperCase()==="CONNECTED"?"selected":"")+'>Connected</option>'+
-      '</select></td>'+
-      '<td><input class="agent-calling-remark" data-id="'+esc(x.dataId)+'" value="'+esc(x.remark||"")+'" placeholder="Remark"></td>'+
-      '<td>'+assignee+'</td>'+
-      '<td><button class="small-btn save-agent-calling" data-id="'+esc(x.dataId)+'">Save</button></td>'+
-    '</tr>';
-  }).join("") : '<tr><td colspan="8" class="empty">No calling data assigned.</td></tr>';
+      const mob=String(x.mobile||"").replace(/\D/g,"");
+
+      return '<tr>'+
+        '<td><strong>'+esc(x.name||"—")+'</strong><br><small>'+esc(x.dataId||"")+'</small></td>'+
+        '<td><a class="link-btn" href="tel:'+esc(mob)+'">'+esc(x.mobile||"—")+'</a></td>'+
+        '<td>'+esc(x.city||"—")+'</td>'+
+        '<td>'+esc(x.source||"—")+'</td>'+
+        '<td><select class="agent-calling-status" data-id="'+esc(x.dataId)+'">'+
+          '<option value="NOT CONNECTED" '+(String(x.callStatus).toUpperCase()==="NOT CONNECTED"?"selected":"")+'>Not Connected</option>'+
+          '<option value="CONNECTED" '+(String(x.callStatus).toUpperCase()==="CONNECTED"?"selected":"")+'>Connected</option>'+
+        '</select></td>'+
+        '<td><input class="agent-calling-remark" data-id="'+esc(x.dataId)+'" value="'+esc(x.remark||"")+'" placeholder="Remark"></td>'+
+        '<td>'+assignee+'</td>'+
+        '<td><button class="small-btn save-agent-calling" data-id="'+esc(x.dataId)+'">Save</button></td>'+
+      '</tr>';
+    }).join("")
+    :'<tr><td colspan="8" class="empty">No calling data assigned.</td></tr>';
 
   body.querySelectorAll(".save-agent-calling").forEach(btn=>{
-    btn.onclick = async function(){
-      const id = this.dataset.id;
-      const status = body.querySelector('.agent-calling-status[data-id="'+CSS.escape(id)+'"]').value;
-      const remark = body.querySelector('.agent-calling-remark[data-id="'+CSS.escape(id)+'"]').value.trim();
-      const assigneeEl = body.querySelector('.agent-calling-assignee[data-id="'+CSS.escape(id)+'"]');
-      const assignedTo = assigneeEl ? assigneeEl.value : agentCallingMe;
+    btn.onclick=async function(){
+      const id=this.dataset.id;
+      const status=body.querySelector('.agent-calling-status[data-id="'+CSS.escape(id)+'"]').value;
+      const remark=body.querySelector('.agent-calling-remark[data-id="'+CSS.escape(id)+'"]').value.trim();
+      const assigneeEl=body.querySelector('.agent-calling-assignee[data-id="'+CSS.escape(id)+'"]');
+      const assignedTo=assigneeEl?assigneeEl.value:agentCallingMe;
 
-      const old = this.textContent;
-      this.disabled = true;
-      this.textContent = "Saving...";
+      const old=this.textContent;
+      this.disabled=true;
+      this.textContent="Saving...";
 
-      try {
-        const r = await post("agentUpdateCallingData",{token,dataId:id,assignedTo,callStatus:status,remark});
-        if (!r.success) throw new Error(r.message || "Unable to update calling data.");
+      try{
+        const r=await post("agentUpdateCallingData",{token,dataId:id,assignedTo,callStatus:status,remark});
+        if(!r.success)throw new Error(r.message||"Unable to update calling data.");
         await loadAgentCallingData();
-      } catch(error) {
+      }catch(error){
         alert(error.message);
-        this.disabled = false;
-        this.textContent = old;
+        this.disabled=false;
+        this.textContent=old;
       }
     };
   });
