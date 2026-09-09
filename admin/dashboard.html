@@ -1162,9 +1162,9 @@
         <input id="commissionSearch" type="search" placeholder="Search Lead ID, customer, LG, LC...">
         <select id="commissionStatusFilter"><option value="">All Commission Records</option><option value="CONVERTED">Converted Leads</option><option value="PENDING">Pending</option><option value="APPROVED">Approved</option><option value="PAID">Paid</option><option value="HOLD">Hold</option></select>
         <select id="commissionWingFilter"><option value="">All Wings</option><option>Real Estate</option><option>Travel</option><option>Education & Admissions</option><option>Consultancy & Business Services</option><option>Events & Weddings</option><option>Membership</option><option>General / Other</option></select>
-        <input id="commissionPersonFilter" type="search" placeholder="LG / BDM / LC ID">
+        <input id="commissionPersonFilter" type="search" placeholder="LG / Director / BDM / LC ID">
       </div>
-      <div class="table-wrap"><table><thead><tr><th>Lead</th><th>Customer</th><th>Wing</th><th>LG</th><th>BDM</th><th>LC</th><th>Total Company Commission</th><th>Status</th><th>Action</th></tr></thead><tbody id="commissionTableBody"><tr><td colspan="9" class="loading">Loading commissions...</td></tr></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Lead</th><th>Customer</th><th>Wing</th><th>LG</th><th>Director / BDM</th><th>LC</th><th>Total Company Commission</th><th>Status</th><th>Action</th></tr></thead><tbody id="commissionTableBody"><tr><td colspan="9" class="loading">Loading commissions...</td></tr></tbody></table></div>
     </section>
 
   </main>
@@ -1369,12 +1369,10 @@
       <div class="field"><label>Customer</label><input id="commissionCustomer" disabled></div>
       <div class="field"><label>Wing</label><input id="commissionWing" disabled></div>
       <div class="field"><label>LG ID</label><input id="commissionLgId"></div>
-      <div class="field"><label>Reporting BDM ID</label><input id="commissionBdmId"></div>
+      <div class="field"><label>Director / BDM</label><select id="commissionBdmId"><option value="">Select Director / BDM</option><option value="DIR001">DIR001 — Director</option></select></div>
       <div class="field"><label>LC ID</label><input id="commissionLcId"></div>
       <div class="field"><label>Deal Value</label><input id="commissionDealValue" type="number" min="0" step="0.01"></div>
       <div class="field"><label>Total Company Commission</label><input id="commissionTotal" type="number" min="0" step="0.01"></div>
-      <div class="field"><label>LG Share (20%)</label><input id="commissionLgPct" type="number" value="20" readonly><div class="helper">Automatically calculated at 20% of Total Company Commission.</div></div>
-      <div class="field"><label>LC Share (20%)</label><input id="commissionLcPct" type="number" value="20" readonly><div class="helper">Automatically calculated at 20% of Total Company Commission.</div></div>
       <div class="field"><label>Commission Status</label><select id="commissionStatus"><option>Pending</option><option>Approved</option><option>Paid</option><option>HOLD</option></select></div>
       <div class="field"><label>Payment Date</label><input id="commissionPaymentDate" type="date"></div>
     </div>
@@ -1886,6 +1884,7 @@ function setAdminView(view){
   }
 
   if (view === "inquiries"){
+    if (cards) cards.classList.remove("admin-view-hidden");
     if (inquiries) inquiries.classList.remove("admin-view-hidden");
     if (pageTitle) pageTitle.textContent = "Inquiries & Leads";
   }
@@ -1898,7 +1897,7 @@ function setAdminView(view){
   if (view === "visitors"){
     if (cards){
       cards.classList.remove("admin-view-hidden");
-      cards.classList.add("visitors-only");
+      cards.classList.remove("visitors-only");
     }
     if (pageTitle) pageTitle.textContent = "Visitors";
   }
@@ -4002,12 +4001,38 @@ function renderCommissions(){
 function recalcCommission(){
   const total=Number(document.getElementById("commissionTotal").value)||0;
   const lg=20, lc=20;
-  document.getElementById("commissionLgPct").value=20;
-  document.getElementById("commissionLcPct").value=20;
   const lgAmt=total*lg/100, lcAmt=total*lc/100;
   document.getElementById("calcLgCommission").textContent=money(lgAmt);
   document.getElementById("calcLcCommission").textContent=money(lcAmt);
   document.getElementById("calcCompanyShare").textContent=money(total-lgAmt-lcAmt);
+}
+
+function populateCommissionManagerOptions(selectedValue){
+  const select=document.getElementById("commissionBdmId");
+  if(!select)return;
+
+  const selected=String(selectedValue||"").trim().toUpperCase();
+  const bdms=allAgents.filter(function(a){
+    return String(a.role||"").toUpperCase()==="EMPLOYEE" &&
+           String(a.active||"").toUpperCase()==="YES";
+  });
+
+  let options='<option value="">Select Director / BDM</option>' +
+              '<option value="DIR001">DIR001 — Director</option>' +
+              bdms.map(function(a){
+                return `<option value="${escapeHtml(a.agentId)}">${escapeHtml(a.agentId)} — ${escapeHtml(a.name)}</option>`;
+              }).join("");
+
+  select.innerHTML=options;
+
+  if(selected && ![...select.options].some(function(o){return String(o.value).toUpperCase()===selected;})){
+    const opt=document.createElement("option");
+    opt.value=selected;
+    opt.textContent=selected+" — Existing Assignment";
+    select.appendChild(opt);
+  }
+
+  if(selected) select.value=selected;
 }
 
 function openCommission(leadId){
@@ -4016,12 +4041,10 @@ function openCommission(leadId){
   document.getElementById("commissionCustomer").value=selectedCommission.customerName||"";
   document.getElementById("commissionWing").value=selectedCommission.wing||"";
   document.getElementById("commissionLgId").value=selectedCommission.lgId||"";
-  document.getElementById("commissionBdmId").value=selectedCommission.reportingBdmId||"";
+  populateCommissionManagerOptions(selectedCommission.reportingBdmId||"");
   document.getElementById("commissionLcId").value=selectedCommission.lcId||"";
   document.getElementById("commissionDealValue").value=selectedCommission.dealValue||"";
   document.getElementById("commissionTotal").value=selectedCommission.totalCommission||"";
-  document.getElementById("commissionLgPct").value=20;
-  document.getElementById("commissionLcPct").value=20;
   document.getElementById("commissionStatus").value=selectedCommission.commissionStatus||"Pending";
   document.getElementById("commissionPaymentDate").value=selectedCommission.paymentDate||"";
   document.getElementById("commissionMessage").textContent=""; recalcCommission();
