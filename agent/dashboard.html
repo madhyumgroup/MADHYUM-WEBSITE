@@ -103,7 +103,34 @@
     </table>
   </div>
 
-  <div id="bdmSentDataWrap" style="display:none;margin-top:24px;">
+  
+  <div style="margin-top:24px;">
+    <h3>Assigned Data Sheet</h3>
+    <div class="section-note">
+      This data is stored in the system. Update Connected / Not Connected and Remark directly in the table; changes remain saved after refresh/login.
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Mobile Number</th>
+            <th>City</th>
+            <th>Source</th>
+            <th>Connected / Not Connected</th>
+            <th>Remark</th>
+            <th>Assigned To</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="sharedCallingTableBody">
+          <tr><td colspan="8" class="empty">Loading assigned data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<div id="bdmSentDataWrap" style="display:none;margin-top:24px;">
     <h3>Sent to Team</h3>
     <div class="table-wrap">
       <table>
@@ -438,10 +465,71 @@ async function loadAgentCallingData(){
     }
 
     renderAgentCallingData();
+    renderSharedCallingData();
 
   }catch(error){
     body.innerHTML='<tr><td colspan="8" class="empty">'+esc(error.message)+'</td></tr>';
   }
+}
+
+
+function renderSharedCallingData(){
+  const body=$("sharedCallingTableBody");
+  if(!body)return;
+
+  const rows=agentCallingItems || [];
+
+  body.innerHTML=rows.length?rows.map(x=>{
+    let assignee=esc(x.assignedTo||"—");
+
+    if(agentCallingIsBdm){
+      assignee=
+        '<select class="shared-calling-assignee" data-id="'+esc(x.dataId)+'">'+
+        '<option value="'+esc(agentCallingMe)+'" '+(x.assignedTo===agentCallingMe?'selected':'')+'>Myself ('+esc(agentCallingMe)+')</option>'+
+        agentCallingTeam.map(t=>'<option value="'+esc(t.agentId)+'" '+(x.assignedTo===t.agentId?'selected':'')+'>'+esc(t.agentId+" — "+t.name)+'</option>').join("")+
+        '</select>';
+    }
+
+    const mob=String(x.mobile||"").replace(/\D/g,"");
+
+    return '<tr>'+
+      '<td><strong>'+esc(x.name||"—")+'</strong></td>'+
+      '<td><a class="link-btn" href="tel:'+esc(mob)+'">'+esc(x.mobile||"—")+'</a></td>'+
+      '<td>'+esc(x.city||"—")+'</td>'+
+      '<td>'+esc(x.source||"—")+'</td>'+
+      '<td><select class="shared-calling-status" data-id="'+esc(x.dataId)+'">'+
+        '<option value="NOT CONNECTED" '+(String(x.callStatus).toUpperCase()==="NOT CONNECTED"?"selected":"")+'>Not Connected</option>'+
+        '<option value="CONNECTED" '+(String(x.callStatus).toUpperCase()==="CONNECTED"?"selected":"")+'>Connected</option>'+
+      '</select></td>'+
+      '<td><input class="shared-calling-remark" data-id="'+esc(x.dataId)+'" value="'+esc(x.remark||"")+'" placeholder="Remark"></td>'+
+      '<td>'+assignee+'</td>'+
+      '<td><button class="small-btn save-shared-calling" data-id="'+esc(x.dataId)+'">Save</button></td>'+
+    '</tr>';
+  }).join(""):'<tr><td colspan="8" class="empty">No structured data assigned yet.</td></tr>';
+
+  body.querySelectorAll(".save-shared-calling").forEach(btn=>{
+    btn.onclick=async function(){
+      const id=this.dataset.id;
+      const status=body.querySelector('.shared-calling-status[data-id="'+CSS.escape(id)+'"]').value;
+      const remark=body.querySelector('.shared-calling-remark[data-id="'+CSS.escape(id)+'"]').value.trim();
+      const assigneeEl=body.querySelector('.shared-calling-assignee[data-id="'+CSS.escape(id)+'"]');
+      const assignedTo=assigneeEl?assigneeEl.value:agentCallingMe;
+
+      const old=this.textContent;
+      this.disabled=true;
+      this.textContent="Saving...";
+
+      try{
+        const r=await post("agentUpdateCallingData",{token,dataId:id,assignedTo,callStatus:status,remark});
+        if(!r.success)throw new Error(r.message||"Unable to save.");
+        await loadAgentCallingData();
+      }catch(e){
+        alert(e.message||"Unable to save.");
+        this.disabled=false;
+        this.textContent=old;
+      }
+    };
+  });
 }
 
 function renderAgentCallingData(){
