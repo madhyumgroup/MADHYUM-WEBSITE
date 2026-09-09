@@ -723,7 +723,19 @@
       cursor:pointer;
     }
 
+
+    #callingDataSection .agent-grid{
+      grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+    @media(max-width:1200px){
+      #callingDataSection .agent-grid{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:760px){
+      #callingDataSection .agent-grid{grid-template-columns:1fr;}
+    }
+
 </style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -1184,6 +1196,36 @@
       </div>
 
       <div class="agent-grid">
+        <div class="agent-box">
+          <h3>Import Excel / CSV</h3>
+
+          <div class="field">
+            <label>Select BDM / Agent ID</label>
+            <select id="callingImportAssignee">
+              <option value="">Select BDM / Agent</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Upload Excel / CSV</label>
+            <input id="callingExcelFile" type="file" accept=".xlsx,.xls,.csv">
+            <div class="helper">
+              Accepted columns: Name, Mobile Number, City, Source. Header names may be in any order.
+            </div>
+          </div>
+
+          <div class="detail-box" style="margin-bottom:14px;">
+            <div class="detail-label">Detected Rows</div>
+            <div class="detail-value" id="callingImportPreview">No file selected.</div>
+          </div>
+
+          <button class="gold-btn" id="importCallingDataButton" type="button">
+            Import & Assign Data
+          </button>
+
+          <div class="form-message" id="callingImportMessage"></div>
+        </div>
+
         <div class="agent-box">
           <h3>Add & Assign Calling Data</h3>
           <div class="field"><label>Name</label><input id="callingName" type="text"></div>
@@ -4459,6 +4501,7 @@ async function loadAdminCallingData(){
     }).join("");
 
     document.getElementById("callingAssignee").innerHTML = '<option value="">Select Agent / BDM</option>'+options;
+    document.getElementById("callingImportAssignee").innerHTML = '<option value="">Select BDM / Agent</option>'+options;
     document.getElementById("callingAssigneeFilter").innerHTML = '<option value="">All Assignees</option>'+options;
     renderAdminCallingData();
 
@@ -4554,6 +4597,153 @@ document.getElementById("addCallingDataButton").onclick = async function(){
     btn.disabled = false;
   }
 };
+
+
+/* EXCEL / CSV IMPORT FOR CALLING DATA */
+let parsedCallingImportRows = [];
+
+function normalizeCallingHeader_(value){
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_\-\/]+/g," ");
+}
+
+function findCallingColumn_(headers, aliases){
+  const normalized = headers.map(normalizeCallingHeader_);
+  for (let i=0;i<aliases.length;i++){
+    const alias = normalizeCallingHeader_(aliases[i]);
+    const idx = normalized.indexOf(alias);
+    if (idx >= 0) return idx;
+  }
+  return -1;
+}
+
+function parseCallingWorkbook_(arrayBuffer){
+  if (typeof XLSX === "undefined"){
+    throw new Error("Excel reader could not load. Refresh the page and try again.");
+  }
+
+  const workbook = XLSX.read(arrayBuffer,{type:"array"});
+  if (!workbook.SheetNames.length){
+    throw new Error("No worksheet found.");
+  }
+
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(sheet,{header:1,defval:"",raw:false});
+
+  if (!rows.length){
+    throw new Error("The uploaded file is empty.");
+  }
+
+  const headers = rows[0].map(v=>String(v||"").trim());
+
+  const nameCol = findCallingColumn_(headers,["Name","Customer Name","Lead Name"]);
+  const mobileCol = findCallingColumn_(headers,[
+    "Mobile Number","Mobile","Phone","Phone Number","Contact Number","Contact"
+  ]);
+  const cityCol = findCallingColumn_(headers,["City","Location"]);
+  const sourceCol = findCallingColumn_(headers,["Source","Lead Source"]);
+
+  if (nameCol < 0 || mobileCol < 0){
+    throw new Error("Excel must contain Name and Mobile Number columns.");
+  }
+
+  return rows.slice(1).map(function(r){
+    return {
+      name:String(r[nameCol] ?? "").trim(),
+      mobile:String(r[mobileCol] ?? "").trim(),
+      city:cityCol >= 0 ? String(r[cityCol] ?? "").trim() : "",
+      source:sourceCol >= 0 ? String(r[sourceCol] ?? "").trim() : ""
+    };
+  }).filter(function(r){
+    return r.name || r.mobile || r.city || r.source;
+  });
+}
+
+document.getElementById("callingExcelFile").addEventListener("change", async function(){
+  const preview = document.getElementById("callingImportPreview");
+  const msg = document.getElementById("callingImportMessage");
+  parsedCallingImportRows = [];
+  msg.textContent = "";
+
+  const file = this.files[0];
+  if (!file){
+    preview.textContent = "No file selected.";
+    return;
+  }
+
+  try{
+    if (file.size > 5 * 1024 * 1024){
+      throw new Error("Excel / CSV file must be 5 MB or smaller.");
+    }
+
+    const buffer = await file.arrayBuffer();
+    parsedCallingImportRows = parseCallingWorkbook_(buffer);
+
+    const valid = parsedCallingImportRows.filter(function(r){
+      const mobile = String(r.mobile || "").replace(/\D/g,"").slice(-10);
+      return r.name && mobile.length === 10;
+    }).length;
+
+    preview.textContent =
+      parsedCallingImportRows.length + " rows detected • " +
+      valid + " valid rows ready to import.";
+
+  } catch(error){
+    preview.textContent = "Unable to read file.";
+    msg.textContent = error.message;
+    parsedCallingImportRows = [];
+  }
+});
+
+document.getElementById("importCallingDataButton").addEventListener("click", async function(){
+  const btn = this;
+  const msg = document.getElementById("callingImportMessage");
+  const assignedTo = document.getElementById("callingImportAssignee").value;
+
+  if (!assignedTo){
+    msg.textContent = "Select BDM / Agent ID first.";
+    return;
+  }
+
+  if (!parsedCallingImportRows.length){
+    msg.textContent = "Select a valid Excel / CSV file first.";
+    return;
+  }
+
+  btn.disabled = true;
+  msg.textContent = "Importing data...";
+
+  try{
+    const r = await apiPost("adminBulkAddCallingData",{
+      token:token,
+      assignedTo:assignedTo,
+      rows:parsedCallingImportRows
+    });
+
+    if (!r.success){
+      throw new Error(r.message || "Unable to import calling data.");
+    }
+
+    msg.textContent =
+      r.imported + " rows imported successfully" +
+      (r.skipped ? " • " + r.skipped + " skipped" : "") +
+      ".";
+
+    document.getElementById("callingExcelFile").value = "";
+    document.getElementById("callingImportPreview").textContent = "No file selected.";
+    parsedCallingImportRows = [];
+
+    await loadAdminCallingData();
+
+  } catch(error){
+    msg.textContent = error.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
 
 document.getElementById("callingMobile").oninput = function(){
   this.value = this.value.replace(/\D/g,"").slice(0,10);
