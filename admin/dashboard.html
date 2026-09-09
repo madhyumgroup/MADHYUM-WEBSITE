@@ -654,7 +654,8 @@
       #agentsTableBody td:nth-child(4)::before{content:"Role";}
       #agentsTableBody td:nth-child(5)::before{content:"Reporting BDM";}
       #agentsTableBody td:nth-child(6)::before{content:"Active";}
-      #agentsTableBody td:nth-child(7)::before{content:"Action";}
+      #agentsTableBody td:nth-child(7)::before{content:"Aadhaar";}
+      #agentsTableBody td:nth-child(8)::before{content:"Action";}
 
       .deactivate-btn{
         margin-left:0;
@@ -695,14 +696,8 @@
 
 
     .card.dashboard-action-card{
-      display:block;
-      width:100%;
-      border:0;
-      text-align:left;
-      font:inherit;
-      color:inherit;
-      cursor:pointer;
-      transition:transform .18s ease, box-shadow .18s ease, outline-color .18s ease;
+      display:block;width:100%;border:0;text-align:left;font:inherit;color:inherit;
+      cursor:pointer;transition:transform .18s ease, box-shadow .18s ease;
     }
     .card.dashboard-action-card:hover{
       transform:translateY(-2px);
@@ -755,6 +750,14 @@
       Agents
     </button>
 
+    <button class="nav-item" id="distributionNav">
+      Data Distribution
+    </button>
+
+    <button class="nav-item" id="callingDataNav">
+      Calling Data
+    </button>
+
     <button class="nav-item" id="visitorsNav">
       Visitors
     </button>
@@ -805,30 +808,15 @@
 
     <section class="cards" id="dashboardCards">
 
-      <button type="button" class="card dashboard-action-card" id="totalCard">
-        <span class="card-label">Total Leads / Inquiries</span>
-        <span class="card-value" id="totalInquiries">—</span>
-      </button>
+      <button type="button" class="card dashboard-action-card" id="totalCard"><span class="card-label">Total Leads / Inquiries</span><span class="card-value" id="totalInquiries">—</span></button>
 
-      <button type="button" class="card dashboard-action-card" id="newCard">
-        <span class="card-label">New</span>
-        <span class="card-value" id="newInquiries">—</span>
-      </button>
+      <button type="button" class="card dashboard-action-card" id="newCard"><span class="card-label">New</span><span class="card-value" id="newInquiries">—</span></button>
 
-      <button type="button" class="card dashboard-action-card" id="progressCard">
-        <span class="card-label">In Progress</span>
-        <span class="card-value" id="progressInquiries">—</span>
-      </button>
+      <button type="button" class="card dashboard-action-card" id="progressCard"><span class="card-label">In Progress</span><span class="card-value" id="progressInquiries">—</span></button>
 
-      <button type="button" class="card dashboard-action-card" id="convertedCard">
-        <span class="card-label">Converted</span>
-        <span class="card-value" id="closedInquiries">—</span>
-      </button>
+      <button type="button" class="card dashboard-action-card" id="convertedCard"><span class="card-label">Converted</span><span class="card-value" id="closedInquiries">—</span></button>
 
-      <button type="button" class="card dashboard-action-card" id="visitorsCard">
-        <span class="card-label">Visitors</span>
-        <span class="card-value" id="visitorCount">—</span>
-      </button>
+      <button type="button" class="card dashboard-action-card" id="visitorsCard"><span class="card-label">Visitors</span><span class="card-value" id="visitorCount">—</span></button>
 
     </section>
 
@@ -1124,6 +1112,7 @@
               <th>Role</th>
               <th>Reporting BDM</th>
               <th>Active</th>
+              <th>Aadhaar</th>
               <th>Action</th>
             </tr>
 
@@ -1133,7 +1122,7 @@
 
             <tr>
 
-              <td colspan="7" class="loading">
+              <td colspan="8" class="loading">
                 Loading agents...
               </td>
 
@@ -1145,6 +1134,94 @@
 
       </div>
 
+    </section>
+
+
+
+    <section class="panel admin-view-hidden" id="distributionSection">
+      <h2 class="panel-title">Data Distribution</h2>
+      <div class="helper" style="margin-bottom:16px;">Director can send data directly to any active BDM or Agent. A BDM can further distribute received data only to Agents reporting to that BDM.</div>
+
+      <div class="agent-grid">
+        <div class="agent-box">
+          <h3>Send Data</h3>
+          <div class="field"><label>Recipient</label><select id="distributionRecipient"><option value="">Select Agent / BDM</option></select></div>
+          <div class="field"><label>Title</label><input id="distributionTitle" type="text" placeholder="Example: Travel leads - September"></div>
+          <div class="field"><label>Details / Instructions</label><textarea id="distributionDetails" placeholder="Enter data, instructions or notes..."></textarea></div>
+          <div class="field"><label>Attachment (optional)</label><input id="distributionFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.csv,.xls,.xlsx,.doc,.docx"><div class="helper">Private attachment, maximum 3 MB.</div></div>
+          <button class="gold-btn" id="sendDistributionButton" type="button">Send Data</button>
+          <div class="form-message" id="distributionMessage"></div>
+        </div>
+        <div class="agent-box">
+          <h3>Distribution Rules</h3>
+          <div class="helper" style="font-size:13px;line-height:1.7;">
+            • Director → any active BDM / Agent<br>
+            • BDM → only Agents reporting to that BDM<br>
+            • Agent → receive/view only<br>
+            • Files remain private; access is through the logged-in portal.
+          </div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="distributionSearch" type="search" placeholder="Search ID, recipient, title...">
+        <select id="distributionRoleFilter"><option value="">All Recipients</option><option value="EMPLOYEE">BDM / Employee</option><option value="AGENT">Agent / BDE</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Date</th><th>Recipient</th><th>Title</th><th>Details</th><th>Attachment</th><th>Status</th></tr></thead>
+          <tbody id="distributionTableBody"><tr><td colspan="7" class="loading">Loading distributed data...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+
+
+    <section class="panel admin-view-hidden" id="callingDataSection">
+      <h2 class="panel-title">Calling Data</h2>
+      <div class="helper" style="margin-bottom:16px;">
+        Director can assign calling data to any active BDM or Agent. BDM can keep it for self-calling or further assign it only to Agents reporting to that BDM.
+      </div>
+
+      <div class="agent-grid">
+        <div class="agent-box">
+          <h3>Add & Assign Calling Data</h3>
+          <div class="field"><label>Name</label><input id="callingName" type="text"></div>
+          <div class="field"><label>Mobile Number</label><input id="callingMobile" type="tel" inputmode="numeric" maxlength="10"></div>
+          <div class="field"><label>City</label><input id="callingCity" type="text"></div>
+          <div class="field"><label>Source</label><input id="callingSource" type="text" placeholder="Website / Reference / Campaign / Other"></div>
+          <div class="field"><label>Assign To</label><select id="callingAssignee"><option value="">Select Agent / BDM</option></select></div>
+          <button class="gold-btn" id="addCallingDataButton" type="button">Assign Calling Data</button>
+          <div class="form-message" id="callingDataMessage"></div>
+        </div>
+
+        <div class="agent-box">
+          <h3>Calling Data Format</h3>
+          <div class="helper" style="font-size:13px;line-height:1.9;">
+            Name<br>Mobile Number<br>City<br>Source<br>Connected / Not Connected<br>Remark
+          </div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="callingSearch" type="search" placeholder="Search name, mobile, city, source, ID...">
+        <select id="callingStatusFilter">
+          <option value="">All Call Status</option>
+          <option value="CONNECTED">Connected</option>
+          <option value="NOT CONNECTED">Not Connected</option>
+        </select>
+        <select id="callingAssigneeFilter"><option value="">All Assignees</option></select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Name</th><th>Mobile Number</th><th>City</th><th>Source</th>
+            <th>Connected / Not Connected</th><th>Remark</th><th>Assigned To</th><th>Action</th>
+          </tr></thead>
+          <tbody id="callingDataTableBody"><tr><td colspan="8" class="loading">Loading calling data...</td></tr></tbody>
+        </table>
+      </div>
     </section>
 
 
@@ -1381,17 +1458,35 @@
       <div class="field"><label>LC ID</label><input id="commissionLcId"></div>
       <div class="field"><label>Deal Value</label><input id="commissionDealValue" type="number" min="0" step="0.01"></div>
       <div class="field"><label>Total Company Commission</label><input id="commissionTotal" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>LG Commission %</label><input id="commissionLgPct" type="number" min="0" max="100" step="0.01" placeholder="Enter LG %"></div>
+      <div class="field"><label>LC Commission %</label><input id="commissionLcPct" type="number" min="0" max="100" step="0.01" placeholder="Enter LC %"></div>
       <div class="field"><label>Commission Status</label><select id="commissionStatus"><option>Pending</option><option>Approved</option><option>Paid</option><option>HOLD</option></select></div>
       <div class="field"><label>Payment Date</label><input id="commissionPaymentDate" type="date"></div>
     </div>
     <div class="detail-grid">
-      <div class="detail-box"><div class="detail-label">LG Commission Amount (20%)</div><div class="detail-value" id="calcLgCommission">₹0</div></div>
-      <div class="detail-box"><div class="detail-label">LC Commission Amount (20%)</div><div class="detail-value" id="calcLcCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">LG Commission Amount</div><div class="detail-value" id="calcLgCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">LC Commission Amount</div><div class="detail-value" id="calcLcCommission">₹0</div></div>
       <div class="detail-box"><div class="detail-label">Company Share</div><div class="detail-value" id="calcCompanyShare">₹0</div></div>
     </div>
     <button class="save-btn" id="saveCommission">Save Commission</button><div class="save-message" id="commissionMessage"></div>
   </div>
 </div>
+
+
+<div class="modal-backdrop" id="aadhaarModal">
+  <div class="modal">
+    <div class="modal-head"><h2>Agent / BDM Aadhaar</h2><button class="close-btn" id="closeAadhaarModal">×</button></div>
+    <div class="detail-grid">
+      <div class="detail-box"><div class="detail-label">Agent / BDM ID</div><div class="detail-value" id="aadhaarAgentId">—</div></div>
+      <div class="detail-box"><div class="detail-label">Current Status</div><div class="detail-value" id="aadhaarStatus">Not Uploaded</div></div>
+    </div>
+    <div class="field"><label>Upload Aadhaar</label><input id="aadhaarFile" type="file" accept=".pdf,.jpg,.jpeg,.png"><div class="helper">PDF/JPG/PNG only, maximum 2 MB. Stored privately; not shown in Agent portal.</div></div>
+    <button class="save-btn" id="uploadAadhaarButton">Upload / Replace Aadhaar</button>
+    <button class="small-btn" id="viewAadhaarButton" style="margin-top:10px;width:100%;">View Current Aadhaar</button>
+    <div class="save-message" id="aadhaarMessage"></div>
+  </div>
+</div>
+
 
 <script>
 
@@ -1867,6 +1962,8 @@ function setAdminView(view){
     dashboard: "dashboardNav",
     inquiries: "inquiriesNav",
     agents: "agentsNav",
+    distribution: "distributionNav",
+    callingData: "callingDataNav",
     visitors: "visitorsNav",
     commissions: "commissionsNav",
     trash: "trashNav"
@@ -1882,7 +1979,7 @@ function setAdminView(view){
     cards.classList.remove("visitors-only");
   }
 
-  [inquiries, agents, commissions, trash].forEach(function(section){
+  [inquiries, agents, distribution, callingData, commissions, trash].forEach(function(section){
     if (section) section.classList.add("admin-view-hidden");
   });
 
@@ -1892,6 +1989,7 @@ function setAdminView(view){
   }
 
   if (view === "inquiries"){
+    if (cards) cards.classList.remove("admin-view-hidden");
     if (inquiries) inquiries.classList.remove("admin-view-hidden");
     if (pageTitle) pageTitle.textContent = "Inquiries & Leads";
   }
@@ -1901,10 +1999,22 @@ function setAdminView(view){
     if (pageTitle) pageTitle.textContent = "Agent Management";
   }
 
+  if (view === "distribution"){
+    if (distribution) distribution.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Data Distribution";
+    loadAdminDistribution();
+  }
+
+  if (view === "callingData"){
+    if (callingData) callingData.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Calling Data";
+    loadAdminCallingData();
+  }
+
   if (view === "visitors"){
     if (cards){
       cards.classList.remove("admin-view-hidden");
-      cards.classList.add("visitors-only");
+      cards.classList.remove("visitors-only");
     }
     if (pageTitle) pageTitle.textContent = "Visitors";
   }
@@ -1942,6 +2052,14 @@ document.getElementById("agentsNav").addEventListener("click", function(){
   setAdminView("agents");
 });
 
+document.getElementById("distributionNav").addEventListener("click", function(){
+  setAdminView("distribution");
+});
+
+document.getElementById("callingDataNav").addEventListener("click", function(){
+  setAdminView("callingData");
+});
+
 document.getElementById("visitorsNav").addEventListener("click", function(){
   setAdminView("visitors");
 });
@@ -1969,6 +2087,7 @@ function bindCardAction(id, fn){
   const el=document.getElementById(id);
   if(!el)return;
   el.addEventListener("click",fn);
+  el.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();fn();}});
 }
 
 bindCardAction("totalCard",function(){openInquiryStatus("");});
@@ -2837,7 +2956,7 @@ async function loadAgents(){
 
   body.innerHTML = `
     <tr>
-      <td colspan="7" class="loading">
+      <td colspan="8" class="loading">
         Loading agents...
       </td>
     </tr>
@@ -2898,7 +3017,7 @@ async function loadAgents(){
 
       body.innerHTML = `
         <tr>
-          <td colspan="7" class="empty">
+          <td colspan="8" class="empty">
             No agents found.
           </td>
         </tr>
@@ -2970,6 +3089,19 @@ async function loadAgents(){
               </td>
 
               <td>
+                <span class="active-badge ${String(agent.aadhaarUploaded || "").toUpperCase() === "YES" ? "yes" : "no"}">
+                  ${String(agent.aadhaarUploaded || "").toUpperCase() === "YES" ? "Uploaded" : "Not Uploaded"}
+                </span>
+              </td>
+
+              <td>
+
+                <button
+                  class="small-btn aadhaar-agent-btn"
+                  data-id="${escapeHtml(agent.agentId)}"
+                >
+                  Aadhaar
+                </button>
 
                 <button
                   class="small-btn edit-agent-btn"
@@ -3004,6 +3136,14 @@ async function loadAgents(){
                     : ""
                 }
 
+                <button
+                  class="small-btn permanent-delete-agent-btn"
+                  style="background:#7f1d1d;color:#fff;margin-left:6px;"
+                  data-id="${escapeHtml(agent.agentId)}"
+                >
+                  Delete
+                </button>
+
               </td>
 
             </tr>
@@ -3012,6 +3152,15 @@ async function loadAgents(){
 
         })
         .join("");
+
+
+    document
+      .querySelectorAll(".aadhaar-agent-btn")
+      .forEach(function(button){
+        button.addEventListener("click", function(){
+          openAadhaarModal(this.dataset.id);
+        });
+      });
 
 
     document
@@ -3160,6 +3309,35 @@ loadCommissions();
             }
           );
 
+
+      });
+
+    document
+      .querySelectorAll(".permanent-delete-agent-btn")
+      .forEach(function(button){
+        button.addEventListener("click", async function(){
+          const agentId = this.dataset.id;
+          const confirmed = confirm(
+            "Delete " + agentId + " permanently?\n\n" +
+            "If this ID has linked leads, commissions, shared data or calling data, deletion will be blocked and you should use Deactivate."
+          );
+          if (!confirmed) return;
+
+          const oldText = this.textContent;
+          this.disabled = true;
+          this.textContent = "Deleting...";
+
+          try {
+            const result = await apiPost("permanentDeleteAgent",{token:token,agentId:agentId});
+            if (!result.success) throw new Error(result.message || "Unable to delete.");
+            alert("Agent / BDM deleted permanently.");
+            await loadAgents();
+          } catch(error) {
+            alert(error.message || "Unable to delete.");
+            this.disabled = false;
+            this.textContent = oldText;
+          }
+        });
       });
 
 
@@ -4006,7 +4184,8 @@ function renderCommissions(){
 
 function recalcCommission(){
   const total=Number(document.getElementById("commissionTotal").value)||0;
-  const lg=20, lc=20;
+  const lg=Math.max(0,Math.min(100,Number(document.getElementById("commissionLgPct").value)||0));
+  const lc=Math.max(0,Math.min(100,Number(document.getElementById("commissionLcPct").value)||0));
   const lgAmt=total*lg/100, lcAmt=total*lc/100;
   document.getElementById("calcLgCommission").textContent=money(lgAmt);
   document.getElementById("calcLcCommission").textContent=money(lcAmt);
@@ -4051,18 +4230,22 @@ function openCommission(leadId){
   document.getElementById("commissionLcId").value=selectedCommission.lcId||"";
   document.getElementById("commissionDealValue").value=selectedCommission.dealValue||"";
   document.getElementById("commissionTotal").value=selectedCommission.totalCommission||"";
+  document.getElementById("commissionLgPct").value=selectedCommission.lgPercent ?? "";
+  document.getElementById("commissionLcPct").value=selectedCommission.lcPercent ?? "";
   document.getElementById("commissionStatus").value=selectedCommission.commissionStatus||"Pending";
   document.getElementById("commissionPaymentDate").value=selectedCommission.paymentDate||"";
   document.getElementById("commissionMessage").textContent=""; recalcCommission();
   document.getElementById("commissionModal").classList.add("show");
 }
-document.getElementById("commissionTotal").addEventListener("input",recalcCommission);
+["commissionTotal","commissionLgPct","commissionLcPct"].forEach(function(id){
+  document.getElementById(id).addEventListener("input",recalcCommission);
+});
 document.getElementById("closeCommissionModal").onclick=()=>document.getElementById("commissionModal").classList.remove("show");
 document.getElementById("commissionModal").onclick=e=>{if(e.target===document.getElementById("commissionModal"))document.getElementById("commissionModal").classList.remove("show")};
 document.getElementById("saveCommission").onclick=async function(){
   if(!selectedCommission)return; this.disabled=true; document.getElementById("commissionMessage").textContent="Saving...";
   try{
-    const result=await apiPost("updateCommission",{token:token,leadId:selectedCommission.leadId,lgId:document.getElementById("commissionLgId").value.trim().toUpperCase(),reportingBdmId:document.getElementById("commissionBdmId").value.trim().toUpperCase(),lcId:document.getElementById("commissionLcId").value.trim().toUpperCase(),dealValue:document.getElementById("commissionDealValue").value,totalCommission:document.getElementById("commissionTotal").value,lgPercent:20,lcPercent:20,commissionStatus:document.getElementById("commissionStatus").value,paymentDate:document.getElementById("commissionPaymentDate").value});
+    const result=await apiPost("updateCommission",{token:token,leadId:selectedCommission.leadId,lgId:document.getElementById("commissionLgId").value.trim().toUpperCase(),reportingBdmId:document.getElementById("commissionBdmId").value.trim().toUpperCase(),lcId:document.getElementById("commissionLcId").value.trim().toUpperCase(),dealValue:document.getElementById("commissionDealValue").value,totalCommission:document.getElementById("commissionTotal").value,lgPercent:document.getElementById("commissionLgPct").value,lcPercent:document.getElementById("commissionLcPct").value,commissionStatus:document.getElementById("commissionStatus").value,paymentDate:document.getElementById("commissionPaymentDate").value});
     if(!result.success)throw new Error(result.message||"Unable to update commission.");
     document.getElementById("commissionMessage").textContent="Commission saved successfully."; await loadCommissions();
   }catch(error){document.getElementById("commissionMessage").textContent=error.message||"Unable to save commission."}finally{this.disabled=false}
@@ -4078,6 +4261,300 @@ document.getElementById("saveCommission").onclick=async function(){
 setAdminView("dashboard");
 
 loadDashboard();
+
+
+/* =====================================================
+   ADMIN AADHAAR + DATA DISTRIBUTION
+===================================================== */
+let selectedAadhaarAgentId = "";
+let adminDistributionItems = [];
+let adminDistributionRecipients = [];
+
+function fileToBase64Payload(file, maxMb){
+  return new Promise(function(resolve,reject){
+    if (!file) return resolve(null);
+    if (file.size > maxMb * 1024 * 1024) return reject(new Error("File is too large. Maximum " + maxMb + " MB."));
+    const reader = new FileReader();
+    reader.onload = function(){
+      const result = String(reader.result || "");
+      resolve({
+        fileName:file.name,
+        mimeType:file.type || "application/octet-stream",
+        base64:result.split(",")[1] || ""
+      });
+    };
+    reader.onerror = function(){ reject(new Error("Unable to read file.")); };
+    reader.readAsDataURL(file);
+  });
+}
+
+function openBase64File_(payload){
+  const bytes = atob(payload.base64 || "");
+  const arr = new Uint8Array(bytes.length);
+  for(let i=0;i<bytes.length;i++) arr[i]=bytes.charCodeAt(i);
+  const blob = new Blob([arr],{type:payload.mimeType || "application/octet-stream"});
+  const url = URL.createObjectURL(blob);
+  window.open(url,"_blank","noopener");
+  setTimeout(function(){ URL.revokeObjectURL(url); },60000);
+}
+
+function openAadhaarModal(agentId){
+  selectedAadhaarAgentId = agentId;
+  const agent = allAgents.find(function(a){ return a.agentId === agentId; });
+  document.getElementById("aadhaarAgentId").textContent = agentId;
+  document.getElementById("aadhaarStatus").textContent =
+    agent && String(agent.aadhaarUploaded || "").toUpperCase() === "YES"
+      ? "Uploaded" + (agent.aadhaarUploadedAt ? " • " + agent.aadhaarUploadedAt : "")
+      : "Not Uploaded";
+  document.getElementById("aadhaarFile").value = "";
+  document.getElementById("aadhaarMessage").textContent = "";
+  document.getElementById("viewAadhaarButton").disabled =
+    !(agent && String(agent.aadhaarUploaded || "").toUpperCase() === "YES");
+  document.getElementById("aadhaarModal").classList.add("show");
+}
+
+document.getElementById("closeAadhaarModal").addEventListener("click",function(){
+  document.getElementById("aadhaarModal").classList.remove("show");
+});
+document.getElementById("aadhaarModal").addEventListener("click",function(e){
+  if(e.target===this)this.classList.remove("show");
+});
+
+document.getElementById("uploadAadhaarButton").addEventListener("click",async function(){
+  const btn=this;
+  const msg=document.getElementById("aadhaarMessage");
+  const file=document.getElementById("aadhaarFile").files[0];
+  if(!selectedAadhaarAgentId){msg.textContent="Select Agent / BDM.";return;}
+  if(!file){msg.textContent="Select Aadhaar file.";return;}
+  btn.disabled=true; msg.textContent="Uploading securely...";
+  try{
+    const payload=await fileToBase64Payload(file,2);
+    const r=await apiPost("uploadAgentAadhaar",{token:token,agentId:selectedAadhaarAgentId,file:payload});
+    if(!r.success)throw new Error(r.message||"Upload failed.");
+    msg.textContent="Aadhaar uploaded successfully.";
+    await loadAgents();
+    openAadhaarModal(selectedAadhaarAgentId);
+  }catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}
+});
+
+document.getElementById("viewAadhaarButton").addEventListener("click",async function(){
+  const btn=this, msg=document.getElementById("aadhaarMessage");
+  btn.disabled=true; msg.textContent="Opening document...";
+  try{
+    const r=await apiPost("adminGetAgentAadhaar",{token:token,agentId:selectedAadhaarAgentId});
+    if(!r.success)throw new Error(r.message||"Unable to open Aadhaar.");
+    openBase64File_(r);
+    msg.textContent="";
+  }catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}
+});
+
+async function loadAdminDistribution(){
+  const body=document.getElementById("distributionTableBody");
+  if(!body)return;
+  body.innerHTML='<tr><td colspan="7" class="loading">Loading distributed data...</td></tr>';
+  try{
+    const r=await apiPost("adminDataDistribution",{token:token});
+    if(!r.success)throw new Error(r.message||"Unable to load distributed data.");
+    adminDistributionItems=Array.isArray(r.items)?r.items:[];
+    adminDistributionRecipients=Array.isArray(r.recipients)?r.recipients:[];
+    const select=document.getElementById("distributionRecipient");
+    const current=select.value;
+    select.innerHTML='<option value="">Select Agent / BDM</option>'+
+      adminDistributionRecipients.map(function(a){
+        const role=String(a.role||"").toUpperCase()==="EMPLOYEE"?"BDM":"Agent";
+        return '<option value="'+escapeHtml(a.agentId)+'">'+escapeHtml(a.agentId+" — "+a.name+" ("+role+")")+'</option>';
+      }).join("");
+    if([...select.options].some(function(o){return o.value===current;}))select.value=current;
+    renderAdminDistribution();
+  }catch(err){
+    body.innerHTML='<tr><td colspan="7" class="empty">'+escapeHtml(err.message)+'</td></tr>';
+  }
+}
+
+function renderAdminDistribution(){
+  const body=document.getElementById("distributionTableBody");
+  const search=(document.getElementById("distributionSearch").value||"").toLowerCase().trim();
+  const role=document.getElementById("distributionRoleFilter").value;
+  const recipientRoleMap={};
+  adminDistributionRecipients.forEach(function(a){recipientRoleMap[a.agentId]=String(a.role||"").toUpperCase();});
+  const items=adminDistributionItems.filter(function(x){
+    const hay=[x.distributionId,x.recipientId,x.recipientName,x.title,x.details].join(" ").toLowerCase();
+    return (!search||hay.includes(search)) && (!role||recipientRoleMap[x.recipientId]===role);
+  });
+  body.innerHTML=items.length?items.map(function(x){
+    return '<tr>'+
+      '<td><strong>'+escapeHtml(x.distributionId)+'</strong></td>'+
+      '<td>'+escapeHtml(x.createdAt||"—")+'</td>'+
+      '<td>'+escapeHtml(x.recipientId||"—")+'<br><small>'+escapeHtml(x.recipientName||"")+'</small></td>'+
+      '<td>'+escapeHtml(x.title||"—")+'</td>'+
+      '<td>'+escapeHtml(x.details||"—")+'</td>'+
+      '<td>'+(x.hasAttachment?'<button class="small-btn dist-file-btn" data-id="'+escapeHtml(x.distributionId)+'">'+escapeHtml(x.attachmentFileName||"Open File")+'</button>':"—")+'</td>'+
+      '<td>'+escapeHtml(x.status||"SENT")+'</td>'+
+    '</tr>';
+  }).join(""):'<tr><td colspan="7" class="empty">No distributed data found.</td></tr>';
+
+  body.querySelectorAll(".dist-file-btn").forEach(function(btn){
+    btn.addEventListener("click",async function(){
+      const old=this.textContent;this.disabled=true;this.textContent="Opening...";
+      try{
+        const r=await apiPost("adminGetSharedFile",{token:token,distributionId:this.dataset.id});
+        if(!r.success)throw new Error(r.message||"Unable to open file.");
+        openBase64File_(r);
+      }catch(err){alert(err.message);}finally{this.disabled=false;this.textContent=old;}
+    });
+  });
+}
+
+document.getElementById("sendDistributionButton").addEventListener("click",async function(){
+  const btn=this,msg=document.getElementById("distributionMessage");
+  btn.disabled=true;msg.textContent="Sending...";
+  try{
+    const file=document.getElementById("distributionFile").files[0];
+    const payload=file?await fileToBase64Payload(file,3):null;
+    const r=await apiPost("adminSendData",{
+      token:token,
+      recipientId:document.getElementById("distributionRecipient").value,
+      title:document.getElementById("distributionTitle").value.trim(),
+      details:document.getElementById("distributionDetails").value.trim(),
+      file:payload
+    });
+    if(!r.success)throw new Error(r.message||"Unable to send data.");
+    msg.textContent="Data sent successfully.";
+    document.getElementById("distributionTitle").value="";
+    document.getElementById("distributionDetails").value="";
+    document.getElementById("distributionFile").value="";
+    await loadAdminDistribution();
+  }catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}
+});
+document.getElementById("distributionSearch").addEventListener("input",renderAdminDistribution);
+document.getElementById("distributionRoleFilter").addEventListener("change",renderAdminDistribution);
+
+
+
+/* ADMIN CALLING DATA */
+let adminCallingItems = [];
+let adminCallingRecipients = [];
+
+async function loadAdminCallingData(){
+  const body = document.getElementById("callingDataTableBody");
+  if (!body) return;
+  body.innerHTML = '<tr><td colspan="8" class="loading">Loading calling data...</td></tr>';
+
+  try {
+    const r = await apiPost("adminCallingData",{token:token});
+    if (!r.success) throw new Error(r.message || "Unable to load calling data.");
+    adminCallingItems = Array.isArray(r.items) ? r.items : [];
+    adminCallingRecipients = Array.isArray(r.recipients) ? r.recipients : [];
+
+    const options = adminCallingRecipients.map(function(a){
+      const role = String(a.role||"").toUpperCase()==="EMPLOYEE" ? "BDM" : "Agent";
+      return '<option value="'+escapeHtml(a.agentId)+'">'+escapeHtml(a.agentId+" — "+a.name+" ("+role+")")+'</option>';
+    }).join("");
+
+    document.getElementById("callingAssignee").innerHTML = '<option value="">Select Agent / BDM</option>'+options;
+    document.getElementById("callingAssigneeFilter").innerHTML = '<option value="">All Assignees</option>'+options;
+    renderAdminCallingData();
+
+  } catch(error) {
+    body.innerHTML = '<tr><td colspan="8" class="empty">'+escapeHtml(error.message)+'</td></tr>';
+  }
+}
+
+function renderAdminCallingData(){
+  const body = document.getElementById("callingDataTableBody");
+  const q = (document.getElementById("callingSearch").value||"").trim().toLowerCase();
+  const s = document.getElementById("callingStatusFilter").value;
+  const a = document.getElementById("callingAssigneeFilter").value;
+
+  const rows = adminCallingItems.filter(function(x){
+    const hay = [x.dataId,x.name,x.mobile,x.city,x.source,x.assignedTo,x.remark].join(" ").toLowerCase();
+    return (!q||hay.includes(q)) &&
+      (!s||String(x.callStatus||"").toUpperCase()===s) &&
+      (!a||x.assignedTo===a);
+  });
+
+  body.innerHTML = rows.length ? rows.map(function(x){
+    const assignees = adminCallingRecipients.map(function(r){
+      return '<option value="'+escapeHtml(r.agentId)+'" '+(r.agentId===x.assignedTo?'selected':'')+'>'+
+        escapeHtml(r.agentId+" — "+r.name)+'</option>';
+    }).join("");
+
+    return '<tr>'+
+      '<td><strong>'+escapeHtml(x.name||"—")+'</strong><br><small>'+escapeHtml(x.dataId||"")+'</small></td>'+
+      '<td><a href="tel:'+escapeHtml(String(x.mobile||"").replace(/\D/g,""))+'">'+escapeHtml(x.mobile||"—")+'</a></td>'+
+      '<td>'+escapeHtml(x.city||"—")+'</td>'+
+      '<td>'+escapeHtml(x.source||"—")+'</td>'+
+      '<td><select class="calling-row-status" data-id="'+escapeHtml(x.dataId)+'">'+
+        '<option value="NOT CONNECTED" '+(String(x.callStatus).toUpperCase()==="NOT CONNECTED"?"selected":"")+'>Not Connected</option>'+
+        '<option value="CONNECTED" '+(String(x.callStatus).toUpperCase()==="CONNECTED"?"selected":"")+'>Connected</option>'+
+      '</select></td>'+
+      '<td><input class="calling-row-remark" data-id="'+escapeHtml(x.dataId)+'" value="'+escapeHtml(x.remark||"")+'" placeholder="Remark"></td>'+
+      '<td><select class="calling-row-assignee" data-id="'+escapeHtml(x.dataId)+'">'+assignees+'</select></td>'+
+      '<td><button class="small-btn save-calling-row" data-id="'+escapeHtml(x.dataId)+'">Save</button></td>'+
+    '</tr>';
+  }).join("") : '<tr><td colspan="8" class="empty">No calling data found.</td></tr>';
+
+  body.querySelectorAll(".save-calling-row").forEach(function(btn){
+    btn.onclick = async function(){
+      const id = this.dataset.id;
+      const status = body.querySelector('.calling-row-status[data-id="'+CSS.escape(id)+'"]').value;
+      const remark = body.querySelector('.calling-row-remark[data-id="'+CSS.escape(id)+'"]').value.trim();
+      const assignedTo = body.querySelector('.calling-row-assignee[data-id="'+CSS.escape(id)+'"]').value;
+      const old = this.textContent;
+      this.disabled = true;
+      this.textContent = "Saving...";
+
+      try {
+        const r = await apiPost("adminUpdateCallingData",{token:token,dataId:id,assignedTo:assignedTo,callStatus:status,remark:remark});
+        if (!r.success) throw new Error(r.message || "Unable to save.");
+        await loadAdminCallingData();
+      } catch(error) {
+        alert(error.message);
+        this.disabled = false;
+        this.textContent = old;
+      }
+    };
+  });
+}
+
+document.getElementById("addCallingDataButton").onclick = async function(){
+  const btn = this;
+  const msg = document.getElementById("callingDataMessage");
+  btn.disabled = true;
+  msg.textContent = "Assigning...";
+
+  try {
+    const r = await apiPost("adminAddCallingData",{
+      token:token,
+      name:document.getElementById("callingName").value.trim(),
+      mobile:document.getElementById("callingMobile").value.trim(),
+      city:document.getElementById("callingCity").value.trim(),
+      source:document.getElementById("callingSource").value.trim(),
+      assignedTo:document.getElementById("callingAssignee").value
+    });
+
+    if (!r.success) throw new Error(r.message || "Unable to assign calling data.");
+    msg.textContent = "Calling data assigned successfully.";
+    document.getElementById("callingName").value = "";
+    document.getElementById("callingMobile").value = "";
+    document.getElementById("callingCity").value = "";
+    document.getElementById("callingSource").value = "";
+    await loadAdminCallingData();
+
+  } catch(error) {
+    msg.textContent = error.message;
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+document.getElementById("callingMobile").oninput = function(){
+  this.value = this.value.replace(/\D/g,"").slice(0,10);
+};
+document.getElementById("callingSearch").addEventListener("input",renderAdminCallingData);
+document.getElementById("callingStatusFilter").addEventListener("change",renderAdminCallingData);
+document.getElementById("callingAssigneeFilter").addEventListener("change",renderAdminCallingData);
+
 
 loadAgents();
 
