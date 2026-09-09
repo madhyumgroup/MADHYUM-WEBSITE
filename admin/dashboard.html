@@ -1373,12 +1373,14 @@
       <div class="field"><label>LC ID</label><input id="commissionLcId"></div>
       <div class="field"><label>Deal Value</label><input id="commissionDealValue" type="number" min="0" step="0.01"></div>
       <div class="field"><label>Total Company Commission</label><input id="commissionTotal" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>LG Commission %</label><input id="commissionLgPct" type="number" min="0" max="100" step="0.01" placeholder="Enter LG %"></div>
+      <div class="field"><label>LC Commission %</label><input id="commissionLcPct" type="number" min="0" max="100" step="0.01" placeholder="Enter LC %"></div>
       <div class="field"><label>Commission Status</label><select id="commissionStatus"><option>Pending</option><option>Approved</option><option>Paid</option><option>HOLD</option></select></div>
       <div class="field"><label>Payment Date</label><input id="commissionPaymentDate" type="date"></div>
     </div>
     <div class="detail-grid">
-      <div class="detail-box"><div class="detail-label">LG Commission Amount (20%)</div><div class="detail-value" id="calcLgCommission">₹0</div></div>
-      <div class="detail-box"><div class="detail-label">LC Commission Amount (20%)</div><div class="detail-value" id="calcLcCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">LG Commission Amount</div><div class="detail-value" id="calcLgCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">LC Commission Amount</div><div class="detail-value" id="calcLcCommission">₹0</div></div>
       <div class="detail-box"><div class="detail-label">Company Share</div><div class="detail-value" id="calcCompanyShare">₹0</div></div>
     </div>
     <button class="save-btn" id="saveCommission">Save Commission</button><div class="save-message" id="commissionMessage"></div>
@@ -4000,7 +4002,8 @@ function renderCommissions(){
 
 function recalcCommission(){
   const total=Number(document.getElementById("commissionTotal").value)||0;
-  const lg=20, lc=20;
+  const lg=Math.max(0,Math.min(100,Number(document.getElementById("commissionLgPct").value)||0));
+  const lc=Math.max(0,Math.min(100,Number(document.getElementById("commissionLcPct").value)||0));
   const lgAmt=total*lg/100, lcAmt=total*lc/100;
   document.getElementById("calcLgCommission").textContent=money(lgAmt);
   document.getElementById("calcLcCommission").textContent=money(lcAmt);
@@ -4045,18 +4048,22 @@ function openCommission(leadId){
   document.getElementById("commissionLcId").value=selectedCommission.lcId||"";
   document.getElementById("commissionDealValue").value=selectedCommission.dealValue||"";
   document.getElementById("commissionTotal").value=selectedCommission.totalCommission||"";
+  document.getElementById("commissionLgPct").value=selectedCommission.lgPercent ?? "";
+  document.getElementById("commissionLcPct").value=selectedCommission.lcPercent ?? "";
   document.getElementById("commissionStatus").value=selectedCommission.commissionStatus||"Pending";
   document.getElementById("commissionPaymentDate").value=selectedCommission.paymentDate||"";
   document.getElementById("commissionMessage").textContent=""; recalcCommission();
   document.getElementById("commissionModal").classList.add("show");
 }
-document.getElementById("commissionTotal").addEventListener("input",recalcCommission);
+["commissionTotal","commissionLgPct","commissionLcPct"].forEach(function(id){
+  document.getElementById(id).addEventListener("input",recalcCommission);
+});
 document.getElementById("closeCommissionModal").onclick=()=>document.getElementById("commissionModal").classList.remove("show");
 document.getElementById("commissionModal").onclick=e=>{if(e.target===document.getElementById("commissionModal"))document.getElementById("commissionModal").classList.remove("show")};
 document.getElementById("saveCommission").onclick=async function(){
   if(!selectedCommission)return; this.disabled=true; document.getElementById("commissionMessage").textContent="Saving...";
   try{
-    const result=await apiPost("updateCommission",{token:token,leadId:selectedCommission.leadId,lgId:document.getElementById("commissionLgId").value.trim().toUpperCase(),reportingBdmId:document.getElementById("commissionBdmId").value.trim().toUpperCase(),lcId:document.getElementById("commissionLcId").value.trim().toUpperCase(),dealValue:document.getElementById("commissionDealValue").value,totalCommission:document.getElementById("commissionTotal").value,lgPercent:20,lcPercent:20,commissionStatus:document.getElementById("commissionStatus").value,paymentDate:document.getElementById("commissionPaymentDate").value});
+    const result=await apiPost("updateCommission",{token:token,leadId:selectedCommission.leadId,lgId:document.getElementById("commissionLgId").value.trim().toUpperCase(),reportingBdmId:document.getElementById("commissionBdmId").value.trim().toUpperCase(),lcId:document.getElementById("commissionLcId").value.trim().toUpperCase(),dealValue:document.getElementById("commissionDealValue").value,totalCommission:document.getElementById("commissionTotal").value,lgPercent:document.getElementById("commissionLgPct").value,lcPercent:document.getElementById("commissionLcPct").value,commissionStatus:document.getElementById("commissionStatus").value,paymentDate:document.getElementById("commissionPaymentDate").value});
     if(!result.success)throw new Error(result.message||"Unable to update commission.");
     document.getElementById("commissionMessage").textContent="Commission saved successfully."; await loadCommissions();
   }catch(error){document.getElementById("commissionMessage").textContent=error.message||"Unable to save commission."}finally{this.disabled=false}
