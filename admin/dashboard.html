@@ -4842,33 +4842,80 @@ document.getElementById("importCallingDataButton").addEventListener("click", asy
     return;
   }
 
-  btn.disabled = true;
-  msg.textContent = "Importing data...";
-
-  try{
-    const r = await apiPost("adminBulkAddCallingData",{
-      token:token,
-      assignedTo:assignedTo,
-      rows:parsedCallingImportRows
+  const validRows = parsedCallingImportRows
+    .map(function(r){
+      return {
+        name:String(r.name || "").trim(),
+        mobile:String(r.mobile || "").replace(/\D/g,"").slice(-10),
+        city:String(r.city || "").trim(),
+        source:String(r.source || "").trim()
+      };
+    })
+    .filter(function(r){
+      return r.name && r.mobile.length === 10;
     });
 
-    if (!r.success){
-      throw new Error(r.message || "Unable to import calling data.");
+  if (!validRows.length){
+    msg.textContent = "No valid rows found. Name and 10-digit Mobile Number are required.";
+    return;
+  }
+
+  btn.disabled = true;
+
+  let imported = 0;
+  let failed = 0;
+  const failures = [];
+
+  try{
+    for (let i = 0; i < validRows.length; i++){
+      const row = validRows[i];
+
+      msg.textContent =
+        "Importing " + (i + 1) + " of " + validRows.length + "...";
+
+      try{
+        // Use the existing, already working single Calling Data action.
+        // This avoids any route mismatch between bulk-import and manual actions.
+        const r = await apiPost("adminAddCallingData",{
+          token:token,
+          name:row.name,
+          mobile:row.mobile,
+          city:row.city,
+          source:row.source,
+          assignedTo:assignedTo
+        });
+
+        if (!r || !r.success){
+          throw new Error((r && r.message) || "Unable to import row.");
+        }
+
+        imported++;
+
+      }catch(error){
+        failed++;
+        failures.push(
+          "Row " + (i + 2) + ": " + (error.message || "Import failed")
+        );
+      }
     }
 
     msg.textContent =
-      r.imported + " rows imported successfully" +
-      (r.skipped ? " • " + r.skipped + " skipped" : "") +
+      imported + " rows imported successfully" +
+      (failed ? " • " + failed + " failed" : "") +
       ".";
 
-    document.getElementById("callingExcelFile").value = "";
-    document.getElementById("callingImportPreview").textContent = "No file selected.";
-    parsedCallingImportRows = [];
+    if (failures.length){
+      console.warn("Calling Data import failures:", failures);
+    }
 
-    await loadAdminCallingData();
+    if (imported){
+      document.getElementById("callingExcelFile").value = "";
+      document.getElementById("callingImportPreview").textContent =
+        "No file selected.";
+      parsedCallingImportRows = [];
+      await loadAdminCallingData();
+    }
 
-  } catch(error){
-    msg.textContent = error.message;
   } finally {
     btn.disabled = false;
   }
