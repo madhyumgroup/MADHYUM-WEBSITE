@@ -665,7 +665,33 @@
 
     }
 
-  </style>
+  
+    /* =====================================================
+       ADMIN LEFT-MENU VIEW SWITCHING
+    ===================================================== */
+    .admin-view-hidden{
+      display:none !important;
+    }
+
+    #dashboardCards.visitors-only .card{
+      display:none;
+    }
+
+    #dashboardCards.visitors-only #visitorsCard{
+      display:block;
+    }
+
+    #dashboardCards.visitors-only{
+      grid-template-columns:minmax(220px,360px);
+    }
+
+    @media (max-width: 768px){
+      #dashboardCards.visitors-only{
+        grid-template-columns:1fr;
+      }
+    }
+
+</style>
 </head>
 
 <body>
@@ -727,7 +753,7 @@
 
       <div>
 
-        <h1>Dashboard</h1>
+        <h1 id="pageTitle">Dashboard</h1>
 
         <div class="admin-name" id="adminName"></div>
 
@@ -736,7 +762,7 @@
     </div>
 
 
-    <section class="cards">
+    <section class="cards" id="dashboardCards">
 
       <div class="card">
         <div class="card-label">Total Leads / Inquiries</div>
@@ -1760,80 +1786,106 @@ document
 
 
 /* =====================================================
-   NAVIGATION
+   LEFT MENU NAVIGATION
 ===================================================== */
 
-document
-  .getElementById("dashboardNav")
-  .addEventListener(
-    "click",
-    function(){
+function setAdminView(view){
 
-      document
-        .getElementById("dashboardTop")
-        .scrollIntoView({
-          behavior:"smooth"
-        });
+  const cards =
+    document.getElementById("dashboardCards");
 
+  const inquiries =
+    document.getElementById("inquiriesSection");
+
+  const agents =
+    document.getElementById("agentsSection");
+
+  const commissions =
+    document.getElementById("commissionsSection");
+
+  const pageTitle =
+    document.getElementById("pageTitle");
+
+  const navMap = {
+    dashboard: "dashboardNav",
+    inquiries: "inquiriesNav",
+    agents: "agentsNav",
+    visitors: "visitorsNav",
+    commissions: "commissionsNav"
+  };
+
+  Object.values(navMap).forEach(function(id){
+    const item = document.getElementById(id);
+    if (item) item.classList.remove("active");
+  });
+
+  if (cards){
+    cards.classList.add("admin-view-hidden");
+    cards.classList.remove("visitors-only");
+  }
+
+  [inquiries, agents, commissions].forEach(function(section){
+    if (section) section.classList.add("admin-view-hidden");
+  });
+
+  if (view === "dashboard"){
+    if (cards) cards.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Dashboard";
+  }
+
+  if (view === "inquiries"){
+    if (inquiries) inquiries.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Inquiries & Leads";
+  }
+
+  if (view === "agents"){
+    if (agents) agents.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Agent Management";
+  }
+
+  if (view === "visitors"){
+    if (cards){
+      cards.classList.remove("admin-view-hidden");
+      cards.classList.add("visitors-only");
     }
-  );
+    if (pageTitle) pageTitle.textContent = "Visitors";
+  }
 
+  if (view === "commissions"){
+    if (commissions) commissions.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Commissions";
+  }
 
-document
-  .getElementById("inquiriesNav")
-  .addEventListener(
-    "click",
-    function(){
+  const activeId = navMap[view];
+  if (activeId){
+    const activeItem = document.getElementById(activeId);
+    if (activeItem) activeItem.classList.add("active");
+  }
 
-      document
-        .getElementById("inquiriesSection")
-        .scrollIntoView({
-          behavior:"smooth"
-        });
+  window.scrollTo({top:0, behavior:"smooth"});
+}
 
-    }
-  );
+document.getElementById("dashboardNav").addEventListener("click", function(){
+  setAdminView("dashboard");
+});
 
+document.getElementById("inquiriesNav").addEventListener("click", function(){
+  setAdminView("inquiries");
+});
 
-document
-  .getElementById("agentsNav")
-  .addEventListener(
-    "click",
-    function(){
+document.getElementById("agentsNav").addEventListener("click", function(){
+  setAdminView("agents");
+});
 
-      document
-        .getElementById("agentsSection")
-        .scrollIntoView({
-          behavior:"smooth"
-        });
+document.getElementById("visitorsNav").addEventListener("click", function(){
+  setAdminView("visitors");
+});
 
-    }
-  );
+document.getElementById("commissionsNav").addEventListener("click", function(){
+  setAdminView("commissions");
+});
 
-
-document
-  .getElementById("visitorsNav")
-  .addEventListener(
-    "click",
-    function(){
-
-      document
-        .getElementById("visitorsCard")
-        .scrollIntoView({
-          behavior:"smooth",
-          block:"center"
-        });
-
-    }
-  );
-
-
-document
-  .getElementById("exportNav")
-  .addEventListener(
-    "click",
-    exportInquiriesCSV
-  );
+document.getElementById("exportNav").addEventListener("click", exportInquiriesCSV);
 
 
 /* =====================================================
@@ -3821,11 +3873,13 @@ document.getElementById("saveCommission").onclick=async function(){
 };
 ["commissionSearch","commissionPersonFilter"].forEach(id=>document.getElementById(id).addEventListener("input",renderCommissions));
 ["commissionStatusFilter","commissionWingFilter"].forEach(id=>document.getElementById(id).addEventListener("change",renderCommissions));
-document.getElementById("commissionsNav").addEventListener("click",()=>document.getElementById("commissionsSection").scrollIntoView({behavior:"smooth"}));
+
 
 /* =====================================================
    START
 ===================================================== */
+
+setAdminView("dashboard");
 
 loadDashboard();
 
