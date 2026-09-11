@@ -1,22 +1,19 @@
-MADHYUM WEB — UNIFIED LOGIN PATCH
+MADHYUM WEB CRM — FINAL LIVE V4
 
-PUBLIC WEBSITE: DO NOT CHANGE.
+ONLY replace these folders/files in the WEBSITE repository:
+- login/index.html
+- admin/index.html
+- admin/dashboard.html
+- agent/index.html
+- agent/dashboard.html
 
-Upload/replace only these paths in the existing website repository:
-/login/index.html        (NEW common Admin + Agent/BDM login)
-/admin/index.html        (redirects old Admin login URL to common login)
-/admin/dashboard.html    (existing corrected dashboard preserved)
-/agent/index.html        (redirects old Agent login URL to common login)
-/agent/dashboard.html    (existing corrected dashboard preserved)
+DO NOT replace the public website root index.html.
+DO NOT change Code.gs/backend.
 
-Master API:
-https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec
+Live API used by all CRM web pages:
+https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec
 
-Result:
-/login/ -> one login page with Agent/BDM and Admin tabs.
-/admin/ -> automatically opens common login with Admin selected.
-/agent/ -> automatically opens common login with Agent/BDM selected.
-Successful Admin login -> /admin/dashboard.html
-Successful Agent/BDM login -> /agent/dashboard.html
+Backend verified version:
+MADHYUM_CRM_DIRECTOR_CRM_V4
 
-No public website page, CSS, image, or content file is included in this patch.
+After upload, hard refresh with Ctrl+Shift+R or open in Incognito.
