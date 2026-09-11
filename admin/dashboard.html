@@ -817,6 +817,7 @@
 
     </div>
 
+    <div id="dashboardSyncStatus" style="margin:0 0 14px;padding:10px 12px;border-radius:10px;background:#eef5fb;color:#31516a;font-size:12px;font-weight:700;display:block;">Loading live CRM data…</div>
 
     <section class="cards" id="dashboardCards">
 
@@ -1929,7 +1930,14 @@ async function apiPost(action,payload){
     );
 
 
-  return await response.json();
+  const text = await response.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (_) {
+    throw new Error("CRM server returned an invalid response. Please redeploy the current Code.gs version.");
+  }
+  return data;
 
 }
 
@@ -2884,6 +2892,16 @@ document
    LOAD DASHBOARD
 ===================================================== */
 
+function setDashboardSyncStatus(message,isError){
+  const el=document.getElementById("dashboardSyncStatus");
+  if(!el)return;
+  if(!message){el.style.display="none";return;}
+  el.style.display="block";
+  el.textContent=message;
+  el.style.background=isError?"#fff0ee":"#eef5fb";
+  el.style.color=isError?"#9b2c22":"#31516a";
+}
+
 async function loadDashboard(){
 
   const body =
@@ -2895,6 +2913,7 @@ async function loadDashboard(){
 
   try{
 
+    setDashboardSyncStatus("Loading live CRM data…",false);
 
     const result =
       await apiPost(
@@ -2964,6 +2983,8 @@ async function loadDashboard(){
         result.stats?.visitors ?? 0;
 
 
+    setDashboardSyncStatus("",false);
+
     allInquiries =
       Array.isArray(
         result.inquiries
@@ -2977,14 +2998,12 @@ async function loadDashboard(){
 
   } catch(error){
 
-
+    const message=error.message || "Unable to load dashboard.";
+    setDashboardSyncStatus("Live CRM data could not load: " + message,true);
     body.innerHTML = `
       <tr>
         <td colspan="9" class="empty">
-          ${escapeHtml(
-            error.message ||
-            "Unable to load dashboard."
-          )}
+          ${escapeHtml(message)}
         </td>
       </tr>
     `;
