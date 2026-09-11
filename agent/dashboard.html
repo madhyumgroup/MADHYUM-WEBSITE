@@ -203,7 +203,7 @@
 <div class="field"><label>Details</label><textarea id="editDetails"></textarea></div><div class="detail-grid"><div class="field"><label>Status</label><select id="editStatus"><option>NEW</option><option>CONTACTED</option><option>FOLLOW UP</option><option>IN PROGRESS</option><option>NOT INTERESTED</option></select></div><div class="field"><label>Follow-up Date</label><input id="editFollowUp" type="date"></div></div>
 <div class="field"><label>LC</label><select id="editLcChoice"><option>Not Assigned</option><option>Self</option><option>Reporting BDM</option></select></div><div class="field"><label>Notes</label><textarea id="editNotes"></textarea></div><div class="actions-inline" id="contactActions"></div><button type="button" class="small-btn" id="generateEditCustomerMessage" style="width:100%;margin-bottom:10px">Generate Customer Message (Optional)</button><button class="save-btn" id="saveLeadButton">Save Update</button><div class="message" id="editMessage"></div></div></div>
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbwd5x_8gPAzXMeP4TZPxLQQABisZ6Zn4lmGmzhfUsg83Z4xdnNY2dqb5KdZvRhGm4M/exec";
+const API_URL="https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec";
 const token=sessionStorage.getItem("madhyumAgentToken");if(!token)location.href="index.html";
 let currentAgent={},allLeads=[],allCommissions=[],selectedLead=null;
 const $=id=>document.getElementById(id);const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
