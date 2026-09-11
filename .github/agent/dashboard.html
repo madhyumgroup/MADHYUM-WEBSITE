@@ -41,22 +41,13 @@
 <button class="nav-item" data-view="commissionSection"><span>My Commission</span><span class="nav-count" id="agNavCommission">—</span></button>
 <button class="nav-item" data-view="sharedDataSection"><span>Shared Data</span><span class="nav-count" id="agNavShared">—</span></button>
 <button class="nav-item" data-view="callingDataSection"><span>Calling Data</span><span class="nav-count" id="agNavCalling">—</span></button>
+<button class="nav-item" data-view="membersSection"><span>Members</span><span class="nav-count" id="agNavMembers">—</span></button>
 <button class="nav-item" data-view="profileSection">Profile</button>
 <button class="nav-item logout" id="logoutButton">Logout</button>
 <div class="sidebar-banner-wrap"><img src="../images/admin-sidebar-banner.png" alt="MADHYUM Group" class="sidebar-banner"></div>
 </aside>
 <main class="main" id="dashboardTop">
 <div class="topbar"><div><h1 id="dashboardTitle">Agent Dashboard</h1><div class="agent-name" id="agentName"></div></div></div><div id="agentSyncStatus" style="margin:0 0 14px;padding:10px 12px;border-radius:10px;background:#eef5fb;color:#31516a;font-size:12px;font-weight:700;">Loading live CRM data…</div>
-<div class="agent-overview" id="agentLiveOverview">
- <div class="mini"><div class="mini-label">My / Team Leads</div><div class="mini-value" id="agOvLeads">—</div><div class="mini-note">Live AGENT_LEADS</div></div>
- <div class="mini"><div class="mini-label">Pending Follow Ups</div><div class="mini-value" id="agOvFollow">—</div><div class="mini-note">Due + upcoming</div></div>
- <div class="mini"><div class="mini-label">Calling Data</div><div class="mini-value" id="agOvCalling">—</div><div class="mini-note">Assigned calling rows</div></div>
- <div class="mini"><div class="mini-label">Shared Data</div><div class="mini-value" id="agOvShared">—</div><div class="mini-note">Received distributions</div></div>
- <div class="mini"><div class="mini-label">Commission Records</div><div class="mini-value" id="agOvCommission">—</div><div class="mini-note">Visible payout records</div></div>
- <div class="mini"><div class="mini-label">Your Earnings</div><div class="mini-value" id="agOvEarning">₹0</div><div class="mini-note">LG + LC earning</div></div>
- <div class="mini"><div class="mini-label">Converted Leads</div><div class="mini-value" id="agOvConverted">—</div><div class="mini-note">Director-confirmed conversions</div></div>
- <div class="mini"><div class="mini-label">CRM Sync</div><div class="mini-value" id="agOvSync" style="font-size:14px">Connecting…</div><div class="mini-note">Protected live API</div></div>
-</div>
 
 <section class="view-section active" id="dashboardSection">
 <section class="cards">
@@ -210,21 +201,40 @@
   </div>
 </section>
 
+
+<section class="panel view-section" id="membersSection">
+  <h2>Members</h2>
+  <div class="section-note">Converted members linked to your leads are shown here. Member master data is read-only for Agent / BDM. Use Request Change for any correction.</div>
+  <div class="filters"><input id="agentMemberSearch" type="search" placeholder="Search Member ID, name, mobile..."><select id="agentMemberStatus"><option value="">All Member Status</option><option>ACTIVE</option><option>INACTIVE</option><option>EXPIRED</option><option>HOLD</option></select></div>
+  <div class="table-wrap"><table><thead><tr><th>Member ID</th><th>Name</th><th>Mobile</th><th>Email</th><th>Address</th><th>Membership</th><th>Status</th><th>Action</th></tr></thead><tbody id="agentMembersBody"><tr><td colspan="8" class="empty">Loading members...</td></tr></tbody></table></div>
+  <h3 style="margin-top:24px;">My Change Requests</h3>
+  <div class="table-wrap"><table><thead><tr><th>Request</th><th>Member</th><th>Field</th><th>Current</th><th>Requested</th><th>Reason</th><th>Status</th></tr></thead><tbody id="agentMemberRequestsBody"><tr><td colspan="7" class="empty">Loading change requests...</td></tr></tbody></table></div>
+</section>
+
 <section class="panel view-section" id="profileSection"><h2>Profile</h2><div class="profile-grid"><div class="profile-item"><div class="profile-label">Name</div><div class="profile-value" id="profileName">—</div></div><div class="profile-item"><div class="profile-label">ID</div><div class="profile-value" id="profileId">—</div></div><div class="profile-item"><div class="profile-label">Role</div><div class="profile-value" id="profileRole">—</div></div><div class="profile-item"><div class="profile-label">Reporting BDM</div><div class="profile-value" id="profileBdm">—</div></div></div></section>
 </main></div>
 <div class="modal-backdrop" id="leadModal"><div class="modal"><div class="modal-head"><h2>Edit Lead</h2><button class="close-btn" id="closeLeadModal">×</button></div>
 <input type="hidden" id="editLeadId"><div class="detail-grid"><div class="field"><label>Customer Name</label><input id="editName"></div><div class="field"><label>Mobile</label><input id="editMobile" maxlength="10"></div><div class="field"><label>Email</label><input id="editEmail" type="email"></div><div class="field"><label>Wing / Requirement</label><select id="editRequirement"><option>Real Estate</option><option>Travel</option><option>Education & Admissions</option><option>Consultancy & Business Services</option><option>Events & Weddings</option><option>Membership</option><option>General / Other</option></select></div><div class="field"><label>Category / Sub-category</label><input id="editSubcategory"></div><div class="field"><label>Budget / Range</label><input id="editBudget"></div></div>
 <div class="field"><label>Details</label><textarea id="editDetails"></textarea></div><div class="detail-grid"><div class="field"><label>Status</label><select id="editStatus"><option>NEW</option><option>CONTACTED</option><option>FOLLOW UP</option><option>IN PROGRESS</option><option>NOT INTERESTED</option></select></div><div class="field"><label>Follow-up Date</label><input id="editFollowUp" type="date"></div></div>
 <div class="field"><label>LC</label><select id="editLcChoice"><option>Not Assigned</option><option>Self</option><option>Reporting BDM</option></select></div><div class="field"><label>Notes</label><textarea id="editNotes"></textarea></div><div class="actions-inline" id="contactActions"></div><button type="button" class="small-btn" id="generateEditCustomerMessage" style="width:100%;margin-bottom:10px">Generate Customer Message (Optional)</button><button class="save-btn" id="saveLeadButton">Save Update</button><div class="message" id="editMessage"></div></div></div>
+
+<div class="modal-backdrop" id="memberChangeModal"><div class="modal"><div class="modal-head"><h2>Request Member Profile Change</h2><button class="close-btn" id="closeMemberChangeModal">×</button></div>
+<input type="hidden" id="changeMemberId"><div class="profile-item" style="margin-bottom:14px;"><div class="profile-label">Member</div><div class="profile-value" id="changeMemberName">—</div></div>
+<div class="field"><label>Field to Change</label><select id="changeMemberField"><option value="NAME">Name</option><option value="MOBILE">Mobile</option><option value="EMAIL">Email</option><option value="ADDRESS">Address</option><option value="CITY">City</option><option value="STATE">State</option><option value="PINCODE">Pincode</option><option value="MEMBERSHIP TYPE">Membership Type</option><option value="MEMBERSHIP START">Membership Start</option><option value="MEMBERSHIP END">Membership End</option><option value="STATUS">Status</option></select></div>
+<div class="field"><label>Requested New Value</label><input id="changeMemberValue" type="text"></div><div class="field"><label>Reason / Note</label><textarea id="changeMemberReason" placeholder="Why should this be changed?"></textarea></div>
+<button class="save-btn" id="submitMemberChange">Send Request to Admin</button><div class="message" id="memberChangeMessage"></div></div></div>
+
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec";
 const token=sessionStorage.getItem("madhyumAgentToken");const authGate=sessionStorage.getItem("madhyumWebAuthGate");if(!token||authGate!=="agent")location.replace("../login/?role=agent");
-let currentAgent={},allLeads=[],allCommissions=[],selectedLead=null;
+let currentAgent={},allLeads=[],allCommissions=[],selectedLead=null,agentMembers=[],agentMemberRequests=[];
 const $=id=>document.getElementById(id);const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 async function post(action,payload={}){const bodyPayload=Object.assign({},payload||{},{action:action});const attempts=[{url:API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),body:bodyPayload},{url:API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),body:payload||{}},{url:API_URL+"?_="+Date.now(),body:bodyPayload}];let lastData=null,lastError=null;for(const a of attempts){try{const res=await fetch(a.url,{method:"POST",cache:"no-store",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(a.body)});const text=await res.text();let data;try{data=JSON.parse(text)}catch(_){throw new Error("CRM server returned a non-JSON response.")}lastData=data;if(data&&data.success===false){if(/session/i.test(String(data.message||"")))return data;lastError=new Error(data.message||"CRM request failed.");continue}return data}catch(err){lastError=err}}if(lastData)return lastData;throw lastError||new Error("Unable to contact live CRM.")}
 
 async function getLive(action,payload={}){const params=new URLSearchParams(Object.assign({},payload||{},{action:action,_:Date.now()}));const res=await fetch(API_URL+"?"+params.toString(),{method:"GET",cache:"no-store"});const text=await res.text();try{return JSON.parse(text)}catch(_){throw new Error("CRM server returned an invalid GET response.")}}
-async function readLive(action,payload={}){let r=null;try{r=await post(action,payload)}catch(_){}const ok=x=>x&&x.success===true;if(ok(r)){if(action==="agentDashboard"&&(!r.agent||!Array.isArray(r.leads))){ }else return r}try{const g=await getLive(action,payload);if(g)return g}catch(_){}return r||{success:false,message:"Unable to load live CRM data."}}
+function validRead(action,x){if(!x||x.success!==true)return false;const c={agentDashboard:()=>x.agent&&Array.isArray(x.leads),agentDataDistribution:()=>Array.isArray(x.items)||Array.isArray(x.received),agentCallingData:()=>Array.isArray(x.items),agentMembers:()=>Array.isArray(x.members),agentMemberChangeRequests:()=>Array.isArray(x.requests)};return c[action]?c[action]():true}
+async function readLive(action,payload={}){let g=null;try{g=await getLive(action,payload)}catch(_){}if(validRead(action,g))return g;let r=null;try{r=await post(action,payload)}catch(_){}if(validRead(action,r))return r;if(r&&r.success===false)return r;if(g&&g.success===false)return g;return r||g||{success:false,message:"Unable to load live CRM data."}}
+async function crmVersion(){try{return await getLive("version",{})}catch(_){return null}}
 function setAgCount(id,v){const e=$(id);if(e)e.textContent=(v===undefined||v===null)?"—":String(v)}
 function unwrapLivePayload_(result){if(!result||typeof result!=="object")return result;const candidates=[result,result.data,result.dashboard,result.payload,result.result];for(const item of candidates){if(item&&typeof item==="object"&&(item.agent||item.leads||item.commissions||item.stats))return item}return result}
 function badge(s){const k=String(s||"NEW").toLowerCase().replace(/ /g,"-");return `<span class="status s-${k}">${esc(s||"NEW")}</span>`}
@@ -269,7 +279,7 @@ async function loadDashboard(){
     const convertedCount=allLeads.filter(l=>String(l.status||'').toUpperCase()==='CONVERTED').length;
     const earning=allCommissions.reduce((s,c)=>s+(Number(c.ownCommission)||0),0);
     setAgCount('agNavDashboard',allLeads.length);setAgCount('agNavLeads',allLeads.length);setAgCount('agNavFollow',pendingFollow);setAgCount('agNavCommission',allCommissions.length);
-    setAgCount('agOvLeads',allLeads.length);setAgCount('agOvFollow',pendingFollow);setAgCount('agOvCommission',allCommissions.length);setAgCount('agOvConverted',convertedCount);setAgCount('agOvEarning','₹'+earning.toLocaleString('en-IN',{maximumFractionDigits:2}));setAgCount('agOvSync','LIVE');
+    
     const bdm=String(currentAgent.role).toUpperCase()==="EMPLOYEE";
     $("dashboardTitle").textContent=bdm?"BDM Dashboard":"Agent Dashboard";
     $("portalRole").textContent=bdm?"BDM / Employee Portal":"Agent / BDE Portal";
@@ -371,7 +381,31 @@ bindMetricCard("inProgressCard",function(){
 bindMetricCard("convertedLeadsCard",function(){
   openLeadCardStatus("CONVERTED","convertedLeadsCard");
 });
-document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{clearMetricCardActive();showView(b.dataset.view)});$('logoutButton').onclick=()=>{['madhyumAgentToken','madhyumAgentId','madhyumAgentName','madhyumAgentRole','madhyumReportingBdmId'].forEach(k=>sessionStorage.removeItem(k));location.href='../login/?role=agent'};
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{clearMetricCardActive();showView(b.dataset.view);if(b.dataset.view==='membersSection')loadAgentMembers()});$('logoutButton').onclick=()=>{['madhyumAgentToken','madhyumAgentId','madhyumAgentName','madhyumAgentRole','madhyumReportingBdmId'].forEach(k=>sessionStorage.removeItem(k));location.href='../login/?role=agent'};
+
+/* MEMBER PROFILE — READ ONLY + CHANGE REQUEST */
+async function loadAgentMembers(){
+  try{
+    const [mres,rres]=await Promise.all([readLive("agentMembers",{token}),readLive("agentMemberChangeRequests",{token})]);
+    if(!mres.success)throw new Error(mres.message||"Unable to load members.");
+    agentMembers=Array.isArray(mres.members)?mres.members:[]; agentMemberRequests=rres&&Array.isArray(rres.requests)?rres.requests:[];
+    setAgCount("agNavMembers",agentMembers.length); renderAgentMembers(); renderAgentMemberRequests();
+  }catch(e){$("agentMembersBody").innerHTML='<tr><td colspan="8" class="empty">'+esc(e.message)+'</td></tr>';}
+}
+function renderAgentMembers(){
+  const q=($("agentMemberSearch").value||"").toLowerCase(),st=$("agentMemberStatus").value;
+  const rows=agentMembers.filter(m=>(!q||[m.memberId,m.name,m.mobile,m.email,m.sourceLeadId].join(" ").toLowerCase().includes(q))&&(!st||String(m.status||"").toUpperCase()===st));
+  $("agentMembersBody").innerHTML=rows.length?rows.map(m=>`<tr><td><strong>${esc(m.memberId)}</strong></td><td>${esc(m.name)}</td><td>${esc(m.mobile||"—")}</td><td>${esc(m.email||"—")}</td><td>${esc([m.address,m.city,m.state,m.pincode].filter(Boolean).join(", ")||"—")}</td><td>${esc(m.membershipType||"—")}<br><small>${esc(m.membershipStart||"")} ${m.membershipEnd?"→ "+esc(m.membershipEnd):""}</small></td><td>${badge(m.status||"ACTIVE")}</td><td><button class="small-btn request-member-change" data-id="${esc(m.memberId)}">Request Change</button></td></tr>`).join(""):'<tr><td colspan="8" class="empty">No converted member profiles linked to your leads yet.</td></tr>';
+  document.querySelectorAll(".request-member-change").forEach(b=>b.onclick=()=>openMemberChange(b.dataset.id));
+}
+function renderAgentMemberRequests(){
+  $("agentMemberRequestsBody").innerHTML=agentMemberRequests.length?agentMemberRequests.slice().reverse().map(r=>`<tr><td><strong>${esc(r.requestId)}</strong><br><small>${esc(r.requestedAt||"")}</small></td><td>${esc(r.memberId)}</td><td>${esc(r.field)}</td><td>${esc(r.currentValue||"—")}</td><td>${esc(r.requestedValue||"—")}</td><td>${esc(r.reason||"—")}</td><td>${badge(r.status||"PENDING")}</td></tr>`).join(""):'<tr><td colspan="7" class="empty">No member change requests yet.</td></tr>';
+}
+function openMemberChange(memberId){const m=agentMembers.find(x=>x.memberId===memberId);if(!m)return;$("changeMemberId").value=memberId;$("changeMemberName").textContent=(m.memberId+" — "+m.name);$("changeMemberField").value="MOBILE";$("changeMemberValue").value="";$("changeMemberReason").value="";$("memberChangeMessage").textContent="";$("memberChangeModal").classList.add("show")}
+$("closeMemberChangeModal").onclick=()=>$("memberChangeModal").classList.remove("show");$("memberChangeModal").onclick=e=>{if(e.target===$("memberChangeModal"))$("memberChangeModal").classList.remove("show")};
+$("submitMemberChange").onclick=async function(){this.disabled=true;$("memberChangeMessage").textContent="Sending...";try{const r=await post("agentRequestMemberChange",{token,memberId:$("changeMemberId").value,field:$("changeMemberField").value,requestedValue:$("changeMemberValue").value.trim(),reason:$("changeMemberReason").value.trim()});if(!r.success)throw new Error(r.message||"Unable to send request.");$("memberChangeMessage").textContent=r.message;await loadAgentMembers()}catch(e){$("memberChangeMessage").textContent=e.message}finally{this.disabled=false}};
+$("agentMemberSearch").addEventListener("input",renderAgentMembers);$("agentMemberStatus").addEventListener("change",renderAgentMembers);
+
 /* =====================================================
    SHARED DATA + CALLING DATA
 ===================================================== */
@@ -450,11 +484,12 @@ function openAgentBase64File(p){
 }
 
 async function loadAgentOperationalCounts(){
-  try{const r=await readLive("agentDataDistribution",{token});const items=r&&Array.isArray(r.items)?r.items:[];setAgCount('agNavShared',items.length);setAgCount('agOvShared',items.length)}catch(_){setAgCount('agNavShared','!');setAgCount('agOvShared','Unavailable')}
-  try{const r=await readLive("agentCallingData",{token});const items=r&&Array.isArray(r.items)?r.items:[];setAgCount('agNavCalling',items.length);setAgCount('agOvCalling',items.length)}catch(_){setAgCount('agNavCalling','!');setAgCount('agOvCalling','Unavailable')}
+  try{const r=await readLive("agentDataDistribution",{token});const items=r&&Array.isArray(r.items)?r.items:[];setAgCount('agNavShared',items.length)}catch(_){setAgCount('agNavShared','!')}
+  try{const r=await readLive("agentCallingData",{token});const items=r&&Array.isArray(r.items)?r.items:[];setAgCount('agNavCalling',items.length)}catch(_){setAgCount('agNavCalling','!')}
+  try{const r=await readLive("agentMembers",{token});const items=r&&Array.isArray(r.members)?r.members:[];setAgCount('agNavMembers',items.length)}catch(_){setAgCount('agNavMembers','!')}
 }
 async function loadSharedData(){
-  const r=await post("agentDataDistribution",{token});
+  const r=await readLive("agentDataDistribution",{token});
   if(!r.success)throw new Error(r.message||"Unable to load shared data.");
 
   receivedSharedData=Array.isArray(r.received)?r.received:[];
@@ -585,7 +620,7 @@ async function loadAgentCallingData(){
   body.innerHTML='<tr><td colspan="10" class="empty">Loading calling data...</td></tr>';
 
   try{
-    const r=await post("agentCallingData",{token});
+    const r=await readLive("agentCallingData",{token});
     if(!r.success)throw new Error(r.message||"Unable to load calling data.");
 
     agentCallingItems=applyCallingSavedState_(Array.isArray(r.items)?r.items:[]);
@@ -775,7 +810,15 @@ $("agentCallingSearch").addEventListener("input",renderAgentCallingData);
 $("agentCallingStatusFilter").addEventListener("change",renderAgentCallingData);
 $("agentCallingAssigneeFilter").addEventListener("change",renderAgentCallingData);
 
-loadDashboard().then(()=>Promise.all([loadSharedData(),loadAgentCallingData()])).catch(e=>$('leadTableBody').innerHTML=`<tr><td colspan="7" class="empty">${esc(e.message)}</td></tr>`);
+(async function startAgentCRM(){
+  const v=await crmVersion();
+  if(!v || v.version!=="MADHYUM_CRM_DIRECTOR_CRM_V4"){
+    $("agentSyncStatus").textContent="Backend deployment mismatch. Expected MADHYUM_CRM_DIRECTOR_CRM_V4.";
+    $("agentSyncStatus").style.background="#fff0ee";$("agentSyncStatus").style.color="#9b2c22";
+  }
+  try{await loadDashboard();await Promise.all([loadSharedData(),loadAgentCallingData(),loadAgentMembers()]);}
+  catch(e){$("leadTableBody").innerHTML=`<tr><td colspan="7" class="empty">${esc(e.message)}</td></tr>`;}
+})();
 
 // LIVE SHOWCASE BOOTSTRAP
 loadAgentOperationalCounts();
