@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- MADHYUM LIVE CRM BUILD 2026-09-11-1720 | AGENT -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -207,7 +208,8 @@ const API_URL="https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-o
 const token=sessionStorage.getItem("madhyumAgentToken");const authGate=sessionStorage.getItem("madhyumWebAuthGate");if(!token||authGate!=="agent")location.replace("../login/?role=agent");
 let currentAgent={},allLeads=[],allCommissions=[],selectedLead=null;
 const $=id=>document.getElementById(id);const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-async function post(action,payload={}){const bodyPayload=Object.assign({},payload||{},{action});const r=await fetch(API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),{method:"POST",cache:"no-store",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(bodyPayload)});const text=await r.text();try{return JSON.parse(text)}catch(_){throw new Error("CRM server returned an invalid response. Please redeploy the current Code.gs version.")}}
+async function post(action,payload={}){const bodyPayload=Object.assign({},payload||{},{action:action});const attempts=[{url:API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),body:bodyPayload},{url:API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),body:payload||{}},{url:API_URL+"?_="+Date.now(),body:bodyPayload}];let lastData=null,lastError=null;for(const a of attempts){try{const res=await fetch(a.url,{method:"POST",cache:"no-store",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(a.body)});const text=await res.text();let data;try{data=JSON.parse(text)}catch(_){throw new Error("CRM server returned a non-JSON response.")}lastData=data;if(data&&data.success===false){if(/session/i.test(String(data.message||"")))return data;lastError=new Error(data.message||"CRM request failed.");continue}return data}catch(err){lastError=err}}if(lastData)return lastData;throw lastError||new Error("Unable to contact live CRM.")}
+function unwrapLivePayload_(result){if(!result||typeof result!=="object")return result;const candidates=[result,result.data,result.dashboard,result.payload,result.result];for(const item of candidates){if(item&&typeof item==="object"&&(item.agent||item.leads||item.commissions||item.stats))return item}return result}
 function badge(s){const k=String(s||"NEW").toLowerCase().replace(/ /g,"-");return `<span class="status s-${k}">${esc(s||"NEW")}</span>`}
 function dateText(d,t){return esc(d||"—")+(t?`<br><small>${esc(t)}</small>`:"")}
 function parseLeadDetails(text){const raw=String(text||'').trim();let subcategory='',budget='',details='';if(!raw)return{subcategory,budget,details};const lines=raw.split(/\r?\n/);let structured=false;for(const line of lines){let m=line.match(/^Category \/ Sub-category:\s*(.*)$/i)||line.match(/^Sub-category:\s*(.*)$/i);if(m){subcategory=m[1].trim();structured=true;continue}m=line.match(/^Budget \/ Range:\s*(.*)$/i)||line.match(/^Budget:\s*(.*)$/i);if(m){budget=m[1].trim();structured=true;continue}m=line.match(/^Details:\s*(.*)$/i);if(m){details+=(details?'\n':'')+m[1];structured=true;continue}if(structured){details+=(details?'\n':'')+line}}if(!structured)details=raw;return{subcategory,budget,details:details.trim()}}
@@ -220,7 +222,61 @@ function updateMetrics(){const count=s=>allLeads.filter(x=>String(x.status).toUp
 function renderLeads(){const q=$('searchFilter').value.trim().toLowerCase(),w=$('wingFilter').value,s=$('statusFilter').value,d=$('dateFilter').value;const rows=allLeads.filter(l=>(!q||[l.leadId,l.name,l.mobile,l.lgId,l.lcId].some(v=>String(v||"").toLowerCase().includes(q)))&&(!w||l.requirement===w)&&(!s||String(l.status).toUpperCase()===s)&&(!d||l.date===d)).sort((a,b)=>String(b.date+b.time).localeCompare(String(a.date+a.time)));$('leadTableBody').innerHTML=rows.length?rows.map(l=>`<tr class="${followClass(l)}"><td><strong>${esc(l.leadId)}</strong></td><td>${dateText(l.date,l.time)}</td><td>${esc(l.name)}<br><small>${esc(l.mobile)}</small></td><td>${(()=>{const d=parseLeadDetails(l.details);return esc(l.requirement)+(d.subcategory?`<br><small>${esc(d.subcategory)}</small>`:``)+(d.budget?`<br><small>Budget: ${esc(d.budget)}</small>`:``)})()}</td><td>${badge(l.status)}</td><td>LG: ${esc(l.lgId||l.agentId||'—')}<br>LC: ${esc(l.lcId||'—')}</td><td><button class="small-btn" onclick="openLead('${esc(l.leadId)}')">View / Edit</button></td></tr>`).join(""):'<tr><td colspan="7" class="empty">No leads found.</td></tr>'}
 function renderFollowUps(){const tbody=$('followUpTableBody');if(!tbody)return;const today=new Date();today.setHours(0,0,0,0);const rows=allLeads.filter(l=>l.followUp&&!['CONVERTED','NOT INTERESTED'].includes(String(l.status||'').toUpperCase())).sort((a,b)=>String(a.followUp).localeCompare(String(b.followUp)));tbody.innerHTML=rows.length?rows.map(l=>{const f=new Date(l.followUp+'T00:00:00');const cls=f<today?'overdue':f.getTime()===today.getTime()?'due':'';const d=parseLeadDetails(l.details);return `<tr class="${cls}"><td><strong>${esc(l.leadId)}</strong></td><td>${esc(l.followUp)}</td><td>${esc(l.name)}<br><small>${esc(l.mobile)}</small></td><td>${esc(l.requirement)}${d.subcategory?`<br><small>${esc(d.subcategory)}</small>`:''}</td><td>${badge(l.status)}</td><td><button class="small-btn" onclick="openLead('${esc(l.leadId)}')">View / Edit</button></td></tr>`}).join(''):'<tr><td colspan="6" class="empty">No pending follow-ups.</td></tr>'}
 function renderCommissions(){const money=v=>'₹'+Number(v||0).toLocaleString('en-IN',{maximumFractionDigits:2});$('commissionTableBody').innerHTML=allCommissions.length?allCommissions.map(c=>`<tr><td>${esc(c.leadId)}</td><td>${esc(c.customerName)}</td><td>${esc(c.wing)}</td><td><strong>${money(c.totalCommission)}</strong></td><td>${money(c.lgCommission)}<br><small>LG: ${esc(c.lgId||'—')}</small></td><td>${money(c.lcCommission)}<br><small>LC: ${esc(c.lcId||'—')}</small></td><td class="commission-own">${money(c.ownCommission)}</td><td>${esc(c.commissionStatus)}</td><td>${esc(c.paymentDate||'—')}</td></tr>`).join(""):'<tr><td colspan="9" class="empty">No commission records yet.</td></tr>'}
-async function loadDashboard(){const sync=$('agentSyncStatus');if(sync){sync.style.display='block';sync.textContent='Loading live CRM data…';sync.style.background='#eef5fb';sync.style.color='#31516a'}try{const r=await post('agentDashboard',{token});if(!r.success){if(/session/i.test(r.message||'')){sessionStorage.clear();location.href='../login/?role=agent';return}throw new Error(r.message||'Unable to load dashboard.')}if(sync)sync.style.display='none';currentAgent=r.agent||{};allLeads=Array.isArray(r.leads)?r.leads:[];allCommissions=Array.isArray(r.commissions)?r.commissions:[];const bdm=String(currentAgent.role).toUpperCase()==='EMPLOYEE';$('dashboardTitle').textContent=bdm?'BDM Dashboard':'Agent Dashboard';$('portalRole').textContent=bdm?'BDM / Employee Portal':'Agent / BDE Portal';$('leadsHeading').textContent=bdm?'My & Team Leads':'My Leads';$('agentName').textContent=`Logged in as ${currentAgent.name||''} (${currentAgent.agentId||''})${currentAgent.reportingBdmId?' • BDM: '+currentAgent.reportingBdmId:''}`;updateMetrics();renderLeads();renderFollowUps();renderCommissions();$('profileName').textContent=currentAgent.name||'—';$('profileId').textContent=currentAgent.agentId||'—';$('profileRole').textContent=bdm?'BDM / Employee':'Agent / BDE';$('profileBdm').textContent=currentAgent.reportingBdmId||'—'}catch(err){if(sync){sync.style.display='block';sync.textContent='Live CRM data could not load: '+(err.message||'Unable to load dashboard.');sync.style.background='#fff0ee';sync.style.color='#9b2c22'}throw err}}
+async function loadDashboard(){
+  const sync=$("agentSyncStatus");
+  if(sync){
+    sync.style.display="block";
+    sync.textContent="Loading live CRM data…";
+    sync.style.background="#eef5fb";
+    sync.style.color="#31516a";
+  }
+  try{
+    let r=await post("agentDashboard",{token});
+    if(r && r.success===true){const u=unwrapLivePayload_(r);if(u!==r){u.success=true;r=u}}
+    if(!r || r.success!==true){
+      if(/session/i.test((r&&r.message)||"")){
+        sessionStorage.clear();
+        location.href="../login/?role=agent";
+        return;
+      }
+      throw new Error((r&&r.message)||"Unable to load dashboard.");
+    }
+    if(!r.agent || typeof r.agent!=="object") throw new Error("Live CRM response is missing Agent / BDM profile data.");
+    if(!Array.isArray(r.leads)) throw new Error("Live CRM response is missing lead data.");
+    if(r.commissions!==undefined && !Array.isArray(r.commissions)) throw new Error("Live CRM returned invalid commission data.");
+
+    currentAgent=r.agent;
+    allLeads=r.leads;
+    allCommissions=Array.isArray(r.commissions)?r.commissions:[];
+    const bdm=String(currentAgent.role).toUpperCase()==="EMPLOYEE";
+    $("dashboardTitle").textContent=bdm?"BDM Dashboard":"Agent Dashboard";
+    $("portalRole").textContent=bdm?"BDM / Employee Portal":"Agent / BDE Portal";
+    $("leadsHeading").textContent=bdm?"My & Team Leads":"My Leads";
+    $("agentName").textContent=`Logged in as ${currentAgent.name||""} (${currentAgent.agentId||""})${currentAgent.reportingBdmId?" • BDM: "+currentAgent.reportingBdmId:""}`;
+    updateMetrics();
+    renderLeads();
+    renderFollowUps();
+    renderCommissions();
+    $("profileName").textContent=currentAgent.name||"—";
+    $("profileId").textContent=currentAgent.agentId||"—";
+    $("profileRole").textContent=bdm?"BDM / Employee":"Agent / BDE";
+    $("profileBdm").textContent=currentAgent.reportingBdmId||"—";
+    if(sync){
+      sync.style.display="block";
+      sync.textContent="Live CRM connected • "+allLeads.length+" lead"+(allLeads.length===1?"":"s");
+      sync.style.background="#eef5fb";
+      sync.style.color="#31516a";
+    }
+  }catch(err){
+    if(sync){
+      sync.style.display="block";
+      sync.textContent="Live CRM data could not load: "+(err.message||"Unable to load dashboard.");
+      sync.style.background="#fff0ee";
+      sync.style.color="#9b2c22";
+    }
+    throw err;
+  }
+}
 window.openLead=function(id){selectedLead=allLeads.find(l=>l.leadId===id);if(!selectedLead)return;$('editLeadId').value=id;$('editName').value=selectedLead.name||'';$('editMobile').value=selectedLead.mobile||'';$('editEmail').value=selectedLead.email||'';$('editRequirement').value=selectedLead.requirement||'General / Other';const parsed=parseLeadDetails(selectedLead.details);$('editSubcategory').value=parsed.subcategory;$('editBudget').value=parsed.budget;$('editDetails').value=parsed.details;updateBudgetPlaceholder($('editRequirement').value,'editBudget');const statusSelect=$('editStatus');const currentStatus=String(selectedLead.status||'NEW').toUpperCase();if(currentStatus==='CONVERTED'){if(!Array.from(statusSelect.options).some(o=>o.value==='CONVERTED'))statusSelect.add(new Option('CONVERTED','CONVERTED'));statusSelect.value='CONVERTED';statusSelect.disabled=true}else{Array.from(statusSelect.options).filter(o=>o.value==='CONVERTED').forEach(o=>o.remove());statusSelect.disabled=false;statusSelect.value=currentStatus||'NEW'};$('editFollowUp').value=selectedLead.followUp||'';$('editNotes').value=selectedLead.notes||'';const me=currentAgent.agentId||'',bdm=currentAgent.reportingBdmId||me;$('editLcChoice').value=!selectedLead.lcId?'Not Assigned':selectedLead.lcId===me?'Self':selectedLead.lcId===bdm?'Reporting BDM':'Not Assigned';const mob=String(selectedLead.mobile||'').replace(/\D/g,'');$('contactActions').innerHTML=mob?`<a class="link-btn" href="tel:${mob}">Call</a><a class="link-btn" target="_blank" rel="noopener" href="https://wa.me/91${mob}">WhatsApp</a>`:'';$('editMessage').textContent='';$('leadModal').classList.add('show')}
 $('closeLeadModal').onclick=()=>$('leadModal').classList.remove('show');$('leadModal').onclick=e=>{if(e.target===$('leadModal'))$('leadModal').classList.remove('show')};
 $('saveLeadButton').onclick=async()=>{if(!selectedLead)return;const b=$('saveLeadButton');b.disabled=true;$('editMessage').textContent='Saving...';try{const r=await post('agentUpdateLead',{token,leadId:selectedLead.leadId,name:$('editName').value.trim(),mobile:$('editMobile').value.trim(),email:$('editEmail').value.trim(),requirement:$('editRequirement').value,details:buildLeadDetails($('editSubcategory').value.trim(),$('editBudget').value.trim(),$('editDetails').value.trim()),status:$('editStatus').value,followUp:$('editFollowUp').value,notes:$('editNotes').value.trim(),lcChoice:$('editLcChoice').value});if(!r.success)throw new Error(r.message||'Unable to update lead.');$('editMessage').textContent='Saved successfully.';await loadDashboard()}catch(e){$('editMessage').textContent=e.message}finally{b.disabled=false}};
