@@ -1627,6 +1627,20 @@ function escapeHtml(value){
 }
 
 
+/* CRM WORKING DATA MUST BE ACTIONABLE.
+   Invalid/blank source rows may remain in the central sheet/public counter,
+   but they are intentionally excluded from the working CRM. */
+function isActionableCrmRecord_(item){
+  return Boolean(
+    item &&
+    String(item.inquiryId || "").trim() &&
+    String(item.name || "").trim() &&
+    String(item.mobile || "").trim() &&
+    String(item.requirement || "").trim()
+  );
+}
+
+
 /* =====================================================
    DATE / TIME
 ===================================================== */
@@ -2422,34 +2436,13 @@ function renderTable(){
   .slice()
  .sort(function(a,b){
 
-  function getDateTime(item){
-
-    const date =
-      String(
-        item.date || ""
-      );
-
-    const time =
-      String(
-        item.time || "00:00:00"
-      );
-
-    const value =
-      new Date(
-        date + "T" + time
-      );
-
-    return isNaN(
-      value.getTime()
-    )
-      ? 0
-      : value.getTime();
+  function getDateTimeKey(item){
+    const date = formatDateForInput(item.date) || "0000-00-00";
+    const time = String(item.time || "00:00:00").match(/\d{1,2}:\d{2}(?::\d{2})?/)?.[0] || "00:00:00";
+    return date + "T" + time.padStart(8,"0");
   }
 
-  return (
-    getDateTime(b) -
-    getDateTime(a)
-  );
+  return getDateTimeKey(b).localeCompare(getDateTimeKey(a));
 
 })
     .map(function(item){
@@ -3096,19 +3089,29 @@ async function loadDashboard(){
       throw new Error("Live CRM returned invalid dashboard statistics.");
     }
 
-    document.getElementById("totalInquiries").textContent = liveStats.total;
-    document.getElementById("newInquiries").textContent = liveStats.newCount;
-    document.getElementById("progressInquiries").textContent = liveStats.inProgress;
-    document.getElementById("closedInquiries").textContent = liveStats.closed;
+    const rawInquiries = Array.isArray(result.inquiries) ? result.inquiries : [];
+    allInquiries = rawInquiries.filter(isActionableCrmRecord_);
 
-    allInquiries = Array.isArray(result.inquiries) ? result.inquiries : [];
+    /* Dashboard cards represent CLEAN WORKING CRM DATA only.
+       The public website counter is intentionally independent. */
+    const cleanStats = {
+      total: allInquiries.length,
+      newCount: allInquiries.filter(x => String(x.status || "").toUpperCase() === "NEW").length,
+      inProgress: allInquiries.filter(x => ["IN PROGRESS","IN_PROGRESS"].includes(String(x.status || "").toUpperCase())).length,
+      closed: allInquiries.filter(x => String(x.status || "").toUpperCase() === "CONVERTED").length
+    };
 
-    setNavCount("navDashboardCount",liveStats.total);
-    setNavCount("navInquiryCount",allInquiries.length || liveStats.total);
+    document.getElementById("totalInquiries").textContent = cleanStats.total;
+    document.getElementById("newInquiries").textContent = cleanStats.newCount;
+    document.getElementById("progressInquiries").textContent = cleanStats.inProgress;
+    document.getElementById("closedInquiries").textContent = cleanStats.closed;
+
+    setNavCount("navDashboardCount",cleanStats.total);
+    setNavCount("navInquiryCount",cleanStats.total);
     setNavCount("navVisitorCount",liveStats.visitors);
     setDashboardSyncStatus(
       Array.isArray(result.inquiries)
-        ? "Live CRM connected • " + liveStats.total + " leads / inquiries • data synced"
+        ? "Live CRM connected • " + cleanStats.total + " clean leads / inquiries • data synced"
         : "Live totals are reachable, but the detailed CRM feed is not active. Deploy backend version MADHYUM_CRM_DIRECTOR_CRM_V4.",
       !Array.isArray(result.inquiries)
     );

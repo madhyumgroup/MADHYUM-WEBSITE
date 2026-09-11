@@ -238,7 +238,16 @@ async function crmVersion(){try{return await getLive("version",{})}catch(_){retu
 function setAgCount(id,v){const e=$(id);if(e)e.textContent=(v===undefined||v===null)?"—":String(v)}
 function unwrapLivePayload_(result){if(!result||typeof result!=="object")return result;const candidates=[result,result.data,result.dashboard,result.payload,result.result];for(const item of candidates){if(item&&typeof item==="object"&&(item.agent||item.leads||item.commissions||item.stats))return item}return result}
 function badge(s){const k=String(s||"NEW").toLowerCase().replace(/ /g,"-");return `<span class="status s-${k}">${esc(s||"NEW")}</span>`}
-function dateText(d,t){return esc(d||"—")+(t?`<br><small>${esc(t)}</small>`:"")}
+function formatAgentDate_(value){
+  const text=String(value||"").trim();
+  if(!text)return "—";
+  let m=text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(m){const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];const mo=Number(m[2]);if(mo>=1&&mo<=12)return String(m[3]).padStart(2,"0")+" "+months[mo-1]+" "+m[1];}
+  m=text.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+  if(m){const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];const mo=Number(m[2]);if(mo>=1&&mo<=12)return String(m[1]).padStart(2,"0")+" "+months[mo-1]+" "+m[3];}
+  return text;
+}
+function dateText(d,t){return esc(formatAgentDate_(d))+(t?`<br><small>${esc(t)}</small>`:"")}
 function parseLeadDetails(text){const raw=String(text||'').trim();let subcategory='',budget='',details='';if(!raw)return{subcategory,budget,details};const lines=raw.split(/\r?\n/);let structured=false;for(const line of lines){let m=line.match(/^Category \/ Sub-category:\s*(.*)$/i)||line.match(/^Sub-category:\s*(.*)$/i);if(m){subcategory=m[1].trim();structured=true;continue}m=line.match(/^Budget \/ Range:\s*(.*)$/i)||line.match(/^Budget:\s*(.*)$/i);if(m){budget=m[1].trim();structured=true;continue}m=line.match(/^Details:\s*(.*)$/i);if(m){details+=(details?'\n':'')+m[1];structured=true;continue}if(structured){details+=(details?'\n':'')+line}}if(!structured)details=raw;return{subcategory,budget,details:details.trim()}}
 function buildLeadDetails(subcategory,budget,details){return [subcategory?`Category / Sub-category: ${subcategory}`:'',budget?`Budget / Range: ${budget}`:'',details?`Details: ${details}`:''].filter(Boolean).join('\n')}
 function generateCustomerMessage(data){const name=String(data.name||'Customer').trim()||'Customer';const requirement=String(data.requirement||'your requirement').trim();const sub=String(data.subcategory||'').trim();const budget=String(data.budget||'').trim();const lines=[`Greetings from MADHYUM Group.`,``,`Dear ${name},`,`Your ${requirement} request has been received by our team.`];if(sub)lines.push(`Category / Requirement: ${sub}`);if(budget)lines.push(`Budget / Range: ${budget}`);lines.push(``,`Our team will review your requirement and get back to you shortly.`,``,`Thank you for connecting with MADHYUM Group.`);return lines.join('\n')}
