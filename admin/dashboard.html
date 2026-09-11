@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- MADHYUM LIVE CRM BUILD 2026-09-11-1720 | ADMIN -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -2944,54 +2945,38 @@ async function loadDashboard(){
     }
 
 
-    document
-      .getElementById(
-        "totalInquiries"
-      )
-      .textContent =
-        result.stats?.total ?? 0;
+    if (!result.stats || typeof result.stats !== "object") {
+      throw new Error("Live CRM response is missing dashboard statistics.");
+    }
 
+    const liveStats = {
+      total: Number(result.stats.total),
+      newCount: Number(result.stats.new),
+      inProgress: Number(result.stats.inProgress),
+      closed: Number(result.stats.closed),
+      visitors: Number(result.stats.visitors)
+    };
 
-    document
-      .getElementById(
-        "newInquiries"
-      )
-      .textContent =
-        result.stats?.new ?? 0;
+    if (Object.values(liveStats).some(function(value){ return !Number.isFinite(value); })) {
+      throw new Error("Live CRM returned invalid dashboard statistics.");
+    }
 
+    document.getElementById("totalInquiries").textContent = liveStats.total;
+    document.getElementById("newInquiries").textContent = liveStats.newCount;
+    document.getElementById("progressInquiries").textContent = liveStats.inProgress;
+    document.getElementById("closedInquiries").textContent = liveStats.closed;
+    document.getElementById("visitorCount").textContent = liveStats.visitors;
 
-    document
-      .getElementById(
-        "progressInquiries"
-      )
-      .textContent =
-        result.stats?.inProgress ?? 0;
+    if (!Array.isArray(result.inquiries)) {
+      throw new Error("Live CRM response is missing inquiry data.");
+    }
 
+    allInquiries = result.inquiries;
 
-    document
-      .getElementById(
-        "closedInquiries"
-      )
-      .textContent =
-        result.stats?.closed ?? 0;
-
-
-    document
-      .getElementById(
-        "visitorCount"
-      )
-      .textContent =
-        result.stats?.visitors ?? 0;
-
-
-    setDashboardSyncStatus("",false);
-
-    allInquiries =
-      Array.isArray(
-        result.inquiries
-      )
-        ? result.inquiries
-        : [];
+    setDashboardSyncStatus(
+      "Live CRM connected • " + liveStats.total + " leads/inquiries • " + liveStats.visitors + " visitors",
+      false
+    );
 
 
     renderTable();
