@@ -735,6 +735,9 @@
       #callingDataSection .agent-grid{grid-template-columns:1fr;}
     }
 
+
+/* LIVE COUNT BADGES + OPERATIONS OVERVIEW */
+.nav-item{display:flex!important;align-items:center;justify-content:space-between;gap:10px}.nav-count{min-width:26px;padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.12);font-size:11px;font-weight:800;text-align:center}.nav-item.active .nav-count{background:#d5ad5c;color:#111}.live-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 20px}.live-overview .mini{background:#fff;border-radius:14px;padding:14px;box-shadow:0 8px 24px rgba(15,23,42,.05)}.mini-label{font-size:11px;color:#667085;margin-bottom:6px}.mini-value{font-size:22px;font-weight:900}.mini-note{font-size:10px;color:#98a2b3;margin-top:4px}@media(max-width:1000px){.live-overview{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.live-overview{grid-template-columns:1fr}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
@@ -752,35 +755,35 @@
     </div>
 
     <button class="nav-item active" id="dashboardNav">
-      Dashboard
+      <span>Dashboard</span><span class="nav-count" id="navDashboardCount">—</span>
     </button>
 
     <button type="button" class="nav-item" id="inquiriesNav">
-      Inquiries
+      <span>Inquiries</span><span class="nav-count" id="navInquiryCount">—</span>
     </button>
 
     <button type="button" class="nav-item" id="agentsNav">
-      Agents
+      <span>Agents</span><span class="nav-count" id="navAgentCount">—</span>
     </button>
 
     <button type="button" class="nav-item" id="distributionNav">
-      Data Distribution
+      <span>Data Distribution</span><span class="nav-count" id="navDistributionCount">—</span>
     </button>
 
     <button type="button" class="nav-item" id="callingDataNav">
-      Calling Data
+      <span>Calling Data</span><span class="nav-count" id="navCallingCount">—</span>
     </button>
 
     <button type="button" class="nav-item" id="visitorsNav">
-      Visitors
+      <span>Visitors</span><span class="nav-count" id="navVisitorCount">—</span>
     </button>
 
     <button type="button" class="nav-item" id="commissionsNav">
-      Commissions
+      <span>Commissions</span><span class="nav-count" id="navCommissionCount">—</span>
     </button>
 
     <button type="button" class="nav-item" id="trashNav">
-      Dispose
+      <span>Dispose</span><span class="nav-count" id="navTrashCount">—</span>
     </button>
 
     <button type="button" class="nav-item" id="exportNav">
@@ -819,6 +822,17 @@
     </div>
 
     <div id="dashboardSyncStatus" style="margin:0 0 14px;padding:10px 12px;border-radius:10px;background:#eef5fb;color:#31516a;font-size:12px;font-weight:700;display:block;">Loading live CRM data…</div>
+<div class="live-overview" id="adminLiveOverview">
+  <div class="mini"><div class="mini-label">Active Agents / BDM</div><div class="mini-value" id="ovAgents">—</div><div class="mini-note">Live from AGENTS</div></div>
+  <div class="mini"><div class="mini-label">Calling Data</div><div class="mini-value" id="ovCalling">—</div><div class="mini-note">Live assigned calling rows</div></div>
+  <div class="mini"><div class="mini-label">Shared / Distributed Data</div><div class="mini-value" id="ovDistribution">—</div><div class="mini-note">Live distribution records</div></div>
+  <div class="mini"><div class="mini-label">Commission Records</div><div class="mini-value" id="ovCommissions">—</div><div class="mini-note">Live commission entries</div></div>
+  <div class="mini"><div class="mini-label">Disposed Records</div><div class="mini-value" id="ovTrash">—</div><div class="mini-note">Admin CRM dispose</div></div>
+  <div class="mini"><div class="mini-label">Website + Agent Leads</div><div class="mini-value" id="ovInquiries">—</div><div class="mini-note">Detailed live feed</div></div>
+  <div class="mini"><div class="mini-label">Visitors</div><div class="mini-value" id="ovVisitors">—</div><div class="mini-note">Live website visitors</div></div>
+  <div class="mini"><div class="mini-label">CRM Sync</div><div class="mini-value" id="ovSync" style="font-size:14px">Connecting…</div><div class="mini-note">Protected live API</div></div>
+</div>
+
 
     <section class="cards" id="dashboardCards">
 
@@ -1945,6 +1959,27 @@ function unwrapLivePayload_(result){
 }
 
 
+
+async function apiGet(action,payload){
+  const params=new URLSearchParams(Object.assign({},payload||{},{action:action,_:Date.now()}));
+  const response=await fetch(API_URL+"?"+params.toString(),{method:"GET",cache:"no-store"});
+  const text=await response.text();
+  let data; try{data=JSON.parse(text)}catch(_){throw new Error("CRM server returned an invalid GET response.")} return data;
+}
+async function apiRead(action,payload){
+  let first=null;
+  try{first=await apiPost(action,payload||{});}catch(_){}
+  const good=(x)=>x&&x.success===true;
+  if(good(first)){
+    if(action==="adminDashboard" && (!first.stats || !Array.isArray(first.inquiries))){/* try GET below */}
+    else return first;
+  }
+  try{const second=await apiGet(action,payload||{});if(good(second))return second;if(second)return second;}catch(_){}
+  return first||{success:false,message:"Unable to load live CRM data."};
+}
+function setNavCount(id,value){const el=document.getElementById(id);if(el)el.textContent=(value===undefined||value===null)?"—":String(value)}
+function setOverview(id,value){const el=document.getElementById(id);if(el)el.textContent=(value===undefined||value===null)?"—":String(value)}
+
 /* =====================================================
    SESSION
 ===================================================== */
@@ -2919,7 +2954,7 @@ async function loadDashboard(){
     setDashboardSyncStatus("Loading live CRM data…",false);
 
     let result =
-      await apiPost(
+      await apiRead(
         "adminDashboard",
         {
           token:token
@@ -2993,6 +3028,13 @@ async function loadDashboard(){
 
     allInquiries = Array.isArray(result.inquiries) ? result.inquiries : [];
 
+    setNavCount("navDashboardCount",liveStats.total);
+    setNavCount("navInquiryCount",allInquiries.length || liveStats.total);
+    setNavCount("navVisitorCount",liveStats.visitors);
+    setOverview("ovInquiries",allInquiries.length || liveStats.total);
+    setOverview("ovVisitors",liveStats.visitors);
+    setOverview("ovSync",Array.isArray(result.inquiries)?"LIVE":"PARTIAL");
+
     setDashboardSyncStatus(
       "Live CRM connected • " + liveStats.total + " inquiries • " + liveStats.visitors + " visitors" +
       (Array.isArray(result.inquiries) ? "" : " • detailed inquiry feed unavailable in this deployment"),
@@ -3019,6 +3061,26 @@ async function loadDashboard(){
 
 }
 
+
+
+async function loadAdminOperationalCounts(){
+  const jobs=[
+    ["listAgents","agents","navAgentCount","ovAgents"],
+    ["adminCallingData","items","navCallingCount","ovCalling"],
+    ["adminDataDistribution","items","navDistributionCount","ovDistribution"],
+    ["adminCommissions","commissions","navCommissionCount","ovCommissions"],
+    ["adminTrash","records","navTrashCount","ovTrash"]
+  ];
+  await Promise.all(jobs.map(async function(j){
+    try{
+      const r=await apiRead(j[0],{token:token});
+      const arr=r&&Array.isArray(r[j[1]])?r[j[1]]:[];
+      let n=arr.length;
+      if(j[0]==="listAgents")n=arr.filter(a=>String(a.active||"").toUpperCase()!=="NO").length;
+      setNavCount(j[2],n);setOverview(j[3],n);
+    }catch(_){setNavCount(j[2],"!");setOverview(j[3],"Unavailable")}
+  }));
+}
 
 /* =====================================================
    LOAD AGENTS
@@ -5015,6 +5077,10 @@ document.getElementById("callingAssigneeFilter").addEventListener("change",rende
 
 loadAgents();
 
+
+// LIVE SHOWCASE BOOTSTRAP
+loadAdminOperationalCounts();
+setInterval(function(){ if(document.visibilityState==="visible") loadAdminOperationalCounts(); },60000);
 </script>
 
 </body>

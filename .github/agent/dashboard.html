@@ -26,25 +26,38 @@
 .shared-follow-up-date{
   min-width:135px;
 }
+
+.nav-item{display:flex!important;align-items:center;justify-content:space-between;gap:10px}.nav-count{min-width:26px;padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.12);font-size:11px;font-weight:800;text-align:center}.nav-item.active .nav-count{background:#c9a45b;color:#111}.agent-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 20px}.agent-overview .mini{background:#fff;border-radius:14px;padding:14px;box-shadow:0 8px 24px rgba(15,23,42,.05)}.mini-label{font-size:11px;color:#667085;margin-bottom:6px}.mini-value{font-size:21px;font-weight:900}.mini-note{font-size:10px;color:#98a2b3;margin-top:4px}@media(max-width:1000px){.agent-overview{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.agent-overview{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="shell">
 <aside class="sidebar">
 <div class="brand">MADHYUM</div><div class="role" id="portalRole">Agent / Employee Portal</div>
-<button class="nav-item active" data-view="dashboardSection">Dashboard</button>
+<button class="nav-item active" data-view="dashboardSection"><span>Dashboard</span><span class="nav-count" id="agNavDashboard">—</span></button>
 <button class="nav-item" data-view="addLeadSection">Add Lead</button>
-<button class="nav-item" data-view="myLeadsSection">My Leads</button>
-<button class="nav-item" data-view="followUpsSection">Follow Ups</button>
-<button class="nav-item" data-view="commissionSection">My Commission</button>
-<button class="nav-item" data-view="sharedDataSection">Shared Data</button>
-<button class="nav-item" data-view="callingDataSection">Calling Data</button>
+<button class="nav-item" data-view="myLeadsSection"><span>My Leads</span><span class="nav-count" id="agNavLeads">—</span></button>
+<button class="nav-item" data-view="followUpsSection"><span>Follow Ups</span><span class="nav-count" id="agNavFollow">—</span></button>
+<button class="nav-item" data-view="commissionSection"><span>My Commission</span><span class="nav-count" id="agNavCommission">—</span></button>
+<button class="nav-item" data-view="sharedDataSection"><span>Shared Data</span><span class="nav-count" id="agNavShared">—</span></button>
+<button class="nav-item" data-view="callingDataSection"><span>Calling Data</span><span class="nav-count" id="agNavCalling">—</span></button>
 <button class="nav-item" data-view="profileSection">Profile</button>
 <button class="nav-item logout" id="logoutButton">Logout</button>
 <div class="sidebar-banner-wrap"><img src="../images/admin-sidebar-banner.png" alt="MADHYUM Group" class="sidebar-banner"></div>
 </aside>
 <main class="main" id="dashboardTop">
 <div class="topbar"><div><h1 id="dashboardTitle">Agent Dashboard</h1><div class="agent-name" id="agentName"></div></div></div><div id="agentSyncStatus" style="margin:0 0 14px;padding:10px 12px;border-radius:10px;background:#eef5fb;color:#31516a;font-size:12px;font-weight:700;">Loading live CRM data…</div>
+<div class="agent-overview" id="agentLiveOverview">
+ <div class="mini"><div class="mini-label">My / Team Leads</div><div class="mini-value" id="agOvLeads">—</div><div class="mini-note">Live AGENT_LEADS</div></div>
+ <div class="mini"><div class="mini-label">Pending Follow Ups</div><div class="mini-value" id="agOvFollow">—</div><div class="mini-note">Due + upcoming</div></div>
+ <div class="mini"><div class="mini-label">Calling Data</div><div class="mini-value" id="agOvCalling">—</div><div class="mini-note">Assigned calling rows</div></div>
+ <div class="mini"><div class="mini-label">Shared Data</div><div class="mini-value" id="agOvShared">—</div><div class="mini-note">Received distributions</div></div>
+ <div class="mini"><div class="mini-label">Commission Records</div><div class="mini-value" id="agOvCommission">—</div><div class="mini-note">Visible payout records</div></div>
+ <div class="mini"><div class="mini-label">Your Earnings</div><div class="mini-value" id="agOvEarning">₹0</div><div class="mini-note">LG + LC earning</div></div>
+ <div class="mini"><div class="mini-label">Converted Leads</div><div class="mini-value" id="agOvConverted">—</div><div class="mini-note">Director-confirmed conversions</div></div>
+ <div class="mini"><div class="mini-label">CRM Sync</div><div class="mini-value" id="agOvSync" style="font-size:14px">Connecting…</div><div class="mini-note">Protected live API</div></div>
+</div>
+
 <section class="view-section active" id="dashboardSection">
 <section class="cards">
 <button type="button" class="card dashboard-action-card" id="totalLeadsCard"><span class="card-label">Total Leads</span><span class="card-value" id="mTotal">0</span></button>
@@ -209,6 +222,10 @@ const token=sessionStorage.getItem("madhyumAgentToken");const authGate=sessionSt
 let currentAgent={},allLeads=[],allCommissions=[],selectedLead=null;
 const $=id=>document.getElementById(id);const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 async function post(action,payload={}){const bodyPayload=Object.assign({},payload||{},{action:action});const attempts=[{url:API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),body:bodyPayload},{url:API_URL+"?action="+encodeURIComponent(action)+"&_="+Date.now(),body:payload||{}},{url:API_URL+"?_="+Date.now(),body:bodyPayload}];let lastData=null,lastError=null;for(const a of attempts){try{const res=await fetch(a.url,{method:"POST",cache:"no-store",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(a.body)});const text=await res.text();let data;try{data=JSON.parse(text)}catch(_){throw new Error("CRM server returned a non-JSON response.")}lastData=data;if(data&&data.success===false){if(/session/i.test(String(data.message||"")))return data;lastError=new Error(data.message||"CRM request failed.");continue}return data}catch(err){lastError=err}}if(lastData)return lastData;throw lastError||new Error("Unable to contact live CRM.")}
+
+async function getLive(action,payload={}){const params=new URLSearchParams(Object.assign({},payload||{},{action:action,_:Date.now()}));const res=await fetch(API_URL+"?"+params.toString(),{method:"GET",cache:"no-store"});const text=await res.text();try{return JSON.parse(text)}catch(_){throw new Error("CRM server returned an invalid GET response.")}}
+async function readLive(action,payload={}){let r=null;try{r=await post(action,payload)}catch(_){}const ok=x=>x&&x.success===true;if(ok(r)){if(action==="agentDashboard"&&(!r.agent||!Array.isArray(r.leads))){ }else return r}try{const g=await getLive(action,payload);if(g)return g}catch(_){}return r||{success:false,message:"Unable to load live CRM data."}}
+function setAgCount(id,v){const e=$(id);if(e)e.textContent=(v===undefined||v===null)?"—":String(v)}
 function unwrapLivePayload_(result){if(!result||typeof result!=="object")return result;const candidates=[result,result.data,result.dashboard,result.payload,result.result];for(const item of candidates){if(item&&typeof item==="object"&&(item.agent||item.leads||item.commissions||item.stats))return item}return result}
 function badge(s){const k=String(s||"NEW").toLowerCase().replace(/ /g,"-");return `<span class="status s-${k}">${esc(s||"NEW")}</span>`}
 function dateText(d,t){return esc(d||"—")+(t?`<br><small>${esc(t)}</small>`:"")}
@@ -231,7 +248,7 @@ async function loadDashboard(){
     sync.style.color="#31516a";
   }
   try{
-    let r=await post("agentDashboard",{token});
+    let r=await readLive("agentDashboard",{token});
     if(r && r.success===true){const u=unwrapLivePayload_(r);if(u!==r){u.success=true;r=u}}
     if(!r || r.success!==true){
       if(/session/i.test((r&&r.message)||"")){
@@ -248,6 +265,11 @@ async function loadDashboard(){
     currentAgent=r.agent;
     allLeads=r.leads;
     allCommissions=Array.isArray(r.commissions)?r.commissions:[];
+    const pendingFollow=allLeads.filter(l=>l.followUp&&!['CONVERTED','NOT INTERESTED'].includes(String(l.status||'').toUpperCase())).length;
+    const convertedCount=allLeads.filter(l=>String(l.status||'').toUpperCase()==='CONVERTED').length;
+    const earning=allCommissions.reduce((s,c)=>s+(Number(c.ownCommission)||0),0);
+    setAgCount('agNavDashboard',allLeads.length);setAgCount('agNavLeads',allLeads.length);setAgCount('agNavFollow',pendingFollow);setAgCount('agNavCommission',allCommissions.length);
+    setAgCount('agOvLeads',allLeads.length);setAgCount('agOvFollow',pendingFollow);setAgCount('agOvCommission',allCommissions.length);setAgCount('agOvConverted',convertedCount);setAgCount('agOvEarning','₹'+earning.toLocaleString('en-IN',{maximumFractionDigits:2}));setAgCount('agOvSync','LIVE');
     const bdm=String(currentAgent.role).toUpperCase()==="EMPLOYEE";
     $("dashboardTitle").textContent=bdm?"BDM Dashboard":"Agent Dashboard";
     $("portalRole").textContent=bdm?"BDM / Employee Portal":"Agent / BDE Portal";
@@ -427,6 +449,10 @@ function openAgentBase64File(p){
   setTimeout(()=>URL.revokeObjectURL(u),60000);
 }
 
+async function loadAgentOperationalCounts(){
+  try{const r=await readLive("agentDataDistribution",{token});const items=r&&Array.isArray(r.items)?r.items:[];setAgCount('agNavShared',items.length);setAgCount('agOvShared',items.length)}catch(_){setAgCount('agNavShared','!');setAgCount('agOvShared','Unavailable')}
+  try{const r=await readLive("agentCallingData",{token});const items=r&&Array.isArray(r.items)?r.items:[];setAgCount('agNavCalling',items.length);setAgCount('agOvCalling',items.length)}catch(_){setAgCount('agNavCalling','!');setAgCount('agOvCalling','Unavailable')}
+}
 async function loadSharedData(){
   const r=await post("agentDataDistribution",{token});
   if(!r.success)throw new Error(r.message||"Unable to load shared data.");
@@ -750,5 +776,9 @@ $("agentCallingStatusFilter").addEventListener("change",renderAgentCallingData);
 $("agentCallingAssigneeFilter").addEventListener("change",renderAgentCallingData);
 
 loadDashboard().then(()=>Promise.all([loadSharedData(),loadAgentCallingData()])).catch(e=>$('leadTableBody').innerHTML=`<tr><td colspan="7" class="empty">${esc(e.message)}</td></tr>`);
+
+// LIVE SHOWCASE BOOTSTRAP
+loadAgentOperationalCounts();
+setInterval(function(){if(document.visibilityState==="visible")loadAgentOperationalCounts()},60000);
 </script>
 </body></html>
