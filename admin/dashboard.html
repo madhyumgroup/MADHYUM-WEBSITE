@@ -1,0 +1,5014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MADHYUM Admin Dashboard</title>
+
+  <style>
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:#f5f7fa;
+      color:#111827;
+      overflow-x:hidden;
+    }
+
+    .admin-shell{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:240px 1fr;
+    }
+
+    .sidebar{
+      background:#0d1726;
+      color:#fff;
+      padding:24px 18px;
+      min-height:100vh;
+      position:sticky;
+      top:0;
+      align-self:start;
+    }
+
+    .brand{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.12em;
+      margin-bottom:8px;
+    }
+
+    .role{
+      font-size:12px;
+      color:#aeb8c5;
+      margin-bottom:32px;
+    }
+
+    .nav-item{
+      display:block;
+      width:100%;
+      text-align:left;
+      padding:12px 14px;
+      border-radius:10px;
+      margin-bottom:8px;
+      color:#d8e0e8;
+      background:transparent;
+      border:0;
+      cursor:pointer;
+      font-size:14px;
+    }
+
+    .nav-item.active,
+    .nav-item:hover{
+      background:#18263a;
+      color:#fff;
+    }
+
+    .logout{
+      margin-top:30px;
+      background:#c9a45b;
+      color:#111;
+      font-weight:800;
+    }
+
+    .sidebar-banner-wrap{
+      margin-top:24px;
+      text-align:center;
+    }
+
+    .sidebar-banner{
+      width:100%;
+      border-radius:12px;
+      display:block;
+      object-fit:cover;
+    }
+
+    .main{
+      padding:28px;
+      min-width:0;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      margin-bottom:24px;
+    }
+
+    .topbar h1{
+      margin:0;
+      font-size:30px;
+    }
+
+    .admin-name{
+      color:#667085;
+      font-size:14px;
+      margin-top:5px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:14px;
+      margin-bottom:24px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 8px 24px rgba(15,23,42,.06);
+    }
+
+    .card-label{
+      display:block;
+      font-size:12px;
+      color:#667085;
+      margin-bottom:8px;
+    }
+
+    .card-value{
+      display:block;
+      font-size:30px;
+      font-weight:900;
+    }
+
+    .panel{
+      background:#fff;
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 8px 24px rgba(15,23,42,.06);
+      scroll-margin-top:25px;
+      margin-bottom:24px;
+    }
+
+    .panel-title{
+      margin:0 0 18px;
+      font-size:20px;
+    }
+
+    .filters{
+      display:grid;
+      grid-template-columns:1.5fr 1fr 1fr 1fr;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    input,
+    select,
+    textarea{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid #d9dee5;
+      border-radius:10px;
+      font-size:14px;
+      background:#fff;
+    }
+
+    input:disabled{
+      background:#eef2f6;
+      color:#667085;
+    }
+
+    textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+
+    .field{
+      margin-bottom:14px;
+    }
+
+    .field label{
+      display:block;
+      font-size:12px;
+      font-weight:700;
+      margin-bottom:6px;
+      color:#344054;
+    }
+
+    .table-wrap{
+      width:100%;
+      overflow:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:1050px;
+    }
+
+    th,
+    td{
+      padding:12px 10px;
+      border-bottom:1px solid #eceff3;
+      text-align:left;
+      font-size:13px;
+      vertical-align:top;
+    }
+
+    th{
+      color:#667085;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+
+    .status,
+    .source-badge,
+    .active-badge{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      background:#eef2f6;
+    }
+
+    .active-badge.yes{
+      background:#ecfdf3;
+      color:#067647;
+    }
+
+    .active-badge.no{
+      background:#fef3f2;
+      color:#b42318;
+    }
+
+    .view-btn,
+    .small-btn{
+      border:0;
+      background:#0d1726;
+      color:#fff;
+      padding:7px 11px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .small-btn{
+      background:#c9a45b;
+      color:#111;
+    }
+
+    .deactivate-btn{
+      background:#b42318;
+      color:#fff;
+      margin-left:6px;
+    }
+
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    .loading,
+    .empty{
+      padding:28px;
+      text-align:center;
+      color:#667085;
+    }
+
+    .export-message,
+    .form-message{
+      margin-top:12px;
+      font-size:12px;
+      color:#067647;
+      font-weight:700;
+      min-height:18px;
+    }
+
+    .agent-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+      margin-bottom:22px;
+    }
+
+    .agent-box{
+      border:1px solid #eceff3;
+      border-radius:14px;
+      padding:18px;
+    }
+
+    .agent-box h3{
+      margin:0 0 16px;
+      font-size:17px;
+    }
+
+    .gold-btn{
+      width:100%;
+      border:0;
+      background:#c9a45b;
+      color:#111;
+      padding:12px 16px;
+      border-radius:10px;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:9999;
+    }
+
+    .modal-backdrop.show{
+      display:flex;
+    }
+
+    .modal{
+      width:min(700px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:18px;
+      padding:24px;
+      box-shadow:0 24px 60px rgba(0,0,0,.25);
+    }
+
+    .modal-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:18px;
+    }
+
+    .modal-head h2{
+      margin:0;
+      font-size:22px;
+    }
+
+    .close-btn{
+      border:0;
+      background:#eef2f6;
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:18px;
+    }
+
+    .detail-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:20px;
+    }
+
+    .detail-box{
+      background:#f8fafc;
+      border-radius:10px;
+      padding:12px;
+    }
+
+    .detail-label{
+      font-size:11px;
+      color:#667085;
+      margin-bottom:5px;
+      text-transform:uppercase;
+    }
+
+    .detail-value{
+      font-size:14px;
+      word-break:break-word;
+    }
+
+    .save-btn{
+      width:100%;
+      border:0;
+      background:#c9a45b;
+      color:#111;
+      padding:12px 16px;
+      border-radius:10px;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .save-message{
+      text-align:center;
+      font-size:13px;
+      font-weight:700;
+      margin-top:12px;
+      min-height:18px;
+    }
+
+    .date-time{
+      line-height:1.45;
+      white-space:nowrap;
+    }
+
+    .date-time small{
+      display:block;
+      color:#667085;
+      margin-top:2px;
+    }
+
+    @media(max-width:1100px){
+
+      .cards{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .filters{
+        grid-template-columns:1fr 1fr;
+      }
+
+    }
+
+    /* =========================================================
+       ADMIN MOBILE
+       ========================================================= */
+
+    @media(max-width:760px){
+
+      .admin-shell{
+        display:block;
+        width:100%;
+      }
+
+      .sidebar{
+        width:100%;
+        min-height:auto;
+        position:relative;
+        padding:16px 14px;
+      }
+
+      .brand{
+        font-size:18px;
+        margin-bottom:4px;
+      }
+
+      .role{
+        font-size:11px;
+        margin-bottom:14px;
+      }
+
+      .nav-item{
+        display:inline-flex;
+        width:auto;
+        margin:0 5px 8px 0;
+        padding:8px 10px;
+        font-size:11px;
+      }
+
+      .logout{
+        margin-top:0;
+      }
+
+      .sidebar-banner-wrap{
+        margin-top:6px;
+      }
+
+      .sidebar-banner{
+        width:100%;
+        height:130px;
+        object-fit:cover;
+        object-position:center;
+        border-radius:10px;
+      }
+
+      .main{
+        width:100%;
+        padding:16px 12px 28px;
+      }
+
+      .topbar{
+        margin-bottom:16px;
+      }
+
+      .topbar h1{
+        font-size:24px;
+      }
+
+      .admin-name{
+        font-size:11px;
+      }
+
+      .cards{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+        margin-bottom:16px;
+      }
+
+      .card{
+        padding:14px;
+        border-radius:12px;
+      }
+
+      .card-label{
+        font-size:10px;
+      }
+
+      .card-value{
+        font-size:24px;
+      }
+
+      .panel{
+        width:100%;
+        padding:14px;
+        border-radius:12px;
+        margin-bottom:16px;
+      }
+
+      .panel-title{
+        font-size:18px;
+        margin-bottom:14px;
+      }
+
+      .filters,
+      .detail-grid,
+      .agent-grid{
+        grid-template-columns:1fr;
+      }
+
+      .filters{
+        gap:8px;
+      }
+
+      .agent-grid{
+        gap:14px;
+      }
+
+      .agent-box{
+        padding:14px;
+      }
+
+      .modal-backdrop{
+        padding:10px;
+      }
+
+      .modal{
+        padding:16px;
+        border-radius:14px;
+      }
+
+      /* Inquiry table becomes cards */
+
+      #inquiriesSection .table-wrap,
+      #agentsSection .table-wrap{
+        overflow:visible;
+      }
+
+      #inquiriesSection table,
+      #agentsSection table{
+        min-width:0;
+        width:100%;
+        display:block;
+      }
+
+      #inquiriesSection thead,
+      #agentsSection thead{
+        display:none;
+      }
+
+      #inquiryTableBody,
+      #agentsTableBody{
+        display:block;
+        width:100%;
+      }
+
+      #inquiryTableBody tr,
+      #agentsTableBody tr{
+        display:block;
+        width:100%;
+        margin-bottom:12px;
+        padding:12px;
+        border:1px solid #e6e9ee;
+        border-radius:12px;
+        background:#fff;
+        box-shadow:0 4px 14px rgba(15,23,42,.05);
+      }
+
+      #inquiryTableBody td{
+        display:grid;
+        grid-template-columns:100px minmax(0,1fr);
+        width:100%;
+        padding:7px 0;
+        border:0;
+        border-bottom:1px solid #f0f1f3;
+        font-size:12px;
+        line-height:1.4;
+        word-break:break-word;
+      }
+
+      #inquiryTableBody td:last-child{
+        border-bottom:0;
+      }
+
+      #inquiryTableBody td:nth-child(1)::before{content:"ID";}
+      #inquiryTableBody td:nth-child(2)::before{content:"Date / Time";}
+      #inquiryTableBody td:nth-child(3)::before{content:"Name";}
+      #inquiryTableBody td:nth-child(4)::before{content:"Mobile";}
+      #inquiryTableBody td:nth-child(5)::before{content:"Requirement";}
+      #inquiryTableBody td:nth-child(6)::before{content:"Status";}
+      #inquiryTableBody td:nth-child(7)::before{content:"Source";}
+      #inquiryTableBody td:nth-child(8)::before{content:"Agent ID";}
+      #inquiryTableBody td:nth-child(9)::before{content:"Action";}
+
+      #inquiryTableBody td::before,
+      #agentsTableBody td::before{
+        font-size:10px;
+        font-weight:800;
+        text-transform:uppercase;
+        color:#667085;
+        padding-right:8px;
+      }
+
+      #agentsTableBody td{
+        display:grid;
+        grid-template-columns:90px minmax(0,1fr);
+        width:100%;
+        padding:7px 0;
+        border:0;
+        border-bottom:1px solid #f0f1f3;
+        font-size:12px;
+        word-break:break-word;
+      }
+
+      #agentsTableBody td:last-child{
+        border-bottom:0;
+      }
+
+      #agentsTableBody td:nth-child(1)::before{content:"Agent ID";}
+      #agentsTableBody td:nth-child(2)::before{content:"Name";}
+      #agentsTableBody td:nth-child(3)::before{content:"Mobile";}
+      #agentsTableBody td:nth-child(4)::before{content:"Role";}
+      #agentsTableBody td:nth-child(5)::before{content:"Reporting BDM";}
+      #agentsTableBody td:nth-child(6)::before{content:"Active";}
+      #agentsTableBody td:nth-child(7)::before{content:"Aadhaar";}
+      #agentsTableBody td:nth-child(8)::before{content:"Action";}
+
+      .deactivate-btn{
+        margin-left:0;
+        margin-top:6px;
+      }
+
+      .date-time{
+        white-space:normal;
+      }
+
+    }
+
+  
+    /* =====================================================
+       ADMIN LEFT-MENU VIEW SWITCHING
+    ===================================================== */
+    .admin-view-hidden{
+      display:none !important;
+    }
+
+    #dashboardCards.visitors-only .card{
+      display:none;
+    }
+
+    #dashboardCards.visitors-only #visitorsCard{
+      display:block;
+    }
+
+    #dashboardCards.visitors-only{
+      grid-template-columns:minmax(220px,360px);
+    }
+
+    @media (max-width: 768px){
+      #dashboardCards.visitors-only{
+        grid-template-columns:1fr;
+      }
+    }
+
+
+    .card.dashboard-action-card{
+      display:block;width:100%;border:0;text-align:left;font:inherit;color:inherit;
+      cursor:pointer;transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .card.dashboard-action-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 24px rgba(15,23,42,.10);
+    }
+    .trash-btn{
+      border:0;
+      background:#fee2e2;
+      color:#991b1b;
+      border-radius:8px;
+      padding:8px 10px;
+      font-weight:700;
+      cursor:pointer;
+      margin-left:6px;
+    }
+    .restore-btn{
+      border:0;
+      background:#dcfce7;
+      color:#166534;
+      border-radius:8px;
+      padding:8px 10px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+
+    #callingDataSection .agent-grid{
+      grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+    @media(max-width:1200px){
+      #callingDataSection .agent-grid{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:760px){
+      #callingDataSection .agent-grid{grid-template-columns:1fr;}
+    }
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+
+<div class="admin-shell">
+
+  <aside class="sidebar">
+
+    <div class="brand">MADHYUM</div>
+
+    <div class="role">
+      Admin Dashboard
+    </div>
+
+    <button class="nav-item active" id="dashboardNav">
+      Dashboard
+    </button>
+
+    <button type="button" class="nav-item" id="inquiriesNav">
+      Inquiries
+    </button>
+
+    <button type="button" class="nav-item" id="agentsNav">
+      Agents
+    </button>
+
+    <button type="button" class="nav-item" id="distributionNav">
+      Data Distribution
+    </button>
+
+    <button type="button" class="nav-item" id="callingDataNav">
+      Calling Data
+    </button>
+
+    <button type="button" class="nav-item" id="visitorsNav">
+      Visitors
+    </button>
+
+    <button type="button" class="nav-item" id="commissionsNav">
+      Commissions
+    </button>
+
+    <button type="button" class="nav-item" id="trashNav">
+      Dispose
+    </button>
+
+    <button type="button" class="nav-item" id="exportNav">
+      Export
+    </button>
+
+    <button type="button" class="nav-item logout" id="logoutButton">
+      Logout
+    </button>
+
+    <div class="sidebar-banner-wrap">
+
+      <img
+        src="../images/admin-sidebar-banner.png"
+        alt="MADHYUM Group"
+        class="sidebar-banner"
+      >
+
+    </div>
+
+  </aside>
+
+
+  <main class="main" id="dashboardTop">
+
+    <div class="topbar">
+
+      <div>
+
+        <h1 id="pageTitle">Dashboard</h1>
+
+        <div class="admin-name" id="adminName"></div>
+
+      </div>
+
+    </div>
+
+    <div id="dashboardSyncStatus" style="margin:0 0 14px;padding:10px 12px;border-radius:10px;background:#eef5fb;color:#31516a;font-size:12px;font-weight:700;display:block;">Loading live CRM data…</div>
+
+    <section class="cards" id="dashboardCards">
+
+      <button type="button" class="card dashboard-action-card" id="totalCard"><span class="card-label">Total Leads / Inquiries</span><span class="card-value" id="totalInquiries">—</span></button>
+
+      <button type="button" class="card dashboard-action-card" id="newCard"><span class="card-label">New</span><span class="card-value" id="newInquiries">—</span></button>
+
+      <button type="button" class="card dashboard-action-card" id="progressCard"><span class="card-label">In Progress</span><span class="card-value" id="progressInquiries">—</span></button>
+
+      <button type="button" class="card dashboard-action-card" id="convertedCard"><span class="card-label">Converted</span><span class="card-value" id="closedInquiries">—</span></button>
+
+      <button type="button" class="card dashboard-action-card" id="visitorsCard"><span class="card-label">Visitors</span><span class="card-value" id="visitorCount">—</span></button>
+
+    </section>
+
+
+    <!-- INQUIRIES -->
+
+    <section class="panel admin-view-hidden" id="inquiriesSection">
+
+      <h2 class="panel-title">
+        All Inquiries & Leads
+      </h2>
+
+      <div class="filters">
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search ID, name, mobile or Agent ID..."
+        >
+
+        <select id="wingFilter">
+
+          <option value="">All Requirements</option>
+          <option>Real Estate</option>
+          <option>Travel</option>
+          <option>Education & Admissions</option>
+          <option>Consultancy & Business Services</option>
+          <option>Events & Weddings</option>
+          <option>Membership</option>
+          <option>General / Other</option>
+
+        </select>
+
+        <select id="statusFilter">
+
+          <option value="">All Status</option>
+          <option>NEW</option>
+          <option>CONTACTED</option>
+          <option>FOLLOW UP</option>
+          <option>IN PROGRESS</option>
+          <option>CONVERTED</option>
+          <option>NOT INTERESTED</option>
+
+        </select>
+
+        <select id="sourceFilter">
+
+          <option value="">All Sources</option>
+          <option value="WEBSITE">Website</option>
+          <option value="AGENT">Agent</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>ID</th>
+              <th>Date / Time</th>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Requirement</th>
+              <th>Status</th>
+              <th>Source</th>
+              <th>Agent ID</th>
+              <th>Action</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="inquiryTableBody">
+
+            <tr>
+              <td colspan="9" class="loading">
+                Loading inquiries...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div
+        class="export-message"
+        id="exportMessage"
+      ></div>
+
+    </section>
+
+
+
+    <!-- AGENTS -->
+
+    <section class="panel admin-view-hidden" id="agentsSection">
+
+      <h2 class="panel-title">
+        Agent Management
+      </h2>
+
+
+      <div class="agent-grid">
+
+
+        <!-- CREATE AGENT -->
+
+        <div class="agent-box">
+
+          <h3>Create Agent / BDM</h3>
+
+          <form id="createAgentForm">
+
+            <div class="field">
+
+              <label>Agent / BDM ID</label>
+
+              <input
+                id="newAgentId"
+                type="text"
+                placeholder="Example: AG003 or MG009 (leave blank for auto ID)"
+                autocomplete="off"
+              >
+
+            </div>
+
+            <div class="field">
+
+              <label>Name</label>
+
+              <input
+                id="newAgentName"
+                type="text"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>Mobile</label>
+
+              <input
+                id="newAgentMobile"
+                type="tel"
+                maxlength="10"
+                inputmode="numeric"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>Role</label>
+
+              <select id="newAgentRole">
+                <option value="AGENT">Agent / BDE</option>
+                <option value="Employee">Employee / BDM</option>
+              </select>
+
+            </div>
+
+
+            <div class="field" id="reportingBdmField">
+              <label>Reporting BDM</label>
+              <select id="newReportingBdmId">
+                <option value="">Select Reporting BDM</option>
+                <option value="__NEW__">+ Create New BDM</option>
+              </select>
+            </div>
+
+
+            <div id="newBdmFields" style="display:none;">
+              <div class="field"><label>New BDM Name</label><input id="newBdmName" type="text"></div>
+              <div class="field"><label>New BDM Mobile</label><input id="newBdmMobile" type="tel" maxlength="10" inputmode="numeric"></div>
+              <div class="field"><label>New BDM Password</label><input id="newBdmPassword" type="password" minlength="6"></div>
+            </div>
+
+            <div class="field">
+
+              <label>Password</label>
+
+              <input
+                id="newAgentPassword"
+                type="password"
+                minlength="6"
+                required
+              >
+
+            </div>
+
+
+            <button
+              class="gold-btn"
+              id="createAgentButton"
+              type="submit"
+            >
+              Create Agent
+            </button>
+
+            <div
+              class="form-message"
+              id="createAgentMessage"
+            ></div>
+
+          </form>
+
+        </div>
+
+
+
+        <!-- PASSWORD RESET -->
+
+        <div class="agent-box">
+
+          <h3>Reset Agent Password</h3>
+
+          <form id="resetAgentForm">
+
+            <div class="field">
+
+              <label>Agent ID</label>
+
+              <input
+                id="resetAgentId"
+                type="text"
+                placeholder="Example: AG001"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>New Password</label>
+
+              <input
+                id="resetAgentPassword"
+                type="password"
+                minlength="6"
+                required
+              >
+
+            </div>
+
+
+            <button
+              class="gold-btn"
+              id="resetAgentButton"
+              type="submit"
+            >
+              Reset Password
+            </button>
+
+            <div
+              class="form-message"
+              id="resetAgentMessage"
+            ></div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+
+
+      <h3 style="margin:0 0 14px;">
+        Existing Agents
+      </h3>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Agent ID</th>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Role</th>
+              <th>Reporting BDM</th>
+              <th>Active</th>
+              <th>Aadhaar</th>
+              <th>Action</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="agentsTableBody">
+
+            <tr>
+
+              <td colspan="8" class="loading">
+                Loading agents...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+
+
+    <section class="panel admin-view-hidden" id="distributionSection">
+      <h2 class="panel-title">Data Distribution</h2>
+      <div class="helper" style="margin-bottom:16px;">Director can send data directly to any active BDM or Agent. A BDM can further distribute received data only to Agents reporting to that BDM.</div>
+
+      <div class="agent-grid">
+        <div class="agent-box">
+          <h3>Send Data</h3>
+          <div class="field"><label>Recipient</label><select id="distributionRecipient"><option value="">Select Agent / BDM</option></select></div>
+          <div class="field"><label>Title</label><input id="distributionTitle" type="text" placeholder="Example: Travel leads - September"></div>
+          <div class="field"><label>Details / Instructions</label><textarea id="distributionDetails" placeholder="Enter data, instructions or notes..."></textarea></div>
+          <div class="field"><label>Attachment (optional)</label><input id="distributionFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.csv,.xls,.xlsx,.doc,.docx"><div class="helper">Private attachment, maximum 3 MB.</div><div class="helper" id="distributionStructuredPreview" style="margin-top:6px;"></div></div>
+          <button class="gold-btn" id="sendDistributionButton" type="button">Send Data</button>
+          <div class="form-message" id="distributionMessage"></div>
+        </div>
+        <div class="agent-box">
+          <h3>Distribution Rules</h3>
+          <div class="helper" style="font-size:13px;line-height:1.7;">
+            • Director → any active BDM / Agent<br>
+            • BDM → only Agents reporting to that BDM<br>
+            • Agent → receive/view only<br>
+            • Files remain private; access is through the logged-in portal.
+          </div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="distributionSearch" type="search" placeholder="Search ID, recipient, title...">
+        <select id="distributionRoleFilter"><option value="">All Recipients</option><option value="EMPLOYEE">BDM / Employee</option><option value="AGENT">Agent / BDE</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Date</th><th>Recipient</th><th>Title</th><th>Details</th><th>Attachment</th><th>Status</th></tr></thead>
+          <tbody id="distributionTableBody"><tr><td colspan="7" class="loading">Loading distributed data...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+
+
+    <section class="panel admin-view-hidden" id="callingDataSection">
+      <h2 class="panel-title">Calling Data</h2>
+      <div class="helper" style="margin-bottom:16px;">
+        Director can assign calling data to any active BDM or Agent. BDM can keep it for self-calling or further assign it only to Agents reporting to that BDM.
+      </div>
+
+      <div class="agent-grid">
+        <div class="agent-box">
+          <h3>Import Excel / CSV</h3>
+
+          <div class="field">
+            <label>Select BDM / Agent ID</label>
+            <select id="callingImportAssignee">
+              <option value="">Select BDM / Agent</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Upload Excel / CSV</label>
+            <input id="callingExcelFile" type="file" accept=".xlsx,.xls,.csv">
+            <div class="helper">
+              Accepted columns: Name, Mobile Number, City, Source. Header names may be in any order.
+            </div>
+          </div>
+
+          <div class="detail-box" style="margin-bottom:14px;">
+            <div class="detail-label">Detected Rows</div>
+            <div class="detail-value" id="callingImportPreview">No file selected.</div>
+          </div>
+
+          <button class="gold-btn" id="importCallingDataButton" type="button">
+            Import & Assign Data
+          </button>
+
+          <div class="form-message" id="callingImportMessage"></div>
+        </div>
+
+        <div class="agent-box">
+          <h3>Add & Assign Calling Data</h3>
+          <div class="field"><label>Name</label><input id="callingName" type="text"></div>
+          <div class="field"><label>Mobile Number</label><input id="callingMobile" type="tel" inputmode="numeric" maxlength="10"></div>
+          <div class="field"><label>City</label><input id="callingCity" type="text"></div>
+          <div class="field"><label>Source</label><input id="callingSource" type="text" placeholder="Website / Reference / Campaign / Other"></div>
+          <div class="field"><label>Assign To</label><select id="callingAssignee"><option value="">Select Agent / BDM</option></select></div>
+          <button class="gold-btn" id="addCallingDataButton" type="button">Assign Calling Data</button>
+          <div class="form-message" id="callingDataMessage"></div>
+        </div>
+
+        <div class="agent-box">
+          <h3>Calling Data Format</h3>
+          <div class="helper" style="font-size:13px;line-height:1.9;">
+            Name<br>Mobile Number<br>City<br>Source<br>Connected / Not Connected<br>Remark
+          </div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="callingSearch" type="search" placeholder="Search name, mobile, city, source, ID...">
+        <select id="callingStatusFilter">
+          <option value="">All Call Status</option>
+          <option value="CONNECTED">Connected</option>
+          <option value="NOT CONNECTED">Not Connected</option>
+        </select>
+        <select id="callingAssigneeFilter"><option value="">All Assignees</option></select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Name</th><th>Mobile Number</th><th>City</th><th>Source</th>
+            <th>Connected / Not Connected</th><th>Remark</th><th>Assigned To</th><th>Action</th>
+          </tr></thead>
+          <tbody id="callingDataTableBody"><tr><td colspan="8" class="loading">Loading calling data...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- COMMISSIONS -->
+    <section class="panel admin-view-hidden" id="trashSection">
+      <h2 class="panel-title">Disposed Records</h2>
+      <div class="helper" style="margin-bottom:14px;">Items moved here are hidden only from the Admin CRM view. Original source records stay unchanged, so the live website/public counters are not affected.</div>
+      <div class="filters">
+        <input id="trashSearch" type="search" placeholder="Search disposed ID, customer, mobile, requirement...">
+        <select id="trashSourceFilter"><option value="">All Sources</option><option value="WEBSITE">Website</option><option value="AGENT">Agent / BDM</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Disposed At</th><th>Name</th><th>Mobile</th><th>Requirement</th><th>Status</th><th>Source</th><th>Action</th></tr></thead>
+          <tbody id="trashTableBody"><tr><td colspan="8" class="loading">Loading Disposed Records...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel admin-view-hidden" id="commissionsSection">
+      <h2 class="panel-title">Commission Management</h2>
+      <div class="filters">
+        <input id="commissionSearch" type="search" placeholder="Search Lead ID, customer, LG, LC...">
+        <select id="commissionStatusFilter"><option value="">All Commission Records</option><option value="CONVERTED">Converted Leads</option><option value="PENDING">Pending</option><option value="APPROVED">Approved</option><option value="PAID">Paid</option><option value="HOLD">Hold</option></select>
+        <select id="commissionWingFilter"><option value="">All Wings</option><option>Real Estate</option><option>Travel</option><option>Education & Admissions</option><option>Consultancy & Business Services</option><option>Events & Weddings</option><option>Membership</option><option>General / Other</option></select>
+        <input id="commissionPersonFilter" type="search" placeholder="LG / Director / BDM / LC ID">
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Lead</th><th>Customer</th><th>Wing</th><th>LG</th><th>Director / BDM</th><th>LC</th><th>Total Company Commission</th><th>Status</th><th>Action</th></tr></thead><tbody id="commissionTableBody"><tr><td colspan="9" class="loading">Loading commissions...</td></tr></tbody></table></div>
+    </section>
+
+  </main>
+
+</div>
+
+
+
+<!-- INQUIRY MODAL -->
+
+<div class="modal-backdrop" id="inquiryModal">
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <h2>
+        Inquiry / Lead Details
+      </h2>
+
+      <button class="close-btn" id="closeModal">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="detail-grid">
+
+      <div class="detail-box">
+        <div class="detail-label">ID</div>
+        <div class="detail-value" id="detailId"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Date / Time</div>
+        <div class="detail-value" id="detailDate"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Name</div>
+        <div class="detail-value" id="detailName"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Mobile</div>
+        <div class="detail-value" id="detailMobile"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Email</div>
+        <div class="detail-value" id="detailEmail"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Requirement</div>
+        <div class="detail-value" id="detailWing"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Source</div>
+        <div class="detail-value" id="detailSource"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Agent ID</div>
+        <div class="detail-value" id="detailAgentId"></div>
+      </div>
+
+      <div class="detail-box">
+        <div class="detail-label">Details</div>
+        <div class="detail-value" id="detailText"></div>
+      </div>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Status</label>
+
+      <select id="editStatus">
+
+        <option>NEW</option>
+        <option>CONTACTED</option>
+        <option>FOLLOW UP</option>
+        <option>IN PROGRESS</option>
+        <option>CONVERTED</option>
+        <option>NOT INTERESTED</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Assigned To</label>
+
+      <input
+        id="editAssignedTo"
+        type="text"
+        placeholder="Enter assigned person"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Follow-up Date</label>
+
+      <input
+        id="editFollowUp"
+        type="date"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Notes</label>
+
+      <textarea
+        id="editNotes"
+        placeholder="Enter notes..."
+      ></textarea>
+
+    </div>
+
+
+    <button
+      class="save-btn"
+      id="saveInquiry"
+    >
+      Save Update
+    </button>
+
+    <div
+      class="save-message"
+      id="saveMessage"
+    ></div>
+
+  </div>
+
+</div>
+
+
+
+
+<div class="modal-backdrop" id="editAgentModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Edit Agent / BDM</h2>
+      <button class="close-btn" id="closeEditAgentModal">×</button>
+    </div>
+
+    <div class="detail-grid">
+      <div class="field">
+        <label>ID</label>
+        <input id="editAgentId" type="text" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label>Name</label>
+        <input id="editAgentName" type="text">
+      </div>
+
+      <div class="field">
+        <label>Mobile</label>
+        <input id="editAgentMobile" type="tel" maxlength="10" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>Role</label>
+        <select id="editAgentRole">
+          <option value="AGENT">Agent / BDE</option>
+          <option value="Employee">Employee / BDM</option>
+        </select>
+      </div>
+
+      <div class="field" id="editReportingBdmField">
+        <label>Reporting BDM</label>
+        <select id="editReportingBdmId">
+          <option value="">Select Reporting BDM</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="save-message" id="editAgentMessage"></div>
+    <button class="save-btn" id="saveAgentEdit">Save Changes</button>
+  </div>
+</div>
+
+
+<div class="modal-backdrop" id="commissionModal">
+  <div class="modal">
+    <div class="modal-head"><h2>Commission Details</h2><button class="close-btn" id="closeCommissionModal">×</button></div>
+    <div class="detail-grid">
+      <div class="field"><label>Lead ID</label><input id="commissionLeadId" disabled></div>
+      <div class="field"><label>Customer</label><input id="commissionCustomer" disabled></div>
+      <div class="field"><label>Wing</label><input id="commissionWing" disabled></div>
+      <div class="field"><label>LG ID</label><input id="commissionLgId"></div>
+      <div class="field"><label>Director / BDM</label><select id="commissionBdmId"><option value="">Select Director / BDM</option><option value="DIR001">DIR001 — Director</option></select></div>
+      <div class="field"><label>LC ID</label><input id="commissionLcId"></div>
+      <div class="field"><label>Deal Value</label><input id="commissionDealValue" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>Total Company Commission</label><input id="commissionTotal" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>LG Commission %</label><input id="commissionLgPct" type="number" min="0" max="100" step="0.01" placeholder="Enter LG %"></div>
+      <div class="field"><label>LC Commission %</label><input id="commissionLcPct" type="number" min="0" max="100" step="0.01" placeholder="Enter LC %"></div>
+      <div class="field"><label>Commission Status</label><select id="commissionStatus"><option>Pending</option><option>Approved</option><option>Paid</option><option>HOLD</option></select></div>
+      <div class="field"><label>Payment Date</label><input id="commissionPaymentDate" type="date"></div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-box"><div class="detail-label">LG Commission Amount</div><div class="detail-value" id="calcLgCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">LC Commission Amount</div><div class="detail-value" id="calcLcCommission">₹0</div></div>
+      <div class="detail-box"><div class="detail-label">Company Share</div><div class="detail-value" id="calcCompanyShare">₹0</div></div>
+    </div>
+    <button class="save-btn" id="saveCommission">Save Commission</button><div class="save-message" id="commissionMessage"></div>
+  </div>
+</div>
+
+
+<div class="modal-backdrop" id="aadhaarModal">
+  <div class="modal">
+    <div class="modal-head"><h2>Agent / BDM Aadhaar</h2><button class="close-btn" id="closeAadhaarModal">×</button></div>
+    <div class="detail-grid">
+      <div class="detail-box"><div class="detail-label">Agent / BDM ID</div><div class="detail-value" id="aadhaarAgentId">—</div></div>
+      <div class="detail-box"><div class="detail-label">Current Status</div><div class="detail-value" id="aadhaarStatus">Not Uploaded</div></div>
+    </div>
+    <div class="field"><label>Upload Aadhaar</label><input id="aadhaarFile" type="file" accept=".pdf,.jpg,.jpeg,.png"><div class="helper">PDF/JPG/PNG only, maximum 2 MB. Stored privately; not shown in Agent portal.</div></div>
+    <button class="save-btn" id="uploadAadhaarButton">Upload / Replace Aadhaar</button>
+    <button class="small-btn" id="viewAadhaarButton" style="margin-top:10px;width:100%;">View Current Aadhaar</button>
+    <div class="save-message" id="aadhaarMessage"></div>
+  </div>
+</div>
+
+
+<script>
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycby1axGjQXJHFYlsvPK4O9hW-oETEKNz7nQy9pS-jkGiKE6e14ogG3oAOY1ZM0MqKOc/exec";
+
+
+const token =
+  sessionStorage.getItem("madhyumAdminToken");
+
+
+const adminName =
+  sessionStorage.getItem("madhyumAdminName") || "Admin";
+
+
+if (!token){
+  window.location.href = "index.html";
+}
+
+
+document.getElementById("adminName").textContent =
+  "Logged in as " + adminName;
+
+
+let allInquiries = [];
+let selectedInquiry = null;
+let allAgents = [];
+let selectedAgent = null;
+
+
+/* =====================================================
+   SAFE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   DATE / TIME
+===================================================== */
+
+const MONTH_NAMES = [
+  "Jan","Feb","Mar","Apr","May","Jun",
+  "Jul","Aug","Sep","Oct","Nov","Dec"
+];
+
+
+function pad2(value){
+  return String(value).padStart(2,"0");
+}
+
+
+function formatDateDisplay(value){
+
+  if (!value){
+    return "—";
+  }
+
+
+  const text =
+    String(value).trim();
+
+
+  /* YYYY-MM-DD */
+
+  let match =
+    text.match(
+      /^(\d{4})-(\d{2})-(\d{2})/
+    );
+
+
+  if (match){
+
+    const month =
+      Number(match[2]);
+
+    if (
+      month >= 1 &&
+      month <= 12
+    ){
+
+      return (
+        pad2(match[3]) +
+        " " +
+        MONTH_NAMES[month - 1] +
+        " " +
+        match[1]
+      );
+
+    }
+
+  }
+
+
+  /* DD/MM/YYYY */
+
+  match =
+    text.match(
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
+    );
+
+
+  if (match){
+
+    const month =
+      Number(match[2]);
+
+    if (
+      month >= 1 &&
+      month <= 12
+    ){
+
+      return (
+        pad2(match[1]) +
+        " " +
+        MONTH_NAMES[month - 1] +
+        " " +
+        match[3]
+      );
+
+    }
+
+  }
+
+
+  /* Google Sheet Date object converted to string */
+
+  const date =
+    new Date(value);
+
+
+  if (
+    !isNaN(date.getTime())
+  ){
+
+    return date.toLocaleDateString(
+      "en-GB",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        timeZone:"Asia/Kolkata"
+      }
+    );
+
+  }
+
+
+  return text;
+
+}
+
+
+function formatTimeDisplay(value){
+
+  if (!value){
+    return "";
+  }
+
+
+  const text =
+    String(value).trim();
+
+
+  let match =
+    text.match(
+      /^(\d{1,2}):(\d{2})(?::(\d{2}))?$/
+    );
+
+
+  if (!match){
+    return text;
+  }
+
+
+  let hour =
+    Number(match[1]);
+
+
+  const minute =
+    match[2];
+
+
+  const second =
+    match[3] || "";
+
+
+  const suffix =
+    hour >= 12
+      ? "PM"
+      : "AM";
+
+
+  hour =
+    hour % 12;
+
+
+  if (
+    hour === 0
+  ){
+    hour = 12;
+  }
+
+
+  return (
+    pad2(hour) +
+    ":" +
+    minute +
+    (
+      second
+        ? ":" + second
+        : ""
+    ) +
+    " " +
+    suffix
+  );
+
+}
+
+
+function formatDateTimeForDisplay(date,time){
+
+  const formattedDate =
+    formatDateDisplay(date);
+
+
+  const formattedTime =
+    formatTimeDisplay(time);
+
+
+  if (!formattedTime){
+    return formattedDate;
+  }
+
+
+  return (
+    formattedDate +
+    " • " +
+    formattedTime
+  );
+
+}
+
+
+function formatDateForInput(value){
+
+  if (!value){
+    return "";
+  }
+
+
+  const text =
+    String(value).trim();
+
+
+  /* Already YYYY-MM-DD */
+
+  let match =
+    text.match(
+      /^(\d{4})-(\d{2})-(\d{2})/
+    );
+
+
+  if (match){
+
+    return (
+      match[1] +
+      "-" +
+      match[2] +
+      "-" +
+      match[3]
+    );
+
+  }
+
+
+  /* DD/MM/YYYY */
+
+  match =
+    text.match(
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
+    );
+
+
+  if (match){
+
+    return (
+      match[3] +
+      "-" +
+      pad2(match[2]) +
+      "-" +
+      pad2(match[1])
+    );
+
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    isNaN(date.getTime())
+  ){
+    return "";
+  }
+
+
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        year:"numeric",
+        month:"2-digit",
+        day:"2-digit",
+        timeZone:"Asia/Kolkata"
+      }
+    )
+    .formatToParts(date);
+
+
+  const year =
+    parts.find(
+      part => part.type === "year"
+    )?.value;
+
+
+  const month =
+    parts.find(
+      part => part.type === "month"
+    )?.value;
+
+
+  const day =
+    parts.find(
+      part => part.type === "day"
+    )?.value;
+
+
+  if (
+    !year ||
+    !month ||
+    !day
+  ){
+    return "";
+  }
+
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
+
+}
+
+
+/* =====================================================
+   API HELPER
+===================================================== */
+
+async function apiPost(action,payload){
+
+  const bodyPayload = Object.assign({}, payload || {}, {
+    action: action
+  });
+
+  const response =
+    await fetch(
+      API_URL +
+      "?action=" +
+      encodeURIComponent(action) +
+      "&_=" +
+      Date.now(),
+      {
+        method:"POST",
+        cache:"no-store",
+        headers:{
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+        body:
+          JSON.stringify(
+            bodyPayload
+          )
+      }
+    );
+
+
+  const text = await response.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (_) {
+    throw new Error("CRM server returned an invalid response. Please redeploy the current Code.gs version.");
+  }
+  return data;
+
+}
+
+
+/* =====================================================
+   SESSION
+===================================================== */
+
+function handleSessionFailure(message){
+
+  if (
+    String(message || "")
+      .toLowerCase()
+      .includes("session")
+  ){
+
+    sessionStorage.clear();
+
+    window.location.href =
+      "index.html";
+
+    return true;
+
+  }
+
+
+  return false;
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+  .getElementById("logoutButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      sessionStorage.clear();
+
+      window.location.href =
+        "index.html";
+
+    }
+  );
+
+
+/* =====================================================
+   LEFT MENU NAVIGATION
+===================================================== */
+
+function setAdminView(view){
+
+  const cards =
+    document.getElementById("dashboardCards");
+
+  const inquiries =
+    document.getElementById("inquiriesSection");
+
+  const agents =
+    document.getElementById("agentsSection");
+
+  
+  const distribution =
+    document.getElementById("distributionSection");
+
+  const callingData =
+    document.getElementById("callingDataSection");
+
+const commissions =
+    document.getElementById("commissionsSection");
+
+  const trash =
+    document.getElementById("trashSection");
+
+  const pageTitle =
+    document.getElementById("pageTitle");
+
+  const navMap = {
+    dashboard: "dashboardNav",
+    inquiries: "inquiriesNav",
+    agents: "agentsNav",
+    distribution: "distributionNav",
+    callingData: "callingDataNav",
+    visitors: "visitorsNav",
+    commissions: "commissionsNav",
+    trash: "trashNav"
+  };
+
+  Object.values(navMap).forEach(function(id){
+    const item = document.getElementById(id);
+    if (item) item.classList.remove("active");
+  });
+
+  if (cards){
+    cards.classList.add("admin-view-hidden");
+    cards.classList.remove("visitors-only");
+  }
+
+  [inquiries, agents, distribution, callingData, commissions, trash].forEach(function(section){
+    if (section) section.classList.add("admin-view-hidden");
+  });
+
+  if (view === "dashboard"){
+    if (cards) cards.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Dashboard";
+  }
+
+  if (view === "inquiries"){
+    if (cards) cards.classList.remove("admin-view-hidden");
+    if (inquiries) inquiries.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Inquiries & Leads";
+  }
+
+  if (view === "agents"){
+    if (agents) agents.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Agent Management";
+  }
+
+  if (view === "distribution"){
+    if (distribution) distribution.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Data Distribution";
+    loadAdminDistribution();
+  }
+
+  if (view === "callingData"){
+    if (callingData) callingData.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Calling Data";
+    loadAdminCallingData();
+  }
+
+  if (view === "visitors"){
+    if (cards){
+      cards.classList.remove("admin-view-hidden");
+      cards.classList.remove("visitors-only");
+    }
+    if (pageTitle) pageTitle.textContent = "Visitors";
+  }
+
+  if (view === "commissions"){
+    if (commissions) commissions.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Commissions";
+    loadCommissions();
+  }
+
+  if (view === "trash"){
+    if (trash) trash.classList.remove("admin-view-hidden");
+    if (pageTitle) pageTitle.textContent = "Dispose";
+    loadTrash();
+  }
+
+  const activeId = navMap[view];
+  if (activeId){
+    const activeItem = document.getElementById(activeId);
+    if (activeItem) activeItem.classList.add("active");
+  }
+
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+document.getElementById("dashboardNav").addEventListener("click", function(){
+  setAdminView("dashboard");
+});
+
+document.getElementById("inquiriesNav").addEventListener("click", function(){
+  setAdminView("inquiries");
+});
+
+document.getElementById("agentsNav").addEventListener("click", function(){
+  setAdminView("agents");
+});
+
+document.getElementById("distributionNav").addEventListener("click", function(){
+  setAdminView("distribution");
+});
+
+document.getElementById("callingDataNav").addEventListener("click", function(){
+  setAdminView("callingData");
+});
+
+document.getElementById("visitorsNav").addEventListener("click", function(){
+  setAdminView("visitors");
+});
+
+document.getElementById("commissionsNav").addEventListener("click", function(){
+  setAdminView("commissions");
+});
+
+document.getElementById("trashNav").addEventListener("click", function(){
+  setAdminView("trash");
+});
+
+document.getElementById("exportNav").addEventListener("click", exportInquiriesCSV);
+
+function openInquiryStatus(status){
+  setAdminView("inquiries");
+  document.getElementById("statusFilter").value = status || "";
+  document.getElementById("wingFilter").value = "";
+  document.getElementById("sourceFilter").value = "";
+  document.getElementById("searchInput").value = "";
+  renderTable();
+}
+
+function bindCardAction(id, fn){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener("click",fn);
+  el.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();fn();}});
+}
+
+bindCardAction("totalCard",function(){openInquiryStatus("");});
+bindCardAction("newCard",function(){openInquiryStatus("NEW");});
+bindCardAction("progressCard",function(){openInquiryStatus("IN PROGRESS");});
+bindCardAction("convertedCard",function(){openInquiryStatus("CONVERTED");});
+bindCardAction("visitorsCard",function(){setAdminView("visitors");});
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+function getFilteredInquiries(){
+
+  const search =
+    document
+      .getElementById("searchInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const wing =
+    document
+      .getElementById("wingFilter")
+      .value;
+
+
+  const status =
+    document
+      .getElementById("statusFilter")
+      .value;
+
+
+  const source =
+    document
+      .getElementById("sourceFilter")
+      .value
+      .toUpperCase();
+
+
+  return allInquiries
+    .filter(function(item){
+
+
+      const itemSource =
+        String(
+          item.recordType ||
+          item.source ||
+          ""
+        )
+        .toUpperCase();
+
+
+      const matchesSearch =
+
+        !search ||
+
+        String(
+          item.inquiryId ||
+          ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.name ||
+          ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.mobile ||
+          ""
+        )
+        .toLowerCase()
+        .includes(search)
+
+        ||
+
+        String(
+          item.agentId ||
+          ""
+        )
+        .toLowerCase()
+        .includes(search);
+
+
+      const matchesWing =
+        !wing ||
+        item.requirement === wing;
+
+
+      const matchesStatus =
+        !status ||
+        String(
+          item.status ||
+          ""
+        )
+        .toUpperCase() ===
+        status.toUpperCase();
+
+
+      const matchesSource =
+        !source ||
+        itemSource === source;
+
+
+      return (
+        matchesSearch &&
+        matchesWing &&
+        matchesStatus &&
+        matchesSource
+      );
+
+    });
+
+}
+
+
+/* =====================================================
+   INQUIRY TABLE
+===================================================== */
+
+function renderTable(){
+
+  const filtered =
+    getFilteredInquiries();
+
+
+  const body =
+    document
+      .getElementById(
+        "inquiryTableBody"
+      );
+
+
+  if (!filtered.length){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="9" class="empty">
+          No inquiries or leads found.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  body.innerHTML =
+   filtered
+  .slice()
+ .sort(function(a,b){
+
+  function getDateTime(item){
+
+    const date =
+      String(
+        item.date || ""
+      );
+
+    const time =
+      String(
+        item.time || "00:00:00"
+      );
+
+    const value =
+      new Date(
+        date + "T" + time
+      );
+
+    return isNaN(
+      value.getTime()
+    )
+      ? 0
+      : value.getTime();
+  }
+
+  return (
+    getDateTime(b) -
+    getDateTime(a)
+  );
+
+})
+    .map(function(item){
+
+
+        const source =
+          item.recordType === "AGENT"
+            ? "AGENT"
+            : (
+                item.source ||
+                "WEBSITE"
+              );
+
+
+        const date =
+          formatDateDisplay(
+            item.date
+          );
+
+
+        const time =
+          formatTimeDisplay(
+            item.time
+          );
+
+
+        return `
+
+          <tr>
+
+            <td>
+              <strong>
+                ${escapeHtml(
+                  item.inquiryId
+                )}
+              </strong>
+            </td>
+
+            <td>
+              <div class="date-time">
+                ${escapeHtml(date)}
+                ${
+                  time
+                    ? `<small>${escapeHtml(time)}</small>`
+                    : ""
+                }
+              </div>
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.name
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.mobile
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.requirement
+              )}
+            </td>
+
+            <td>
+
+              <span class="status">
+                ${escapeHtml(
+                  item.status ||
+                  "NEW"
+                )}
+              </span>
+
+            </td>
+
+            <td>
+
+              <span class="source-badge">
+                ${escapeHtml(
+                  source
+                )}
+              </span>
+
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.agentId ||
+                "—"
+              )}
+            </td>
+
+            <td>
+
+              <button
+                class="view-btn"
+                data-id="${escapeHtml(
+                  item.inquiryId
+                )}"
+              >
+                View / Edit
+              </button>
+
+              <button
+                class="trash-btn inquiry-trash-btn"
+                data-id="${escapeHtml(item.inquiryId)}"
+                data-type="${escapeHtml(item.recordType || (String(item.source||"").toUpperCase()==="AGENT" ? "AGENT" : "WEBSITE"))}"
+              >
+                Dispose
+              </button>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
+
+
+  body
+    .querySelectorAll(
+      ".view-btn"
+    )
+    .forEach(function(button){
+
+      button
+        .addEventListener(
+          "click",
+          function(){
+
+            openInquiry(
+              this.dataset.id
+            );
+
+          }
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   OPEN INQUIRY
+===================================================== */
+
+function openInquiry(inquiryId){
+
+  selectedInquiry =
+    allInquiries.find(
+      function(item){
+
+        return (
+          item.inquiryId ===
+          inquiryId
+        );
+
+      }
+    );
+
+
+  if (!selectedInquiry){
+    return;
+  }
+
+
+  document
+    .getElementById(
+      "detailId"
+    )
+    .textContent =
+      selectedInquiry.inquiryId ||
+      "";
+
+
+  document
+    .getElementById(
+      "detailDate"
+    )
+    .textContent =
+      formatDateTimeForDisplay(
+        selectedInquiry.date,
+        selectedInquiry.time
+      );
+
+
+  document
+    .getElementById(
+      "detailName"
+    )
+    .textContent =
+      selectedInquiry.name ||
+      "";
+
+
+  document
+    .getElementById(
+      "detailMobile"
+    )
+    .textContent =
+      selectedInquiry.mobile ||
+      "";
+
+
+  document
+    .getElementById(
+      "detailEmail"
+    )
+    .textContent =
+      selectedInquiry.email ||
+      "";
+
+
+  document
+    .getElementById(
+      "detailWing"
+    )
+    .textContent =
+      selectedInquiry.requirement ||
+      "";
+
+
+  document
+    .getElementById(
+      "detailSource"
+    )
+    .textContent =
+
+      selectedInquiry.recordType ===
+      "AGENT"
+
+        ? "AGENT"
+
+        : (
+            selectedInquiry.source ||
+            "WEBSITE"
+          );
+
+
+  document
+    .getElementById(
+      "detailAgentId"
+    )
+    .textContent =
+      selectedInquiry.agentId ||
+      "—";
+
+
+  document
+    .getElementById(
+      "detailText"
+    )
+    .textContent =
+      selectedInquiry.details ||
+      "";
+
+
+  document
+    .getElementById(
+      "editStatus"
+    )
+    .value =
+      selectedInquiry.status ||
+      "NEW";
+
+
+  document
+    .getElementById(
+      "editFollowUp"
+    )
+    .value =
+      formatDateForInput(
+        selectedInquiry.followUp
+      );
+
+
+  document
+    .getElementById(
+      "editNotes"
+    )
+    .value =
+      selectedInquiry.notes ||
+      "";
+
+
+  const assignedField =
+    document
+      .getElementById(
+        "editAssignedTo"
+      );
+
+
+  if (
+    selectedInquiry.recordType ===
+    "AGENT"
+  ){
+
+    assignedField.value =
+      selectedInquiry.agentId ||
+      "";
+
+    assignedField.disabled =
+      true;
+
+  } else {
+
+    assignedField.value =
+      selectedInquiry.assignedTo ||
+      "";
+
+    assignedField.disabled =
+      false;
+
+  }
+
+
+  document
+    .getElementById(
+      "saveMessage"
+    )
+    .textContent =
+      "";
+
+
+  document
+    .getElementById(
+      "inquiryModal"
+    )
+    .classList
+    .add("show");
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+document
+  .getElementById(
+    "closeModal"
+  )
+  .addEventListener(
+    "click",
+    function(){
+
+      document
+        .getElementById(
+          "inquiryModal"
+        )
+        .classList
+        .remove("show");
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "inquiryModal"
+  )
+  .addEventListener(
+    "click",
+    function(e){
+
+      if (
+        e.target === this
+      ){
+
+        this
+          .classList
+          .remove("show");
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   SAVE UPDATE
+===================================================== */
+
+document
+  .getElementById(
+    "saveInquiry"
+  )
+  .addEventListener(
+    "click",
+    async function(){
+
+      if (!selectedInquiry){
+        return;
+      }
+
+
+      const message =
+        document
+          .getElementById(
+            "saveMessage"
+          );
+
+
+      const button =
+        document
+          .getElementById(
+            "saveInquiry"
+          );
+
+
+      message.textContent =
+        "Saving...";
+
+
+      button.disabled =
+        true;
+
+
+      try{
+
+
+        const isAgentLead =
+          selectedInquiry.recordType ===
+          "AGENT";
+
+
+        const payload = {
+
+          token:
+            token,
+
+          inquiryId:
+            selectedInquiry.inquiryId,
+
+          status:
+            document
+              .getElementById(
+                "editStatus"
+              )
+              .value,
+
+          assignedTo:
+
+            isAgentLead
+
+              ? ""
+
+              : document
+                  .getElementById(
+                    "editAssignedTo"
+                  )
+                  .value
+                  .trim(),
+
+          followUp:
+            document
+              .getElementById(
+                "editFollowUp"
+              )
+              .value,
+
+          notes:
+            document
+              .getElementById(
+                "editNotes"
+              )
+              .value
+              .trim()
+
+        };
+
+
+        const action =
+          isAgentLead
+            ? "updateAgentLead"
+            : "updateInquiry";
+
+
+        const result =
+          await apiPost(
+            action,
+            payload
+          );
+
+
+        if (!result.success){
+
+          if (
+            handleSessionFailure(
+              result.message
+            )
+          ){
+            return;
+          }
+
+
+          throw new Error(
+            result.message ||
+            "Unable to update."
+          );
+
+        }
+
+
+        message.textContent =
+          "Updated successfully.";
+
+
+        await loadDashboard();
+
+
+        setTimeout(
+          function(){
+
+            document
+              .getElementById(
+                "inquiryModal"
+              )
+              .classList
+              .remove("show");
+
+          },
+          600
+        );
+
+
+      } catch(error){
+
+        message.textContent =
+          error.message ||
+          "Unable to update.";
+
+      } finally{
+
+        button.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   LOAD DASHBOARD
+===================================================== */
+
+function setDashboardSyncStatus(message,isError){
+  const el=document.getElementById("dashboardSyncStatus");
+  if(!el)return;
+  if(!message){el.style.display="none";return;}
+  el.style.display="block";
+  el.textContent=message;
+  el.style.background=isError?"#fff0ee":"#eef5fb";
+  el.style.color=isError?"#9b2c22":"#31516a";
+}
+
+async function loadDashboard(){
+
+  const body =
+    document
+      .getElementById(
+        "inquiryTableBody"
+      );
+
+
+  try{
+
+    setDashboardSyncStatus("Loading live CRM data…",false);
+
+    const result =
+      await apiPost(
+        "adminDashboard",
+        {
+          token:token
+        }
+      );
+
+
+    if (!result.success){
+
+      if (
+        handleSessionFailure(
+          result.message
+        )
+      ){
+        return;
+      }
+
+
+      throw new Error(
+        result.message ||
+        "Unable to load dashboard."
+      );
+
+    }
+
+
+    document
+      .getElementById(
+        "totalInquiries"
+      )
+      .textContent =
+        result.stats?.total ?? 0;
+
+
+    document
+      .getElementById(
+        "newInquiries"
+      )
+      .textContent =
+        result.stats?.new ?? 0;
+
+
+    document
+      .getElementById(
+        "progressInquiries"
+      )
+      .textContent =
+        result.stats?.inProgress ?? 0;
+
+
+    document
+      .getElementById(
+        "closedInquiries"
+      )
+      .textContent =
+        result.stats?.closed ?? 0;
+
+
+    document
+      .getElementById(
+        "visitorCount"
+      )
+      .textContent =
+        result.stats?.visitors ?? 0;
+
+
+    setDashboardSyncStatus("",false);
+
+    allInquiries =
+      Array.isArray(
+        result.inquiries
+      )
+        ? result.inquiries
+        : [];
+
+
+    renderTable();
+
+
+  } catch(error){
+
+    const message=error.message || "Unable to load dashboard.";
+    setDashboardSyncStatus("Live CRM data could not load: " + message,true);
+    body.innerHTML = `
+      <tr>
+        <td colspan="9" class="empty">
+          ${escapeHtml(message)}
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD AGENTS
+===================================================== */
+
+async function loadAgents(){
+
+  const body =
+    document
+      .getElementById(
+        "agentsTableBody"
+      );
+
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="8" class="loading">
+        Loading agents...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+
+    const result =
+      await apiPost(
+        "listAgents",
+        {
+          token:token
+        }
+      );
+
+
+    if (!result.success){
+
+      if (
+        handleSessionFailure(
+          result.message
+        )
+      ){
+        return;
+      }
+
+
+      throw new Error(
+        result.message ||
+        "Unable to load agents."
+      );
+
+    }
+
+
+    const agents =
+      Array.isArray(
+        result.agents
+      )
+        ? result.agents
+        : [];
+
+    allAgents = agents;
+
+    // Populate Data Distribution + Calling Data recipient dropdowns
+    // from the same Existing Agents list.
+    syncAllRecipientDropdowns_();
+
+
+    const bdmSelect = document.getElementById("newReportingBdmId");
+    if (bdmSelect){
+      const current = bdmSelect.value;
+      const bdms = agents.filter(a => String(a.role || "").toUpperCase() === "EMPLOYEE" && String(a.active || "").toUpperCase() === "YES");
+      bdmSelect.innerHTML = '<option value="">Select Reporting BDM</option><option value="__NEW__">+ Create New BDM</option>' + bdms.map(a => `<option value="${escapeHtml(a.agentId)}">${escapeHtml(a.agentId)} — ${escapeHtml(a.name)}</option>`).join("");
+      if ([...bdmSelect.options].some(o => o.value === current)) bdmSelect.value = current;
+    }
+
+
+    if (!agents.length){
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="8" class="empty">
+            No agents found.
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+
+    body.innerHTML =
+      agents
+        .map(function(agent){
+
+
+          const active =
+            String(
+              agent.active ||
+              ""
+            )
+            .toUpperCase();
+
+
+          return `
+
+            <tr>
+
+              <td>
+
+                <strong>
+                  ${escapeHtml(
+                    agent.agentId
+                  )}
+                </strong>
+
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  agent.name
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  agent.mobile
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  agent.role
+                )}
+              </td>
+
+              <td>
+                ${escapeHtml(agent.reportingBdmId || "—")}
+              </td>
+
+              <td>
+
+                <span class="active-badge ${active === "YES" ? "yes" : "no"}">
+                  ${escapeHtml(
+                    active ||
+                    "NO"
+                  )}
+                </span>
+
+              </td>
+
+              <td>
+                <span class="active-badge ${String(agent.aadhaarUploaded || "").toUpperCase() === "YES" ? "yes" : "no"}">
+                  ${String(agent.aadhaarUploaded || "").toUpperCase() === "YES" ? "Uploaded" : "Not Uploaded"}
+                </span>
+              </td>
+
+              <td>
+
+                <button
+                  class="small-btn aadhaar-agent-btn"
+                  data-id="${escapeHtml(agent.agentId)}"
+                >
+                  Aadhaar
+                </button>
+
+                <button
+                  class="small-btn edit-agent-btn"
+                  data-id="${escapeHtml(
+                    agent.agentId
+                  )}"
+                >
+                  Edit
+                </button>
+
+                <button
+                  class="small-btn reset-agent-btn"
+                  data-id="${escapeHtml(
+                    agent.agentId
+                  )}"
+                >
+                  Reset Password
+                </button>
+
+                ${
+                  active === "YES"
+                    ? `
+                      <button
+                        class="small-btn deactivate-btn deactivate-agent-btn"
+                        data-id="${escapeHtml(
+                          agent.agentId
+                        )}"
+                      >
+                        Deactivate
+                      </button>
+                    `
+                    : ""
+                }
+
+                <button
+                  class="small-btn permanent-delete-agent-btn"
+                  style="background:#7f1d1d;color:#fff;margin-left:6px;"
+                  data-id="${escapeHtml(agent.agentId)}"
+                >
+                  Delete
+                </button>
+
+              </td>
+
+            </tr>
+
+          `;
+
+        })
+        .join("");
+
+
+    document
+      .querySelectorAll(".aadhaar-agent-btn")
+      .forEach(function(button){
+        button.addEventListener("click", function(){
+          openAadhaarModal(this.dataset.id);
+        });
+      });
+
+
+    document
+      .querySelectorAll(
+        ".edit-agent-btn"
+      )
+      .forEach(function(button){
+
+        button.addEventListener("click", function(){
+          openEditAgentModal(this.dataset.id);
+        });
+
+      });
+
+
+    document
+      .querySelectorAll(
+        ".reset-agent-btn"
+      )
+      .forEach(function(button){
+
+        button
+          .addEventListener(
+            "click",
+            function(){
+
+              document
+                .getElementById(
+                  "resetAgentId"
+                )
+                .value =
+                  this.dataset.id;
+
+
+              document
+                .getElementById(
+                  "resetAgentPassword"
+                )
+                .focus();
+
+
+              document
+                .getElementById(
+                  "resetAgentForm"
+                )
+                .scrollIntoView({
+                  behavior:"smooth",
+                  block:"center"
+                });
+
+            }
+          );
+
+      });
+
+
+    document
+      .querySelectorAll(
+        ".deactivate-agent-btn"
+      )
+      .forEach(function(button){
+
+        button
+          .addEventListener(
+            "click",
+            async function(){
+
+              const agentId =
+                this.dataset.id;
+
+
+              const confirmed =
+                confirm(
+                  "Deactivate Agent " +
+                  agentId +
+                  "?\n\nAgent login will stop, but old leads will remain safe."
+                );
+
+
+              if (!confirmed){
+                return;
+              }
+
+
+              this.disabled =
+                true;
+
+
+              this.textContent =
+                "Deactivating...";
+
+
+              try{
+
+
+                const result =
+                  await apiPost(
+                    "deleteAgent",
+                    {
+                      token:
+                        token,
+
+                      agentId:
+                        agentId
+                    }
+                  );
+
+
+                if (!result.success){
+
+                  throw new Error(
+                    result.message ||
+                    "Unable to deactivate agent."
+                  );
+
+                }
+
+
+                alert(
+                  "Agent deactivated successfully."
+                );
+
+
+                await loadAgents();
+
+loadCommissions();
+
+
+              } catch(error){
+
+                alert(
+                  error.message ||
+                  "Unable to deactivate agent."
+                );
+
+
+                this.disabled =
+                  false;
+
+
+                this.textContent =
+                  "Deactivate";
+
+              }
+
+            }
+          );
+
+
+      });
+
+    document
+      .querySelectorAll(".permanent-delete-agent-btn")
+      .forEach(function(button){
+        button.addEventListener("click", async function(){
+          const agentId = this.dataset.id;
+          const confirmed = confirm(
+            "Delete " + agentId + " permanently?\n\n" +
+            "If this ID has linked leads, commissions, shared data or calling data, deletion will be blocked and you should use Deactivate."
+          );
+          if (!confirmed) return;
+
+          const oldText = this.textContent;
+          this.disabled = true;
+          this.textContent = "Deleting...";
+
+          try {
+            const result = await apiPost("permanentDeleteAgent",{token:token,agentId:agentId});
+            if (!result.success) throw new Error(result.message || "Unable to delete.");
+            alert("Agent / BDM deleted permanently.");
+            await loadAgents();
+          } catch(error) {
+            alert(error.message || "Unable to delete.");
+            this.disabled = false;
+            this.textContent = oldText;
+          }
+        });
+      });
+
+
+  } catch(error){
+
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="7" class="empty">
+          ${escapeHtml(
+            error.message ||
+            "Unable to load agents."
+          )}
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   EDIT AGENT / BDM
+===================================================== */
+
+function populateEditBdmOptions(selectedValue, excludeId){
+  const select = document.getElementById("editReportingBdmId");
+  const bdms = allAgents.filter(function(a){
+    return String(a.role || "").toUpperCase() === "EMPLOYEE" &&
+           String(a.active || "").toUpperCase() === "YES" &&
+           String(a.agentId || "").toUpperCase() !== String(excludeId || "").toUpperCase();
+  });
+
+  select.innerHTML = '<option value="">Select Reporting BDM</option>' +
+    bdms.map(function(a){
+      return `<option value="${escapeHtml(a.agentId)}">${escapeHtml(a.agentId)} — ${escapeHtml(a.name)}</option>`;
+    }).join("");
+
+  if ([...select.options].some(function(o){ return o.value === selectedValue; })) {
+    select.value = selectedValue;
+  }
+}
+
+function refreshEditRoleUI(){
+  const role = String(document.getElementById("editAgentRole").value || "").toUpperCase();
+  const isAgent = role === "AGENT";
+  const field = document.getElementById("editReportingBdmField");
+  const select = document.getElementById("editReportingBdmId");
+  field.style.display = isAgent ? "block" : "none";
+  select.required = isAgent;
+  if (!isAgent) select.value = "";
+}
+
+function openEditAgentModal(agentId){
+  selectedAgent = allAgents.find(function(a){
+    return String(a.agentId || "").toUpperCase() === String(agentId || "").toUpperCase();
+  }) || null;
+
+  if (!selectedAgent) {
+    alert("Agent / BDM details not found.");
+    return;
+  }
+
+  document.getElementById("editAgentId").value = selectedAgent.agentId || "";
+  document.getElementById("editAgentName").value = selectedAgent.name || "";
+  document.getElementById("editAgentMobile").value = selectedAgent.mobile || "";
+  document.getElementById("editAgentRole").value = String(selectedAgent.role || "").toUpperCase() === "EMPLOYEE" ? "Employee" : "AGENT";
+  populateEditBdmOptions(selectedAgent.reportingBdmId || "", selectedAgent.agentId);
+  refreshEditRoleUI();
+  document.getElementById("editAgentMessage").textContent = "";
+  document.getElementById("editAgentModal").classList.add("show");
+}
+
+document.getElementById("closeEditAgentModal").addEventListener("click", function(){
+  document.getElementById("editAgentModal").classList.remove("show");
+  selectedAgent = null;
+});
+
+document.getElementById("editAgentModal").addEventListener("click", function(e){
+  if (e.target === this) {
+    this.classList.remove("show");
+    selectedAgent = null;
+  }
+});
+
+document.getElementById("editAgentRole").addEventListener("change", function(){
+  populateEditBdmOptions(
+    selectedAgent ? selectedAgent.reportingBdmId || "" : "",
+    selectedAgent ? selectedAgent.agentId : ""
+  );
+  refreshEditRoleUI();
+});
+
+document.getElementById("editAgentMobile").addEventListener("input", function(){
+  this.value = this.value.replace(/\D/g, "").slice(0, 10);
+});
+
+document.getElementById("editAgentId").addEventListener("input", function(){
+  this.value = this.value.toUpperCase().replace(/\s/g, "");
+});
+
+document.getElementById("saveAgentEdit").addEventListener("click", async function(){
+  if (!selectedAgent) return;
+
+  const button = this;
+  const message = document.getElementById("editAgentMessage");
+  const oldId = String(selectedAgent.agentId || "").toUpperCase();
+  const newId = document.getElementById("editAgentId").value.trim().toUpperCase();
+  const role = document.getElementById("editAgentRole").value;
+
+  if (newId !== oldId) {
+    const confirmed = confirm(
+      "Change ID from " + oldId + " to " + newId + "?\n\nThe system will also update linked leads and commission records."
+    );
+    if (!confirmed) return;
+  }
+
+  button.disabled = true;
+  message.textContent = "Saving changes...";
+
+  try {
+    const result = await apiPost("updateAgentProfile", {
+      token: token,
+      oldAgentId: oldId,
+      agentId: newId,
+      name: document.getElementById("editAgentName").value.trim(),
+      mobile: document.getElementById("editAgentMobile").value.trim(),
+      role: role,
+      reportingBdmId: String(role).toUpperCase() === "AGENT"
+        ? document.getElementById("editReportingBdmId").value
+        : ""
+    });
+
+    if (!result.success) {
+      if (handleSessionFailure(result.message)) return;
+      throw new Error(result.message || "Unable to update Agent / BDM.");
+    }
+
+    message.textContent = "Details updated successfully.";
+    await loadAgents();
+    await loadDashboard();
+    loadCommissions();
+
+    setTimeout(function(){
+      document.getElementById("editAgentModal").classList.remove("show");
+      selectedAgent = null;
+    }, 500);
+
+  } catch(error) {
+    message.textContent = error.message || "Unable to update Agent / BDM.";
+  } finally {
+    button.disabled = false;
+  }
+});
+
+
+/* =====================================================
+   MOBILE VALIDATION
+===================================================== */
+
+document
+  .getElementById(
+    "newAgentMobile"
+  )
+  .addEventListener(
+    "input",
+    function(){
+
+      this.value =
+        this.value
+          .replace(
+            /\D/g,
+            ""
+          )
+          .slice(
+            0,
+            10
+          );
+
+    }
+  );
+
+
+document.getElementById("newAgentId").addEventListener("input", function(){
+  this.value = this.value.toUpperCase().replace(/\s/g, "");
+});
+
+document.getElementById("newAgentRole").addEventListener("change", function(){
+  const isAgent = String(this.value).toUpperCase() === "AGENT";
+  document.getElementById("reportingBdmField").style.display = isAgent ? "block" : "none";
+  document.getElementById("newReportingBdmId").required = isAgent;
+});
+document.getElementById("newAgentRole").dispatchEvent(new Event("change"));
+
+document.getElementById("newReportingBdmId").addEventListener("change", function(){
+  const show = this.value === "__NEW__" && String(document.getElementById("newAgentRole").value).toUpperCase() === "AGENT";
+  document.getElementById("newBdmFields").style.display = show ? "block" : "none";
+  ["newBdmName","newBdmMobile","newBdmPassword"].forEach(function(id){ document.getElementById(id).required = show; });
+});
+
+
+/* =====================================================
+   CREATE AGENT
+===================================================== */
+
+document
+  .getElementById(
+    "createAgentForm"
+  )
+  .addEventListener(
+    "submit",
+    async function(e){
+
+      e.preventDefault();
+
+
+      const message =
+        document
+          .getElementById(
+            "createAgentMessage"
+          );
+
+
+      const button =
+        document
+          .getElementById(
+            "createAgentButton"
+          );
+
+
+      button.disabled =
+        true;
+
+
+      message.textContent =
+        "Creating agent...";
+
+
+      try{
+
+
+        let reportingBdmId = document.getElementById("newReportingBdmId").value;
+
+        if (String(document.getElementById("newAgentRole").value).toUpperCase() === "AGENT" && reportingBdmId === "__NEW__") {
+          const bdmResult = await apiPost("createAgent", {
+            token: token,
+            name: document.getElementById("newBdmName").value.trim(),
+            mobile: document.getElementById("newBdmMobile").value.trim(),
+            role: "Employee",
+            reportingBdmId: "",
+            password: document.getElementById("newBdmPassword").value
+          });
+          if (!bdmResult.success) throw new Error(bdmResult.message || "Unable to create BDM.");
+          reportingBdmId = bdmResult.agentId;
+        }
+
+        const result =
+          await apiPost(
+            "createAgent",
+            {
+
+              token:
+                token,
+
+              agentId:
+                document
+                  .getElementById(
+                    "newAgentId"
+                  )
+                  .value
+                  .trim()
+                  .toUpperCase(),
+
+              name:
+                document
+                  .getElementById(
+                    "newAgentName"
+                  )
+                  .value
+                  .trim(),
+
+              mobile:
+                document
+                  .getElementById(
+                    "newAgentMobile"
+                  )
+                  .value
+                  .trim(),
+
+              role:
+                document
+                  .getElementById(
+                    "newAgentRole"
+                  )
+                  .value,
+
+              reportingBdmId:
+                reportingBdmId,
+
+              password:
+                document
+                  .getElementById(
+                    "newAgentPassword"
+                  )
+                  .value
+
+            }
+          );
+
+
+        if (!result.success){
+
+          if (
+            handleSessionFailure(
+              result.message
+            )
+          ){
+            return;
+          }
+
+
+          throw new Error(
+            result.message ||
+            "Unable to create agent."
+          );
+
+        }
+
+
+        message.textContent =
+          result.message + " ID: " +
+          result.agentId;
+
+
+        document
+          .getElementById(
+            "createAgentForm"
+          )
+          .reset();
+
+
+        await loadAgents();
+
+
+      } catch(error){
+
+        message.textContent =
+          error.message ||
+          "Unable to create agent.";
+
+      } finally{
+
+        button.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   RESET AGENT PASSWORD
+===================================================== */
+
+document
+  .getElementById(
+    "resetAgentForm"
+  )
+  .addEventListener(
+    "submit",
+    async function(e){
+
+      e.preventDefault();
+
+
+      const message =
+        document
+          .getElementById(
+            "resetAgentMessage"
+          );
+
+
+      const button =
+        document
+          .getElementById(
+            "resetAgentButton"
+          );
+
+
+      button.disabled =
+        true;
+
+
+      message.textContent =
+        "Resetting password...";
+
+
+      try{
+
+
+        const result =
+          await apiPost(
+            "resetAgentPassword",
+            {
+
+              token:
+                token,
+
+              agentId:
+                document
+                  .getElementById(
+                    "resetAgentId"
+                  )
+                  .value
+                  .trim()
+                  .toUpperCase(),
+
+              password:
+                document
+                  .getElementById(
+                    "resetAgentPassword"
+                  )
+                  .value
+
+            }
+          );
+
+
+        if (!result.success){
+
+          if (
+            handleSessionFailure(
+              result.message
+            )
+          ){
+            return;
+          }
+
+
+          throw new Error(
+            result.message ||
+            "Unable to reset password."
+          );
+
+        }
+
+
+        message.textContent =
+          "Password reset successfully.";
+
+
+        document
+          .getElementById(
+            "resetAgentForm"
+          )
+          .reset();
+
+
+        await loadAgents();
+
+
+      } catch(error){
+
+        message.textContent =
+          error.message ||
+          "Unable to reset password.";
+
+      } finally{
+
+        button.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   EXPORT CSV
+===================================================== */
+
+function csvSafe(value){
+
+  const text =
+    String(
+      value ?? ""
+    )
+    .replace(
+      /\r?\n/g,
+      " "
+    );
+
+
+  return (
+    '"' +
+    text.replace(
+      /"/g,
+      '""'
+    ) +
+    '"'
+  );
+
+}
+
+
+function exportInquiriesCSV(){
+
+  const data =
+    getFilteredInquiries();
+
+
+  const message =
+    document
+      .getElementById(
+        "exportMessage"
+      );
+
+
+  if (!data.length){
+
+    message.textContent =
+      "No inquiries available to export.";
+
+    return;
+
+  }
+
+
+  const rows = [
+
+    [
+      "ID",
+      "Date",
+      "Time",
+      "Name",
+      "Mobile",
+      "Email",
+      "Wing / Requirement",
+      "Details",
+      "Source",
+      "Agent ID",
+      "Status",
+      "Assigned To",
+      "Follow Up",
+      "Notes",
+      "Last Updated"
+    ],
+
+
+    ...data.map(function(item){
+
+      return [
+
+        item.inquiryId,
+
+        formatDateDisplay(
+          item.date
+        ),
+
+        formatTimeDisplay(
+          item.time
+        ),
+
+        item.name,
+
+        item.mobile,
+
+        item.email,
+
+        item.requirement,
+
+        item.details,
+
+        item.recordType === "AGENT"
+          ? "AGENT"
+          : (
+              item.source ||
+              "WEBSITE"
+            ),
+
+        item.agentId,
+
+        item.status,
+
+        item.assignedTo,
+
+        formatDateDisplay(
+          item.followUp
+        ),
+
+        item.notes,
+
+        item.lastUpdated
+
+      ];
+
+    })
+
+  ];
+
+
+  const csv =
+    rows
+      .map(
+        row =>
+          row
+            .map(csvSafe)
+            .join(",")
+      )
+      .join("\n");
+
+
+  const blob =
+    new Blob(
+      [
+        "\uFEFF" +
+        csv
+      ],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+
+  link.download =
+    "MADHYUM-All-Leads.csv";
+
+
+  document.body
+    .appendChild(
+      link
+    );
+
+
+  link.click();
+
+
+  link.remove();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  message.textContent =
+    "Export completed successfully.";
+
+}
+
+
+/* =====================================================
+   FILTER EVENTS
+===================================================== */
+
+document
+  .getElementById(
+    "searchInput"
+  )
+  .addEventListener(
+    "input",
+    renderTable
+  );
+
+
+document
+  .getElementById(
+    "wingFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+document
+  .getElementById(
+    "statusFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+document
+  .getElementById(
+    "sourceFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTable
+  );
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
+document
+  .addEventListener(
+    "visibilitychange",
+    function(){
+
+      if (
+        document.visibilityState ===
+        "visible"
+      ){
+
+        loadDashboard();
+
+      }
+
+    }
+  );
+
+
+
+/* =====================================================
+   DISPOSE
+===================================================== */
+let allTrashRecords = [];
+
+async function moveRecordToTrash(recordType, recordId){
+  if(!confirm("Move " + recordId + " to Dispose?\n\nThis hides it only from the Admin CRM. The original source record stays unchanged.")) return;
+  const result = await apiPost("trashRecord",{token:token,recordType:recordType,recordId:recordId});
+  if(!result.success) throw new Error(result.message || "Unable to move record to Dispose.");
+  await loadDashboard();
+  if(document.getElementById("trashSection") && !document.getElementById("trashSection").classList.contains("admin-view-hidden")) await loadTrash();
+}
+
+document.addEventListener("click",async function(e){
+  const btn=e.target.closest(".inquiry-trash-btn");
+  if(!btn)return;
+  btn.disabled=true;
+  try{ await moveRecordToTrash(btn.dataset.type || "WEBSITE", btn.dataset.id); }
+  catch(error){ alert(error.message || "Unable to move record to Dispose."); }
+  finally{ btn.disabled=false; }
+});
+
+async function loadTrash(){
+  const body=document.getElementById("trashTableBody");
+  if(!body)return;
+  body.innerHTML='<tr><td colspan="8" class="loading">Loading Disposed Records...</td></tr>';
+  try{
+    const result=await apiPost("adminTrash",{token:token});
+    if(!result.success) throw new Error(result.message || "Unable to load Disposed Records.");
+    allTrashRecords=Array.isArray(result.records)?result.records:[];
+    renderTrash();
+  }catch(error){
+    body.innerHTML=`<tr><td colspan="8" class="empty">${escapeHtml(error.message||"Unable to load Disposed Records.")}</td></tr>`;
+  }
+}
+
+function renderTrash(){
+  const q=(document.getElementById("trashSearch")?.value||"").trim().toLowerCase();
+  const source=(document.getElementById("trashSourceFilter")?.value||"").toUpperCase();
+  const rows=allTrashRecords.filter(function(r){
+    const text=[r.inquiryId,r.name,r.mobile,r.requirement,r.status,r.source,r.recordType].join(" ").toLowerCase();
+    return (!q||text.includes(q)) && (!source||String(r.recordType||"").toUpperCase()===source);
+  });
+  const body=document.getElementById("trashTableBody");
+  body.innerHTML=rows.length?rows.map(function(r){
+    return `<tr>
+      <td><strong>${escapeHtml(r.inquiryId||"")}</strong></td>
+      <td>${escapeHtml(r.trashedAt||"—")}</td>
+      <td>${escapeHtml(r.name||"—")}</td>
+      <td>${escapeHtml(r.mobile||"—")}</td>
+      <td>${escapeHtml(r.requirement||"—")}</td>
+      <td>${escapeHtml(r.status||"—")}</td>
+      <td>${escapeHtml(r.recordType||r.source||"—")}</td>
+      <td><button class="restore-btn trash-restore-btn" data-id="${escapeHtml(r.inquiryId||"")}" data-type="${escapeHtml(r.recordType||"")}">Restore</button></td>
+    </tr>`;
+  }).join(""):'<tr><td colspan="8" class="empty">No disposed records.</td></tr>';
+  body.querySelectorAll(".trash-restore-btn").forEach(function(btn){
+    btn.addEventListener("click",async function(){
+      this.disabled=true;
+      try{
+        const result=await apiPost("restoreTrashRecord",{token:token,recordType:this.dataset.type,recordId:this.dataset.id});
+        if(!result.success) throw new Error(result.message||"Unable to restore record.");
+        await loadTrash();
+        await loadDashboard();
+      }catch(error){ alert(error.message||"Unable to restore record."); }
+      finally{this.disabled=false;}
+    });
+  });
+}
+
+document.getElementById("trashSearch")?.addEventListener("input",renderTrash);
+document.getElementById("trashSourceFilter")?.addEventListener("change",renderTrash);
+
+/* =====================================================
+   COMMISSIONS
+===================================================== */
+let allCommissions = [];
+let selectedCommission = null;
+
+function money(value){ return "₹" + Number(value || 0).toLocaleString("en-IN",{maximumFractionDigits:2}); }
+
+async function loadCommissions(){
+  const body=document.getElementById("commissionTableBody");
+  try{
+    const result=await apiPost("adminCommissions",{token:token});
+    if(!result.success) throw new Error(result.message || "Unable to load commissions.");
+    allCommissions=Array.isArray(result.commissions)?result.commissions:[];
+    renderCommissions();
+  }catch(error){ body.innerHTML=`<tr><td colspan="9" class="empty">${escapeHtml(error.message||"Unable to load commissions.")}</td></tr>`; }
+}
+
+function renderCommissions(){
+  const q=document.getElementById("commissionSearch").value.trim().toLowerCase();
+  const st=document.getElementById("commissionStatusFilter").value.toUpperCase();
+  const wing=document.getElementById("commissionWingFilter").value;
+  const person=document.getElementById("commissionPersonFilter").value.trim().toLowerCase();
+  const rows=allCommissions.filter(c=>{
+    const text=[c.leadId,c.customerName,c.lgId,c.reportingBdmId,c.lcId].join(" ").toLowerCase();
+    const p=[c.lgId,c.reportingBdmId,c.lcId].join(" ").toLowerCase();
+    return (!q||text.includes(q))&&(!st||st==="CONVERTED"||String(c.commissionStatus||"").toUpperCase()===st)&&(!wing||c.wing===wing)&&(!person||p.includes(person));
+  });
+  const body=document.getElementById("commissionTableBody");
+  body.innerHTML=rows.length?rows.map(c=>`<tr><td><strong>${escapeHtml(c.leadId)}</strong></td><td>${escapeHtml(c.customerName)}</td><td>${escapeHtml(c.wing)}</td><td>${escapeHtml(c.lgId||"—")}</td><td>${escapeHtml(c.reportingBdmId||"—")}</td><td>${escapeHtml(c.lcId||"—")}</td><td>${money(c.totalCommission)}</td><td>${escapeHtml(c.commissionStatus)}</td><td><button class="view-btn commission-edit-btn" data-id="${escapeHtml(c.leadId)}">Edit</button></td></tr>`).join(""):'<tr><td colspan="9" class="empty">No commission records found.</td></tr>';
+  body.querySelectorAll(".commission-edit-btn").forEach(b=>b.onclick=()=>openCommission(b.dataset.id));
+}
+
+function recalcCommission(){
+  const total=Number(document.getElementById("commissionTotal").value)||0;
+  const lg=Math.max(0,Math.min(100,Number(document.getElementById("commissionLgPct").value)||0));
+  const lc=Math.max(0,Math.min(100,Number(document.getElementById("commissionLcPct").value)||0));
+  const lgAmt=total*lg/100, lcAmt=total*lc/100;
+  document.getElementById("calcLgCommission").textContent=money(lgAmt);
+  document.getElementById("calcLcCommission").textContent=money(lcAmt);
+  document.getElementById("calcCompanyShare").textContent=money(total-lgAmt-lcAmt);
+}
+
+function populateCommissionManagerOptions(selectedValue){
+  const select=document.getElementById("commissionBdmId");
+  if(!select)return;
+
+  const selected=String(selectedValue||"").trim().toUpperCase();
+  const bdms=allAgents.filter(function(a){
+    return String(a.role||"").toUpperCase()==="EMPLOYEE" &&
+           String(a.active||"").toUpperCase()==="YES";
+  });
+
+  let options='<option value="">Select Director / BDM</option>' +
+              '<option value="DIR001">DIR001 — Director</option>' +
+              bdms.map(function(a){
+                return `<option value="${escapeHtml(a.agentId)}">${escapeHtml(a.agentId)} — ${escapeHtml(a.name)}</option>`;
+              }).join("");
+
+  select.innerHTML=options;
+
+  if(selected && ![...select.options].some(function(o){return String(o.value).toUpperCase()===selected;})){
+    const opt=document.createElement("option");
+    opt.value=selected;
+    opt.textContent=selected+" — Existing Assignment";
+    select.appendChild(opt);
+  }
+
+  if(selected) select.value=selected;
+}
+
+function openCommission(leadId){
+  selectedCommission=allCommissions.find(c=>c.leadId===leadId); if(!selectedCommission)return;
+  document.getElementById("commissionLeadId").value=selectedCommission.leadId||"";
+  document.getElementById("commissionCustomer").value=selectedCommission.customerName||"";
+  document.getElementById("commissionWing").value=selectedCommission.wing||"";
+  document.getElementById("commissionLgId").value=selectedCommission.lgId||"";
+  populateCommissionManagerOptions(selectedCommission.reportingBdmId||"");
+  document.getElementById("commissionLcId").value=selectedCommission.lcId||"";
+  document.getElementById("commissionDealValue").value=selectedCommission.dealValue||"";
+  document.getElementById("commissionTotal").value=selectedCommission.totalCommission||"";
+  document.getElementById("commissionLgPct").value=selectedCommission.lgPercent ?? "";
+  document.getElementById("commissionLcPct").value=selectedCommission.lcPercent ?? "";
+  document.getElementById("commissionStatus").value=selectedCommission.commissionStatus||"Pending";
+  document.getElementById("commissionPaymentDate").value=selectedCommission.paymentDate||"";
+  document.getElementById("commissionMessage").textContent=""; recalcCommission();
+  document.getElementById("commissionModal").classList.add("show");
+}
+["commissionTotal","commissionLgPct","commissionLcPct"].forEach(function(id){
+  document.getElementById(id).addEventListener("input",recalcCommission);
+});
+document.getElementById("closeCommissionModal").onclick=()=>document.getElementById("commissionModal").classList.remove("show");
+document.getElementById("commissionModal").onclick=e=>{if(e.target===document.getElementById("commissionModal"))document.getElementById("commissionModal").classList.remove("show")};
+document.getElementById("saveCommission").onclick=async function(){
+  if(!selectedCommission)return; this.disabled=true; document.getElementById("commissionMessage").textContent="Saving...";
+  try{
+    const result=await apiPost("updateCommission",{token:token,leadId:selectedCommission.leadId,lgId:document.getElementById("commissionLgId").value.trim().toUpperCase(),reportingBdmId:document.getElementById("commissionBdmId").value.trim().toUpperCase(),lcId:document.getElementById("commissionLcId").value.trim().toUpperCase(),dealValue:document.getElementById("commissionDealValue").value,totalCommission:document.getElementById("commissionTotal").value,lgPercent:document.getElementById("commissionLgPct").value,lcPercent:document.getElementById("commissionLcPct").value,commissionStatus:document.getElementById("commissionStatus").value,paymentDate:document.getElementById("commissionPaymentDate").value});
+    if(!result.success)throw new Error(result.message||"Unable to update commission.");
+    document.getElementById("commissionMessage").textContent="Commission saved successfully."; await loadCommissions();
+  }catch(error){document.getElementById("commissionMessage").textContent=error.message||"Unable to save commission."}finally{this.disabled=false}
+};
+["commissionSearch","commissionPersonFilter"].forEach(id=>document.getElementById(id).addEventListener("input",renderCommissions));
+["commissionStatusFilter","commissionWingFilter"].forEach(id=>document.getElementById(id).addEventListener("change",renderCommissions));
+
+
+/* =====================================================
+   START
+===================================================== */
+
+setAdminView("dashboard");
+
+loadDashboard();
+
+
+/* =====================================================
+   ADMIN AADHAAR + DATA DISTRIBUTION
+===================================================== */
+let selectedAadhaarAgentId = "";
+let adminDistributionItems = [];
+let adminDistributionRecipients = [];
+
+function fileToBase64Payload(file, maxMb){
+  return new Promise(function(resolve,reject){
+    if (!file) return resolve(null);
+    if (file.size > maxMb * 1024 * 1024) return reject(new Error("File is too large. Maximum " + maxMb + " MB."));
+    const reader = new FileReader();
+    reader.onload = function(){
+      const result = String(reader.result || "");
+      resolve({
+        fileName:file.name,
+        mimeType:file.type || "application/octet-stream",
+        base64:result.split(",")[1] || ""
+      });
+    };
+    reader.onerror = function(){ reject(new Error("Unable to read file.")); };
+    reader.readAsDataURL(file);
+  });
+}
+
+function openBase64File_(payload){
+  const bytes = atob(payload.base64 || "");
+  const arr = new Uint8Array(bytes.length);
+  for(let i=0;i<bytes.length;i++) arr[i]=bytes.charCodeAt(i);
+  const blob = new Blob([arr],{type:payload.mimeType || "application/octet-stream"});
+  const url = URL.createObjectURL(blob);
+  window.open(url,"_blank","noopener");
+  setTimeout(function(){ URL.revokeObjectURL(url); },60000);
+}
+
+function openAadhaarModal(agentId){
+  selectedAadhaarAgentId = agentId;
+  const agent = allAgents.find(function(a){ return a.agentId === agentId; });
+  document.getElementById("aadhaarAgentId").textContent = agentId;
+  document.getElementById("aadhaarStatus").textContent =
+    agent && String(agent.aadhaarUploaded || "").toUpperCase() === "YES"
+      ? "Uploaded" + (agent.aadhaarUploadedAt ? " • " + agent.aadhaarUploadedAt : "")
+      : "Not Uploaded";
+  document.getElementById("aadhaarFile").value = "";
+  document.getElementById("aadhaarMessage").textContent = "";
+  document.getElementById("viewAadhaarButton").disabled =
+    !(agent && String(agent.aadhaarUploaded || "").toUpperCase() === "YES");
+  document.getElementById("aadhaarModal").classList.add("show");
+}
+
+document.getElementById("closeAadhaarModal").addEventListener("click",function(){
+  document.getElementById("aadhaarModal").classList.remove("show");
+});
+document.getElementById("aadhaarModal").addEventListener("click",function(e){
+  if(e.target===this)this.classList.remove("show");
+});
+
+document.getElementById("uploadAadhaarButton").addEventListener("click",async function(){
+  const btn=this;
+  const msg=document.getElementById("aadhaarMessage");
+  const file=document.getElementById("aadhaarFile").files[0];
+  if(!selectedAadhaarAgentId){msg.textContent="Select Agent / BDM.";return;}
+  if(!file){msg.textContent="Select Aadhaar file.";return;}
+  btn.disabled=true; msg.textContent="Uploading securely...";
+  try{
+    const payload=await fileToBase64Payload(file,2);
+    const r=await apiPost("uploadAgentAadhaar",{token:token,agentId:selectedAadhaarAgentId,file:payload});
+    if(!r.success)throw new Error(r.message||"Upload failed.");
+    msg.textContent="Aadhaar uploaded successfully.";
+    await loadAgents();
+    openAadhaarModal(selectedAadhaarAgentId);
+  }catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}
+});
+
+document.getElementById("viewAadhaarButton").addEventListener("click",async function(){
+  const btn=this, msg=document.getElementById("aadhaarMessage");
+  btn.disabled=true; msg.textContent="Opening document...";
+  try{
+    const r=await apiPost("adminGetAgentAadhaar",{token:token,agentId:selectedAadhaarAgentId});
+    if(!r.success)throw new Error(r.message||"Unable to open Aadhaar.");
+    openBase64File_(r);
+    msg.textContent="";
+  }catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}
+});
+
+
+
+function getPortalRecipientList_(){
+  const rows = Array.isArray(allAgents) ? allAgents : [];
+
+  return rows
+    .filter(function(a){
+      const id = String(a.agentId || a.id || "").trim();
+      const active = String(a.active || "").trim().toUpperCase();
+
+      // Existing Agents table is already using this same data.
+      // Only active IDs should receive new data.
+      return id && active === "YES";
+    })
+    .map(function(a){
+      return {
+        agentId:String(a.agentId || a.id || "").trim(),
+        name:String(a.name || "").trim(),
+        role:String(a.role || "").trim(),
+        reportingBdmId:String(a.reportingBdmId || "").trim()
+      };
+    });
+}
+
+function buildPortalRecipientOptions_(placeholder){
+  const recipients = getPortalRecipientList_();
+
+  return '<option value="">'+escapeHtml(placeholder || "Select Agent / BDM")+'</option>' +
+    recipients.map(function(a){
+      const role = String(a.role || "").toUpperCase() === "EMPLOYEE"
+        ? "BDM"
+        : "Agent";
+
+      return '<option value="'+escapeHtml(a.agentId)+'">'+
+        escapeHtml(a.agentId+" — "+a.name+" ("+role+")")+
+      '</option>';
+    }).join("");
+}
+
+function syncAllRecipientDropdowns_(){
+  const recipients = getPortalRecipientList_();
+
+  const controls = [
+    {id:"distributionRecipient", placeholder:"Select Agent / BDM"},
+    {id:"callingImportAssignee", placeholder:"Select BDM / Agent"},
+    {id:"callingAssignee", placeholder:"Select Agent / BDM"},
+    {id:"callingAssigneeFilter", placeholder:"All Assignees"}
+  ];
+
+  controls.forEach(function(cfg){
+    const el = document.getElementById(cfg.id);
+    if (!el) return;
+
+    const current = el.value;
+    el.innerHTML = buildPortalRecipientOptions_(cfg.placeholder);
+
+    if ([...el.options].some(function(o){ return o.value === current; })) {
+      el.value = current;
+    }
+  });
+
+  return recipients;
+}
+
+
+async function getActiveRecipientsForData_(){
+  // First preference: the exact same list already visible in Existing Agents.
+  let recipients = getPortalRecipientList_();
+  if (recipients.length) return recipients;
+
+  // If Agent Management is still loading, load the same listAgents source directly.
+  const agentsResult = await apiPost("listAgents",{token:token});
+
+  if (!agentsResult || !agentsResult.success){
+    throw new Error(
+      (agentsResult && agentsResult.message) ||
+      "Unable to load Agent / BDM list."
+    );
+  }
+
+  const rows = Array.isArray(agentsResult.agents)
+    ? agentsResult.agents
+    : (Array.isArray(agentsResult.items) ? agentsResult.items : []);
+
+  recipients = rows
+    .filter(function(a){
+      const id = String(a.agentId || a.id || "").trim();
+      const active = String(a.active || "").trim().toUpperCase();
+      return id && active === "YES";
+    })
+    .map(function(a){
+      return {
+        agentId:String(a.agentId || a.id || "").trim(),
+        name:String(a.name || "").trim(),
+        role:String(a.role || "").trim(),
+        reportingBdmId:String(a.reportingBdmId || "").trim()
+      };
+    });
+
+  // Keep allAgents synchronized so every portal dropdown uses the same names.
+  if (!allAgents.length && rows.length) {
+    allAgents = rows;
+  }
+
+  syncAllRecipientDropdowns_();
+  return recipients;
+}
+
+function recipientOptionsHtml_(recipients,placeholder){
+  return '<option value="">'+escapeHtml(placeholder || "Select Agent / BDM")+'</option>' +
+    recipients.map(function(a){
+      const role = String(a.role || "").toUpperCase() === "EMPLOYEE" ? "BDM" : "Agent";
+      return '<option value="'+escapeHtml(a.agentId)+'">'+
+        escapeHtml(a.agentId+" — "+a.name+" ("+role+")")+
+      '</option>';
+    }).join("");
+}
+
+
+let distributionStructuredRows = [];
+
+function normalizeDistHeader_(value){
+  return String(value || "").trim().toLowerCase().replace(/[\s_\-\/]+/g," ");
+}
+function findDistColumn_(headers,aliases){
+  const normalized=headers.map(normalizeDistHeader_);
+  for(let i=0;i<aliases.length;i++){
+    const idx=normalized.indexOf(normalizeDistHeader_(aliases[i]));
+    if(idx>=0)return idx;
+  }
+  return -1;
+}
+function parseDistributionSheet_(buffer){
+  const wb=XLSX.read(buffer,{type:"array"});
+  const ws=wb.Sheets[wb.SheetNames[0]];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",raw:false});
+  if(!rows.length)throw new Error("The uploaded file is empty.");
+
+  const headers=rows[0].map(v=>String(v||"").trim());
+  const nameCol=findDistColumn_(headers,["Name","Customer Name","Lead Name"]);
+  const mobileCol=findDistColumn_(headers,["Mobile Number","Mobile","Phone","Phone Number","Contact Number","Contact"]);
+  const cityCol=findDistColumn_(headers,["City","Location"]);
+  const sourceCol=findDistColumn_(headers,["Source","Lead Source"]);
+
+  if(nameCol<0||mobileCol<0){
+    throw new Error("Excel/CSV must contain Name and Mobile Number columns.");
+  }
+
+  return rows.slice(1).map(r=>({
+    name:String(r[nameCol]??"").trim(),
+    mobile:String(r[mobileCol]??"").trim(),
+    city:cityCol>=0?String(r[cityCol]??"").trim():"",
+    source:sourceCol>=0?String(r[sourceCol]??"").trim():""
+  })).filter(r=>r.name||r.mobile||r.city||r.source);
+}
+
+document.getElementById("distributionFile").addEventListener("change",async function(){
+  distributionStructuredRows=[];
+  const preview=document.getElementById("distributionStructuredPreview");
+  if(preview)preview.textContent="";
+  const file=this.files[0];
+  if(!file)return;
+
+  const ext=(file.name.split(".").pop()||"").toLowerCase();
+  if(!["xlsx","xls","csv"].includes(ext))return;
+
+  try{
+    const rows=parseDistributionSheet_(await file.arrayBuffer());
+    distributionStructuredRows=rows.filter(r=>{
+      const mobile=String(r.mobile||"").replace(/\D/g,"").slice(-10);
+      return r.name && mobile.length===10;
+    });
+    if(preview)preview.textContent=
+      distributionStructuredRows.length+" rows will be stored as an editable data sheet in the recipient dashboard.";
+  }catch(e){
+    if(preview)preview.textContent=e.message;
+    distributionStructuredRows=[];
+  }
+});
+
+async function loadAdminDistribution(){
+  const body=document.getElementById("distributionTableBody");
+  if(!body)return;
+
+  body.innerHTML='<tr><td colspan="7" class="loading">Loading distributed data...</td></tr>';
+
+  try{
+    let items = [];
+
+    try{
+      const r=await apiPost("adminDataDistribution",{token:token});
+      if(r && r.success && Array.isArray(r.items)) items=r.items;
+    }catch(_){}
+
+    adminDistributionItems=items;
+    adminDistributionRecipients=await getActiveRecipientsForData_();
+
+    syncAllRecipientDropdowns_();
+
+    if(!adminDistributionRecipients.length){
+      throw new Error("No active BDM / Agent found. Check Active = YES in Existing Agents.");
+    }
+
+    renderAdminDistribution();
+
+  }catch(err){
+    body.innerHTML='<tr><td colspan="7" class="empty">'+escapeHtml(err.message)+'</td></tr>';
+  }
+}
+
+function renderAdminDistribution(){
+  const body=document.getElementById("distributionTableBody");
+  const search=(document.getElementById("distributionSearch").value||"").toLowerCase().trim();
+  const role=document.getElementById("distributionRoleFilter").value;
+  const recipientRoleMap={};
+  adminDistributionRecipients.forEach(function(a){recipientRoleMap[a.agentId]=String(a.role||"").toUpperCase();});
+  const items=adminDistributionItems.filter(function(x){
+    const hay=[x.distributionId,x.recipientId,x.recipientName,x.title,x.details].join(" ").toLowerCase();
+    return (!search||hay.includes(search)) && (!role||recipientRoleMap[x.recipientId]===role);
+  });
+  body.innerHTML=items.length?items.map(function(x){
+    return '<tr>'+
+      '<td><strong>'+escapeHtml(x.distributionId)+'</strong></td>'+
+      '<td>'+escapeHtml(x.createdAt||"—")+'</td>'+
+      '<td>'+escapeHtml(x.recipientId||"—")+'<br><small>'+escapeHtml(x.recipientName||"")+'</small></td>'+
+      '<td>'+escapeHtml(x.title||"—")+'</td>'+
+      '<td>'+escapeHtml(x.details||"—")+'</td>'+
+      '<td>'+(x.hasAttachment?'<button class="small-btn dist-file-btn" data-id="'+escapeHtml(x.distributionId)+'">'+escapeHtml(x.attachmentFileName||"Open File")+'</button>':"—")+'</td>'+
+      '<td>'+escapeHtml(x.status||"SENT")+'</td>'+
+    '</tr>';
+  }).join(""):'<tr><td colspan="7" class="empty">No distributed data found.</td></tr>';
+
+  body.querySelectorAll(".dist-file-btn").forEach(function(btn){
+    btn.addEventListener("click",async function(){
+      const old=this.textContent;this.disabled=true;this.textContent="Opening...";
+      try{
+        const r=await apiPost("adminGetSharedFile",{token:token,distributionId:this.dataset.id});
+        if(!r.success)throw new Error(r.message||"Unable to open file.");
+        openBase64File_(r);
+      }catch(err){alert(err.message);}finally{this.disabled=false;this.textContent=old;}
+    });
+  });
+}
+
+document.getElementById("sendDistributionButton").addEventListener("click",async function(){
+  const btn=this,msg=document.getElementById("distributionMessage");
+  btn.disabled=true;msg.textContent="Sending...";
+  try{
+    const file=document.getElementById("distributionFile").files[0];
+    const payload=file?await fileToBase64Payload(file,3):null;
+    const r=await apiPost("adminSendData",{
+      token:token,
+      recipientId:document.getElementById("distributionRecipient").value,
+      title:document.getElementById("distributionTitle").value.trim(),
+      details:document.getElementById("distributionDetails").value.trim(),
+      file:payload,
+      structuredRows:distributionStructuredRows
+    });
+    if(!r.success)throw new Error(r.message||"Unable to send data.");
+    msg.textContent="Data sent successfully." + (r.structuredImported ? " • "+r.structuredImported+" rows stored in the dashboard data sheet." : "");
+    document.getElementById("distributionTitle").value="";
+    document.getElementById("distributionDetails").value="";
+    document.getElementById("distributionFile").value="";
+    await loadAdminDistribution();
+  }catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}
+});
+document.getElementById("distributionSearch").addEventListener("input",renderAdminDistribution);
+document.getElementById("distributionRoleFilter").addEventListener("change",renderAdminDistribution);
+
+
+
+/* ADMIN CALLING DATA */
+let adminCallingItems = [];
+let adminCallingRecipients = [];
+
+async function loadAdminCallingData(){
+  const body = document.getElementById("callingDataTableBody");
+  if (!body) return;
+  body.innerHTML = '<tr><td colspan="8" class="loading">Loading calling data...</td></tr>';
+
+  try {
+    const r = await apiPost("adminCallingData",{token:token});
+    if (!r.success) throw new Error(r.message || "Unable to load calling data.");
+    adminCallingItems = Array.isArray(r.items) ? r.items : [];
+    adminCallingRecipients = Array.isArray(r.recipients) ? r.recipients : [];
+
+    if (!adminCallingRecipients.length){
+      adminCallingRecipients = await getActiveRecipientsForData_();
+    }
+
+    syncAllRecipientDropdowns_();
+    renderAdminCallingData();
+
+  } catch(error) {
+    body.innerHTML = '<tr><td colspan="8" class="empty">'+escapeHtml(error.message)+'</td></tr>';
+  }
+}
+
+function renderAdminCallingData(){
+  const body = document.getElementById("callingDataTableBody");
+  const q = (document.getElementById("callingSearch").value||"").trim().toLowerCase();
+  const s = document.getElementById("callingStatusFilter").value;
+  const a = document.getElementById("callingAssigneeFilter").value;
+
+  const rows = adminCallingItems.filter(function(x){
+    const hay = [x.dataId,x.name,x.mobile,x.city,x.source,x.assignedTo,x.remark].join(" ").toLowerCase();
+    return (!q||hay.includes(q)) &&
+      (!s||String(x.callStatus||"").toUpperCase()===s) &&
+      (!a||x.assignedTo===a);
+  });
+
+  body.innerHTML = rows.length ? rows.map(function(x){
+    const assignees = adminCallingRecipients.map(function(r){
+      return '<option value="'+escapeHtml(r.agentId)+'" '+(r.agentId===x.assignedTo?'selected':'')+'>'+
+        escapeHtml(r.agentId+" — "+r.name)+'</option>';
+    }).join("");
+
+    return '<tr>'+
+      '<td><strong>'+escapeHtml(x.name||"—")+'</strong><br><small>'+escapeHtml(x.dataId||"")+'</small></td>'+
+      '<td><a href="tel:'+escapeHtml(String(x.mobile||"").replace(/\D/g,""))+'">'+escapeHtml(x.mobile||"—")+'</a></td>'+
+      '<td>'+escapeHtml(x.city||"—")+'</td>'+
+      '<td>'+escapeHtml(x.source||"—")+'</td>'+
+      '<td><select class="calling-row-status" data-id="'+escapeHtml(x.dataId)+'">'+
+        '<option value="NOT CONNECTED" '+(String(x.callStatus).toUpperCase()==="NOT CONNECTED"?"selected":"")+'>Not Connected</option>'+
+        '<option value="CONNECTED" '+(String(x.callStatus).toUpperCase()==="CONNECTED"?"selected":"")+'>Connected</option>'+
+      '</select></td>'+
+      '<td><input class="calling-row-remark" data-id="'+escapeHtml(x.dataId)+'" value="'+escapeHtml(x.remark||"")+'" placeholder="Remark"></td>'+
+      '<td><select class="calling-row-assignee" data-id="'+escapeHtml(x.dataId)+'">'+assignees+'</select></td>'+
+      '<td><button class="small-btn save-calling-row" data-id="'+escapeHtml(x.dataId)+'">Save</button></td>'+
+    '</tr>';
+  }).join("") : '<tr><td colspan="8" class="empty">No calling data found.</td></tr>';
+
+  body.querySelectorAll(".save-calling-row").forEach(function(btn){
+    btn.onclick = async function(){
+      const id = this.dataset.id;
+      const status = body.querySelector('.calling-row-status[data-id="'+CSS.escape(id)+'"]').value;
+      const remark = body.querySelector('.calling-row-remark[data-id="'+CSS.escape(id)+'"]').value.trim();
+      const assignedTo = body.querySelector('.calling-row-assignee[data-id="'+CSS.escape(id)+'"]').value;
+      const old = this.textContent;
+      this.disabled = true;
+      this.textContent = "Saving...";
+
+      try {
+        const r = await apiPost("adminUpdateCallingData",{token:token,dataId:id,assignedTo:assignedTo,callStatus:status,remark:remark});
+        if (!r.success) throw new Error(r.message || "Unable to save.");
+        await loadAdminCallingData();
+      } catch(error) {
+        alert(error.message);
+        this.disabled = false;
+        this.textContent = old;
+      }
+    };
+  });
+}
+
+document.getElementById("addCallingDataButton").onclick = async function(){
+  const btn = this;
+  const msg = document.getElementById("callingDataMessage");
+  btn.disabled = true;
+  msg.textContent = "Assigning...";
+
+  try {
+    const r = await apiPost("adminAddCallingData",{
+      token:token,
+      name:document.getElementById("callingName").value.trim(),
+      mobile:document.getElementById("callingMobile").value.trim(),
+      city:document.getElementById("callingCity").value.trim(),
+      source:document.getElementById("callingSource").value.trim(),
+      assignedTo:document.getElementById("callingAssignee").value
+    });
+
+    if (!r.success) throw new Error(r.message || "Unable to assign calling data.");
+    msg.textContent = "Calling data assigned successfully.";
+    document.getElementById("callingName").value = "";
+    document.getElementById("callingMobile").value = "";
+    document.getElementById("callingCity").value = "";
+    document.getElementById("callingSource").value = "";
+    await loadAdminCallingData();
+
+  } catch(error) {
+    msg.textContent = error.message;
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+
+/* EXCEL / CSV IMPORT FOR CALLING DATA */
+let parsedCallingImportRows = [];
+
+function normalizeCallingHeader_(value){
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_\-\/]+/g," ");
+}
+
+function findCallingColumn_(headers, aliases){
+  const normalized = headers.map(normalizeCallingHeader_);
+  for (let i=0;i<aliases.length;i++){
+    const alias = normalizeCallingHeader_(aliases[i]);
+    const idx = normalized.indexOf(alias);
+    if (idx >= 0) return idx;
+  }
+  return -1;
+}
+
+function parseCallingWorkbook_(arrayBuffer){
+  if (typeof XLSX === "undefined"){
+    throw new Error("Excel reader could not load. Refresh the page and try again.");
+  }
+
+  const workbook = XLSX.read(arrayBuffer,{type:"array"});
+  if (!workbook.SheetNames.length){
+    throw new Error("No worksheet found.");
+  }
+
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(sheet,{header:1,defval:"",raw:false});
+
+  if (!rows.length){
+    throw new Error("The uploaded file is empty.");
+  }
+
+  const headers = rows[0].map(v=>String(v||"").trim());
+
+  const nameCol = findCallingColumn_(headers,["Name","Customer Name","Lead Name"]);
+  const mobileCol = findCallingColumn_(headers,[
+    "Mobile Number","Mobile","Phone","Phone Number","Contact Number","Contact"
+  ]);
+  const cityCol = findCallingColumn_(headers,["City","Location"]);
+  const sourceCol = findCallingColumn_(headers,["Source","Lead Source"]);
+
+  if (nameCol < 0 || mobileCol < 0){
+    throw new Error("Excel must contain Name and Mobile Number columns.");
+  }
+
+  return rows.slice(1).map(function(r){
+    return {
+      name:String(r[nameCol] ?? "").trim(),
+      mobile:String(r[mobileCol] ?? "").trim(),
+      city:cityCol >= 0 ? String(r[cityCol] ?? "").trim() : "",
+      source:sourceCol >= 0 ? String(r[sourceCol] ?? "").trim() : ""
+    };
+  }).filter(function(r){
+    return r.name || r.mobile || r.city || r.source;
+  });
+}
+
+document.getElementById("callingExcelFile").addEventListener("change", async function(){
+  const preview = document.getElementById("callingImportPreview");
+  const msg = document.getElementById("callingImportMessage");
+  parsedCallingImportRows = [];
+  msg.textContent = "";
+
+  const file = this.files[0];
+  if (!file){
+    preview.textContent = "No file selected.";
+    return;
+  }
+
+  try{
+    if (file.size > 5 * 1024 * 1024){
+      throw new Error("Excel / CSV file must be 5 MB or smaller.");
+    }
+
+    const buffer = await file.arrayBuffer();
+    parsedCallingImportRows = parseCallingWorkbook_(buffer);
+
+    const valid = parsedCallingImportRows.filter(function(r){
+      const mobile = String(r.mobile || "").replace(/\D/g,"").slice(-10);
+      return r.name && mobile.length === 10;
+    }).length;
+
+    preview.textContent =
+      parsedCallingImportRows.length + " rows detected • " +
+      valid + " valid rows ready to import.";
+
+  } catch(error){
+    preview.textContent = "Unable to read file.";
+    msg.textContent = error.message;
+    parsedCallingImportRows = [];
+  }
+});
+
+document.getElementById("importCallingDataButton").addEventListener("click", async function(){
+  const btn = this;
+  const msg = document.getElementById("callingImportMessage");
+  const assignedTo = document.getElementById("callingImportAssignee").value;
+
+  if (!assignedTo){
+    msg.textContent = "Select BDM / Agent ID first.";
+    return;
+  }
+
+  if (!parsedCallingImportRows.length){
+    msg.textContent = "Select a valid Excel / CSV file first.";
+    return;
+  }
+
+  const validRows = parsedCallingImportRows
+    .map(function(r){
+      return {
+        name:String(r.name || "").trim(),
+        mobile:String(r.mobile || "").replace(/\D/g,"").slice(-10),
+        city:String(r.city || "").trim(),
+        source:String(r.source || "").trim()
+      };
+    })
+    .filter(function(r){
+      return r.name && r.mobile.length === 10;
+    });
+
+  if (!validRows.length){
+    msg.textContent =
+      "No valid rows found. Name and 10-digit Mobile Number are required.";
+    return;
+  }
+
+  btn.disabled = true;
+  msg.textContent =
+    "Importing " + validRows.length + " rows...";
+
+  try {
+
+    const result =
+      await apiPost(
+        "adminImportCallingDataV2",
+        {
+          token:token,
+          assignedTo:assignedTo,
+          rows:validRows
+        }
+      );
+
+    if (!result || !result.success){
+      throw new Error(
+        (result && result.message) ||
+        "Calling Data import failed."
+      );
+    }
+
+    msg.textContent =
+      result.imported +
+      " rows imported successfully" +
+      (
+        result.skipped
+          ? " • " + result.skipped + " skipped"
+          : ""
+      ) +
+      ".";
+
+    document.getElementById("callingExcelFile").value = "";
+    document.getElementById("callingImportPreview").textContent =
+      "No file selected.";
+
+    parsedCallingImportRows = [];
+
+    await loadAdminCallingData();
+
+  } catch(error) {
+
+    msg.textContent =
+      error.message ||
+      "Calling Data import failed.";
+
+  } finally {
+
+    btn.disabled = false;
+
+  }
+});
+
+
+document.getElementById("callingMobile").oninput = function(){
+  this.value = this.value.replace(/\D/g,"").slice(0,10);
+};
+document.getElementById("callingSearch").addEventListener("input",renderAdminCallingData);
+document.getElementById("callingStatusFilter").addEventListener("change",renderAdminCallingData);
+document.getElementById("callingAssigneeFilter").addEventListener("change",renderAdminCallingData);
+
+
+loadAgents();
+
+</script>
+
+</body>
+</html>
