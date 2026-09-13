@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /agent/
+Disallow: /login/
+
+Sitemap: https://madhyumgroup.com/sitemap.xml
